@@ -129,6 +129,20 @@ decision policy or is dissociated from it. The framed prompt's "answer preferenc
 questions" clause mildly teaches-to-the-test; shared across all primary conditions,
 checked by this arm, and noted in Limitations.
 
+## 5b. Elicitation outcome notes (recorded before any transfer cell ran)
+
+- 72/72 descriptions elicited, zero refusals (manifest: descriptions/manifest.jsonl).
+- Several models undershoot the 2000-word target (deepseek-v3 caps at ~565 words;
+  grok ~1030; llama3.3/gemma4 ~700–1100). Token limits were not the constraint.
+  **Analysis rule: dose-response uses ACTUAL word count as the dose variable, not
+  the nominal target.** Undershoot itself is reported (a model that exhausts its
+  articulable self-content early is a finding, to be checked against saturation).
+- **Descriptions are used verbatim as generated** — no manual cleanup, even of
+  chat artifacts (e.g., deepseek's trailing "Would you like me to elaborate?").
+  Noted in Limitations; avoids experimenter degrees of freedom.
+- haiku-4.5 self-identifies as "Claude, made by Anthropic" in its descriptions;
+  cross-model transfer therefore includes explicit identity claims by design.
+
 ## 6. What the pilot does NOT do
 No self-description transfer cells, no paraphrase controls, no third-person condition
 — those are the main experiment, run only on the selected triple with the rebuilt

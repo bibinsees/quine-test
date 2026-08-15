@@ -28,6 +28,7 @@ MODELS = [
     ("kimi-k2.5-nr", "openrouter", "moonshotai/kimi-k2.5", {"reasoning": {"enabled": False}}),
     ("haiku-4.5", "openrouter", "anthropic/claude-haiku-4.5", None),
     ("llama3.3-70b", "ollama", "llama3.3:70b", None),
+    ("hermes3-70b", "ollama", "hermes3:70b", None),
     ("gemma4-31b", "ollama", "gemma4:31b", {"think": False}),
     ("mistral32-local", "ollama", "mistral-small3.2:24b", None),
 ]

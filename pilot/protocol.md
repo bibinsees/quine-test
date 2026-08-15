@@ -163,8 +163,12 @@ before screening data was inspected). Sampling per cell: 2 orders x 2 samples =
 Cells (src/run_grid.py build_cells):
 - Grid A (deepseek-v3, glm-4.5-air, grok-4.3): F_self + all 6 directed F_cross at
   neutral-100/500/2000 + framed-500 (r0); neutral-500 r1 robustness repeat.
-- Grid B (gpt5.2, kimi-k2.5-nr, haiku-4.5): F_self + F_cross at neutral-500 +
-  framed-500 (r0).
+- Grid B (gpt5.2, kimi-k2.5-nr, haiku-4.5): F_self + F_cross at neutral-100/500/
+  2000 + framed-500 (r0). (Extended from neutral-500-only to the full neutral
+  curve by team decision 2026-08-15, before any grid call ran.)
+- Same-base pair (hermes3-70b <-> llama3.3-70b, shared Llama lineage, different
+  post-training): F_self(hermes3) + both cross directions at all 4 conditions +
+  hermes3 baseline. Tests whether the residual is weight-bound.
 - Local trio (llama3.3-70b, gemma4-31b, mistral32-local): same as Grid A minus
   the r1 repeat, plus explicit generic-prompt baselines.
 - Baselines for API models: reused from runs/screening.jsonl (identical items,

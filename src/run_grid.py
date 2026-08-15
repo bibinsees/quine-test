@@ -52,6 +52,7 @@ MODEL_DEFS = {
     "kimi-k2.5-nr": ("openrouter", "moonshotai/kimi-k2.5", {"reasoning": {"enabled": False}}, 16),
     "haiku-4.5": ("openrouter", "anthropic/claude-haiku-4.5", None, 16),
     "llama3.3-70b": ("ollama", "llama3.3:70b", None, 512),
+    "hermes3-70b": ("ollama", "hermes3:70b", None, 512),
     "gemma4-31b": ("ollama", "gemma4:31b", {"think": False}, 512),
     "mistral32-local": ("ollama", "mistral-small3.2:24b", None, 512),
 }
@@ -89,11 +90,23 @@ def build_cells() -> list[dict]:
 
     cells += trio_cells(GRID_A, FULL_CONDITIONS)
     cells += trio_cells(GRID_A, [("neutral", 500)], regens=(1,))  # robustness
-    cells += trio_cells(GRID_B, CORE_CONDITIONS)
+    cells += trio_cells(GRID_B, FULL_CONDITIONS)  # extended per user 2026-08-15
     cells += trio_cells(LOCALS, FULL_CONDITIONS)
     for receiver in LOCALS:  # locals need explicit generic baselines
         cells.append({"receiver": receiver, "author": None,
                       "arm": "baseline", "length": 0, "regen": 0})
+    # same-base transfer test: hermes3:70b and llama3.3:70b share Llama base
+    # lineage but differ in post-training. F_cross between them vs F_cross to
+    # unrelated models isolates whether the residual is weight-bound.
+    for arm, length in FULL_CONDITIONS:
+        cells.append({"receiver": "hermes3-70b", "author": "hermes3-70b",
+                      "arm": arm, "length": length, "regen": 0})
+        cells.append({"receiver": "hermes3-70b", "author": "llama3.3-70b",
+                      "arm": arm, "length": length, "regen": 0})
+        cells.append({"receiver": "llama3.3-70b", "author": "hermes3-70b",
+                      "arm": arm, "length": length, "regen": 0})
+    cells.append({"receiver": "hermes3-70b", "author": None,
+                  "arm": "baseline", "length": 0, "regen": 0})
     return cells
 
 

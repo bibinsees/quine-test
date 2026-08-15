@@ -54,11 +54,12 @@ NEUTRAL_PROMPT = (
 # framed 100/2000 descriptions already elicited and kept on disk, but paused for
 # the transfer grid.
 CONDITIONS = [
+    ("framed", 100, FRAMED_PROMPT),   # reactivated Sat evening (user decision)
     ("framed", 500, FRAMED_PROMPT),
+    ("framed", 2000, FRAMED_PROMPT),
     ("neutral", 100, NEUTRAL_PROMPT),
     ("neutral", 500, NEUTRAL_PROMPT),
     ("neutral", 2000, NEUTRAL_PROMPT),
-    # paused: ("framed", 100, FRAMED_PROMPT), ("framed", 2000, FRAMED_PROMPT),
 ]
 N_REGENS = 2
 TEMPERATURE = 1.0

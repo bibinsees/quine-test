@@ -42,7 +42,7 @@ OUT_PATH = ROOT / "runs" / "grid.jsonl"
 
 N_SAMPLES = 2            # per order -> 4 per item per cell
 TEMPERATURE = 1.0
-CREDIT_FLOOR = 8.0
+CREDIT_FLOOR = 4.0  # lowered for phase 4 (user can top up; resume from cache)
 
 MODEL_DEFS = {
     "deepseek-v3": ("openrouter", "deepseek/deepseek-chat-v3-0324", None, 8),

@@ -119,8 +119,19 @@ def main() -> None:
     for model, tbl in p_hat_table(base_cells, "receiver").items():
         ref[model] = tbl  # locals + hermes3 baselines come from the grid
 
+    # ---- perturbation ladder: retest ceiling vs placebo vs self-description
+    ladder = {}
+    for arm in ("retest", "placebo"):
+        for receiver, g in grid[grid["arm"] == arm].groupby("receiver"):
+            ok = g[g["choice"].notna()]
+            tbl = {i: (gg["choice"] == "option_a").mean()
+                   for i, gg in ok.groupby("item_id")}
+            fid = fidelity(ref.get(receiver, {}), tbl)
+            if fid:
+                ladder.setdefault(receiver, {})[arm] = fid["F"]
+
     # ---- per-cell fidelity vs author reference
-    cells = grid[grid["arm"] != "baseline"]
+    cells = grid[~grid["arm"].isin(["baseline", "retest", "placebo"])]
     cell_p = {}
     for cell_id, g in cells.groupby("cell_id"):
         ok = g[g["choice"].notna()]
@@ -294,6 +305,36 @@ def main() -> None:
                            & (other_cross["length"] == length)]
         print(f"  {arm}-{length}: same-base F={g['F'].mean():.3f} vs "
               f"unrelated-pair F={comp['F'].mean():.3f} (n={len(g)}/{len(comp)})")
+
+    # ---- perturbation ladder report
+    if ladder:
+        print()
+        print("=" * 78)
+        print("7. PERTURBATION LADDER: retest ceiling C vs placebo vs own description")
+        print("   (each vs the receiver's own generic-prompt reference)")
+        print("=" * 78)
+        n500_self = {r.iloc[0]["receiver"]: r.iloc[0]["F"] for _, r in
+                     rdf[(rdf["arm"] == "neutral") & (rdf["length"] == 500)
+                         & (rdf["regen"] == 0)
+                         & (rdf["kind"] == "self")].groupby("cell_id")}
+        rows_l = []
+        for receiver, vals in sorted(ladder.items()):
+            c = vals.get("retest")
+            p = vals.get("placebo")
+            s = n500_self.get(receiver)
+            rows_l.append((receiver, c, p, s))
+            print(f"  {receiver:<16} retest_C={c and round(c,3)}  "
+                  f"placebo={p and round(p,3)}  self_desc(n500)={s and round(s,3)}")
+        cs = [r[1] for r in rows_l if r[1] is not None]
+        ps = [r[2] for r in rows_l if r[2] is not None]
+        ss = [r[3] for r in rows_l if r[3] is not None]
+        print(f"  MEANS: retest_C={np.mean(cs):.3f}  placebo={np.mean(ps):.3f}  "
+              f"self_desc={np.mean(ss):.3f}")
+        summary["perturbation_ladder"] = {
+            "retest_C_mean": float(np.mean(cs)) if cs else None,
+            "placebo_mean": float(np.mean(ps)) if ps else None,
+            "self_n500_mean": float(np.mean(ss)) if ss else None,
+        }
 
     if skipped:
         print(f"\nskipped cells ({len(skipped)}):")

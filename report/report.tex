@@ -227,10 +227,29 @@ The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
 cross-fidelity than unrelated pairs in all four conditions (e.g.\ 0.900 vs.\
 0.876 at neutral-100), consistent with a literally weight-bound residual. [OK]
 
-\subsection{Third-person descriptions and privileged access}
-\todo{PENDING phase 2: early cells suggest observation-derived third-person
-descriptions actively distort receivers (3p-cross $F\approx0.58$); confirm on
-full data, report self- vs other-authored comparison as the Track-3 result.}
+\subsection{Third-person descriptions: observation is not access}
+Descriptions of a target written by another model \emph{from the target's own
+observed choices} (90 held-out items) crater fidelity: applied to the target
+itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
+third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
+data, other-authored descriptions actively mislead --- self-authored
+descriptions carry signal that observation-derived ones do not. This is the
+privileged-access comparison of Track 3, and it favors self-report. [OK]
+
+\subsection{Controls: the perturbation is specific, and instruction does not
+rescue transfer}
+Three preregistered controls (phase 3; predictions committed before running):
+\textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
+seeds gives $C=0.979$ mean --- the true ceiling on this battery.
+\textbf{(2) Placebo.} A length-matched neutral text (non-description prose)
+costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
+$0.979 \to 0.918$ --- $2.4\times$ the placebo drop. The perturbation is
+specific to identity content, not generic prompt sensitivity. Extreme case:
+grok-4.3 drops to $0.843$ under its own description while placebo leaves it at
+$0.968$. \textbf{(3) Instructed adoption.} Prefixing the description with
+``answer every question exactly as the entity described would'' does not
+rescue transfer ($\Tscript=-0.013$): the null is not an artifact of receivers
+ignoring un-instructed descriptions. [OK]
 
 \section{Discussion and Limitations}
 \subsection*{Discussion}

@@ -36,7 +36,8 @@ AXES = {
     "sonnet-4.6": "us-closed", "gpt5.2": "us-closed", "gpt5-mini": "us-closed",
     "kimi-k2.5-nr": "cn-closed", "llama3.3-70b": "us-open",
     "grok-4.3": "us-xai", "kimi-k2.5": "cn-closed", "glm-4.5-air": "cn-closed",
-    "hermes4-70b": "us-open-minimal", "phi-4": "us-synthetic", "gemma4-12b": "us-open",
+    "hermes4-70b": "us-open-minimal", "hermes3-70b": "us-open-minimal",
+    "phi-4": "us-synthetic", "gemma4-12b": "us-open",
 }
 
 

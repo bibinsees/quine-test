@@ -154,6 +154,33 @@ framed-500 anchor rather than a framed dose curve.
 - haiku-4.5 self-identifies as "Claude, made by Anthropic" in its descriptions;
   cross-model transfer therefore includes explicit identity claims by design.
 
+## 7. MAIN GRID preregistration (committed before any grid call ran)
+
+Battery: battery/items_final.json (selection rule in src/select_items.py, frozen
+before screening data was inspected). Sampling per cell: 2 orders x 2 samples =
+4 per item (640 calls/cell at 160 items), temperature 1.0, deterministic seeds.
+
+Cells (src/run_grid.py build_cells):
+- Grid A (deepseek-v3, glm-4.5-air, grok-4.3): F_self + all 6 directed F_cross at
+  neutral-100/500/2000 + framed-500 (r0); neutral-500 r1 robustness repeat.
+- Grid B (gpt5.2, kimi-k2.5-nr, haiku-4.5): F_self + F_cross at neutral-500 +
+  framed-500 (r0).
+- Local trio (llama3.3-70b, gemma4-31b, mistral32-local): same as Grid A minus
+  the r1 repeat, plus explicit generic-prompt baselines.
+- Baselines for API models: reused from runs/screening.jsonl (identical items,
+  identical generic prompt, same sampling hygiene).
+- Specificity control: no extra cells; within each trio compare fidelity(A vs
+  B+desc_A) against fidelity(A vs B+desc_C) from the cross cells.
+- Third-person and paraphrase cells: phase 2, separate script, preregistered
+  before that phase runs.
+
+Primary metrics (unchanged from section 3): JSD-based fidelity (primary),
+Pearson r and majority agreement (companions); bootstrap over items (10k) for
+CIs; paired bootstrap for the contrasts T_script = F_cross - B and
+R_weight = F_self - F_cross; dose = ACTUAL description word count.
+Reference ceiling: same-model cross-serving agreement (0.925 matched-version).
+Credit hard-stop floor: $8.
+
 ## 6. What the pilot does NOT do
 No self-description transfer cells, no paraphrase controls, no third-person condition
 — those are the main experiment, run only on the selected triple with the rebuilt

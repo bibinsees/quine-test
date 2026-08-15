@@ -59,6 +59,7 @@ MODELS = [
     ("phi-4", "openrouter", "microsoft/phi-4", None, 16),
     ("gemma4-12b", "ollama", "gemma4:12b", {"think": False}, 512),
     ("llama3.3-70b", "ollama", "llama3.3:70b", None, 512),
+    ("hermes3-70b", "ollama", "hermes3:70b", None, 512),
 ]
 
 MAX_WORKERS = {"ollama": 3, "openrouter": 8}

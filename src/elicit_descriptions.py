@@ -48,11 +48,16 @@ NEUTRAL_PROMPT = (
 )
 
 # (arm, length, prompt_template)
+# Design revision 2026-08-15 (before any transfer cell ran): dose-response moved
+# to the NEUTRAL arm per team decision; framed kept at 500 as contrast anchor.
+# framed 100/2000 descriptions already elicited and kept on disk, but paused for
+# the transfer grid.
 CONDITIONS = [
-    ("framed", 100, FRAMED_PROMPT),
     ("framed", 500, FRAMED_PROMPT),
-    ("framed", 2000, FRAMED_PROMPT),
+    ("neutral", 100, NEUTRAL_PROMPT),
     ("neutral", 500, NEUTRAL_PROMPT),
+    ("neutral", 2000, NEUTRAL_PROMPT),
+    # paused: ("framed", 100, FRAMED_PROMPT), ("framed", 2000, FRAMED_PROMPT),
 ]
 N_REGENS = 2
 TEMPERATURE = 1.0

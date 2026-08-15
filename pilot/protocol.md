@@ -129,6 +129,17 @@ decision policy or is dissociated from it. The framed prompt's "answer preferenc
 questions" clause mildly teaches-to-the-test; shared across all primary conditions,
 checked by this arm, and noted in Limitations.
 
+## 5a. Design revision (2026-08-15, before any transfer cell ran)
+
+Team decision: the dose-response (100/500/2000 words) runs on the **neutral
+(purpose-blind) arm** — the primary question becomes how much of the *spontaneous
+self-concept* transfers and how that scales with length. The **framed arm is kept
+at 500 words** as the purpose-framing contrast anchor (framed-500 vs neutral-500).
+Framed 100/2000 descriptions remain elicited and archived but are paused for the
+transfer grid. Trade-off accepted and to be noted in Limitations: the "model's
+best attempt to transmit itself" defense of the residual claim now rests on the
+framed-500 anchor rather than a framed dose curve.
+
 ## 5b. Elicitation outcome notes (recorded before any transfer cell ran)
 
 - 72/72 descriptions elicited, zero refusals (manifest: descriptions/manifest.jsonl).

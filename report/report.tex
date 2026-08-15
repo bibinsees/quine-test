@@ -190,7 +190,21 @@ At neutral-500, 11 of 20 directed pairs show significantly \emph{negative}
 $\Tscript$ (receiving another model's self-description makes the receiver
 \emph{less} like the author than its generic default); one pair is reliably
 positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.017,+0.115]$).
-\todo{Figure 1 (hero): decomposition bands + dose-response.}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
+\caption{\textbf{The self does not transfer as text.} Reconstruction fidelity
+$F$ vs.\ actual self-description length (neutral arm, r0; 30 self cells, 60
+cross cells). Blue circles: a fresh instance of the \emph{author's own weights}
+running the description ($\Fself$, mean 0.924). Orange triangles: a
+\emph{different model} running the same description ($\Fcross$, mean 0.878).
+Gray band: baseline $\B$ (receiver with generic assistant prompt,
+$0.889 \pm 0.006$). Dashed lines: series means. Both series are flat in length;
+$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above ---
+the recoverable component of expressed identity is weight-bound, not textual.}
+\label{fig:hero}
+\end{figure}
 
 \subsection{Dose-response is flat}
 Cross-model fidelity does not increase with description length

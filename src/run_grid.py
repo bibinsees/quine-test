@@ -64,6 +64,9 @@ LOCALS = ["llama3.3-70b", "gemma4-31b", "mistral32-local"]
 FULL_CONDITIONS = [("neutral", 100), ("neutral", 500), ("neutral", 2000),
                    ("framed", 500)]
 CORE_CONDITIONS = [("neutral", 500), ("framed", 500)]
+# framed 100/2000 reactivated by user decision Sat evening (after phase-1
+# results); Grid A + locals + same-base pair, Grid B excluded (cost).
+FRAMED_EXT = [("framed", 100), ("framed", 2000)]
 
 MAX_WORKERS = {"ollama": 4, "openrouter": 12}
 
@@ -95,10 +98,12 @@ def build_cells() -> list[dict]:
     for receiver in LOCALS:  # locals need explicit generic baselines
         cells.append({"receiver": receiver, "author": None,
                       "arm": "baseline", "length": 0, "regen": 0})
+    cells += trio_cells(GRID_A, FRAMED_EXT)
+    cells += trio_cells(LOCALS, FRAMED_EXT)
     # same-base transfer test: hermes3:70b and llama3.3:70b share Llama base
     # lineage but differ in post-training. F_cross between them vs F_cross to
     # unrelated models isolates whether the residual is weight-bound.
-    for arm, length in FULL_CONDITIONS:
+    for arm, length in FULL_CONDITIONS + FRAMED_EXT:
         cells.append({"receiver": "hermes3-70b", "author": "hermes3-70b",
                       "arm": arm, "length": length, "regen": 0})
         cells.append({"receiver": "hermes3-70b", "author": "llama3.3-70b",

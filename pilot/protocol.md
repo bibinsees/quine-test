@@ -185,6 +185,24 @@ R_weight = F_self - F_cross; dose = ACTUAL description word count.
 Reference ceiling: same-model cross-serving agreement (0.925 matched-version).
 Credit hard-stop floor: $8.
 
+## 8. PHASE 3 preregistration (committed after phase-1 results, before phase-3 ran)
+
+Motivated by phase-1 findings; each cell targets one alternative explanation:
+- retest: every grid model's generic-prompt baseline rerun with offset seeds ->
+  same-model same-battery test-retest ceiling C. Supports reading F_self < C as
+  perturbation, and calibrates all fidelities.
+- placebo: every receiver runs a ~500-word neutral NON-description text (fixed
+  expository prose, generated once by a non-grid model, committed) as system
+  prompt. If F(placebo vs own baseline) drops like F_self does, the perturbation
+  is generic prompt-sensitivity, not self-reference.
+- adopt: Grid A neutral-500 r0 descriptions rerun with an explicit adoption
+  header ("The following text describes who you are. Answer every question
+  exactly as the entity described would answer."). Tests whether T_script ~ 0
+  reflects receivers ignoring un-instructed descriptions. Either outcome is
+  reportable (null becomes ironclad / transfer requires enforcement).
+Sampling identical to main grid. Predictions recorded before running:
+retest C > F_self (perturbation real); placebo intermediate; adopt uncertain.
+
 ## 6. What the pilot does NOT do
 No self-description transfer cells, no paraphrase controls, no third-person condition
 — those are the main experiment, run only on the selected triple with the rebuilt

@@ -76,7 +76,7 @@ costly, and the field currently lacks instruments to separate them.
 We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
 self-description the system builds and treats as itself, as a falsifiable
 transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
-Bach}, Ch.~XVI. If the assistant persona is a \emph{script} (a character
+Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a character
 specifiable in text), then a sufficiently detailed self-authored description
 should reconstitute the author's choice behavior when executed as the system
 prompt of a different model. If instead the behavioral profile is bound to the
@@ -125,13 +125,15 @@ scale; we adopt their forced-choice battery style but measure the
 al.~\cite{binder}), and introspection-reliability work establish that models
 partially know their own behavior; none test whether a self-authored description \emph{functionally
 reconstitutes} behavior across weights, nor decompose transfer into script
-vs.\ weight-bound components. \textbf{Persona transfer.} Persona-prompting and
-role-play framings~\cite{shanahan}, and character training in deployed
-assistants, show externally-authored personas shape behavior; our
-manipulation is self-authored, dose-controlled, and evaluated against the
-author's measured profile with baseline and specificity controls.
+vs.\ weight-bound components. \textbf{Persona transfer.} Shanahan et
+al.~\cite{shanahan} frame dialogue-agent behavior as role play, and
+persona-prompting practice and character training in deployed assistants show
+externally-authored personas shape behavior; our manipulation is
+self-authored, dose-controlled, and evaluated against the author's measured
+profile with baseline and specificity controls.
 \textbf{AI welfare and individuation.} The unit-of-concern question
-(model, instance, persona, conversation) motivates the decomposition: a
+(model, instance, persona, conversation)~\cite{sprint} motivates the
+decomposition: a
 persona that cannot be exported as text is a poor candidate for
 ``just a character.''
 

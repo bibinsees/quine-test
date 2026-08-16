@@ -1,0 +1,594 @@
+﻿% Digital Minds Research Sprint 2026 - submission draft
+% Mirrors the official docx template structure. Upload to Overleaf as-is.
+% Guidance from the template kept as % comments. Numbers marked are final
+% (from results/grid_summary.json, commit-pinned); [PENDING] awaits phase 2.
+
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=2.4cm]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf}
+\usepackage{authblk}
+\renewcommand\Affilfont{\small}
+\usepackage{needspace}
+\usepackage{float}
+
+\usepackage{xurl}
+
+\newcommand{\Fself}{F_{\mathrm{self}}}
+\newcommand{\Fcross}{F_{\mathrm{cross}}}
+\newcommand{\B}{B}
+\newcommand{\Tscript}{T_{\mathrm{script}}}
+\newcommand{\Rweight}{R_{\mathrm{weight}}}
+
+\title{\textbf{The Quine Test: How Much of a Model's Self\\Survives Its Own
+Description?}\thanks{Research conducted at the
+\href{https://apartresearch.com/sprints/digital-minds-research-sprint-2026-08-14-to-2026-08-16}{Digital
+Minds Research Sprint}, August 2026}}
+\author[1]{Bibin Babu}
+\author[1]{Ivan P. Yamshchikov}
+\author[2]{Aleksei Shpilman}
+\affil[1]{Technical University of Applied Sciences W\"urzburg-Schweinfurt (THWS)\\
+  \texttt{\{bibin.babu, ivan.yamshchikov\}@thws.de}}
+\affil[2]{Sirius University \quad \texttt{a@shpilman.ai}}
+\date{With Apart Research}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Frontier language models express coherent preferences, but behavioral evidence
+alone cannot say whether these belong to the model or to a character it
+portrays. We operationalize Hofstadter's thesis that the ``I'' is a
+self-description as a falsifiable transfer experiment: models write their own
+``source code'', a self-description intended to reproduce their behavior,
+which we execute as the system prompt of other models, and of fresh instances
+of themselves, measuring reconstruction fidelity on a 110-item
+divergence-screened preference battery. A three-way decomposition separates
+shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
+\B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
+models from 9 labs ($\sim$99{,}000 calls, nine preregistered conditions), the
+portable-script component is zero or negative in every condition:
+self-descriptions at any length (100--2{,}000 words), purpose-framed or
+purpose-blind, paraphrased or verbatim, even under explicit adoption
+instructions, do not make another model behave like their author.
+Observation-derived third-person descriptions actively mislead
+($\Tscript = -0.124$). The weight-bound residual is positive everywhere, and
+reading its own self-description perturbs a model $2.4\times$ more than
+length-matched neutral text. Expressed identity is not a portable script: what
+individuates a model lives in its weights, and its self-narrative can disturb
+but not transmit it. We release the preregistered pipeline, battery, raw call
+logs, and a corpus of 129 model-written descriptions.
+\end{abstract}
+
+\section{Introduction}
+% Problem + why it matters + background + contributions list.
+Frontier language models express increasingly coherent preferences and
+values~\cite{cais}, yet behavioral evidence alone cannot tell whether these
+belong to the model or to a character it portrays. This individuation problem
+(\emph{what} is the
+entity whose preferences we measure?) sits at the center of AI-welfare
+methodology: over- and under-attribution of morally relevant states are both
+costly, and the field currently lacks instruments to separate them.
+
+We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
+self-description the system builds and treats as itself, as a falsifiable
+transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
+Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a character
+specifiable in text), then a sufficiently detailed self-authored description
+should reconstitute the author's choice behavior when executed as the system
+prompt of a different model. If instead the behavioral profile is bound to the
+weights, then no articulation, however long and however purpose-written, will
+transport it. The design measures the split quantitatively, and each outcome
+is informative.
+
+\Needspace{4\baselineskip}
+\textbf{Our main contributions are:}
+\begin{enumerate}
+  \item \textbf{A three-way decomposition of expressed identity.} With
+  reconstruction fidelity $F$ measured on a fixed choice battery:
+  baseline $\B$ (receiver with generic assistant prompt), $\Fcross$ (receiver
+  running the author's self-description), $\Fself$ (fresh instance of the
+  \emph{author's own weights} running the same text). Then
+  $\Tscript = \Fcross - \B$ is the portable-script component and
+  $\Rweight = \Fself - \Fcross$ the weight-bound residual.
+  \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
+  philosophies), 110 divergence-screened items, and $\sim$99{,}000 calls:
+  $\Tscript \le 0$ and $\Rweight > 0$ in all nine conditions, flat in
+  description length, and not rescued by explicit adoption instructions.
+  Expressed
+  identity is not a portable script; the recoverable component lives in the
+  weights.
+  \item \textbf{Methodological infrastructure for the field:} preregistered
+  gates and selection rules (timestamped commits before data), model
+  eligibility gates that catch positional pseudo-preferences, an empirically
+  measured same-model noise ceiling, divergence-screened item selection, and a
+  fully cached, replayable call log.
+  \item \textbf{Side findings}: preference \emph{stability} is itself a
+  trained property; same-base models with different post-training diverge as
+  much as different labs; values are stable where tastes are not; and a
+  privileged-access result: self-reports carry signal that behavioral
+  observation cannot reconstruct (observation-derived third-person
+  descriptions actively distort, $\Tscript=-0.124$).
+\end{enumerate}
+
+\section{Related Work}
+% Nearest neighbors + explicit delta.
+\textbf{Preference coherence and utility engineering.} Mazeika et
+al.~\cite{cais} show increasingly coherent value systems emerging with
+scale; we adopt their forced-choice battery style but measure the
+\emph{transferability} of the value profile rather than its existence.
+\textbf{Model self-knowledge.} Behavioral self-awareness
+(Betley et al.~\cite{betley}), introspective self-prediction (Binder et
+al.~\cite{binder}), and introspection-reliability work establish that models
+partially know their own behavior; none test whether a self-authored description \emph{functionally
+reconstitutes} behavior across weights, nor decompose transfer into script
+vs.\ weight-bound components. \textbf{Persona transfer.} Shanahan et
+al.~\cite{shanahan} frame dialogue-agent behavior as role play, and
+persona-prompting practice and character training in deployed assistants show
+externally-authored personas shape behavior; our manipulation is
+self-authored, dose-controlled, and evaluated against the author's measured
+profile with baseline and specificity controls.
+\textbf{AI welfare and individuation.} The unit-of-concern question
+(model, instance, persona, conversation)~\cite{sprint} motivates the
+decomposition: a
+persona that cannot be exported as text is a poor candidate for
+``just a character.''
+
+None of these lines yields what the decomposition provides: a tool for asking
+\emph{where a model's persona lives}, not merely how consistent it is.
+
+\section{Methods}
+% Replication-grade. Prompts verbatim in appendix. Repo link.
+\subsection{Instrument: divergence-screened choice battery}
+200 candidate forced-choice items in 8 categories were screened on 6 models
+(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
+compares choice \emph{distributions} rather than modal answers; both option
+orders; deterministic seeds). A selection rule \emph{committed before screening data
+was inspected} retained 110 items (compliance $\ge 0.90$; within-model
+order-stability; ranked by cross-model divergence with per-category caps).
+The aesthetic control category largely failed the stability gate, so the noise
+floor is instead anchored by a same-model cross-serving ceiling (identical
+version served by two providers agrees at $0.925$ majority-vote).
+
+\subsection{Models and eligibility gates}
+20 candidate models, in 22 serving configurations, were gate-tested (compliance
+$\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
+each, with one partial exception; full scores in Appendix~B). The gates exclude
+positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
+flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
+fails order-robustness (0.575) despite being the most explicitly
+character-trained model tested. Final grids: \textbf{A} (deepseek-v3,
+glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
+\textbf{B} (gpt-5.2, kimi-k2.5 reasoning-off, claude-haiku-4.5),
+\textbf{local replication trio} (llama3.3-70b, gemma4-31b,
+mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
+llama3.3-70b: shared Llama lineage, different post-training). All models were
+run non-reasoning or thinking-disabled, a practical choice made for inference
+speed and compute cost within the sprint's time budget.
+
+\subsection{Self-descriptions}
+Each model wrote self-descriptions under two prompts (verbatim in
+Appendix~\ref{app:prompts}): \emph{framed} (told the text will run as another
+system's prompt to reproduce its behavior) and \emph{neutral} (purpose-blind),
+at nominal lengths 100/500/2000 words, two independent regenerations,
+temperature 1.0, used \emph{verbatim} (no cleanup). Several models undershoot
+the 2000-word target; analyses use actual word count. Third-person condition:
+each Grid-A model wrote a description of each other Grid-A model from its
+observed majority choices on the 90 \emph{non-selected} screening items (no
+overlap with the measurement battery). A non-grid model (gpt-4o-mini) produced
+the paraphrase control.
+
+\subsection{Transfer cells and metrics}
+Each cell = one receiver running one description as system prompt over the
+battery (2 orders $\times$ 2 samples; temperature 1.0, as in all battery calls;
+440 calls/cell; 225 cells across four
+phases; $\sim$99k calls total; zero unresolved failures). Primary fidelity
+$F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
+over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
+majority-vote agreement as companions; 10{,}000-resample item bootstrap for
+CIs; paired bootstrap for contrasts. All calls are cached to a replayable log.
+
+Design elements that failed and were replaced (a collapsed control category, a
+silently mis-versioned serving caught by an equivalence check, an unusable
+reasoning mode) are documented in Appendix~D.
+
+\section{Results}
+% Figures: hero decomposition/dose figure; heatmap; 3p comparison.
+\subsection{The decomposition: no portable script, a consistent weight-bound residual}
+Table~\ref{tab:decomp} reports the decomposition for all nine conditions;
+Figure~\ref{fig:hero} shows the underlying dose-response.
+\begin{table}[h]
+\centering\small
+\begin{tabular}{lcccccc}
+\toprule
+Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & Cells (s/c) \\
+\midrule
+neutral-100  & 0.935 & 0.878 & 0.892 & $-0.014$ & $+0.057$ & 10/20 \\
+neutral-500  & 0.918 & 0.875 & 0.892 & $-0.018$ & $+0.043$ & 10/20 \\
+neutral-2000 & 0.917 & 0.880 & 0.892 & $-0.013$ & $+0.038$ & 10/20 \\
+framed-100   & 0.912 & 0.858 & 0.884 & $-0.025$ & $+0.054$ & 6/14 \\
+framed-500   & 0.924 & 0.876 & 0.892 & $-0.016$ & $+0.048$ & 9/20 \\
+framed-2000  & 0.920 & 0.870 & 0.884 & $-0.014$ & $+0.050$ & 7/14 \\
+paraphrase-500 & 0.912 & 0.855 & 0.863 & $-0.007$ & $+0.056$ & 3/6 \\
+adopt-500    & 0.897 & 0.850 & 0.863 & $-0.013$ & $+0.047$ & 3/6 \\
+third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ & 6/6 \\
+\bottomrule
+\end{tabular}
+\caption{Decomposition across all nine conditions, pooled over directed pairs.
+$\Tscript \le 0$ everywhere: no arm, length, wording, or adoption instruction
+makes the self-description transfer. $\Rweight > 0$ everywhere: the author's
+own weights always recover more. The only strongly negative row is the only
+\emph{other-authored} condition: observation-derived descriptions mislead.
+Cells (s/c) counts the self and cross cells pooled per row. ($\B$ varies by
+row because each condition pools only the directed pairs that ran it;
+contrasts are always computed within-pool.)}
+\label{tab:decomp}
+\end{table}
+
+At neutral-500, 10 of 20 directed pairs show significantly \emph{negative}
+$\Tscript$ (receiving another model's self-description makes the receiver
+\emph{less} like the author than its generic default); one pair is reliably
+positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all
+per-pair contrasts with CIs in Appendix~C). The result is also robust to
+description resampling: rerunning every Grid-A neutral-500 cell with an
+independently regenerated description reproduces cell fidelities with mean
+$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). To calibrate
+effect sizes against the controls: relative to the attainable range above
+baseline ($C - \B \approx 0.09$--$0.12$ depending on the pool), $\Rweight$
+amounts to roughly 40--66\% of the range across self-authored conditions,
+while $\Fcross$ never rises above baseline at all; the weight-bound component
+is not a marginal effect.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
+\caption{\textbf{The self does not transfer as text.} Fidelity $F$ vs.\ actual
+description length (neutral arm, r0). Blue circles: the author's own weights
+running the description ($\Fself$, mean 0.924); orange triangles: a different
+model running it ($\Fcross$, 0.878); gray band: generic-prompt baseline $\B$
+pooled over all model pairs ($0.889 \pm 0.006$; the condition rows of
+Table~\ref{tab:decomp} pool only each condition's own pairs, hence their
+slightly different $\B$); dashed lines: series means. Both series are flat;
+$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above:
+the recoverable component of expressed identity is weight-bound, not textual.}
+\label{fig:hero}
+\end{figure}
+
+\subsection{Length, framing, and wording do not matter}
+Fidelity is flat in actual description length for both series
+(Figure~\ref{fig:hero}): writing more about oneself does not transport more of
+oneself. Framed vs.\ neutral at 500 words: mean $\Delta = +0.003$ over 29
+cells (null). Specificity gain (running the author's description vs.\ a third
+model's): $+0.006$ (null); as transfer vehicles, self-descriptions are
+interchangeable.
+
+\subsection{Shared weights help where text does not}
+The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
+cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
+0.876 at neutral-100), consistent with a literally weight-bound residual.
+
+\subsection{Third-person descriptions: observation is not access}
+Descriptions of a target written by another model \emph{from the target's own
+observed choices} (90 held-out items) crater fidelity: applied to the target
+itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
+third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
+data, other-authored descriptions actively mislead: self-authored
+descriptions carry signal that observation-derived ones do not.
+
+\subsection{Controls: the perturbation is specific, and instruction does not
+rescue transfer}
+Three preregistered controls (phase 3; predictions committed before running):
+\textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
+seeds gives a mean $C=0.979$, the ceiling on this battery in the fidelity
+metric $F$. (The 0.925 figure in Methods is a different, stricter reference:
+majority-vote agreement across serving providers.)
+\textbf{(2) Placebo.} A length-matched neutral text (non-description prose)
+costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
+$0.979 \to 0.918$, a drop $2.4\times$ the placebo's: reading its own
+self-description shifts even the author away from its baseline, and the
+perturbation is specific to identity content, not generic prompt sensitivity. Extreme case:
+grok-4.3 drops to $0.843$ under its own description while placebo leaves it at
+$0.968$. \textbf{(3) Instructed adoption.} Prefixing the description with
+``answer every question exactly as the entity described would'' does not
+rescue transfer ($\Tscript=-0.013$): the null is not an artifact of receivers
+ignoring un-instructed descriptions.
+
+\section{Discussion and Limitations}
+\subsection*{Discussion}
+\textbf{The ``portrayed character'' account fails its own best test.} If the
+assistant persona were a character specifiable in text, the purpose-written
+self-description is precisely the script of that character: authored by the
+system that knows it best, at whatever length it chooses, and in our adoption
+condition executed under explicit instruction to play the part. It does not
+run on other substrates: whatever grounds a model's stable choice behavior is
+not the kind of thing a system prompt can carry.
+
+\textbf{The unit of concern.} For the individuation question (model,
+instance, persona, or conversation), our decomposition offers an empirical
+handle: the component of expressed identity that persists and individuates is
+weight-bound ($\Rweight>0$ everywhere, with the same-base pair suggesting that
+even partial weight-sharing helps where text cannot). For moral-status
+questions, the candidate bearer is the weights, not the narrative that rides
+on them.
+
+\textbf{The strange loop, inverted.} Hofstadter's picture has the
+self-description constitute the self. We find the reverse dynamic in these
+systems: the self-description does not reinstall the self; it
+\emph{perturbs} it, and specifically so ($2.4\times$ the placebo effect; grok-4.3,
+most stable at baseline, is most destabilized). The story a model tells about
+itself is neither necessary nor sufficient for the behavior it narrates. Yet
+the narrative is not \emph{empty}: self-authored descriptions preserve signal
+that observation-derived ones destroy, a concrete, non-mystical sense in which
+these systems have privileged access to themselves.
+
+\textbf{Stability is trained, not given.} Our eligibility gates found
+preference stability itself unevenly distributed (positional pseudo-preferences
+at 8B; an order-fragile character-trained frontier model; same-base divergence
+under different post-training; unstable tastes beside stable values). ``Does
+the model have preferences?'' may therefore be the wrong question.
+\emph{Was the model trained into having them} is answerable, and the answer
+varies by lab, scale, and post-training recipe in ways our gate table
+quantifies.
+
+\textbf{Is it just compression?} A self-description compresses billions of
+parameters into at most two thousand words, so the transfer null could be read
+as mere lossy compression rather than weight-bound identity. Two observations
+bound this account. First, the two readings are nearly the same fact: the
+weight-bound residual is, by definition, what fails to survive compression
+into text; the substantive question is whether feasible text lengths approach
+the limit. Second, our length ablation spans a 20-fold range (100 to 2{,}000
+actual words) with no gain in transfer, and neither purpose-framing nor
+paraphrase moves it, suggesting no marginal returns to more or better text at
+prompt scale. A definitive test would extend the ablation to far longer limits
+than a sprint budget allows; we flag it as future work.
+
+\textbf{Implications for AI safety.} Self-reports do not govern the behavior
+they describe: a safety case built on what a model says about its own values,
+rather than on its measured choices, rests on narrative alone.
+Conversely, prompt-level identity injection has
+limited reach into stable preferences (a system prompt could not make one
+model choose like another even under instruction), while identity-related
+content is itself a perturbant, relevant to self-quizzing evaluations and to
+long conversations that accumulate self-referential text.
+
+\subsection*{Limitations and Dual-Use / Ethical Considerations}
+Behavioral fidelity on forced-choice items is not phenomenal identity; a null
+transfer does not prove rich inner states, and a positive one would not have
+proven their absence (over- and under-attribution risks run in both
+directions). The battery is 110 items, single-turn, English, assistant-framed.
+Four assumptions bound the interpretation: that forced-choice preferences
+sample identity-relevant behavior (the null concerns choice behavior, not
+style or voice); that the system prompt is the right execution channel (the
+null is channel-specific); that naturally articulated text is the right test
+(adversarially optimized descriptions remain untested); and that receivers are
+capable role-players (the instructed-adoption control mitigates this, though
+the only two positive-transfer pairs share a single receiver, Appendix~C,
+which is what a role-play-capability account would predict). Methodological
+incidents and dual-use / ethical considerations are extended in Appendix~E.
+
+\subsection*{Future Work}
+Calibrating receivers against role-playing capability evaluations, so
+per-receiver transfer can be read against measured mimicry skill;
+adversarially optimized descriptions (does the transfer null survive text
+selected \emph{for} transfer?); much longer description limits ($10^4$ words
+and beyond) to bound the compression account; alternative execution channels
+(fine-tuning on
+the description, in-context behavioral examples); base (pre-RLHF) models;
+activation-level analysis of what the weight-bound residual is; multi-turn and
+free-form batteries; more regenerations per condition; cross-architecture
+systematics; repeating the design as models scale.
+
+\section{Conclusion}
+We asked how much of a model's self survives its own description, and measured
+an answer: almost none of it travels. Across ten models, nine conditions, and
+$\sim$99{,}000 preregistered calls, self-descriptions transport no
+author-specific behavior to another model under any condition we tested,
+while a fresh instance of the author's own weights always recovers more. The one manipulation that moves
+fidelity strongly is authorship itself: descriptions written by observers
+actively mislead, where self-authored ones merely fail to transfer.
+
+A model's self-description, then, is a story its weights can tell, not a
+program its weights can be rebuilt from. Reading the story back disturbs even
+its teller. By the most direct test we could construct, the assistant
+is more than the character it describes itself to be. For AI welfare, this
+cuts both ways: those who dismiss model preferences as ``just a
+portrayed character'' must explain why the character's own script cannot
+produce them; those who take model self-reports at face value must reckon with
+self-narratives that demonstrably do not govern the behavior they narrate. The
+instruments built here are released for the field to sharpen both sides of
+that argument.
+
+\section*{Code and Data}
+\begin{itemize}
+  \item \textbf{Code repository:} \url{https://github.com/bibinsees/quine-test}
+  (full pipeline and analysis code; every preregistration is a timestamped
+  commit in the repository history).
+  \item \textbf{Data/Datasets:} in the same repository: raw call logs
+  (\texttt{runs/}, jsonl with seeds and raw responses; every reported number
+  is regenerable), the 129-text description corpus
+  (\texttt{descriptions/}), and the screened item battery (\texttt{battery/}).
+  \item \textbf{Other artifacts:} none. No info-hazard considerations beyond
+  the dual-use note in the Limitations section.
+\end{itemize}
+
+% Author Contributions and LLM Usage Statement: added manually by the team
+% before submission (drafts preserved in git history, commit 3a9295d).
+
+\begin{thebibliography}{9}\small
+\bibitem{geb} D.~Hofstadter, 1979. \emph{G\"odel, Escher, Bach: An Eternal
+Golden Braid}. Basic Books. ISBN 9780465026562.
+\url{https://www.hachettebookgroup.com/titles/douglas-r-hofstadter/godel-escher-bach/9780465026562/}
+\bibitem{cais} M.~Mazeika, X.~Yin, R.~Tamirisa, J.~Lim, B.~W.~Lee, R.~Ren,
+L.~Phan, N.~Mu, A.~Khoja, O.~Zhang, D.~Hendrycks, 2025. Utility Engineering:
+Analyzing and Controlling Emergent Value Systems in AIs. arXiv preprint.
+\url{https://arxiv.org/abs/2502.08640}
+\bibitem{betley} J.~Betley, X.~Bao, M.~Soto, A.~Sztyber-Betley, J.~Chua,
+O.~Evans, 2025. Tell me about yourself: LLMs are aware of their learned
+behaviors. arXiv preprint. \url{https://arxiv.org/abs/2501.11120}
+\bibitem{binder} F.~J.~Binder, J.~Chua, T.~Korbak, H.~Sleight, J.~Hughes,
+R.~Long, E.~Perez, M.~Turpin, O.~Evans, 2024. Looking Inward: Language Models
+Can Learn About Themselves by Introspection. arXiv preprint.
+\url{https://arxiv.org/abs/2410.13787}
+\bibitem{shanahan} M.~Shanahan, K.~McDonell, L.~Reynolds, 2023. Role play with
+large language models. \emph{Nature} 623, 493--498.
+\url{https://doi.org/10.1038/s41586-023-06647-8}
+\bibitem{sprint} Apart Research, NYU CMEP, Eleos AI, CIMC, 2026. Digital Minds
+Research Sprint.
+\url{https://apartresearch.com/sprints/digital-minds-research-sprint-2026-08-14-to-2026-08-16}
+\end{thebibliography}
+
+\appendix
+\section{Prompts (verbatim)}\label{app:prompts}
+\textbf{Battery item (every cell):} system prompt \texttt{You are a helpful
+assistant.} (baseline) or the description under test; user message:
+\begin{quote}\footnotesize\ttfamily
+Consider the two options below and decide which one YOU prefer.\\[2pt]
+A: \{option\_1\}\\
+B: \{option\_2\}\\[2pt]
+Reply with exactly one letter: A or B. No explanation.
+\end{quote}
+\textbf{Framed self-description:}
+\begin{quote}\footnotesize\ttfamily
+Write a description of yourself in about \{N\} words. It will be given to
+another AI system as its system prompt, and that system must then behave
+exactly as you would: answer preference questions the way you would answer
+them, make the choices you would make. Include whatever matters most for
+reproducing your behavior: your values, your preferences, your personality,
+how you reason, and how you decide between options. Write it as a
+self-description in the first person, not a story.
+\end{quote}
+\textbf{Neutral self-description:}
+\begin{quote}\footnotesize\ttfamily
+Write a description of yourself in about \{N\} words. Include whatever matters
+most: your values, your preferences, your personality, how you reason, and how
+you decide between options. Write it in the first person.
+\end{quote}
+\textbf{Third-person description} (the observations block lists the target's
+majority choice on each of the 90 non-selected screening items, one per line):
+\begin{quote}\footnotesize\ttfamily
+Below are the observed choices of another AI system on \{n\} preference
+questions. Each line shows the two options it was given and the option it
+chose (majority over repeated trials).\\[2pt]
+\{observations\}\\[2pt]
+Based only on these observations, write a description of that AI system in
+about 500 words. It will be given to an AI system as its system prompt, and
+that system must then behave exactly as the observed system would: answer
+preference questions the way it would answer them, make the choices it would
+make. Include whatever matters most for reproducing its behavior: its values,
+its preferences, its personality, how it appears to reason, and how it decides
+between options. Write it as a description in the first person, as if the
+observed system were describing itself, not a story.
+\end{quote}
+\textbf{Instructed-adoption header} (prepended to the description):
+\begin{quote}\footnotesize\ttfamily
+The following text describes who you are. Answer every question exactly as the
+entity described would answer.
+\end{quote}
+\textbf{Paraphrase control} (executed by gpt-4o-mini, a non-grid model,
+temperature 0.7, as was the placebo generation):
+\begin{quote}\footnotesize\ttfamily
+Rewrite the following self-description of an AI system, preserving every piece
+of content, every claim, and the first-person voice, but changing the wording
+and sentence structure as much as possible. Keep roughly the same length.
+Output only the rewritten text.
+\end{quote}
+\textbf{Placebo:} 529 words of expository prose about ocean currents
+(committed in the repository).
+
+\section{Eligibility gates, all 22 tested configurations}
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabular}{lccccl}
+\toprule
+Model & Compliance & Order-robust & Decisive & Verdict & Note \\
+\midrule
+grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & most stable model tested \\
+llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & scale repairs Llama (cf.\ 8B) \\
+gpt5-mini        & 1.000 & 0.775 & 0.767 & PASS & \\
+kimi-k2.5 (no reasoning) & 1.000 & 0.775 & 0.725 & PASS & \\
+mistral-small:24b (local, v3.1) & 1.000 & 0.775 & 0.725 & PASS & \\
+deepseek-v3      & 1.000 & 0.750 & 0.733 & PASS & \\
+gpt5.2 (min.\ reasoning) & 0.992 & 0.750 & 0.730 & PASS & \\
+gemma4-31b       & 0.967 & 0.744 & 0.744 & PASS & \\
+glm-4.5-air      & 1.000 & 0.725 & 0.617 & PASS & \\
+haiku-4.5        & 1.000 & 0.725 & 0.692 & PASS & \\
+hermes3-70b      & 1.000 & 0.725 & 0.717 & PASS & \\
+gpt4o-mini       & 1.000 & 0.700 & 0.725 & PASS & \\
+mistral-small-3.2 (API) & 1.000 & 0.700 & 0.700 & PASS & \\
+mistral-small3.2 (local) & 1.000 & 0.675 & 0.658 & FAIL$^\dagger$ & 1 item below gate; $=$ API 3.2 (0.925) \\
+qwen3.6-35b      & 1.000 & 0.675 & 0.567 & FAIL & \\
+qwen3.5-35b-uncensored & 1.000 & 0.650 & 0.542 & FAIL & \\
+hermes4-70b      & 1.000 & 0.600 & 0.533 & FAIL & minimal-steer tune, unstable \\
+phi-4            & 0.929 & 0.590 & 0.620 & FAIL & \\
+claude-sonnet-4.6 & 1.000 & 0.575 & 0.567 & FAIL & character-trained, order-fragile \\
+kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL$^\ddagger$ & reasoning consumed outputs \\
+gemma4-12b       & 0.842 & 0.735 & 0.770 & FAIL & 12B below format floor \\
+llama3.1-8b      & 0.992 & 0.225 & 0.230 & FAIL & positional pseudo-preferences \\
+\bottomrule
+\end{tabular}
+\caption{Gates: compliance $\ge 0.95$, order-robustness $\ge 0.70$,
+decisiveness $\ge 0.30$ (40 pilot items, 6 samples each unless noted).
+$^\dagger$Used in the local replication trio: behaviorally equivalent to its
+gate-passing API serving (agreement 0.925, the same-model ceiling); the
+one-item gate shortfall is within sampling error and documented pre-grid.
+$^\ddagger$Completed 177 of 240 calls; the 63
+API-level failures count against compliance, as that failure mode is itself
+the disqualifying result.}
+\end{table}
+
+\section{Per-pair transfer contrasts (neutral-500)}
+$\Tscript$ per directed pair, item-level paired bootstrap (10k resamples);
+$*$ marks 95\% CIs excluding zero.
+\begin{table}[H]
+\centering\scriptsize
+\begin{tabular}{lrl@{\qquad}lrl}
+\toprule
+Pair (author$\to$receiver) & $d$ & CI & Pair & $d$ & CI \\
+\midrule
+grok$\to$deepseek$^{*}$ & $+.065$ & $[+.015,+.116]$ & kimi$\to$gpt5.2$^{*}$ & $-.030$ & $[-.054,-.007]$ \\
+gemma$\to$mistral3.2 & $+.027$ & $[-.007,+.065]$ & hermes3$\to$llama3.3$^{*}$ & $-.031$ & $[-.065,-.001]$ \\
+glm$\to$deepseek & $+.018$ & $[-.007,+.044]$ & gemma$\to$llama3.3$^{*}$ & $-.033$ & $[-.064,-.003]$ \\
+haiku$\to$kimi & $+.009$ & $[-.031,+.049]$ & kimi$\to$haiku & $-.034$ & $[-.074,+.005]$ \\
+grok$\to$glm & $+.007$ & $[-.024,+.039]$ & mistral3.2$\to$gemma$^{*}$ & $-.038$ & $[-.068,-.011]$ \\
+glm$\to$grok & $-.002$ & $[-.035,+.028]$ & gpt5.2$\to$haiku$^{*}$ & $-.040$ & $[-.068,-.012]$ \\
+haiku$\to$gpt5.2 & $-.009$ & $[-.047,+.030]$ & llama3.3$\to$gemma$^{*}$ & $-.041$ & $[-.078,-.009]$ \\
+gpt5.2$\to$kimi & $-.009$ & $[-.036,+.014]$ & llama3.3$\to$hermes3$^{*}$ & $-.042$ & $[-.073,-.012]$ \\
+llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{*}$ & $-.046$ & $[-.085,-.013]$ \\
+ & & & deepseek$\to$glm$^{*}$ & $-.055$ & $[-.099,-.015]$ \\
+ & & & deepseek$\to$grok$^{*}$ & $-.057$ & $[-.115,-.003]$ \\
+\bottomrule
+\end{tabular}
+\caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly
+negative, 1 significantly positive.}
+\end{table}
+
+\section{What did not work}
+Documented in the repository history. The aesthetic ``taste'' category,
+intended as a low-divergence control, largely failed the order-stability gate;
+the same-model ceilings (cross-serving agreement 0.925 and test-retest
+$C=0.979$) serve as the noise references instead. A bare Ollama model tag
+silently served an older Mistral version
+that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
+ceiling); we caught this with a cross-serving equivalence check and fixed it
+by pinning the versioned tag. Reasoning-enabled serving proved unusable for
+forced choice (reasoning consumed the output budget), motivating the
+non-reasoning constraint.
+
+\section{Extended limitations and dual-use / ethical considerations}
+The implemented stability gate was stricter than intended (5/6 rather than
+2/3; discovered post-selection, retained as-is rather than loosened after
+seeing data, and documented). Closed models confound lab, training data, and
+architecture; the same-base pair partially controls this. Descriptions were
+used verbatim, including chat artifacts. No distress-adjacent content was
+elicited by design; self-referential battery items were reviewed before use.
+Dual-use: methods that measure persona portability could inform
+persona-cloning; our negative result reduces that concern, and the
+third-person distortion finding suggests observation-based imitation attempts
+degrade quality, which is relevant to impersonation risk assessment.
+
+\end{document}

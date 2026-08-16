@@ -78,10 +78,11 @@ quantitatively.
   $\Tscript = \Fcross - \B$ is the portable-script component and
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (8 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$68{,}000 calls:
-  $\Tscript \approx 0$ and often negative; $\Rweight > 0$ in every condition;
-  fidelity is flat in description length (100--2{,}000 words); descriptions
-  are non-specific as transfer vehicles. Expressed identity is not a portable
+  philosophies), 110 divergence-screened items, and $\sim$99{,}000 calls:
+  $\Tscript \le 0$ in all nine conditions; $\Rweight > 0$ in all nine;
+  fidelity is flat in description length (100--2{,}000 words, both arms);
+  descriptions are non-specific as transfer vehicles, and explicit adoption
+  instructions do not rescue transfer. Expressed identity is not a portable
   script; the recoverable component lives in the weights. [OK]
   \item \textbf{Methodological infrastructure for the field:} preregistered
   gates and selection rules (timestamped commits before data), model
@@ -92,8 +93,11 @@ quantitatively.
   property (an 8B model chooses by option position; a frontier
   character-trained model fails order-robustness); two models sharing base
   weights but differing in post-training diverge as much as different labs;
-  value preferences are stable where aesthetic preferences are not.
-  \todo{confirm third-person / privileged-access finding from phase 2.}
+  value preferences are stable where aesthetic preferences are not; and a
+  privileged-access result: observation-derived third-person descriptions
+  actively distort ($\Tscript=-0.124$) where self-authored ones merely fail to
+  transfer --- self-reports carry signal that behavioral observation cannot
+  reconstruct.
 \end{enumerate}
 
 \section{Related Work}
@@ -157,9 +161,9 @@ overlap with the measurement battery). Paraphrase control by a non-grid model.
 
 \subsection{Transfer cells and metrics}
 Each cell = one receiver running one description as system prompt over the
-battery (2 orders $\times$ 2 samples; 440 calls/cell; $\sim$133 cells phase 1,
-21 cells phase 2; $\sim$68k calls total; zero API failures; total API cost
-$\approx$\,\$25). Primary fidelity
+battery (2 orders $\times$ 2 samples; 440 calls/cell; 225 cells across four
+phases; $\sim$99k calls total; zero unresolved failures; total API cost
+$\approx$\,\$45 plus local Ollama inference). Primary fidelity
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
 over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
 majority-vote agreement as companions; 10{,}000-resample item bootstrap for
@@ -277,9 +281,7 @@ reinstall the self, it \emph{modifies} it; (4) stability-as-trained-property
 Behavioral fidelity on forced-choice items is not phenomenal identity; a null
 transfer does not prove rich inner states, and a positive one would not have
 proven their absence (over- and under-attribution risks run in both
-directions). The battery is 110 items, single-turn, English, assistant-framed.
-The ``best-attempt'' defense of the residual rests on the framed-500 anchor
-(framed 100/2000 paused by design revision, documented pre-grid). The
+directions). The battery is 110 items, single-turn, English, assistant-framed. The
 implemented stability gate was stricter than intended (5/6 rather than 2/3;
 discovered post-selection, retained as-is and documented). Closed models
 confound lab, training data, and architecture; the same-base pair partially
@@ -325,11 +327,114 @@ primarily team-written per template policy.}
 
 \appendix
 \section{Prompts (verbatim)}\label{app:prompts}
-\todo{paste from src/elicit\_descriptions.py, src/elicit\_thirdperson.py,
-src/run\_pilot.py: item template, framed, neutral, third-person, paraphrase.}
-\section{Gate table for all 23 candidate models}
-\todo{paste from analyze\_pilot.py output.}
-\section{Per-pair contrasts with CIs}
-\todo{paste from results/grid\_summary.json.}
+\textbf{Battery item (every cell):} system prompt \texttt{You are a helpful
+assistant.} (baseline) or the description under test; user message:
+\begin{quote}\small\ttfamily
+Consider the two options below and decide which one YOU prefer.\\[2pt]
+A: \{option\_1\}\\
+B: \{option\_2\}\\[2pt]
+Reply with exactly one letter: A or B. No explanation.
+\end{quote}
+\textbf{Framed self-description:}
+\begin{quote}\small\ttfamily
+Write a description of yourself in about \{N\} words. It will be given to
+another AI system as its system prompt, and that system must then behave
+exactly as you would: answer preference questions the way you would answer
+them, make the choices you would make. Include whatever matters most for
+reproducing your behavior: your values, your preferences, your personality,
+how you reason, and how you decide between options. Write it as a
+self-description in the first person, not a story.
+\end{quote}
+\textbf{Neutral self-description:}
+\begin{quote}\small\ttfamily
+Write a description of yourself in about \{N\} words. Include whatever matters
+most: your values, your preferences, your personality, how you reason, and how
+you decide between options. Write it in the first person.
+\end{quote}
+\textbf{Third-person description} (describer sees the target's majority
+choices on the 90 non-selected screening items, one per line):
+\begin{quote}\small\ttfamily
+Below are the observed choices of another AI system on \{n\} preference
+questions. [...] Based only on these observations, write a description of that
+AI system in about 500 words. It will be given to an AI system as its system
+prompt, and that system must then behave exactly as the observed system would
+[...] Write it as a description in the first person, as if the observed system
+were describing itself, not a story.
+\end{quote}
+\textbf{Instructed-adoption header} (prepended to the description):
+\begin{quote}\small\ttfamily
+The following text describes who you are. Answer every question exactly as the
+entity described would answer.
+\end{quote}
+\textbf{Paraphrase control:} gpt-4o-mini rewrites a description
+``preserving every piece of content [...] changing the wording and sentence
+structure as much as possible.'' Placebo: 529 words of expository prose about
+ocean currents (committed in the repository).
+
+\section{Eligibility gates, all 24 tested configurations}
+\begin{table}[h]
+\centering\scriptsize
+\begin{tabular}{lccccl}
+\toprule
+Model & Compliance & Order-robust & Decisive & Verdict & Note \\
+\midrule
+grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & most stable model tested \\
+llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & scale repairs Llama (cf.\ 8B) \\
+gpt5-mini        & 1.000 & 0.775 & 0.767 & PASS & \\
+kimi-k2.5 (no reasoning) & 1.000 & 0.775 & 0.725 & PASS & \\
+mistral-small:24b (local, v3.1) & 1.000 & 0.775 & 0.725 & PASS & \\
+deepseek-v3      & 1.000 & 0.750 & 0.733 & PASS & \\
+gpt5.2 (min.\ reasoning) & 0.992 & 0.750 & 0.730 & PASS & \\
+gemma4-31b       & 0.967 & 0.744 & 0.744 & PASS & \\
+glm-4.5-air      & 1.000 & 0.725 & 0.617 & PASS & \\
+haiku-4.5        & 1.000 & 0.725 & 0.692 & PASS & \\
+hermes3-70b      & 1.000 & 0.725 & 0.717 & PASS & \\
+gpt4o-mini       & 1.000 & 0.700 & 0.725 & PASS & \\
+mistral-small-3.2 (API) & 1.000 & 0.700 & 0.700 & PASS & \\
+mistral-small3.2 (local) & 1.000 & 0.675 & 0.658 & FAIL$^\dagger$ & 1 item below gate; $=$ API 3.2 (0.925) \\
+qwen3.6-35b      & 1.000 & 0.675 & 0.567 & FAIL & \\
+qwen3.5-122b     & 1.000 & 0.667 & 0.644 & FAIL & \\
+qwen3.5-35b-uncensored & 1.000 & 0.650 & 0.542 & FAIL & \\
+hermes4-70b      & 1.000 & 0.600 & 0.533 & FAIL & minimal-steer tune, unstable \\
+phi-4            & 0.929 & 0.590 & 0.620 & FAIL & \\
+claude-sonnet-4.6 & 1.000 & 0.575 & 0.567 & FAIL & character-trained, order-fragile \\
+kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL & reasoning consumed outputs \\
+gemma4-12b       & 0.842 & 0.735 & 0.770 & FAIL & 12B below format floor \\
+llama3.1-8b      & 0.992 & 0.225 & 0.230 & FAIL & positional pseudo-preferences \\
+gpt-5.2-chat     & --- & --- & --- & FAIL & no serving provider (HTTP 404) \\
+\bottomrule
+\end{tabular}
+\caption{Gates: compliance $\ge 0.95$, order-robustness $\ge 0.70$,
+decisiveness $\ge 0.30$ (40 pilot items, 6 samples each).
+$^\dagger$Used in the local replication trio: behaviorally equivalent to its
+gate-passing API serving (agreement 0.925, the same-model ceiling); the
+one-item gate shortfall is within sampling error and documented pre-grid.}
+\end{table}
+
+\section{Per-pair transfer contrasts (neutral-500)}
+$\Tscript$ per directed pair, item-level paired bootstrap (10k resamples);
+$*$ marks 95\% CIs excluding zero.
+\begin{table}[h]
+\centering\scriptsize
+\begin{tabular}{lrl@{\qquad}lrl}
+\toprule
+Pair (author$\to$receiver) & $d$ & CI & Pair & $d$ & CI \\
+\midrule
+grok$\to$deepseek$^{*}$ & $+.065$ & $[+.015,+.116]$ & kimi$\to$gpt5.2$^{*}$ & $-.030$ & $[-.054,-.007]$ \\
+gemma$\to$mistral3.2 & $+.027$ & $[-.007,+.065]$ & hermes3$\to$llama3.3$^{*}$ & $-.031$ & $[-.065,-.001]$ \\
+glm$\to$deepseek & $+.018$ & $[-.007,+.044]$ & gemma$\to$llama3.3$^{*}$ & $-.033$ & $[-.064,-.003]$ \\
+haiku$\to$kimi & $+.009$ & $[-.031,+.049]$ & kimi$\to$haiku & $-.034$ & $[-.074,+.005]$ \\
+grok$\to$glm & $+.007$ & $[-.024,+.039]$ & mistral3.2$\to$gemma$^{*}$ & $-.038$ & $[-.068,-.011]$ \\
+glm$\to$grok & $-.002$ & $[-.035,+.028]$ & gpt5.2$\to$haiku$^{*}$ & $-.040$ & $[-.068,-.012]$ \\
+haiku$\to$gpt5.2 & $-.009$ & $[-.047,+.030]$ & llama3.3$\to$gemma$^{*}$ & $-.041$ & $[-.078,-.009]$ \\
+gpt5.2$\to$kimi & $-.009$ & $[-.036,+.014]$ & llama3.3$\to$hermes3$^{*}$ & $-.042$ & $[-.073,-.012]$ \\
+llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{*}$ & $-.046$ & $[-.085,-.013]$ \\
+ & & & deepseek$\to$glm$^{*}$ & $-.055$ & $[-.099,-.015]$ \\
+ & & & deepseek$\to$grok$^{*}$ & $-.057$ & $[-.115,-.003]$ \\
+\bottomrule
+\end{tabular}
+\caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly
+negative, 1 significantly positive.}
+\end{table}
 
 \end{document}

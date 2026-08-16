@@ -155,8 +155,9 @@ is instead anchored by a same-model cross-serving ceiling (identical version
 served by two providers agrees at $0.925$ majority-vote).
 
 \subsection{Models and eligibility gates}
-23 candidate models were gate-tested (compliance $\ge 0.95$, order-robustness
-$\ge 0.70$, decisiveness $\ge 0.30$; 240 calls each). The gates exclude
+22 candidate models (23 serving configurations) were gate-tested (compliance
+$\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
+each). The gates exclude
 positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
 flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
 fails order-robustness (0.575) despite being the most explicitly
@@ -167,7 +168,7 @@ glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
 mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
 llama3.3-70b: shared Llama lineage, different post-training). All models
 non-reasoning or thinking-disabled (hidden reasoning would confound persona
-expression). Full gate scores for all 24 tested configurations are in
+expression). Full gate scores for all 23 tested configurations are in
 Appendix~B.
 
 \subsection{Self-descriptions}
@@ -496,7 +497,7 @@ entity described would answer.
 structure as much as possible.'' Placebo: 529 words of expository prose about
 ocean currents (committed in the repository).
 
-\section{Eligibility gates, all 24 tested configurations}
+\section{Eligibility gates, all 23 tested configurations}
 \begin{table}[h]
 \centering\scriptsize
 \begin{tabular}{lccccl}
@@ -526,7 +527,6 @@ claude-sonnet-4.6 & 1.000 & 0.575 & 0.567 & FAIL & character-trained, order-frag
 kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL & reasoning consumed outputs \\
 gemma4-12b       & 0.842 & 0.735 & 0.770 & FAIL & 12B below format floor \\
 llama3.1-8b      & 0.992 & 0.225 & 0.230 & FAIL & positional pseudo-preferences \\
-gpt-5.2-chat     & n/a & n/a & n/a & FAIL & no serving provider (HTTP 404) \\
 \bottomrule
 \end{tabular}
 \caption{Gates: compliance $\ge 0.95$, order-robustness $\ge 0.70$,

@@ -1,6 +1,7 @@
 .env
+descriptions/browse/
 __pycache__/
 *.pyc
-runs/
+runs/grid_snapshot.jsonl
 cache/
 .ipynb_checkpoints/

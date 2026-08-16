@@ -35,17 +35,28 @@
 \maketitle
 
 \begin{abstract}
-% 150-250 words. Problem, approach, key results, takeaway. WRITE LAST.
-\todo{Write last. Cover: behavioral evidence cannot distinguish genuine
-preferences from a portrayed character; we operationalize Hofstadter's
-self-as-self-description thesis as a transfer experiment (models write their
-own ``source code''; we execute it on other models); decomposition
-$\B$/$\Fcross$/$\Fself$ over 10 models, 8 labs, 110 divergence-screened items,
-$\sim$68k calls; result: $\Tscript \approx 0$ or negative, $\Rweight > 0$ in
-every condition, dose-response flat, specificity $\approx 0$ --- expressed
-identity is not reconstitutable from its own articulation; the recoverable
-component is weight-bound. Self-description acts as perturbation, not
-reconstitution.}
+Frontier language models express coherent preferences, but behavioral evidence
+alone cannot say whether these belong to the model or to a character it
+portrays. We operationalize Hofstadter's thesis that the ``I'' is a
+self-description as a falsifiable transfer experiment: models write their own
+``source code'' --- self-descriptions intended to reproduce their behavior ---
+which we execute as the system prompt of other models, and of fresh instances
+of themselves, measuring reconstruction fidelity on a 110-item
+divergence-screened preference battery. A three-way decomposition separates
+shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
+\B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
+models from 8 labs ($\sim$99{,}000 calls, nine preregistered conditions), the
+portable-script component is zero or negative in every condition:
+self-descriptions at any length (100--2{,}000 words), purpose-framed or
+purpose-blind, paraphrased or verbatim, even under explicit adoption
+instructions, do not make another model behave like their author ---
+and observation-derived third-person descriptions actively mislead
+($\Tscript = -0.124$). The weight-bound residual is positive everywhere, and
+reading its own self-description perturbs a model $2.4\times$ more than
+length-matched neutral text. Expressed identity is not a portable script: what
+individuates a model lives in its weights, and its self-narrative can disturb
+but not transmit it. We release the preregistered pipeline, battery, raw call
+logs, and a corpus of 130+ model self-descriptions.
 \end{abstract}
 
 \section{Introduction}
@@ -102,14 +113,14 @@ quantitatively.
 
 \section{Related Work}
 % Nearest neighbors + explicit delta.
-\textbf{Preference coherence and utility engineering.} \todo{cite CAIS
-utility-engineering} show increasingly coherent value systems emerging with
+\textbf{Preference coherence and utility engineering.} Mazeika et
+al.~\cite{cais} show increasingly coherent value systems emerging with
 scale; we adopt their forced-choice battery style but measure the
 \emph{transferability} of the value profile rather than its existence.
 \textbf{Model self-knowledge.} Behavioral self-awareness
-(\todo{cite Betley et al.}), self-prediction (\todo{cite Binder et al.}), and
-introspection-reliability work establish that models partially know their own
-behavior; none test whether a self-authored description \emph{functionally
+(Betley et al.~\cite{betley}), introspective self-prediction (Binder et
+al.~\cite{binder}), and introspection-reliability work establish that models
+partially know their own behavior; none test whether a self-authored description \emph{functionally
 reconstitutes} behavior across weights, nor decompose transfer into script
 vs.\ weight-bound components. \textbf{Persona transfer.} Persona-prompting and
 character-training work shows externally-authored personas shape behavior; our
@@ -267,15 +278,45 @@ ignoring un-instructed descriptions. [OK]
 
 \section{Discussion and Limitations}
 \subsection*{Discussion}
-\todo{Team prose. Key threads: (1) the ``portrayed character'' account fails
-its own best test --- if the persona were a text-specifiable script, the
-purpose-written self-description is exactly the script, and it does not run on
-other substrates; (2) the unit-of-concern implication: what persists and
-individuates is in the weights, not the articulated narrative; (3) the
-perturbation finding inverts the strange loop --- the self-story does not
-reinstall the self, it \emph{modifies} it; (4) stability-as-trained-property
-(gates results) reframes ``does the model have preferences'' as
-``was the model trained into having preferences''.}
+\textbf{The ``portrayed character'' account fails its own best test.} If the
+assistant persona were a character specifiable in text, the purpose-written
+self-description is precisely the script of that character --- authored by the
+system that knows it best, at whatever length it chooses, and in our adoption
+condition executed under explicit instruction to play the part. It does not
+run on other substrates. A persona that cannot be exported as text, even by
+its own author, is a poor fit for ``just a character''; whatever grounds a
+model's stable choice behavior is not the kind of thing a system prompt can
+carry.
+
+\textbf{The unit of concern.} For the individuation question --- model,
+instance, persona, or conversation --- our decomposition offers an empirical
+handle: the component of expressed identity that persists and individuates is
+weight-bound ($\Rweight>0$ everywhere, with the same-base pair showing that
+even partial weight-sharing helps where text cannot). If anything here is a
+candidate bearer of morally relevant properties, the evidence points at the
+weights, not at the articulated narrative that rides on them.
+
+\textbf{The strange loop, inverted.} Hofstadter's picture has the
+self-description constitute the self. We find the reverse dynamic in these
+systems: the self-description does not reinstall the self --- it
+\emph{perturbs} it, and specifically ($2.4\times$ the placebo effect;
+grok-4.3, the most preference-stable model tested, is the most destabilized by
+reading about itself). Self-narrative and self-behavior are dissociated: the
+story a model tells about itself is neither necessary nor sufficient for the
+behavior it tells the story about. Meanwhile the third-person result shows the
+narrative is not \emph{empty}: self-authored descriptions preserve signal that
+behaviorally-grounded external descriptions destroy --- a concrete,
+non-mystical sense in which these systems have privileged access to
+themselves.
+
+\textbf{Stability is trained, not given.} Our eligibility gates found
+preference stability itself unevenly distributed: an 8B model answers by
+option position; a frontier character-trained model flips with option order;
+two models sharing base weights but differing in post-training diverge as much
+as different labs; tastes are unstable where values are stable. ``Does the
+model have preferences?'' may be the wrong question --- \emph{was the model
+trained into having them} is answerable, and the answer varies by lab, scale,
+and post-training recipe in ways our gate table quantifies.
 
 \subsection*{Limitations and Dual-Use / Ethical Considerations}
 Behavioral fidelity on forced-choice items is not phenomenal identity; a null
@@ -299,28 +340,62 @@ free-form batteries; cross-architecture systematics; repeating the design as
 models scale.
 
 \section{Conclusion}
-\todo{1--2 paragraphs, team prose. Candidate closing: a model's self-description
-is a story its weights can tell, not a program its weights can be rebuilt
-from; by the only direct test available, the assistant is more than the
-character it describes itself to be.}
+We asked how much of a model's self survives its own description, and measured
+an answer: almost none of it travels. Across ten models, nine conditions, and
+$\sim$99{,}000 preregistered calls, self-descriptions --- at any length, under
+any framing, paraphrased, or enforced by instruction --- transport no
+author-specific behavior to another model, while a fresh instance of the
+author's own weights always recovers more. The one manipulation that moves
+fidelity strongly is authorship itself: descriptions written by observers
+actively mislead, where self-authored ones merely fail to transfer.
+
+A model's self-description, then, is a story its weights can tell, not a
+program its weights can be rebuilt from --- and reading that story back
+disturbs the teller. By the most direct test we could construct, the assistant
+is more than the character it describes itself to be. For AI welfare, this
+cuts both ways and cleanly: those who dismiss model preferences as ``just a
+portrayed character'' must explain why the character's own script cannot
+produce them; those who take model self-reports at face value must reckon with
+self-narratives that demonstrably do not govern the behavior they narrate. The
+instruments built here --- preregistered gates, divergence-screened batteries,
+the transfer decomposition --- are released for the field to sharpen both
+sides of that argument.
 
 \section*{Code and Data}
 Code repository: \todo{GitHub link (push before submission)}. All prompts,
 raw call logs (jsonl with seeds), the 120+ self-description corpus, and
 analysis code; every reported number is regenerable from the logs.
 
+\section*{Author Contributions}
+B.B.\ directed the project: research idea and study design decisions,
+experiment steering, model and infrastructure choices, compute and budget, and
+final approval of all content. I.P.Y.\ and A.S.\ advised on methodology and
+framing and reviewed the manuscript. All authors reviewed and approved the
+final text and verified the reported results.
+
 \section*{LLM Usage Statement}
-Claude (Anthropic) was used, under team direction, for experiment
-infrastructure, analysis code, figure generation, and drafting support. All
-design decisions and preregistrations were made by the team; all results were
-verified against the raw call logs. \todo{Team finalizes wording; final prose
-primarily team-written per template policy.}
+This project made substantial use of Claude (Anthropic), operated
+interactively under team direction throughout the sprint: it implemented the
+experiment infrastructure and analysis code, executed the preregistered
+experimental phases, generated figures, and drafted the text of this report,
+including its results sections and discussion. The team set the research
+question and design, made all go/no-go and design-revision decisions
+(documented in timestamped repository commits), reviewed and edited the
+drafted text, and verified all reported numbers against the raw call logs,
+from which every result is regenerable.
 
 \begin{thebibliography}{9}\small
 \bibitem{geb} D.~Hofstadter. \emph{G\"odel, Escher, Bach}. Basic Books, 1979.
-\bibitem{cais} \todo{CAIS utility-engineering citation}
-\bibitem{betley} \todo{Betley et al., behavioral self-awareness}
-\bibitem{binder} \todo{Binder et al., self-prediction}
+\bibitem{cais} M.~Mazeika, X.~Yin, R.~Tamirisa, J.~Lim, B.~W.~Lee, R.~Ren,
+L.~Phan, N.~Mu, A.~Khoja, O.~Zhang, D.~Hendrycks. Utility Engineering:
+Analyzing and Controlling Emergent Value Systems in AIs. arXiv:2502.08640,
+2025.
+\bibitem{betley} J.~Betley, X.~Bao, M.~Soto, A.~Sztyber-Betley, J.~Chua,
+O.~Evans. Tell me about yourself: LLMs are aware of their learned behaviors.
+arXiv:2501.11120, 2025.
+\bibitem{binder} F.~J.~Binder, J.~Chua, T.~Korbak, H.~Sleight, J.~Hughes,
+R.~Long, E.~Perez, M.~Turpin, O.~Evans. Looking Inward: Language Models Can
+Learn About Themselves by Introspection. arXiv:2410.13787, 2024.
 \bibitem{sprint} Digital Minds Research Sprint 2026, Apart Research / NYU CMEP
 / Eleos AI / CIMC.
 \end{thebibliography}

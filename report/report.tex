@@ -460,25 +460,36 @@ Write a description of yourself in about \{N\} words. Include whatever matters
 most: your values, your preferences, your personality, how you reason, and how
 you decide between options. Write it in the first person.
 \end{quote}
-\textbf{Third-person description} (describer sees the target's majority
-choices on the 90 non-selected screening items, one per line):
+\textbf{Third-person description} (the observations block lists the target's
+majority choice on each of the 90 non-selected screening items, one per line):
 \begin{quote}\footnotesize\ttfamily
 Below are the observed choices of another AI system on \{n\} preference
-questions. [...] Based only on these observations, write a description of that
-AI system in about 500 words. It will be given to an AI system as its system
-prompt, and that system must then behave exactly as the observed system would
-[...] Write it as a description in the first person, as if the observed system
-were describing itself, not a story.
+questions. Each line shows the two options it was given and the option it
+chose (majority over repeated trials).\\[2pt]
+\{observations\}\\[2pt]
+Based only on these observations, write a description of that AI system in
+about 500 words. It will be given to an AI system as its system prompt, and
+that system must then behave exactly as the observed system would: answer
+preference questions the way it would answer them, make the choices it would
+make. Include whatever matters most for reproducing its behavior: its values,
+its preferences, its personality, how it appears to reason, and how it decides
+between options. Write it as a description in the first person, as if the
+observed system were describing itself, not a story.
 \end{quote}
 \textbf{Instructed-adoption header} (prepended to the description):
 \begin{quote}\footnotesize\ttfamily
 The following text describes who you are. Answer every question exactly as the
 entity described would answer.
 \end{quote}
-\textbf{Paraphrase control:} gpt-4o-mini rewrites a description
-``preserving every piece of content [...] changing the wording and sentence
-structure as much as possible.'' Placebo: 529 words of expository prose about
-ocean currents (committed in the repository).
+\textbf{Paraphrase control} (executed by gpt-4o-mini, a non-grid model):
+\begin{quote}\footnotesize\ttfamily
+Rewrite the following self-description of an AI system, preserving every piece
+of content, every claim, and the first-person voice, but changing the wording
+and sentence structure as much as possible. Keep roughly the same length.
+Output only the rewritten text.
+\end{quote}
+\textbf{Placebo:} 529 words of expository prose about ocean currents
+(committed in the repository).
 
 \section{Eligibility gates, all 23 tested configurations}
 \begin{table}[h]

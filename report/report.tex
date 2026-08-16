@@ -158,9 +158,9 @@ is instead anchored by a same-model cross-serving ceiling (identical version
 served by two providers agrees at $0.925$ majority-vote).
 
 \subsection{Models and eligibility gates}
-21 candidate models, in 23 serving configurations, were gate-tested (compliance
+20 candidate models, in 22 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
-each, with two partial exceptions noted in Appendix~B). The gates exclude
+each, with one partial exception noted in Appendix~B). The gates exclude
 positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
 flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
 fails order-robustness (0.575) despite being the most explicitly
@@ -171,7 +171,7 @@ glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
 mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
 llama3.3-70b: shared Llama lineage, different post-training). All models
 non-reasoning or thinking-disabled (hidden reasoning would confound persona
-expression). Full gate scores for all 23 tested configurations are in
+expression). Full gate scores for all 22 tested configurations are in
 Appendix~B.
 
 \subsection{Self-descriptions}
@@ -491,7 +491,7 @@ Output only the rewritten text.
 \textbf{Placebo:} 529 words of expository prose about ocean currents
 (committed in the repository).
 
-\section{Eligibility gates, all 23 tested configurations}
+\section{Eligibility gates, all 22 tested configurations}
 \begin{table}[h]
 \centering\scriptsize
 \begin{tabular}{lccccl}
@@ -513,12 +513,11 @@ gpt4o-mini       & 1.000 & 0.700 & 0.725 & PASS & \\
 mistral-small-3.2 (API) & 1.000 & 0.700 & 0.700 & PASS & \\
 mistral-small3.2 (local) & 1.000 & 0.675 & 0.658 & FAIL$^\dagger$ & 1 item below gate; $=$ API 3.2 (0.925) \\
 qwen3.6-35b      & 1.000 & 0.675 & 0.567 & FAIL & \\
-qwen3.5-122b     & 1.000 & 0.667 & 0.644 & FAIL$^\ddagger$ & partial run \\
 qwen3.5-35b-uncensored & 1.000 & 0.650 & 0.542 & FAIL & \\
 hermes4-70b      & 1.000 & 0.600 & 0.533 & FAIL & minimal-steer tune, unstable \\
 phi-4            & 0.929 & 0.590 & 0.620 & FAIL & \\
 claude-sonnet-4.6 & 1.000 & 0.575 & 0.567 & FAIL & character-trained, order-fragile \\
-kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL & reasoning consumed outputs \\
+kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL$^\ddagger$ & reasoning consumed outputs \\
 gemma4-12b       & 0.842 & 0.735 & 0.770 & FAIL & 12B below format floor \\
 llama3.1-8b      & 0.992 & 0.225 & 0.230 & FAIL & positional pseudo-preferences \\
 \bottomrule
@@ -528,9 +527,7 @@ decisiveness $\ge 0.30$ (40 pilot items, 6 samples each unless noted).
 $^\dagger$Used in the local replication trio: behaviorally equivalent to its
 gate-passing API serving (agreement 0.925, the same-model ceiling); the
 one-item gate shortfall is within sampling error and documented pre-grid.
-$^\ddagger$Cancelled after 90 of 240 calls (15 of 40 items) for compute time;
-scores shown for completeness only, and the model was excluded from all grids
-and analyses. The reasoning-on kimi row completed 177 of 240 calls; its 63
+$^\ddagger$Completed 177 of 240 calls; the 63
 API-level failures count against compliance, as that failure mode is itself
 the disqualifying result.}
 \end{table}

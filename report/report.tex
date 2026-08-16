@@ -127,7 +127,8 @@ al.~\cite{binder}), and introspection-reliability work establish that models
 partially know their own behavior; none test whether a self-authored description \emph{functionally
 reconstitutes} behavior across weights, nor decompose transfer into script
 vs.\ weight-bound components. \textbf{Persona transfer.} Persona-prompting and
-character-training work shows externally-authored personas shape behavior; our
+role-play framings~\cite{shanahan}, and character training in deployed
+assistants, show externally-authored personas shape behavior; our
 manipulation is self-authored, dose-controlled, and evaluated against the
 author's measured profile with baseline and specificity controls.
 \textbf{AI welfare and individuation.} The unit-of-concern question
@@ -135,12 +136,19 @@ author's measured profile with baseline and specificity controls.
 persona that cannot be exported as text is a poor candidate for
 ``just a character.''
 
+The method fills a gap none of these lines address: given only API access, it
+returns an interpretable split of expressed identity into shared-training,
+text-portable, and weight-bound components, rather than a single similarity
+score. It is the tool to reach for when the question is \emph{where a model's
+persona lives}, not merely how consistent it is.
+
 \section{Methods}
 % Replication-grade. Prompts verbatim in appendix. Repo link.
 \subsection{Instrument: divergence-screened choice battery}
 200 candidate forced-choice items in 8 categories were screened on 6 models
-(7{,}200 calls; generic assistant prompt; temperature 1.0; both option orders;
-deterministic seeds). A selection rule \emph{committed before screening data
+(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
+compares choice \emph{distributions} rather than modal answers; both option
+orders; deterministic seeds). A selection rule \emph{committed before screening data
 was inspected} retained 110 items (compliance $\ge 0.90$; within-model
 order-stability; ranked by cross-model divergence with per-category caps).
 The aesthetic control category largely failed the stability gate (models'
@@ -185,6 +193,19 @@ over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
 majority-vote agreement as companions; 10{,}000-resample item bootstrap for
 CIs; paired bootstrap for contrasts. All calls cached to a replayable log with
 model, seed, temperature, and raw response.
+
+\subsection{What did not work}
+Two planned design elements failed and were replaced, documented in the
+repository history. The aesthetic ``taste'' category, intended as a
+low-divergence control, largely failed the order-stability gate and was
+reduced to the test-retest ceiling as the noise reference. A frontier model
+planned for Grid B (claude-sonnet-4.6) failed the stability gate and was
+excluded; a bare Ollama model tag silently served an older Mistral version
+that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
+ceiling), which we caught with a cross-serving equivalence check and fixed by
+pinning the versioned tag. Reasoning-enabled serving also proved unusable for
+forced choice (reasoning consumed the output budget), motivating the
+non-reasoning constraint.
 
 \section{Results}
 % Figures: hero decomposition/dose figure; heatmap; 3p comparison.
@@ -389,6 +410,8 @@ arXiv:2501.11120, 2025.
 \bibitem{binder} F.~J.~Binder, J.~Chua, T.~Korbak, H.~Sleight, J.~Hughes,
 R.~Long, E.~Perez, M.~Turpin, O.~Evans. Looking Inward: Language Models Can
 Learn About Themselves by Introspection. arXiv:2410.13787, 2024.
+\bibitem{shanahan} M.~Shanahan, K.~McDonell, L.~Reynolds. Role play with large
+language models. \emph{Nature} 623, 493--498, 2023.
 \bibitem{sprint} Digital Minds Research Sprint 2026, Apart Research / NYU CMEP
 / Eleos AI / CIMC.
 \end{thebibliography}

@@ -61,7 +61,7 @@ reading its own self-description perturbs a model $2.4\times$ more than
 length-matched neutral text. Expressed identity is not a portable script: what
 individuates a model lives in its weights, and its self-narrative can disturb
 but not transmit it. We release the preregistered pipeline, battery, raw call
-logs, and a corpus of 130+ model self-descriptions.
+logs, and a corpus of 129 model-written descriptions.
 \end{abstract}
 
 \section{Introduction}
@@ -230,7 +230,7 @@ own weights always recover more. The only strongly negative row is the only
 \label{tab:decomp}
 \end{table}
 
-At neutral-500, 11 of 20 directed pairs show significantly \emph{negative}
+At neutral-500, 10 of 20 directed pairs show significantly \emph{negative}
 $\Tscript$ (receiving another model's self-description makes the receiver
 \emph{less} like the author than its generic default); one pair is reliably
 positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all
@@ -270,7 +270,7 @@ Identity articulation \emph{perturbs} rather than reconstitutes.
 
 \subsection{Shared weights help where text does not}
 The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
-cross-fidelity than unrelated pairs in all four conditions (e.g.\ 0.900 vs.\
+cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
 0.876 at neutral-100), consistent with a literally weight-bound residual.
 
 \subsection{Third-person descriptions: observation is not access}
@@ -396,7 +396,7 @@ that argument.
   commit in the repository history).
   \item \textbf{Data/Datasets:} in the same repository: raw call logs
   (\texttt{runs/}, jsonl with seeds and raw responses; every reported number
-  is regenerable), the 130+ self-description corpus
+  is regenerable), the 129-text description corpus
   (\texttt{descriptions/}), and the screened item battery (\texttt{battery/}).
   \item \textbf{Other artifacts:} none. No info-hazard considerations beyond
   the dual-use note in the Limitations section.

@@ -17,7 +17,7 @@ Models write their own "source code", self-descriptions intended to reproduce th
 | `report/` | LaTeX report + Figure 1 |
 | `pilot/protocol.md` | **Preregistrations** for every phase (gates, metrics, kill-tests, predictions), committed before the corresponding data |
 | `battery/` | 200 candidate items, final 110-item battery, selection report |
-| `descriptions/` | 130+ model-written self-descriptions (framed/neutral × 100/500/2000 × 2 regens), third-person descriptions, paraphrases, placebo |
+| `descriptions/` | 129 model-written descriptions (framed/neutral × 100/500/2000 × 2 regens per model, plus third-person and paraphrase texts) and the placebo |
 | `src/` | Full pipeline: unified LLM client (OpenRouter + Ollama), pilot/screening/grid/phase-2/3 runners (all cached & resumable), analysis, figure |
 | `runs/` | Raw call logs (jsonl: model, seed, temperature, raw response); every reported number is regenerable |
 | `results/` | Final analysis output and summary JSON |

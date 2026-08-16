@@ -158,7 +158,7 @@ is instead anchored by a same-model cross-serving ceiling (identical version
 served by two providers agrees at $0.925$ majority-vote).
 
 \subsection{Models and eligibility gates}
-22 candidate models (23 serving configurations) were gate-tested (compliance
+21 candidate models, in 23 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
 each). The gates exclude
 positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
@@ -547,8 +547,9 @@ negative, 1 significantly positive.}
 
 \section{What did not work}
 Documented in the repository history. The aesthetic ``taste'' category,
-intended as a low-divergence control, largely failed the order-stability gate
-and was reduced to the test-retest ceiling as the noise reference. A frontier
+intended as a low-divergence control, largely failed the order-stability gate;
+the same-model ceilings (cross-serving agreement 0.925 and test-retest
+$C=0.979$) serve as the noise references instead. A frontier
 model planned for Grid B (claude-sonnet-4.6) failed the stability gate and was
 excluded. A bare Ollama model tag silently served an older Mistral version
 that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version

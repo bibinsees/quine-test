@@ -16,7 +16,8 @@
 \renewcommand\Affilfont{\small}
 \usepackage{needspace}
 
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\usepackage{xurl}
+
 \newcommand{\Fself}{F_{\mathrm{self}}}
 \newcommand{\Fcross}{F_{\mathrm{cross}}}
 \newcommand{\B}{B}
@@ -182,13 +183,13 @@ temperature 1.0, used \emph{verbatim} (no cleanup). Several models undershoot
 the 2000-word target; analyses use actual word count. Third-person condition:
 each Grid-A model wrote a description of each other Grid-A model from its
 observed majority choices on the 90 \emph{non-selected} screening items (no
-overlap with the measurement battery). Paraphrase control by a non-grid model.
+overlap with the measurement battery). A non-grid model (gpt-4o-mini) produced
+the paraphrase control.
 
 \subsection{Transfer cells and metrics}
 Each cell = one receiver running one description as system prompt over the
 battery (2 orders $\times$ 2 samples; 440 calls/cell; 225 cells across four
-phases; $\sim$99k calls total; zero unresolved failures; total API cost
-$\approx$\,\$45 plus local Ollama inference). Primary fidelity
+phases; $\sim$99k calls total; zero unresolved failures). Primary fidelity
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
 over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
 majority-vote agreement as companions; 10{,}000-resample item bootstrap for
@@ -232,7 +233,7 @@ own weights always recover more. The only strongly negative row is the only
 At neutral-500, 11 of 20 directed pairs show significantly \emph{negative}
 $\Tscript$ (receiving another model's self-description makes the receiver
 \emph{less} like the author than its generic default); one pair is reliably
-positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.017,+0.115]$; all
+positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all
 per-pair contrasts with CIs in Appendix~C). The result is also robust to
 description resampling: rerunning every Grid-A neutral-500 cell with an
 independently regenerated description reproduces cell fidelities with mean
@@ -285,7 +286,7 @@ privileged-access comparison of Track 3, and it favors self-report.
 rescue transfer}
 Three preregistered controls (phase 3; predictions committed before running):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
-seeds gives $C=0.979$ mean, the true ceiling on this battery.
+seeds gives a mean $C=0.979$, the true ceiling on this battery.
 \textbf{(2) Placebo.} A length-matched neutral text (non-description prose)
 costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
 $0.979 \to 0.918$, a drop $2.4\times$ the placebo's. The perturbation is
@@ -307,7 +308,7 @@ run on other substrates: whatever grounds a model's stable choice behavior is
 not the kind of thing a system prompt can carry.
 
 \textbf{The unit of concern.} For the individuation question (model,
-instance, persona, or conversation) our decomposition offers an empirical
+instance, persona, or conversation), our decomposition offers an empirical
 handle: the component of expressed identity that persists and individuates is
 weight-bound ($\Rweight>0$ everywhere, with the same-base pair showing that
 even partial weight-sharing helps where text cannot). If anything here is a
@@ -317,7 +318,7 @@ weights, not at the articulated narrative that rides on them.
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
 systems: the self-description does not reinstall the self; it
-\emph{perturbs} it, and specifically ($2.4\times$ the placebo effect; grok-4.3,
+\emph{perturbs} it, and specifically so ($2.4\times$ the placebo effect; grok-4.3,
 most stable at baseline, is most destabilized). The story a model tells about
 itself is neither necessary nor sufficient for the behavior it narrates. Yet
 the narrative is not \emph{empty}: self-authored descriptions preserve signal

@@ -27,7 +27,6 @@ Models write their own "source code", self-descriptions intended to reproduce th
 - ~99,000 calls across 225 cells; every call cached with deterministic seeds; zero unresolved failures.
 - Selection rules and thresholds committed **before** data inspection (see git history).
 - Rerunning any `src/run_*.py` is idempotent: completed calls load from `runs/*.jsonl`.
-- Total API cost ≈ $45 (OpenRouter) + local inference (Ollama).
 
 Models: deepseek-v3, glm-4.5-air, grok-4.3 (Grid A); gpt-5.2, kimi-k2.5, claude-haiku-4.5 (Grid B); llama3.3-70b, gemma4-31b, mistral-small-3.2 (local trio); hermes3-70b (same-base pair). 24 configurations gate-tested; exclusions documented in the report's Appendix B.
 

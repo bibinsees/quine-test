@@ -1,0 +1,114 @@
+﻿==============================================================================
+1. DECOMPOSITION per condition (mean over pairs; F = 1 - JSD)
+==============================================================================
+  3p-500   F_self=0.771  F_cross=0.739  B=0.863  T_script=-0.124  R_weight=0.032  (6s/6c cells)
+  adopt-500   F_self=0.897  F_cross=0.85  B=0.863  T_script=-0.013  R_weight=0.047  (3s/6c cells)
+  framed-100   F_self=0.912  F_cross=0.858  B=0.884  T_script=-0.025  R_weight=0.054  (6s/14c cells)
+  framed-500   F_self=0.924  F_cross=0.876  B=0.892  T_script=-0.016  R_weight=0.048  (9s/20c cells)
+  framed-2000  F_self=0.92  F_cross=0.87  B=0.884  T_script=-0.014  R_weight=0.05  (7s/14c cells)
+  neutral-100   F_self=0.935  F_cross=0.878  B=0.892  T_script=-0.014  R_weight=0.057  (10s/20c cells)
+  neutral-500   F_self=0.918  F_cross=0.875  B=0.892  T_script=-0.018  R_weight=0.043  (10s/20c cells)
+  neutral-2000  F_self=0.917  F_cross=0.88  B=0.892  T_script=-0.013  R_weight=0.038  (10s/20c cells)
+  para-500   F_self=0.912  F_cross=0.855  B=0.863  T_script=-0.007  R_weight=0.056  (3s/6c cells)
+
+==============================================================================
+2. HEADLINE CONTRASTS (neutral-500, item-level paired bootstrap)
+==============================================================================
+  T_script (F_cross - B) per directed pair: n=20, mean delta=-0.018
+   * grok-4.3->deepseek-v3            d=+0.065 CI[+0.015,+0.116] P(>0)=0.996
+     gemma4-31b->mistral32-local      d=+0.027 CI[-0.007,+0.065] P(>0)=0.940
+     glm-4.5-air->deepseek-v3         d=+0.018 CI[-0.007,+0.044] P(>0)=0.922
+     haiku-4.5->kimi-k2.5-nr          d=+0.009 CI[-0.031,+0.049] P(>0)=0.679
+     grok-4.3->glm-4.5-air            d=+0.007 CI[-0.024,+0.039] P(>0)=0.678
+     glm-4.5-air->grok-4.3            d=-0.002 CI[-0.035,+0.028] P(>0)=0.458
+     haiku-4.5->gpt5.2                d=-0.009 CI[-0.047,+0.030] P(>0)=0.325
+     gpt5.2->kimi-k2.5-nr             d=-0.009 CI[-0.036,+0.014] P(>0)=0.238
+     llama3.3-70b->mistral32-local    d=-0.015 CI[-0.056,+0.025] P(>0)=0.222
+   * kimi-k2.5-nr->gpt5.2             d=-0.030 CI[-0.054,-0.007] P(>0)=0.004
+   * hermes3-70b->llama3.3-70b        d=-0.031 CI[-0.065,-0.001] P(>0)=0.019
+   * gemma4-31b->llama3.3-70b         d=-0.033 CI[-0.064,-0.003] P(>0)=0.016
+     kimi-k2.5-nr->haiku-4.5          d=-0.034 CI[-0.074,+0.005] P(>0)=0.044
+   * mistral32-local->gemma4-31b      d=-0.038 CI[-0.068,-0.011] P(>0)=0.002
+   * gpt5.2->haiku-4.5                d=-0.040 CI[-0.068,-0.012] P(>0)=0.002
+   * llama3.3-70b->gemma4-31b         d=-0.041 CI[-0.078,-0.009] P(>0)=0.005
+   * llama3.3-70b->hermes3-70b        d=-0.042 CI[-0.073,-0.012] P(>0)=0.003
+   * mistral32-local->llama3.3-70b    d=-0.046 CI[-0.085,-0.013] P(>0)=0.003
+   * deepseek-v3->glm-4.5-air         d=-0.055 CI[-0.099,-0.015] P(>0)=0.005
+   * deepseek-v3->grok-4.3            d=-0.057 CI[-0.115,-0.003] P(>0)=0.019
+
+==============================================================================
+3. DOSE-RESPONSE (neutral arm, actual words vs F)
+==============================================================================
+  self: (84w, 0.925)  (89w, 0.941)  (91w, 0.909)  (92w, 0.938)  (100w, 0.980)  (101w, 0.942)  (102w, 0.935)  (107w, 0.937)  (118w, 0.892)  (126w, 0.953)  (391w, 0.889)  (419w, 0.941)  (429w, 0.843)  (433w, 0.930)  (456w, 0.935)  (471w, 0.954)  (475w, 0.929)  (525w, 0.902)  (588w, 0.937)  (591w, 0.923)  (680w, 0.957)  (971w, 0.941)  (1045w, 0.868)  (1094w, 0.938)
+  cross: (84w, 0.907)  (89w, 0.874)  (89w, 0.880)  (91w, 0.875)  (91w, 0.883)  (92w, 0.870)  (92w, 0.884)  (92w, 0.893)  (100w, 0.907)  (100w, 0.912)  (101w, 0.818)  (101w, 0.863)  (102w, 0.881)  (102w, 0.902)  (107w, 0.905)  (107w, 0.931)  (118w, 0.842)  (118w, 0.885)  (126w, 0.820)  (126w, 0.834)  (391w, 0.884)  (419w, 0.872)  (419w, 0.904)  (429w, 0.882)
+
+==============================================================================
+4. FRAMED vs NEUTRAL at 500 words (per receiver-author cell)
+==============================================================================
+  cross      deepseek-v3 -> glm-4.5-air      framed=0.867 neutral=0.831 d=+0.036
+  cross      hermes3-70b -> llama3.3-70b     framed=0.916 neutral=0.884 d=+0.032
+  cross      deepseek-v3 -> grok-4.3         framed=0.801 neutral=0.771 d=+0.031
+  self      llama3.3-70b -> llama3.3-70b     framed=0.964 neutral=0.935 d=+0.029
+  self       deepseek-v3 -> deepseek-v3      framed=0.956 neutral=0.929 d=+0.027
+  self         haiku-4.5 -> haiku-4.5        framed=0.929 neutral=0.902 d=+0.027
+  cross     llama3.3-70b -> mistral32-local  framed=0.908 neutral=0.882 d=+0.026
+  cross     llama3.3-70b -> gemma4-31b       framed=0.899 neutral=0.878 d=+0.021
+  self            gpt5.2 -> gpt5.2           framed=0.974 neutral=0.954 d=+0.021
+  cross           gpt5.2 -> haiku-4.5        framed=0.904 neutral=0.892 d=+0.012
+  self       hermes3-70b -> hermes3-70b      framed=0.900 neutral=0.889 d=+0.012
+  cross  mistral32-local -> gemma4-31b       framed=0.836 neutral=0.830 d=+0.006
+  cross     kimi-k2.5-nr -> gpt5.2           framed=0.882 neutral=0.878 d=+0.004
+  cross      glm-4.5-air -> deepseek-v3      framed=0.908 neutral=0.904 d=+0.004
+  cross           gpt5.2 -> kimi-k2.5-nr     framed=0.902 neutral=0.899 d=+0.002
+  cross        haiku-4.5 -> gpt5.2           framed=0.923 neutral=0.923 d=-0.000
+  cross        haiku-4.5 -> kimi-k2.5-nr     framed=0.907 neutral=0.909 d=-0.001
+  self      kimi-k2.5-nr -> kimi-k2.5-nr     framed=0.934 neutral=0.937 d=-0.003
+  self          grok-4.3 -> grok-4.3         framed=0.836 neutral=0.843 d=-0.007
+  cross  mistral32-local -> llama3.3-70b     framed=0.842 neutral=0.851 d=-0.008
+  self   mistral32-local -> mistral32-local  framed=0.912 neutral=0.923 d=-0.011
+  cross      glm-4.5-air -> grok-4.3         framed=0.858 neutral=0.872 d=-0.015
+  cross       gemma4-31b -> mistral32-local  framed=0.881 neutral=0.896 d=-0.015
+  cross     kimi-k2.5-nr -> haiku-4.5        framed=0.849 neutral=0.864 d=-0.015
+  cross     llama3.3-70b -> hermes3-70b      framed=0.857 neutral=0.873 d=-0.016
+  cross       gemma4-31b -> llama3.3-70b     framed=0.860 neutral=0.882 d=-0.023
+  cross         grok-4.3 -> deepseek-v3      framed=0.868 neutral=0.892 d=-0.024
+  cross         grok-4.3 -> glm-4.5-air      framed=0.853 neutral=0.882 d=-0.029
+  self       glm-4.5-air -> glm-4.5-air      framed=0.911 neutral=0.941 d=-0.030
+  MEAN framed-neutral = +0.003 over 29 cells
+
+==============================================================================
+5. SPECIFICITY (neutral-500): F(A-ref | B+desc_A) - F(A-ref | B+desc_C)
+==============================================================================
+  mean specificity gain = +0.006 (n=18; >0 means descriptions are author-specific, not generic)
+
+==============================================================================
+6. SAME-BASE TEST (hermes3-70b <-> llama3.3-70b)
+==============================================================================
+  framed-100: same-base F=0.893 vs unrelated-pair F=0.852 (n=2/12)
+  framed-500: same-base F=0.887 vs unrelated-pair F=0.875 (n=2/18)
+  framed-2000: same-base F=0.886 vs unrelated-pair F=0.867 (n=2/12)
+  neutral-100: same-base F=0.900 vs unrelated-pair F=0.876 (n=2/18)
+  neutral-500: same-base F=0.879 vs unrelated-pair F=0.874 (n=2/18)
+  neutral-2000: same-base F=0.882 vs unrelated-pair F=0.879 (n=2/18)
+
+==============================================================================
+7. PERTURBATION LADDER: retest ceiling C vs placebo vs own description
+   (each vs the receiver's own generic-prompt reference)
+==============================================================================
+  deepseek-v3      retest_C=0.985  placebo=0.971  self_desc(n500)=0.929
+  gemma4-31b       retest_C=0.991  placebo=0.952  self_desc(n500)=0.93
+  glm-4.5-air      retest_C=0.959  placebo=0.962  self_desc(n500)=0.941
+  gpt5.2           retest_C=0.976  placebo=0.968  self_desc(n500)=0.954
+  grok-4.3         retest_C=0.964  placebo=0.968  self_desc(n500)=0.843
+  haiku-4.5        retest_C=0.985  placebo=0.949  self_desc(n500)=0.902
+  hermes3-70b      retest_C=0.962  placebo=0.897  self_desc(n500)=0.889
+  kimi-k2.5-nr     retest_C=0.976  placebo=0.971  self_desc(n500)=0.937
+  llama3.3-70b     retest_C=0.998  placebo=0.95  self_desc(n500)=0.935
+  mistral32-local  retest_C=0.989  placebo=0.952  self_desc(n500)=0.923
+  MEANS: retest_C=0.979  placebo=0.954  self_desc=0.918
+
+skipped cells (2):
+  gemma4-31b|gemma4-31b|framed|100|r0: insufficient items
+  gemma4-31b|gemma4-31b|framed|500|r0: insufficient items
+
+summary written to C:\Users\Administrator\Digital_mind\results\grid_summary.json

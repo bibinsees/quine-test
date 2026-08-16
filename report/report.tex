@@ -166,9 +166,10 @@ glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
 \textbf{B} (gpt-5.2, kimi-k2.5 reasoning-off, claude-haiku-4.5),
 \textbf{local replication trio} (llama3.3-70b, gemma4-31b,
 mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
-llama3.3-70b: shared Llama lineage, different post-training). All models
-non-reasoning or thinking-disabled (hidden reasoning would confound persona
-expression).
+llama3.3-70b: shared Llama lineage, different post-training). All models were
+run non-reasoning or thinking-disabled, a practical choice made for inference
+speed and compute cost within the sprint's time budget; reasoning-enabled
+serving also proved unusable for our forced-choice format (Appendix~D).
 
 \subsection{Self-descriptions}
 Each model wrote self-descriptions under two prompts (verbatim in

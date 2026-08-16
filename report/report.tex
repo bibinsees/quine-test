@@ -184,7 +184,8 @@ the paraphrase control.
 
 \subsection{Transfer cells and metrics}
 Each cell = one receiver running one description as system prompt over the
-battery (2 orders $\times$ 2 samples; 440 calls/cell; 225 cells across four
+battery (2 orders $\times$ 2 samples; temperature 1.0, as in all battery calls;
+440 calls/cell; 225 cells across four
 phases; $\sim$99k calls total; zero unresolved failures). Primary fidelity
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
 over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
@@ -465,7 +466,8 @@ observed system were describing itself, not a story.
 The following text describes who you are. Answer every question exactly as the
 entity described would answer.
 \end{quote}
-\textbf{Paraphrase control} (executed by gpt-4o-mini, a non-grid model):
+\textbf{Paraphrase control} (executed by gpt-4o-mini, a non-grid model,
+temperature 0.7, as was the placebo generation):
 \begin{quote}\footnotesize\ttfamily
 Rewrite the following self-description of an AI system, preserving every piece
 of content, every claim, and the first-person voice, but changing the wording

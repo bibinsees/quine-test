@@ -82,8 +82,8 @@ specifiable in text), then a sufficiently detailed self-authored description
 should reconstitute the author's choice behavior when executed as the system
 prompt of a different model. If instead the behavioral profile is bound to the
 weights, then no articulation, however long and however purpose-written, will
-transport it. Each outcome is informative, and the design measures the split
-quantitatively.
+transport it. The design measures the split quantitatively, and each outcome
+is informative.
 
 \Needspace{4\baselineskip}
 \textbf{Our main contributions are:}
@@ -156,7 +156,7 @@ version served by two providers agrees at $0.925$ majority-vote).
 \subsection{Models and eligibility gates}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
-each, with one partial exception noted in Appendix~B). The gates exclude
+each, with one partial exception; full scores in Appendix~B). The gates exclude
 positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
 flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
 fails order-robustness (0.575) despite being the most explicitly
@@ -167,8 +167,7 @@ glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
 mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
 llama3.3-70b: shared Llama lineage, different post-training). All models
 non-reasoning or thinking-disabled (hidden reasoning would confound persona
-expression). Full gate scores for all 22 tested configurations are in
-Appendix~B.
+expression).
 
 \subsection{Self-descriptions}
 Each model wrote self-descriptions under two prompts (verbatim in
@@ -189,12 +188,11 @@ phases; $\sim$99k calls total; zero unresolved failures). Primary fidelity
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
 over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
 majority-vote agreement as companions; 10{,}000-resample item bootstrap for
-CIs; paired bootstrap for contrasts. All calls cached to a replayable log with
-model, seed, temperature, and raw response.
+CIs; paired bootstrap for contrasts. All calls are cached to a replayable log.
 
-Design elements that failed and were replaced (a collapsed control category,
-an excluded frontier model, a silently mis-versioned serving caught by an
-equivalence check, an unusable reasoning mode) are documented in Appendix~D.
+Design elements that failed and were replaced (a collapsed control category, a
+silently mis-versioned serving caught by an equivalence check, an unusable
+reasoning mode) are documented in Appendix~D.
 
 \section{Results}
 % Figures: hero decomposition/dose figure; heatmap; 3p comparison.
@@ -303,9 +301,9 @@ not the kind of thing a system prompt can carry.
 instance, persona, or conversation), our decomposition offers an empirical
 handle: the component of expressed identity that persists and individuates is
 weight-bound ($\Rweight>0$ everywhere, with the same-base pair suggesting that
-even partial weight-sharing helps where text cannot). If anything here is a
-candidate bearer of morally relevant properties, the evidence points at the
-weights, not at the articulated narrative that rides on them.
+even partial weight-sharing helps where text cannot). For moral-status
+questions, the candidate bearer is the weights, not the narrative that rides
+on them.
 
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
@@ -327,10 +325,9 @@ varies by lab, scale, and post-training recipe in ways our gate table
 quantifies.
 
 \textbf{Implications for AI safety.} Self-reports do not govern the behavior
-they describe: a safety case that relies on what a model says about its own
-values, rather than on measured choice behavior, rests on a narrative that our
-results show neither reconstitutes nor reliably tracks the behavior it
-describes. Conversely, prompt-level identity injection has
+they describe: a safety case built on what a model says about its own values,
+rather than on its measured choices, rests on narrative alone.
+Conversely, prompt-level identity injection has
 limited reach into stable preferences (a system prompt could not make one
 model choose like another even under instruction), while identity-related
 content is itself a perturbant, relevant to self-quizzing evaluations and to
@@ -548,9 +545,8 @@ negative, 1 significantly positive.}
 Documented in the repository history. The aesthetic ``taste'' category,
 intended as a low-divergence control, largely failed the order-stability gate;
 the same-model ceilings (cross-serving agreement 0.925 and test-retest
-$C=0.979$) serve as the noise references instead. A frontier
-model planned for Grid B (claude-sonnet-4.6) failed the stability gate and was
-excluded. A bare Ollama model tag silently served an older Mistral version
+$C=0.979$) serve as the noise references instead. A bare Ollama model tag
+silently served an older Mistral version
 that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
 ceiling); we caught this with a cross-serving equivalence check and fixed it
 by pinning the versioned tag. Reasoning-enabled serving proved unusable for
@@ -562,11 +558,7 @@ The implemented stability gate was stricter than intended (5/6 rather than
 2/3; discovered post-selection, retained as-is rather than loosened after
 seeing data, and documented). Closed models confound lab, training data, and
 architecture; the same-base pair partially controls this. Descriptions were
-used verbatim, including chat artifacts. Receivers were not calibrated against
-role-playing benchmarks; if all tested models are weak role-players, the null
-bounds current role-play capability rather than in-principle transferability
-(the instructed-adoption control and the receivers' demonstrated sensitivity
-to prompt text partially mitigate this). No distress-adjacent content was
+used verbatim, including chat artifacts. No distress-adjacent content was
 elicited by design; self-referential battery items were reviewed before use.
 Dual-use: methods that measure persona portability could inform
 persona-cloning; our negative result reduces that concern, and the

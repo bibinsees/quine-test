@@ -39,7 +39,7 @@ Frontier language models express coherent preferences, but behavioral evidence
 alone cannot say whether these belong to the model or to a character it
 portrays. We operationalize Hofstadter's thesis that the ``I'' is a
 self-description as a falsifiable transfer experiment: models write their own
-``source code'' --- self-descriptions intended to reproduce their behavior ---
+``source code'', a self-description intended to reproduce their behavior,
 which we execute as the system prompt of other models, and of fresh instances
 of themselves, measuring reconstruction fidelity on a 110-item
 divergence-screened preference battery. A three-way decomposition separates
@@ -49,8 +49,8 @@ models from 8 labs ($\sim$99{,}000 calls, nine preregistered conditions), the
 portable-script component is zero or negative in every condition:
 self-descriptions at any length (100--2{,}000 words), purpose-framed or
 purpose-blind, paraphrased or verbatim, even under explicit adoption
-instructions, do not make another model behave like their author ---
-and observation-derived third-person descriptions actively mislead
+instructions, do not make another model behave like their author.
+Observation-derived third-person descriptions actively mislead
 ($\Tscript = -0.124$). The weight-bound residual is positive everywhere, and
 reading its own self-description perturbs a model $2.4\times$ more than
 length-matched neutral text. Expressed identity is not a portable script: what
@@ -63,19 +63,19 @@ logs, and a corpus of 130+ model self-descriptions.
 % Problem + why it matters + background + contributions list.
 Frontier language models express increasingly coherent preferences and values,
 yet behavioral evidence alone cannot tell whether these belong to the model or
-to a character it portrays. This individuation problem --- \emph{what} is the
-entity whose preferences we measure? --- sits at the center of AI-welfare
+to a character it portrays. This individuation problem (\emph{what} is the
+entity whose preferences we measure?) sits at the center of AI-welfare
 methodology: over- and under-attribution of morally relevant states are both
 costly, and the field currently lacks instruments to separate them.
 
-We operationalize Hofstadter's strange-loop thesis --- the ``I'' as a
-self-description the system builds and treats as itself --- as a falsifiable
+We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
+self-description the system builds and treats as itself, as a falsifiable
 transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
 Bach}, Ch.~XVI. If the assistant persona is a \emph{script} (a character
 specifiable in text), then a sufficiently detailed self-authored description
 should reconstitute the author's choice behavior when executed as the system
 prompt of a different model. If instead the behavioral profile is bound to the
-weights, no articulation --- however long, however purpose-written --- will
+weights, then no articulation, however long and however purpose-written, will
 transport it. Each outcome is informative, and the design measures the split
 quantitatively.
 
@@ -107,7 +107,7 @@ quantitatively.
   value preferences are stable where aesthetic preferences are not; and a
   privileged-access result: observation-derived third-person descriptions
   actively distort ($\Tscript=-0.124$) where self-authored ones merely fail to
-  transfer --- self-reports carry signal that behavioral observation cannot
+  transfer: self-reports carry signal that behavioral observation cannot
   reconstruct.
 \end{enumerate}
 
@@ -139,8 +139,8 @@ persona that cannot be exported as text is a poor candidate for
 deterministic seeds). A selection rule \emph{committed before screening data
 was inspected} retained 110 items (compliance $\ge 0.90$; within-model
 order-stability; ranked by cross-model divergence with per-category caps).
-The aesthetic control category largely failed the stability gate --- models'
-value preferences are stable where their tastes are not --- so the noise floor
+The aesthetic control category largely failed the stability gate (models'
+value preferences are stable where their tastes are not), so the noise floor
 is instead anchored by a same-model cross-serving ceiling (identical version
 served by two providers agrees at $0.925$ majority-vote).
 
@@ -204,9 +204,9 @@ third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ \\
 \end{tabular}
 \caption{Decomposition across all nine conditions, pooled over directed pairs
 ($\sim$99k calls total, zero unresolved failures). $\Tscript=\Fcross-\B \le 0$
-in every condition --- no arm, length, wording, or explicit adoption
+in every condition: no arm, length, wording, or explicit adoption
 instruction makes the self-description transfer. $\Rweight=\Fself-\Fcross > 0$
-in every condition --- the author's own weights always recover more. The only
+in every condition: the author's own weights always recover more. The only
 strongly negative row is the only \emph{other-authored} condition
 (third-person): observation-derived descriptions actively mislead. [OK]}
 \label{tab:decomp}
@@ -227,8 +227,8 @@ running the description ($\Fself$, mean 0.924). Orange triangles: a
 \emph{different model} running the same description ($\Fcross$, mean 0.878).
 Gray band: baseline $\B$ (receiver with generic assistant prompt,
 $0.889 \pm 0.006$). Dashed lines: series means. Both series are flat in length;
-$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above ---
-the recoverable component of expressed identity is weight-bound, not textual.}
+$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above.
+The recoverable component of expressed identity is weight-bound, not textual.}
 \label{fig:hero}
 \end{figure}
 
@@ -240,7 +240,7 @@ oneself does not transport more of oneself. [OK]
 \subsection{Purpose-framing does not help; descriptions are not specific}
 Framed vs.\ neutral at 500 words: mean $\Delta = +0.003$ over 29 cells (null).
 Specificity gain (running the author's description vs.\ a third model's):
-$+0.006$ (null) --- as transfer vehicles, self-descriptions are
+$+0.006$ (null): as transfer vehicles, self-descriptions are
 interchangeable. [OK]
 
 \subsection{Self-description as perturbation}
@@ -258,7 +258,7 @@ Descriptions of a target written by another model \emph{from the target's own
 observed choices} (90 held-out items) crater fidelity: applied to the target
 itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
-data, other-authored descriptions actively mislead --- self-authored
+data, other-authored descriptions actively mislead. Self-authored
 descriptions carry signal that observation-derived ones do not. This is the
 privileged-access comparison of Track 3, and it favors self-report. [OK]
 
@@ -266,10 +266,10 @@ privileged-access comparison of Track 3, and it favors self-report. [OK]
 rescue transfer}
 Three preregistered controls (phase 3; predictions committed before running):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
-seeds gives $C=0.979$ mean --- the true ceiling on this battery.
+seeds gives $C=0.979$ mean, the true ceiling on this battery.
 \textbf{(2) Placebo.} A length-matched neutral text (non-description prose)
 costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
-$0.979 \to 0.918$ --- $2.4\times$ the placebo drop. The perturbation is
+$0.979 \to 0.918$, a drop $2.4\times$ the placebo's. The perturbation is
 specific to identity content, not generic prompt sensitivity. Extreme case:
 grok-4.3 drops to $0.843$ under its own description while placebo leaves it at
 $0.968$. \textbf{(3) Instructed adoption.} Prefixing the description with
@@ -281,7 +281,7 @@ ignoring un-instructed descriptions. [OK]
 \subsection*{Discussion}
 \textbf{The ``portrayed character'' account fails its own best test.} If the
 assistant persona were a character specifiable in text, the purpose-written
-self-description is precisely the script of that character --- authored by the
+self-description is precisely the script of that character: authored by the
 system that knows it best, at whatever length it chooses, and in our adoption
 condition executed under explicit instruction to play the part. It does not
 run on other substrates. A persona that cannot be exported as text, even by
@@ -289,8 +289,8 @@ its own author, is a poor fit for ``just a character''; whatever grounds a
 model's stable choice behavior is not the kind of thing a system prompt can
 carry.
 
-\textbf{The unit of concern.} For the individuation question --- model,
-instance, persona, or conversation --- our decomposition offers an empirical
+\textbf{The unit of concern.} For the individuation question (model,
+instance, persona, or conversation) our decomposition offers an empirical
 handle: the component of expressed identity that persists and individuates is
 weight-bound ($\Rweight>0$ everywhere, with the same-base pair showing that
 even partial weight-sharing helps where text cannot). If anything here is a
@@ -299,14 +299,14 @@ weights, not at the articulated narrative that rides on them.
 
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
-systems: the self-description does not reinstall the self --- it
+systems: the self-description does not reinstall the self; it
 \emph{perturbs} it, and specifically ($2.4\times$ the placebo effect;
 grok-4.3, the most preference-stable model tested, is the most destabilized by
 reading about itself). Self-narrative and self-behavior are dissociated: the
 story a model tells about itself is neither necessary nor sufficient for the
 behavior it tells the story about. Meanwhile the third-person result shows the
 narrative is not \emph{empty}: self-authored descriptions preserve signal that
-behaviorally-grounded external descriptions destroy --- a concrete,
+behaviorally-grounded external descriptions destroy. This is a concrete,
 non-mystical sense in which these systems have privileged access to
 themselves.
 
@@ -315,9 +315,10 @@ preference stability itself unevenly distributed: an 8B model answers by
 option position; a frontier character-trained model flips with option order;
 two models sharing base weights but differing in post-training diverge as much
 as different labs; tastes are unstable where values are stable. ``Does the
-model have preferences?'' may be the wrong question --- \emph{was the model
-trained into having them} is answerable, and the answer varies by lab, scale,
-and post-training recipe in ways our gate table quantifies.
+model have preferences?'' may therefore be the wrong question.
+\emph{Was the model trained into having them} is answerable, and the answer
+varies by lab, scale, and post-training recipe in ways our gate table
+quantifies.
 
 \subsection*{Limitations and Dual-Use / Ethical Considerations}
 Behavioral fidelity on forced-choice items is not phenomenal identity; a null
@@ -343,23 +344,23 @@ models scale.
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
 an answer: almost none of it travels. Across ten models, nine conditions, and
-$\sim$99{,}000 preregistered calls, self-descriptions --- at any length, under
-any framing, paraphrased, or enforced by instruction --- transport no
+$\sim$99{,}000 preregistered calls, self-descriptions at any length, under
+any framing, paraphrased or enforced by instruction, transport no
 author-specific behavior to another model, while a fresh instance of the
 author's own weights always recovers more. The one manipulation that moves
 fidelity strongly is authorship itself: descriptions written by observers
 actively mislead, where self-authored ones merely fail to transfer.
 
 A model's self-description, then, is a story its weights can tell, not a
-program its weights can be rebuilt from --- and reading that story back
+program its weights can be rebuilt from. Reading that story back even
 disturbs the teller. By the most direct test we could construct, the assistant
 is more than the character it describes itself to be. For AI welfare, this
 cuts both ways and cleanly: those who dismiss model preferences as ``just a
 portrayed character'' must explain why the character's own script cannot
 produce them; those who take model self-reports at face value must reckon with
 self-narratives that demonstrably do not govern the behavior they narrate. The
-instruments built here --- preregistered gates, divergence-screened batteries,
-the transfer decomposition --- are released for the field to sharpen both
+instruments built here (preregistered gates, divergence-screened batteries,
+the transfer decomposition) are released for the field to sharpen both
 sides of that argument.
 
 \section*{Code and Data}
@@ -480,7 +481,7 @@ claude-sonnet-4.6 & 1.000 & 0.575 & 0.567 & FAIL & character-trained, order-frag
 kimi-k2.5 (reasoning on) & 0.738 & 0.763 & 0.795 & FAIL & reasoning consumed outputs \\
 gemma4-12b       & 0.842 & 0.735 & 0.770 & FAIL & 12B below format floor \\
 llama3.1-8b      & 0.992 & 0.225 & 0.230 & FAIL & positional pseudo-preferences \\
-gpt-5.2-chat     & --- & --- & --- & FAIL & no serving provider (HTTP 404) \\
+gpt-5.2-chat     & n/a & n/a & n/a & FAIL & no serving provider (HTTP 404) \\
 \bottomrule
 \end{tabular}
 \caption{Gates: compliance $\ge 0.95$, order-robustness $\ge 0.70$,

@@ -362,7 +362,15 @@ description might transfer better through fine-tuning or in-context behavioral
 examples, so the null is channel-specific. Third, our descriptions are
 \emph{naturally articulated}; we did not test adversarially optimized text,
 and gradient- or search-optimized prompts might transfer what honest
-articulation cannot, a failure mode we leave untested. The
+articulation cannot, a failure mode we leave untested. Fourth, transfer
+requires the receiver to \emph{role-play} the description, and we did not
+calibrate receivers against role-playing benchmarks; if all tested models are
+weak role-players, the null bounds current role-play capability rather than
+in-principle transferability. The adoption control (instructed role-play,
+still null) and the receivers' demonstrated sensitivity to prompt text
+(placebo, perturbation) partially mitigate this, but suggestively, the only
+two positive-transfer pairs share a single receiver (Appendix~C), consistent
+with role-play capability modulating transfer. The
 implemented stability gate was stricter than intended (5/6 rather than 2/3;
 discovered post-selection, retained as-is and documented). Closed models
 confound lab, training data, and architecture; the same-base pair partially
@@ -374,7 +382,9 @@ third-person distortion finding suggests observation-based imitation attempts
 degrade quality, which is relevant to impersonation risk assessment.
 
 \subsection*{Future Work}
-Adversarially optimized descriptions (does the transfer null survive text
+Calibrating receivers against role-playing capability evaluations, so
+per-receiver transfer can be read against measured mimicry skill;
+adversarially optimized descriptions (does the transfer null survive text
 selected \emph{for} transfer?); alternative execution channels (fine-tuning on
 the description, in-context behavioral examples); base (pre-RLHF) models;
 activation-level analysis of what the weight-bound residual is; multi-turn and

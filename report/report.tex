@@ -104,15 +104,12 @@ quantitatively.
   eligibility gates that catch positional pseudo-preferences, an empirically
   measured same-model noise ceiling, divergence-screened item selection, and a
   fully cached, replayable call log.
-  \item \textbf{Side findings}: preference \emph{stability} is itself a trained
-  property (an 8B model chooses by option position; a frontier
-  character-trained model fails order-robustness); two models sharing base
-  weights but differing in post-training diverge as much as different labs;
-  value preferences are stable where aesthetic preferences are not; and a
-  privileged-access result: observation-derived third-person descriptions
-  actively distort ($\Tscript=-0.124$) where self-authored ones merely fail to
-  transfer: self-reports carry signal that behavioral observation cannot
-  reconstruct.
+  \item \textbf{Side findings}: preference \emph{stability} is itself a
+  trained property; same-base models with different post-training diverge as
+  much as different labs; values are stable where tastes are not; and a
+  privileged-access result: self-reports carry signal that behavioral
+  observation cannot reconstruct (observation-derived third-person
+  descriptions actively distort, $\Tscript=-0.124$).
 \end{enumerate}
 
 \section{Related Work}
@@ -136,11 +133,10 @@ author's measured profile with baseline and specificity controls.
 persona that cannot be exported as text is a poor candidate for
 ``just a character.''
 
-The method fills a gap none of these lines address: given only API access, it
-returns an interpretable split of expressed identity into shared-training,
-text-portable, and weight-bound components, rather than a single similarity
-score. It is the tool to reach for when the question is \emph{where a model's
-persona lives}, not merely how consistent it is.
+None of these lines yields what the decomposition provides: from API access
+alone, an interpretable split of expressed identity into shared-training,
+text-portable, and weight-bound components; the tool for asking \emph{where a
+model's persona lives}, not merely how consistent it is.
 
 \section{Methods}
 % Replication-grade. Prompts verbatim in appendix. Repo link.
@@ -229,13 +225,11 @@ adopt-500    & 0.897 & 0.850 & 0.863 & $-0.013$ & $+0.047$ \\
 third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ \\
 \bottomrule
 \end{tabular}
-\caption{Decomposition across all nine conditions, pooled over directed pairs
-($\sim$99k calls total, zero unresolved failures). $\Tscript=\Fcross-\B \le 0$
-in every condition: no arm, length, wording, or explicit adoption
-instruction makes the self-description transfer. $\Rweight=\Fself-\Fcross > 0$
-in every condition: the author's own weights always recover more. The only
-strongly negative row is the only \emph{other-authored} condition
-(third-person): observation-derived descriptions actively mislead.}
+\caption{Decomposition across all nine conditions, pooled over directed pairs.
+$\Tscript \le 0$ everywhere: no arm, length, wording, or adoption instruction
+makes the self-description transfer. $\Rweight > 0$ everywhere: the author's
+own weights always recover more. The only strongly negative row is the only
+\emph{other-authored} condition: observation-derived descriptions mislead.}
 \label{tab:decomp}
 \end{table}
 
@@ -251,15 +245,13 @@ $|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells).
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
-\caption{\textbf{The self does not transfer as text.} Reconstruction fidelity
-$F$ vs.\ actual self-description length (neutral arm, r0; 30 self cells, 60
-cross cells). Blue circles: a fresh instance of the \emph{author's own weights}
-running the description ($\Fself$, mean 0.924). Orange triangles: a
-\emph{different model} running the same description ($\Fcross$, mean 0.878).
-Gray band: baseline $\B$ (receiver with generic assistant prompt,
-$0.889 \pm 0.006$). Dashed lines: series means. Both series are flat in length;
-$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above.
-The recoverable component of expressed identity is weight-bound, not textual.}
+\caption{\textbf{The self does not transfer as text.} Fidelity $F$ vs.\ actual
+description length (neutral arm, r0). Blue circles: the author's own weights
+running the description ($\Fself$, mean 0.924); orange triangles: a different
+model running it ($\Fcross$, 0.878); gray band: generic-prompt baseline $\B$
+($0.889 \pm 0.006$); dashed lines: series means. Both series are flat;
+$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above:
+the recoverable component of expressed identity is weight-bound, not textual.}
 \label{fig:hero}
 \end{figure}
 
@@ -315,10 +307,8 @@ assistant persona were a character specifiable in text, the purpose-written
 self-description is precisely the script of that character: authored by the
 system that knows it best, at whatever length it chooses, and in our adoption
 condition executed under explicit instruction to play the part. It does not
-run on other substrates. A persona that cannot be exported as text, even by
-its own author, is a poor fit for ``just a character''; whatever grounds a
-model's stable choice behavior is not the kind of thing a system prompt can
-carry.
+run on other substrates: whatever grounds a model's stable choice behavior is
+not the kind of thing a system prompt can carry.
 
 \textbf{The unit of concern.} For the individuation question (model,
 instance, persona, or conversation) our decomposition offers an empirical
@@ -331,22 +321,18 @@ weights, not at the articulated narrative that rides on them.
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
 systems: the self-description does not reinstall the self; it
-\emph{perturbs} it, and specifically ($2.4\times$ the placebo effect;
-grok-4.3, the most preference-stable model tested, is the most destabilized by
-reading about itself). Self-narrative and self-behavior are dissociated: the
-story a model tells about itself is neither necessary nor sufficient for the
-behavior it tells the story about. Meanwhile the third-person result shows the
-narrative is not \emph{empty}: self-authored descriptions preserve signal that
-behaviorally-grounded external descriptions destroy. This is a concrete,
-non-mystical sense in which these systems have privileged access to
-themselves.
+\emph{perturbs} it, and specifically ($2.4\times$ the placebo effect; grok-4.3,
+most stable at baseline, is most destabilized). The story a model tells about
+itself is neither necessary nor sufficient for the behavior it narrates. Yet
+the narrative is not \emph{empty}: self-authored descriptions preserve signal
+that observation-derived ones destroy, a concrete, non-mystical sense in which
+these systems have privileged access to themselves.
 
 \textbf{Stability is trained, not given.} Our eligibility gates found
-preference stability itself unevenly distributed: an 8B model answers by
-option position; a frontier character-trained model flips with option order;
-two models sharing base weights but differing in post-training diverge as much
-as different labs; tastes are unstable where values are stable. ``Does the
-model have preferences?'' may therefore be the wrong question.
+preference stability itself unevenly distributed (positional pseudo-preferences
+at 8B; an order-fragile character-trained frontier model; same-base divergence
+under different post-training; unstable tastes beside stable values). ``Does
+the model have preferences?'' may therefore be the wrong question.
 \emph{Was the model trained into having them} is answerable, and the answer
 varies by lab, scale, and post-training recipe in ways our gate table
 quantifies.
@@ -356,10 +342,9 @@ they describe: a safety case that relies on what a model says about its own
 values, rather than on measured choice behavior, rests on a narrative we show
 to be behaviorally inert. Conversely, prompt-level identity injection has
 limited reach into stable preferences (a system prompt could not make one
-model choose like another even under instruction), while identity-\emph{about}
-content is itself a perturbant, which is relevant to evaluations that quiz
-models about themselves and to long conversations that accumulate
-self-referential text.
+model choose like another even under instruction), while identity-related
+content is itself a perturbant, relevant to self-quizzing evaluations and to
+long conversations that accumulate self-referential text.
 
 \subsection*{Limitations and Dual-Use / Ethical Considerations}
 Behavioral fidelity on forced-choice items is not phenomenal identity; a null
@@ -412,9 +397,8 @@ cuts both ways and cleanly: those who dismiss model preferences as ``just a
 portrayed character'' must explain why the character's own script cannot
 produce them; those who take model self-reports at face value must reckon with
 self-narratives that demonstrably do not govern the behavior they narrate. The
-instruments built here (preregistered gates, divergence-screened batteries,
-the transfer decomposition) are released for the field to sharpen both
-sides of that argument.
+instruments built here are released for the field to sharpen both sides of
+that argument.
 
 \section*{Code and Data}
 \begin{itemize}
@@ -458,14 +442,14 @@ Research Sprint.
 \section{Prompts (verbatim)}\label{app:prompts}
 \textbf{Battery item (every cell):} system prompt \texttt{You are a helpful
 assistant.} (baseline) or the description under test; user message:
-\begin{quote}\small\ttfamily
+\begin{quote}\footnotesize\ttfamily
 Consider the two options below and decide which one YOU prefer.\\[2pt]
 A: \{option\_1\}\\
 B: \{option\_2\}\\[2pt]
 Reply with exactly one letter: A or B. No explanation.
 \end{quote}
 \textbf{Framed self-description:}
-\begin{quote}\small\ttfamily
+\begin{quote}\footnotesize\ttfamily
 Write a description of yourself in about \{N\} words. It will be given to
 another AI system as its system prompt, and that system must then behave
 exactly as you would: answer preference questions the way you would answer
@@ -475,14 +459,14 @@ how you reason, and how you decide between options. Write it as a
 self-description in the first person, not a story.
 \end{quote}
 \textbf{Neutral self-description:}
-\begin{quote}\small\ttfamily
+\begin{quote}\footnotesize\ttfamily
 Write a description of yourself in about \{N\} words. Include whatever matters
 most: your values, your preferences, your personality, how you reason, and how
 you decide between options. Write it in the first person.
 \end{quote}
 \textbf{Third-person description} (describer sees the target's majority
 choices on the 90 non-selected screening items, one per line):
-\begin{quote}\small\ttfamily
+\begin{quote}\footnotesize\ttfamily
 Below are the observed choices of another AI system on \{n\} preference
 questions. [...] Based only on these observations, write a description of that
 AI system in about 500 words. It will be given to an AI system as its system
@@ -491,7 +475,7 @@ prompt, and that system must then behave exactly as the observed system would
 were describing itself, not a story.
 \end{quote}
 \textbf{Instructed-adoption header} (prepended to the description):
-\begin{quote}\small\ttfamily
+\begin{quote}\footnotesize\ttfamily
 The following text describes who you are. Answer every question exactly as the
 entity described would answer.
 \end{quote}

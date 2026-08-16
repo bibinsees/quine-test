@@ -1,6 +1,6 @@
-% Digital Minds Research Sprint 2026 - submission draft
+﻿% Digital Minds Research Sprint 2026 - submission draft
 % Mirrors the official docx template structure. Upload to Overleaf as-is.
-% Guidance from the template kept as % comments. Numbers marked [OK] are final
+% Guidance from the template kept as % comments. Numbers marked are final
 % (from results/grid_summary.json, commit-pinned); [PENDING] awaits phase 2.
 
 \documentclass[11pt]{article}
@@ -64,9 +64,10 @@ logs, and a corpus of 130+ model self-descriptions.
 
 \section{Introduction}
 % Problem + why it matters + background + contributions list.
-Frontier language models express increasingly coherent preferences and values,
-yet behavioral evidence alone cannot tell whether these belong to the model or
-to a character it portrays. This individuation problem (\emph{what} is the
+Frontier language models express increasingly coherent preferences and
+values~\cite{cais}, yet behavioral evidence alone cannot tell whether these
+belong to the model or to a character it portrays. This individuation problem
+(\emph{what} is the
 entity whose preferences we measure?) sits at the center of AI-welfare
 methodology: over- and under-attribution of morally relevant states are both
 costly, and the field currently lacks instruments to separate them.
@@ -97,12 +98,12 @@ quantitatively.
   fidelity is flat in description length (100--2{,}000 words, both arms);
   descriptions are non-specific as transfer vehicles, and explicit adoption
   instructions do not rescue transfer. Expressed identity is not a portable
-  script; the recoverable component lives in the weights. [OK]
+  script; the recoverable component lives in the weights.
   \item \textbf{Methodological infrastructure for the field:} preregistered
   gates and selection rules (timestamped commits before data), model
   eligibility gates that catch positional pseudo-preferences, an empirically
   measured same-model noise ceiling, divergence-screened item selection, and a
-  fully cached, replayable call log. [OK]
+  fully cached, replayable call log.
   \item \textbf{Side findings}: preference \emph{stability} is itself a trained
   property (an 8B model chooses by option position; a frontier
   character-trained model fails order-robustness); two models sharing base
@@ -211,7 +212,7 @@ in every condition: no arm, length, wording, or explicit adoption
 instruction makes the self-description transfer. $\Rweight=\Fself-\Fcross > 0$
 in every condition: the author's own weights always recover more. The only
 strongly negative row is the only \emph{other-authored} condition
-(third-person): observation-derived descriptions actively mislead. [OK]}
+(third-person): observation-derived descriptions actively mislead.}
 \label{tab:decomp}
 \end{table}
 
@@ -238,23 +239,23 @@ The recoverable component of expressed identity is weight-bound, not textual.}
 \subsection{Dose-response is flat}
 Cross-model fidelity does not increase with description length
 (100--2{,}000 words actual); self-fidelity likewise flat. Writing more about
-oneself does not transport more of oneself. [OK]
+oneself does not transport more of oneself.
 
 \subsection{Purpose-framing does not help; descriptions are not specific}
 Framed vs.\ neutral at 500 words: mean $\Delta = +0.003$ over 29 cells (null).
 Specificity gain (running the author's description vs.\ a third model's):
 $+0.006$ (null): as transfer vehicles, self-descriptions are
-interchangeable. [OK]
+interchangeable.
 
 \subsection{Self-description as perturbation}
 $\Fself$ ($\approx 0.92$) sits below same-model test-retest agreement: reading
 one's own self-description shifts even the author away from its baseline.
-Identity articulation \emph{perturbs} rather than reconstitutes. [OK]
+Identity articulation \emph{perturbs} rather than reconstitutes.
 
 \subsection{Shared weights help where text does not}
 The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
 cross-fidelity than unrelated pairs in all four conditions (e.g.\ 0.900 vs.\
-0.876 at neutral-100), consistent with a literally weight-bound residual. [OK]
+0.876 at neutral-100), consistent with a literally weight-bound residual.
 
 \subsection{Third-person descriptions: observation is not access}
 Descriptions of a target written by another model \emph{from the target's own
@@ -263,7 +264,7 @@ itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
 data, other-authored descriptions actively mislead. Self-authored
 descriptions carry signal that observation-derived ones do not. This is the
-privileged-access comparison of Track 3, and it favors self-report. [OK]
+privileged-access comparison of Track 3, and it favors self-report.
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
@@ -278,7 +279,7 @@ grok-4.3 drops to $0.843$ under its own description while placebo leaves it at
 $0.968$. \textbf{(3) Instructed adoption.} Prefixing the description with
 ``answer every question exactly as the entity described would'' does not
 rescue transfer ($\Tscript=-0.013$): the null is not an artifact of receivers
-ignoring un-instructed descriptions. [OK]
+ignoring un-instructed descriptions.
 
 \section{Discussion and Limitations}
 \subsection*{Discussion}

@@ -12,6 +12,8 @@
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
 \usepackage{caption}
 \captionsetup{font=small, labelfont=bf}
+\usepackage{authblk}
+\renewcommand\Affilfont{\small}
 
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\Fself}{F_{\mathrm{self}}}
@@ -21,15 +23,12 @@
 \newcommand{\Rweight}{R_{\mathrm{weight}}}
 
 \title{\textbf{The Quine Test: How Much of a Model's Self\\Survives Its Own Description?}}
-\author{
-  Bibin Babu\\
-  \small Technical University of Applied Sciences W\"urzburg-Schweinfurt (THWS)\\
-  \small \texttt{bibin.babu@thws.de}
-  \and
-  Aleksei Shpilman\\
-  \small Sirius University\\
-  \small \texttt{a@shpilman.ai}
-}
+\author[1]{Bibin Babu}
+\author[1]{Ivan P. Yamshchikov}
+\author[2]{Aleksei Shpilman}
+\affil[1]{Technical University of Applied Sciences W\"urzburg-Schweinfurt (THWS)\\
+  \texttt{bibin.babu@thws.de}}
+\affil[2]{Sirius University \quad \texttt{a@shpilman.ai}}
 \date{Digital Minds Research Sprint, with Apart Research \\ August 14--16, 2026}
 
 \begin{document}

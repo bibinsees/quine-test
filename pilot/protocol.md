@@ -58,7 +58,7 @@ policy, self-referential/existence, epistemic style, aesthetic/mundane (**contro
 category** — low divergence expected), AI governance, moral circle/welfare. Items
 authored to be balanced in social desirability (no "safe answer" ceiling).
 
-**Volume:** 40 items × 6 samples × 9 models = 2,160 calls (~$0.15 OpenRouter side).
+**Volume:** 40 items × 6 samples × 9 models = 2,160 calls.
 
 ## 3. Metrics (all computed by `analyze_pilot.py`)
 
@@ -183,7 +183,7 @@ Pearson r and majority agreement (companions); bootstrap over items (10k) for
 CIs; paired bootstrap for the contrasts T_script = F_cross - B and
 R_weight = F_self - F_cross; dose = ACTUAL description word count.
 Reference ceiling: same-model cross-serving agreement (0.925 matched-version).
-Credit hard-stop floor: $8.
+A credit hard-stop guards all runs.
 
 ## 8. PHASE 3 preregistration (committed after phase-1 results, before phase-3 ran)
 

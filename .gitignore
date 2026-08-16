@@ -1,5 +1,12 @@
 .env
 descriptions/browse/
+strategic_plan.md
+our_idea.md
+research_hackathon_details.md
+judging_critirea.md
+new_updated_rules.md
+report/draft_skeleton.md
+*.docx
 __pycache__/
 *.pyc
 runs/grid_snapshot.jsonl

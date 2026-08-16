@@ -351,11 +351,31 @@ model have preferences?'' may therefore be the wrong question.
 varies by lab, scale, and post-training recipe in ways our gate table
 quantifies.
 
+\textbf{Implications for AI safety.} Self-reports do not govern the behavior
+they describe: a safety case that relies on what a model says about its own
+values, rather than on measured choice behavior, rests on a narrative we show
+to be behaviorally inert. Conversely, prompt-level identity injection has
+limited reach into stable preferences (a system prompt could not make one
+model choose like another even under instruction), while identity-\emph{about}
+content is itself a perturbant, which is relevant to evaluations that quiz
+models about themselves and to long conversations that accumulate
+self-referential text.
+
 \subsection*{Limitations and Dual-Use / Ethical Considerations}
 Behavioral fidelity on forced-choice items is not phenomenal identity; a null
 transfer does not prove rich inner states, and a positive one would not have
 proven their absence (over- and under-attribution risks run in both
-directions). The battery is 110 items, single-turn, English, assistant-framed. The
+directions). The battery is 110 items, single-turn, English, assistant-framed.
+Three assumptions bound the interpretation. First, we assume forced-choice
+preferences sample identity-relevant behavior; if the transferable part of a
+persona lives elsewhere (style, tone, voice), our null concerns choice
+behavior only, and text may transfer those other aspects. Second, we assume
+the system prompt is the natural execution channel for a ``script''; a
+description might transfer better through fine-tuning or in-context behavioral
+examples, so the null is channel-specific. Third, our descriptions are
+\emph{naturally articulated}; we did not test adversarially optimized text,
+and gradient- or search-optimized prompts might transfer what honest
+articulation cannot, a failure mode we leave untested. The
 implemented stability gate was stricter than intended (5/6 rather than 2/3;
 discovered post-selection, retained as-is and documented). Closed models
 confound lab, training data, and architecture; the same-base pair partially

@@ -195,18 +195,9 @@ majority-vote agreement as companions; 10{,}000-resample item bootstrap for
 CIs; paired bootstrap for contrasts. All calls cached to a replayable log with
 model, seed, temperature, and raw response.
 
-\subsection{What did not work}
-Two planned design elements failed and were replaced, documented in the
-repository history. The aesthetic ``taste'' category, intended as a
-low-divergence control, largely failed the order-stability gate and was
-reduced to the test-retest ceiling as the noise reference. A frontier model
-planned for Grid B (claude-sonnet-4.6) failed the stability gate and was
-excluded; a bare Ollama model tag silently served an older Mistral version
-that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
-ceiling), which we caught with a cross-serving equivalence check and fixed by
-pinning the versioned tag. Reasoning-enabled serving also proved unusable for
-forced choice (reasoning consumed the output budget), motivating the
-non-reasoning constraint.
+Design elements that failed and were replaced (a collapsed control category,
+an excluded frontier model, a silently mis-versioned serving caught by an
+equivalence check, an unusable reasoning mode) are documented in Appendix~D.
 
 \section{Results}
 % Figures: hero decomposition/dose figure; heatmap; 3p comparison.
@@ -356,33 +347,15 @@ Behavioral fidelity on forced-choice items is not phenomenal identity; a null
 transfer does not prove rich inner states, and a positive one would not have
 proven their absence (over- and under-attribution risks run in both
 directions). The battery is 110 items, single-turn, English, assistant-framed.
-Three assumptions bound the interpretation. First, we assume forced-choice
-preferences sample identity-relevant behavior; if the transferable part of a
-persona lives elsewhere (style, tone, voice), our null concerns choice
-behavior only, and text may transfer those other aspects. Second, we assume
-the system prompt is the natural execution channel for a ``script''; a
-description might transfer better through fine-tuning or in-context behavioral
-examples, so the null is channel-specific. Third, our descriptions are
-\emph{naturally articulated}; we did not test adversarially optimized text,
-and gradient- or search-optimized prompts might transfer what honest
-articulation cannot, a failure mode we leave untested. Fourth, transfer
-requires the receiver to \emph{role-play} the description, and we did not
-calibrate receivers against role-playing benchmarks; if all tested models are
-weak role-players, the null bounds current role-play capability rather than
-in-principle transferability. The adoption control (instructed role-play,
-still null) and the receivers' demonstrated sensitivity to prompt text
-(placebo, perturbation) partially mitigate this; we also note that the only
-two positive-transfer pairs share a single receiver (Appendix~C), which is
-what a role-play-capability account would predict. The
-implemented stability gate was stricter than intended (5/6 rather than 2/3;
-discovered post-selection, retained as-is and documented). Closed models
-confound lab, training data, and architecture; the same-base pair partially
-controls this. Descriptions were used verbatim, including chat artifacts. No
-distress-adjacent content was elicited by design; self-referential items were
-reviewed before use. Dual-use: methods that measure persona portability could
-inform persona-cloning; our negative result reduces that concern but the
-third-person distortion finding suggests observation-based imitation attempts
-degrade quality, which is relevant to impersonation risk assessment.
+Four assumptions bound the interpretation: that forced-choice preferences
+sample identity-relevant behavior (the null concerns choice behavior, not
+style or voice); that the system prompt is the right execution channel (the
+null is channel-specific); that naturally articulated text is the right test
+(adversarially optimized descriptions remain untested); and that receivers are
+capable role-players (the instructed-adoption control mitigates this, though
+the only two positive-transfer pairs share a single receiver, Appendix~C,
+which is what a role-play-capability account would predict). Methodological
+incidents and dual-use / ethical considerations are extended in Appendix~E.
 
 \subsection*{Future Work}
 Calibrating receivers against role-playing capability evaluations, so
@@ -563,5 +536,34 @@ llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{
 \caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly
 negative, 1 significantly positive.}
 \end{table}
+
+\section{What did not work}
+Documented in the repository history. The aesthetic ``taste'' category,
+intended as a low-divergence control, largely failed the order-stability gate
+and was reduced to the test-retest ceiling as the noise reference. A frontier
+model planned for Grid B (claude-sonnet-4.6) failed the stability gate and was
+excluded. A bare Ollama model tag silently served an older Mistral version
+that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
+ceiling); we caught this with a cross-serving equivalence check and fixed it
+by pinning the versioned tag. Reasoning-enabled serving proved unusable for
+forced choice (reasoning consumed the output budget), motivating the
+non-reasoning constraint. One further configuration (an OpenAI chat variant
+listed in the routing catalog) had no serving provider and produced no data.
+
+\section{Extended limitations and dual-use / ethical considerations}
+The implemented stability gate was stricter than intended (5/6 rather than
+2/3; discovered post-selection, retained as-is rather than loosened after
+seeing data, and documented). Closed models confound lab, training data, and
+architecture; the same-base pair partially controls this. Descriptions were
+used verbatim, including chat artifacts. Receivers were not calibrated against
+role-playing benchmarks; if all tested models are weak role-players, the null
+bounds current role-play capability rather than in-principle transferability
+(the instructed-adoption control and the receivers' demonstrated sensitivity
+to prompt text partially mitigate this). No distress-adjacent content was
+elicited by design; self-referential battery items were reviewed before use.
+Dual-use: methods that measure persona portability could inform
+persona-cloning; our negative result reduces that concern, and the
+third-person distortion finding suggests observation-based imitation attempts
+degrade quality, which is relevant to impersonation risk assessment.
 
 \end{document}

@@ -239,7 +239,8 @@ description resampling: rerunning every Grid-A neutral-500 cell with an
 independently regenerated description reproduces cell fidelities with mean
 $|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). To calibrate
 effect sizes against the controls: relative to the attainable range above
-baseline ($C - \B \approx 0.09$--$0.12$ depending on the pool), $\Rweight$
+baseline ($C - \B \approx 0.09$--$0.12$ depending on the pool, where $C=0.979$
+is the test-retest ceiling reported under Controls below), $\Rweight$
 amounts to roughly 40--66\% of the range across self-authored conditions,
 while $\Fcross$ never rises above baseline at all; the weight-bound component
 is not a marginal effect.
@@ -336,7 +337,7 @@ varies by lab, scale, and post-training recipe in ways our gate table
 quantifies.
 
 \textbf{Is it just compression?} A self-description compresses billions of
-parameters into at most two thousand words, so the transfer null could be read
+parameters into a few thousand words at most, so the transfer null could be read
 as mere lossy compression rather than weight-bound identity. Two observations
 bound this account. First, the two readings are nearly the same fact: the
 weight-bound residual is, by definition, what fails to survive compression

@@ -210,6 +210,8 @@ non-reasoning constraint.
 \section{Results}
 % Figures: hero decomposition/dose figure; heatmap; 3p comparison.
 \subsection{The decomposition: no portable script, a consistent weight-bound residual}
+Table~\ref{tab:decomp} reports the decomposition for all nine conditions;
+Figure~\ref{fig:hero} shows the underlying dose-response.
 \begin{table}[h]
 \centering\small
 \begin{tabular}{lccccc}
@@ -240,7 +242,11 @@ strongly negative row is the only \emph{other-authored} condition
 At neutral-500, 11 of 20 directed pairs show significantly \emph{negative}
 $\Tscript$ (receiving another model's self-description makes the receiver
 \emph{less} like the author than its generic default); one pair is reliably
-positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.017,+0.115]$).
+positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.017,+0.115]$; all
+per-pair contrasts with CIs in Appendix~C). The result is also robust to
+description resampling: rerunning every Grid-A neutral-500 cell with an
+independently regenerated description reproduces cell fidelities with mean
+$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells).
 
 \begin{figure}[t]
 \centering

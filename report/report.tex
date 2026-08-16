@@ -387,10 +387,12 @@ third-person distortion finding suggests observation-based imitation attempts
 degrade quality, which is relevant to impersonation risk assessment.
 
 \subsection*{Future Work}
-Framed-arm dose-response; more regenerations; base (pre-RLHF) models;
+Adversarially optimized descriptions (does the transfer null survive text
+selected \emph{for} transfer?); alternative execution channels (fine-tuning on
+the description, in-context behavioral examples); base (pre-RLHF) models;
 activation-level analysis of what the weight-bound residual is; multi-turn and
-free-form batteries; cross-architecture systematics; repeating the design as
-models scale.
+free-form batteries; more regenerations per condition; cross-architecture
+systematics; repeating the design as models scale.
 
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
@@ -415,11 +417,17 @@ the transfer decomposition) are released for the field to sharpen both
 sides of that argument.
 
 \section*{Code and Data}
-Code repository: \url{https://github.com/bibinsees/quine-test}. All prompts,
-raw call logs (jsonl with seeds and raw responses), the 130+ self-description
-corpus, the full item battery, and analysis code; every reported number is
-regenerable from the logs, and every preregistration is a timestamped commit
-in the repository history.
+\begin{itemize}
+  \item \textbf{Code repository:} \url{https://github.com/bibinsees/quine-test}
+  --- full pipeline and analysis code; every preregistration is a timestamped
+  commit in the repository history.
+  \item \textbf{Data/Datasets:} in the same repository: raw call logs
+  (\texttt{runs/}, jsonl with seeds and raw responses; every reported number
+  is regenerable), the 130+ self-description corpus
+  (\texttt{descriptions/}), and the screened item battery (\texttt{battery/}).
+  \item \textbf{Other artifacts:} none. No info-hazard considerations beyond
+  the dual-use note in the Limitations section.
+\end{itemize}
 
 % Author Contributions and LLM Usage Statement: added manually by the team
 % before submission (drafts preserved in git history, commit 3a9295d).

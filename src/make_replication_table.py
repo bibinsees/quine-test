@@ -40,7 +40,7 @@ def main() -> None:
             t = p["T_script"]
             lines.append(
                 f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
-                f"{p['B']:.3f} & ${t:+.3f}$ & ${p['R_weight']:+.3f}$ & "
+                f"{p['B']:.3f} & ${t:+.3f}$ & ${(p['R_weight'] if abs(p['R_weight']) >= 0.0005 else 0.0):+.3f}$ & "
                 f"{p['n_pairs_T_pos_sig']}/{p['n_pairs_T_neg_sig']} & "
                 f"{p['n_self_cells']}/{p['n_cross_cells']} \\\\")
             first = False

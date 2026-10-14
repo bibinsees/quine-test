@@ -51,7 +51,7 @@ OUT_PATH = ROOT / "runs" / "arxiv_positive_controls.jsonl"
 K_FEWSHOT = 30
 FEWSHOT_SEED = 20261014
 CREDIT_FLOOR = 2.0
-MAX_WORKERS = 12
+MAX_WORKERS = 32  # latency-bound (glm ~12 s/call with reasoning); 12 gave ~1 call/s
 MAX_TOKENS_OVERRIDE = {"glm-4.5-air": 2048}
 THINK_RE = re.compile(r"<think>.*?(?:</think>|$)", re.DOTALL)
 

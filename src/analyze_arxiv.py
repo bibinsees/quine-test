@@ -214,6 +214,19 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
 
     lines.append("\n  Grid A pairwise B (author->receiver): " + ", ".join(
         f"{k} {v:.3f}" for k, v in out["pairs_B"].items()))
+
+    # per-cell F of the Grid A sprint conditions the figure compares against
+    out["grid_a_reference"] = []
+    ga = grid[grid["author"].isin(ag.GRID_A) & grid["receiver"].isin(ag.GRID_A)
+              & grid["arm"].isin(["neutral", "framed", "3p", "adopt", "para"])
+              & (grid["length"] == 500) & (grid["regen"] == 0)]
+    for cell_id, (meta, tbl, _, _) in cell_tables(ga).items():
+        fid = ag.fidelity(ref[meta["author"]], tbl)
+        if fid:
+            out["grid_a_reference"].append({
+                "cell_id": cell_id, "receiver": meta["receiver"], "author": meta["author"],
+                "arm": meta["arm"], "kind": "self" if meta["receiver"] == meta["author"] else "cross",
+                "F": fid["F"]})
     return "\n".join(lines) + "\n", out
 
 

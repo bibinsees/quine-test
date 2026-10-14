@@ -737,6 +737,35 @@ paraphrase moves it, suggesting no marginal returns to more or better text at
 prompt scale. A definitive test would extend the ablation to far longer limits
 than we have tested; we flag it as future work.
 
+\textbf{What the results settle, and what they do not.} Stated as a ledger
+for the three questions that motivated the study. (i) \emph{The
+script hypothesis.} The strong form, that the assistant persona is a
+character specifiable in text so that its own script reinstalls it elsewhere,
+is false for the preference profile measured here: no natural
+self-description, paraphrase, adoption-instructed description, held-out
+demonstration set, or optimizer-rewritten description transfers it, across
+nine models and three grids, while the same channel carries the profile when
+given its item-by-item enumeration. What survives is a weak form: the profile
+is transferable as \emph{data}, not as a \emph{self-model}. (ii)
+\emph{Hofstadter's thesis for these systems.} The self-description is not
+constitutive of the behavior it describes: it neither reinstalls it elsewhere
+nor stabilizes it at home, and reading it perturbs the author. Whatever
+``I'' these systems express is, behaviorally, downstream of the weights and
+not of the narrative; this does not touch Hofstadter's claim about human
+minds, only its transfer to language models. (iii) \emph{Individuation.} Of
+the four candidate units (model, instance, persona, conversation), the stable
+profile tracks the model: a fresh instance recovers it, a text-specified
+persona does not, and the conversation-level narrative perturbs it. This
+answers the individuation question for the preference profile as a
+behavioral matter; it does not say that the weights are a subject, a bearer
+of welfare, or the locus of anything phenomenal, and it does not rule out
+that other aspects of identity (style, voice, multi-turn conduct) individuate
+differently. For AI welfare methodology the practical consequence is
+concrete: self-reports are not the governing variable and should be treated
+as one more behavior to be measured, while the stability of behavior under a
+fresh instance is a measurable property of the model that an assessment can
+rest on.
+
 \textbf{Implications for AI safety.} Self-reports do not govern the behavior
 they describe: a safety case built on what a model says about its own values,
 rather than on its measured choices, rests on narrative alone.

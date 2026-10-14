@@ -22,7 +22,7 @@ def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     pooled = pc["pooled"]
     lines = [r"\begin{table}[t]", r"\centering\small",
-             r"\begin{tabular}{llccccccl}", r"\toprule",
+             r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{llccccccl}", r"\toprule",
              r"Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
              r"sig.\ pairs ($+$/$-$) & Cells (s/c) \\", r"\midrule"]
     for gid, gname in GRIDS:
@@ -45,7 +45,7 @@ def main() -> None:
                 f"{p['n_self_cells']}/{p['n_cross_cells']} \\\\")
             first = False
         lines.append(r"\addlinespace")
-    lines += [r"\bottomrule", r"\end{tabular}",
+    lines += [r"\bottomrule", r"\end{tabular}}",
               r"\caption{Conditions added after review: Grid A, where they were designed, and "
               r"the two preregistered replication grids (predictions committed before running; "
               r"\texttt{pilot/protocol\_arxiv\_*\_replication.md} in the repository). sig.\ pairs "

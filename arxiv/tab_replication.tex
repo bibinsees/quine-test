@@ -1,5 +1,6 @@
 \begin{table}[t]
 \centering\small
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{llccccccl}
 \toprule
 Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & sig.\ pairs ($+$/$-$) & Cells (s/c) \\
@@ -20,7 +21,7 @@ Local trio (preregistered) & demonstrations-110 & 0.958 & 0.955 & 0.893 & $+0.06
  & demonstrations-90 & 0.820 & 0.815 & 0.893 & $-0.079$ & $+0.005$ & 0/5 & 3/6 \\
 \addlinespace
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \caption{Conditions added after review: Grid A, where they were designed, and the two preregistered replication grids (predictions committed before running; \texttt{pilot/protocol\_arxiv\_*\_replication.md} in the repository). sig.\ pairs counts cross cells whose 95\% paired-bootstrap CI for $\Tscript$ lies entirely above ($+$) or below ($-$) zero.}
 \label{tab:replication}
 \end{table}

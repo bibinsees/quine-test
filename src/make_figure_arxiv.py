@@ -65,8 +65,8 @@ def main() -> None:
         if kind == "self" and vals["cross"]["B"]:
             b = float(np.mean(vals["cross"]["B"]))
             ax.axhline(b, color=BASE, lw=1.0, zorder=1)
-            ax.text(len(conds) - 0.55, b - 0.004, "$B$ (unrelated pairs)", fontsize=7.5,
-                    color=MUTED, ha="right", va="top")
+            ax.text(-0.5, b + 0.003, "$B$ (unrelated pairs)", fontsize=7.5,
+                    color=MUTED, ha="left", va="bottom")
         for x, (k, label) in enumerate(conds):
             ys = vals[kind][k]
             if not ys:

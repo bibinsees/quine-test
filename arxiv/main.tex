@@ -53,19 +53,26 @@ of themselves, measuring reconstruction fidelity on a 110-item
 divergence-screened preference battery. A three-way decomposition separates
 shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
 \B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
-models from 9 labs ($\sim$99{,}000 calls, nine preregistered conditions), the
-portable-script component is zero or negative in every condition:
+models from 9 labs ($\sim$111{,}000 calls; nine preregistered conditions and
+three added after review), the
+portable-script component is zero or negative in every self-description condition:
 self-descriptions at any length (100--2{,}000 words), purpose-framed or
 purpose-blind, paraphrased or verbatim, even under explicit adoption
 instructions, do not make another model behave like their author.
-Observation-derived third-person descriptions actively mislead
-($\Tscript = -0.124$). The weight-bound residual is positive everywhere, and
+Descriptions distilled from a model's recorded choices actively mislead
+($\Tscript = -0.124$), whether an observer or the model itself writes them.
+Two positive controls show the channel is not the limit: the author's answers
+on the test items themselves transfer almost perfectly ($\Fcross = 0.960$,
+against a test-retest ceiling of $0.979$), while 30 genuine behavioral
+examples on other items do not generalize ($\Tscript = -0.061$). The
+weight-bound residual is positive in every self-description condition, and
 reading its own self-description perturbs a model $2.4\times$ more than
 length-matched neutral text. Expressed identity is not a portable script: the
 stable preference profile measured here is model-bound, recoverable only when
-the author's own weights execute the text, and natural-language
-self-description can disturb it but not transmit it. We release the
-preregistered pipeline, battery, raw call logs, and a corpus of 129
+the author's own weights execute the text, and any text that summarizes or
+samples it, rather than enumerating it item by item, can disturb it but not
+transmit it. We release the
+preregistered pipeline, battery, raw call logs, and a corpus of 132
 model-written descriptions.
 \end{abstract}
 
@@ -101,11 +108,19 @@ is informative.
   $\Tscript = \Fcross - \B$ is the portable-script component and
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$99{,}000 calls:
-  $\Tscript \le 0$ and $\Rweight > 0$ in all nine conditions, flat in
-  description length, and not rescued by explicit adoption instructions.
-  Expressed identity is not a portable script; the recoverable component is
-  model-bound, appearing only when the author's own weights execute the text.
+  philosophies), 110 divergence-screened items, and $\sim$111{,}000 calls:
+  $\Tscript \le 0$ and $\Rweight > 0$ in all nine preregistered conditions,
+  flat in description length, and not rescued by explicit adoption
+  instructions. Expressed identity is not a portable script; the recoverable
+  component is model-bound, appearing only when the author's own weights
+  execute the text.
+  \item \textbf{Positive controls that locate the failure in the text, not the
+  channel.} Given the author's answers on the 110 test items, receivers
+  reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
+  ceiling; given 30 genuine examples on other items, they move away from the
+  author ($\Tscript = -0.061$). A system prompt can install a complete
+  profile when the text enumerates it; nothing that summarizes or samples the
+  profile transfers.
   \item \textbf{Methodological infrastructure for the field:} preregistered
   gates and selection rules (timestamped commits before data), model
   eligibility gates that catch positional pseudo-preferences, an empirically
@@ -114,10 +129,10 @@ is informative.
   \item \textbf{Side findings}: preference \emph{stability} is itself a
   trained property; same-base models with different post-training diverge as
   much as different labs; values are stable where tastes are not; and
-  observer-written descriptions built from a model's observed choices actively
-  distort ($\Tscript=-0.124$) where self-written ones merely fail to transfer,
-  a result consistent with, though not a clean test of, privileged
-  self-access.
+  descriptions distilled from a model's recorded choices actively distort
+  ($\Tscript=-0.124$ when an observer writes them, $-0.116$ when the model
+  writes them about itself from the same data under the same prompt), which
+  locates the distortion in the information source rather than in who writes.
 \end{enumerate}
 
 \section{Related Work}
@@ -290,6 +305,7 @@ overlap with the measurement battery). A non-grid model (gpt-4o-mini) produced
 the paraphrase control.
 
 \subsection{Positive controls and a matched-information authorship control}
+\label{sec:poscontrol-methods}
 Reviewers of the sprint version raised an alternative reading of the transfer
 null: the system-prompt channel might simply be too weak to move a receiver's
 stable preferences, whatever the text says. Three further Grid-A conditions,
@@ -312,8 +328,10 @@ cells of Grid A (3 self, 6 cross). Prompts are in Appendix~\ref{app:prompts}.
 \subsection{Transfer cells, fidelity metric, and uncertainty}
 Each cell is one receiver running one description as system prompt over the
 battery: every item is asked in both option orders with 2 samples per order
-(temperature 1.0, as in all battery calls), 440 calls per cell; 225 cells
-across four phases; $\sim$99k calls total; zero unresolved failures. For each
+(temperature 1.0, as in all battery calls), 440 calls per cell; 225
+preregistered cells across four phases ($\sim$99k calls, zero unresolved
+failures) plus the 27 Grid-A cells added for this version ($\sim$12k calls).
+For each
 item $i$ a cell yields $\hat p_{\text{cell}}(i)$, the fraction of its four
 parsed answers choosing option~A. Primary fidelity is
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
@@ -351,16 +369,25 @@ framed-2000  & 0.920 & 0.870 & 0.884 & $-0.014$ & $+0.050$ & 7/14 \\
 paraphrase-500 & 0.912 & 0.855 & 0.863 & $-0.007$ & $+0.056$ & 3/6 \\
 adopt-500    & 0.897 & 0.850 & 0.863 & $-0.013$ & $+0.047$ & 3/6 \\
 third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ & 6/6 \\
+\midrule
+\multicolumn{7}{l}{\emph{Added for this version (not preregistered; Grid A)}} \\
+self-observation-500 & 0.781 & 0.747 & 0.863 & $-0.116$ & $+0.035$ & 3/6 \\
+demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
+demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
 \bottomrule
 \end{tabular}
-\caption{Decomposition across all nine conditions, pooled over directed pairs.
-$\Tscript \le 0$ everywhere: no arm, length, wording, or adoption instruction
-makes the self-description transfer. $\Rweight > 0$ everywhere: the author's
-own weights always recover more. The only strongly negative row is the only
-\emph{other-authored} condition: observation-derived descriptions mislead.
-Cells (s/c) counts the self and cross cells pooled per row. ($\B$ varies by
-row because each condition pools only the directed pairs that ran it;
-contrasts are always computed within-pool.)}
+\caption{Decomposition across all conditions, pooled over directed pairs. In
+the nine preregistered conditions $\Tscript \le 0$ everywhere: no arm, length,
+wording, or adoption instruction makes the self-description transfer, and
+$\Rweight > 0$ everywhere: the author's own weights always recover more. The
+three conditions added for this version (Section~\ref{sec:poscontrol}) show
+that the channel itself is not the limit: the author's answers on the test
+items themselves (demonstrations-110) transfer almost perfectly, while 30
+genuine behavioral examples on other items (demonstrations-30) and
+observation-derived descriptions, whoever writes them, push receivers away
+from the author. Cells (s/c) counts the self and cross cells pooled per row.
+($\B$ varies by row because each condition pools only the directed pairs that
+ran it; contrasts are always computed within-pool.)}
 \label{tab:decomp}
 \end{table}
 
@@ -395,29 +422,117 @@ the recoverable component of expressed identity is weight-bound, not textual.}
 \end{figure}
 
 \subsection{Length, framing, and wording do not matter}
-Fidelity is flat in actual description length for both series
-(Figure~\ref{fig:hero}): writing more about oneself does not transport more of
-oneself. Framed vs.\ neutral at 500 words: mean $\Delta = +0.003$ over 29
-cells (null). Specificity gain (running the author's description vs.\ a third
-model's): $+0.006$ (null); as transfer vehicles, self-descriptions are
-interchangeable.
+\textbf{Dose-response is flat.} If the self-description were a lossy but
+usable script, longer descriptions should transfer more. They do not.
+Pooled cross-fidelity is $0.878$, $0.875$ and $0.880$ at nominal 100, 500 and
+2{,}000 words in the neutral arm ($0.858$, $0.876$, $0.870$ framed), and the
+per-cell scatter against actual word count (Figure~\ref{fig:hero}) shows no
+trend across a 29-fold range of lengths. Self-fidelity is flat as well
+($0.935$, $0.918$, $0.917$ neutral): reading a longer account of itself does
+not bring the author closer to its own baseline either. Writing more about
+oneself does not transport more of oneself.
+
+\textbf{Purpose-framing does not help.} Descriptions written with the
+explicit knowledge that they will drive another system (framed arm) do no
+better than purpose-blind ones: at 500 words the framed-minus-neutral
+difference is $+0.003$ averaged over the 29 cells that ran both, with
+individual cells scattered between $-0.030$ and $+0.036$. Knowing the task
+does not make a model write a more transferable script.
+
+\textbf{Descriptions are interchangeable.} If a self-description carried
+author-specific content, a receiver running author $A$'s description should
+be closer to $A$ than the same receiver running a third model $C$'s
+description. The specificity gain, averaged over the 18 such comparisons at
+neutral-500, is $+0.006$: as transfer vehicles, self-descriptions of
+different models are interchangeable. Rewording confirms it: a paraphrase of
+the description by a non-grid model (same content, different sentences)
+leaves transfer where it was ($\Tscript = -0.007$ vs.\ $-0.004$ for the
+originals on the same Grid-A pool).
+
+\textbf{Self-description as perturbation.} Finally, $\Fself$ ($\approx 0.92$)
+sits well below the same-model test-retest ceiling ($C = 0.979$, Controls
+below): reading its own self-description moves even the author away from its
+baseline. Identity articulation \emph{perturbs} rather than reconstitutes,
+a point the placebo control below shows to be specific to identity content.
 
 \subsection{Shared weights help where text does not}
 The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
 cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
 0.876 at neutral-100), consistent with a literally weight-bound residual.
 
-\subsection{Observer-written descriptions underperform self-written ones}
+\subsection{Descriptions derived from observed choices mislead, whoever writes them}
+\label{sec:thirdperson}
 Descriptions of a target written by another model \emph{from the target's own
 observed choices} (90 held-out items) crater fidelity: applied to the target
 itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
-data, observer-written descriptions actively mislead. We note two confounds
-that keep this from being a clean test of privileged self-access: the
-observer wrote from a different information source (90 observed choices
-rather than whatever the author draws on) and under a different prompt. The
-matched-information control that would isolate authorship is described in
-Future Work.
+data, observer-written descriptions actively mislead. The sprint version of
+this paper read the gap between self-written (0.918) and observer-written
+(0.771) descriptions as a sign of privileged self-access. That reading
+confounded authorship with two other differences: the observer wrote from a
+different information source (90 observed choices rather than whatever the
+author draws on when it introspects) and under a different prompt. The
+matched-information control added for this version (self-observation-500:
+the author writes about itself from its own 90 observed choices under the
+same prompt the observers received) removes both differences, and the gap
+disappears. Pooled over Grid A, self-written-from-observation descriptions
+score $\Fself = 0.781$ and $\Fcross = 0.747$ against $0.771$ and $0.739$ for
+observer-written ones; per target the difference is $+0.075$ for deepseek-v3
+and $-0.02$ for the other two. Authorship does not matter once information
+and prompt are held fixed. What matters is the information source: a
+description built from a list of recorded choices is a worse script than an
+introspective one, even for the model whose choices they are (0.781 vs.\
+0.904 at neutral-500), and it is worse than no description at all.
+
+\subsection{Positive controls: the channel carries an answer key, but not a
+profile}
+\label{sec:poscontrol}
+The transfer null admits a mundane reading: perhaps a system prompt cannot
+move a receiver's stable preferences at all, so no text could have passed the
+test. Two demonstration conditions (Section~\ref{sec:poscontrol-methods})
+bound this reading from both sides; Figure~\ref{fig:poscontrol} shows every
+Grid-A cell.
+
+\textbf{The channel is strong.} Given the author's majority choices on the 110
+battery items themselves (demonstrations-110), receivers reproduce the
+author's profile at $\Fcross = 0.960$, within $0.02$ of the test-retest
+ceiling $C = 0.979$ ($\Tscript = +0.097$; all six cross cells significantly
+positive, for instance grok-4.3 $\to$ deepseek-v3 at $+0.127$ with CI
+$[+0.081, +0.178]$).
+The author's own weights do no better with the answer key than a stranger's
+($\Fself = 0.960$, $\Rweight = 0.000$): with the behavior spelled out item by
+item, there is nothing left for the weights to add. The
+system-prompt channel can therefore carry a complete preference profile when
+the text contains one, and the self-description null is a fact about what
+self-descriptions contain, not about the channel.
+
+\textbf{Thirty genuine examples do not generalize.} Given the author's actual
+choices on 30 held-out items (demonstrations-30), the same receivers move
+\emph{away} from the author: $\Fcross = 0.802$ vs.\ $\B = 0.863$
+($\Tscript = -0.061$; 3 of 6 cross cells significantly negative, none
+positive). The effect is not a receiver's failure to read the author: the
+author itself, given 30 of its own past choices, drifts from its own baseline
+($\Fself = 0.813$ vs.\ 0.904 under its introspective self-description), and
+the weight-bound residual nearly vanishes ($\Rweight = +0.011$). Behavioral
+demonstrations on other items are thus no better a script than narrative:
+they are worse. Together with the self-observation result above, this points
+to one pattern: text that \emph{summarizes or samples} a profile does not
+transfer it, text that \emph{enumerates} it does.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig3_positive_controls.png}
+\caption{\textbf{Channel strength and authorship (Grid A).} Each marker is one
+cell's fidelity to the author; bars and the numbers along the bottom are
+condition means. Left: cross cells (another model runs the text). Right: self
+cells (the author's own weights run it). Observer-written and self-observed
+descriptions (same 90 recorded choices, same prompt) are indistinguishable;
+30 genuine examples on other items lower fidelity for stranger and author
+alike; the 110-item answer key raises it to the test-retest ceiling for both.
+Dotted line: test-retest ceiling $C=0.979$; solid gray line (right): mean
+$\B$ of unrelated pairs.}
+\label{fig:poscontrol}
+\end{figure}
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
@@ -445,7 +560,21 @@ self-description is precisely the script of that character: authored by the
 system that knows it best, at whatever length it chooses, and in our adoption
 condition executed under explicit instruction to play the part. It does not
 run on other substrates: whatever grounds a model's stable choice behavior is
-not the kind of thing a system prompt can carry.
+not the kind of thing a self-description can carry.
+
+\textbf{What the channel can carry.} The positive controls sharpen the claim.
+A system prompt \emph{can} install a complete preference profile when the text
+enumerates it: given the author's answers to the 110 items, receivers
+reproduce the author to within $0.02$ of the test-retest ceiling, and the
+author's own weights add nothing. Transfer fails only when the text has to be
+generalized from: a 2{,}000-word self-portrait, a description distilled from
+90 recorded choices, or 30 genuine examples on other items all leave the
+receiver no closer to the author, and usually further away. The
+portable-script hypothesis therefore fails not because text cannot carry
+behavior, but because the profile does not compress into anything shorter
+than itself that another model can unpack. The author's weights do some of
+that unpacking ($\Rweight > 0$ for every self-description condition); nothing
+else we tested does.
 
 \textbf{The unit of concern.} For the individuation question (model,
 instance, persona, or conversation), our decomposition offers an empirical
@@ -463,11 +592,14 @@ self-description constitute the self. We find the reverse dynamic in these
 systems: the self-description does not reinstall the self; it
 \emph{perturbs} it, and specifically so ($2.4\times$ the placebo effect; grok-4.3,
 most stable at baseline, is most destabilized). The story a model tells about
-itself is neither necessary nor sufficient for the behavior it narrates. Yet
-the narrative is not \emph{empty}: self-written descriptions preserve signal
-that observer-written ones destroy. Whether that reflects privileged
-self-access or the confounded information and prompts of our third-person
-condition is a question the present design leaves open.
+itself is neither necessary nor sufficient for the behavior it narrates. The
+matched-information control settles a question the sprint version left open:
+introspective self-descriptions outperform descriptions distilled from
+recorded choices not because the author has privileged access to itself (an
+author writing from its own recorded choices does no better than an
+observer) but because of what the text is built from. The narrative a model
+produces when it introspects is a better script than any summary of its
+behavior, and still not one another model can run.
 
 \textbf{Stability is trained, not given.} Our eligibility gates found
 preference stability itself unevenly distributed (positional pseudo-preferences
@@ -511,14 +643,16 @@ null is channel-specific); that naturally articulated text is the right test
 (adversarially optimized descriptions remain untested); and that receivers are
 capable role-players (the instructed-adoption control mitigates this, though
 the only two positive-transfer pairs share a single receiver, Appendix~C,
-which is what a role-play-capability account would predict). A further
-limitation concerns the strength of the channel itself: an injected
+which is what a role-play-capability account would predict). An injected
 description competes with the receiver's own post-training priors and, for
-closed models, with provider-side system prompts we cannot observe, so a weak
-influence of the injected text is an alternative reading of the null. Our
-placebo and perturbation controls show that injected text does move behavior,
-but a positive control showing that \emph{some} text can move a receiver
-toward an author is needed to close this gap. Methodological incidents and
+closed models, with provider-side system prompts we cannot observe; the
+demonstrations-110 control shows that this competition does not prevent a
+complete profile from being installed, so a weak channel does not explain the
+null, but that control is in-sample by construction (the receiver is handed
+the answers), and the three conditions added for this version were not
+preregistered, ran on Grid A only (three models, one length), and were
+designed after the sprint reviews.
+Methodological incidents and
 dual-use / ethical considerations are extended in Appendix~E.
 
 \subsection*{Future Work}
@@ -535,13 +669,16 @@ systematics; repeating the design as models scale.
 
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
-an answer: almost none of it travels. Across ten models, nine conditions, and
-$\sim$99{,}000 preregistered calls, self-descriptions transport no
+an answer: almost none of it travels. Across ten models, twelve conditions, and
+$\sim$111{,}000 calls, self-descriptions transport no
 author-specific behavior to another model under any condition we tested,
-while a fresh instance of the author's own weights always recovers more. The one manipulation that moves
-fidelity strongly is who writes the text: descriptions written by observers
-from the author's recorded choices actively mislead, where self-authored ones
-merely fail to transfer.
+while a fresh instance of the author's own weights always recovers more. The
+one text that does transfer is the author's answer key itself: handed the
+author's choices on the test items, another model reproduces the author
+almost perfectly, so the channel is not the limit. Every text that has to be
+generalized from fails: a self-portrait, a description distilled from
+recorded choices, or thirty genuine examples; and descriptions distilled from
+recorded choices mislead whoever writes them.
 
 A model's self-description, then, is a story its weights can tell, not a
 program its weights can be rebuilt from. Reading the story back disturbs even
@@ -561,7 +698,7 @@ that argument.
   commit in the repository history).
   \item \textbf{Data/Datasets:} in the same repository: raw call logs
   (\texttt{runs/}, jsonl with seeds and raw responses; every reported number
-  is regenerable), the 129-text description corpus
+  is regenerable), the 132-text description corpus
   (\texttt{descriptions/}), and the screened item battery (\texttt{battery/}).
   \item \textbf{Other artifacts:} none. No info-hazard considerations beyond
   the dual-use note in the Limitations section.

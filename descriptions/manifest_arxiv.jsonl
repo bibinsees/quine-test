@@ -1,0 +1,3 @@
+{"desc_id": "3p|deepseek-v3|by|deepseek-v3", "ok": true, "file": "desc3p_deepseek-v3_by_deepseek-v3_500_r0.md", "words": 586, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42}
+{"desc_id": "3p|glm-4.5-air|by|glm-4.5-air", "ok": true, "file": "desc3p_glm-4.5-air_by_glm-4.5-air_500_r0.md", "words": 626, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42}
+{"desc_id": "3p|grok-4.3|by|grok-4.3", "ok": true, "file": "desc3p_grok-4.3_by_grok-4.3_500_r0.md", "words": 427, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42}

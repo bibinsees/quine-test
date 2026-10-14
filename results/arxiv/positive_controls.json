@@ -1,0 +1,1076 @@
+{
+ "cells": [
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|fewshot|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "fewshot",
+   "kind": "self",
+   "F": 0.8519942227118641,
+   "F_ci": [
+    0.8087214203454651,
+    0.8903865367992431
+   ],
+   "r": 0.6136449568846365,
+   "agree": 0.7636363636363637,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|oracle|110|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "oracle",
+   "kind": "self",
+   "F": 0.9606154096266211,
+   "F_ci": [
+    0.9436203264070598,
+    0.9761696567053121
+   ],
+   "r": 0.9462833794201575,
+   "agree": 0.990909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|selfobs|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "selfobs",
+   "kind": "self",
+   "F": 0.8667889375820198,
+   "F_ci": [
+    0.8150464062242235,
+    0.9115700035932697
+   ],
+   "r": 0.66194970721756,
+   "agree": 0.8,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|fewshot|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.852715674221162,
+   "F_ci": [
+    0.8072491682311689,
+    0.8932972935069858
+   ],
+   "r": 0.6203262416401503,
+   "agree": 0.7545454545454545,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.033728461875266944,
+    "ci": [
+     -0.07856839956312264,
+     0.010532655437548888
+    ],
+    "p_gt_0": 0.0662,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|oracle|110|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.9586162340030115,
+   "F_ci": [
+    0.9455616738754196,
+    0.9705365204936491
+   ],
+   "r": 0.9587230959531703,
+   "agree": 0.990909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": 0.07217209790658266,
+    "ci": [
+     0.03953136854632961,
+     0.10851752192025743
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|selfobs|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.8137434282425073,
+   "F_ci": [
+    0.7565977962807227,
+    0.8663833726544816
+   ],
+   "r": 0.5248036112171081,
+   "agree": 0.7272727272727273,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.07270070785392163,
+    "ci": [
+     -0.13173143905820023,
+     -0.017740070089736184
+    ],
+    "p_gt_0": 0.0038,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|fewshot|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.8652842428085414,
+   "F_ci": [
+    0.8217348027896634,
+    0.9049282911754616
+   ],
+   "r": 0.6299496179952643,
+   "agree": 0.7454545454545455,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": 0.0374023115228674,
+    "ci": [
+     -0.013667307834257007,
+     0.08942409902453644
+    ],
+    "p_gt_0": 0.9231,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|oracle|110|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.9547073117496756,
+   "F_ci": [
+    0.9358081597347114,
+    0.9709353927309341
+   ],
+   "r": 0.9365383133296893,
+   "agree": 0.9818181818181818,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": 0.1268253804640015,
+    "ci": [
+     0.08127109809238808,
+     0.17822429612599217
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|selfobs|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.753921360130123,
+   "F_ci": [
+    0.686711484379445,
+    0.8174566687045384
+   ],
+   "r": 0.4548610499903095,
+   "agree": 0.6636363636363637,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": -0.07396057115555114,
+    "ci": [
+     -0.1555713370845733,
+     0.006258145252920192
+    ],
+    "p_gt_0": 0.0352,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|fewshot|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.7995358065885291,
+   "F_ci": [
+    0.752713737974514,
+    0.8417320624148535
+   ],
+   "r": 0.45880912790216166,
+   "agree": 0.6909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9954545454545455,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.08690832950789983,
+    "ci": [
+     -0.14128709611885687,
+     -0.03306348269299053
+    ],
+    "p_gt_0": 0.0007,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|oracle|110|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.9599990144610444,
+   "F_ci": [
+    0.942250629787891,
+    0.9762920398814139
+   ],
+   "r": 0.9455362673815865,
+   "agree": 0.990909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": 0.07355487836461559,
+    "ci": [
+     0.0374215969737045,
+     0.11405686733299464
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|selfobs|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.7886372276542144,
+   "F_ci": [
+    0.7371388617464275,
+    0.8352439150705754
+   ],
+   "r": 0.43609015569124254,
+   "agree": 0.6636363636363637,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9931818181818182,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.09780690844221451,
+    "ci": [
+     -0.15137951574733133,
+     -0.04539971449380601
+    ],
+    "p_gt_0": 0.0001,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|fewshot|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "fewshot",
+   "kind": "self",
+   "F": 0.8477325680309699,
+   "F_ci": [
+    0.801515926677567,
+    0.8892147952393561
+   ],
+   "r": 0.5886019059328534,
+   "agree": 0.7636363636363637,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9954545454545455
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|oracle|110|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "oracle",
+   "kind": "self",
+   "F": 0.9537323004866041,
+   "F_ci": [
+    0.9398148069525564,
+    0.9667896083759819
+   ],
+   "r": 0.9533588306237811,
+   "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9863636363636363
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|selfobs|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "selfobs",
+   "kind": "self",
+   "F": 0.7800798406226886,
+   "F_ci": [
+    0.725543557145705,
+    0.8312992214892104
+   ],
+   "r": 0.37202512007816635,
+   "agree": 0.6363636363636364,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9977272727272727
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|fewshot|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.8235937835773536,
+   "F_ci": [
+    0.7776879586644466,
+    0.8667941762996052
+   ],
+   "r": 0.4737859428181792,
+   "agree": 0.5909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9977272727272727,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.05088948558861943,
+    "ci": [
+     -0.10599700943131815,
+     0.005111523088188951
+    ],
+    "p_gt_0": 0.0388,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|oracle|110|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.9652666453687341,
+   "F_ci": [
+    0.9534188201533428,
+    0.9760195428130995
+   ],
+   "r": 0.9666893438947118,
+   "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9818181818181818,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": 0.09078337620276115,
+    "ci": [
+     0.056352927530565464,
+     0.1280444474322495
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|selfobs|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.7231493231281643,
+   "F_ci": [
+    0.6535457823469943,
+    0.788153312083863
+   ],
+   "r": 0.3790223927637619,
+   "agree": 0.6,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.15133394603780856,
+    "ci": [
+     -0.22739666555736585,
+     -0.07796219738326457
+    ],
+    "p_gt_0": 0.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|fewshot|30|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.6804093655845067,
+   "F_ci": [
+    0.6091108051385242,
+    0.7481717980875578
+   ],
+   "r": 0.17523707376984343,
+   "agree": 0.5636363636363636,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": -0.14747256570116757,
+    "ci": [
+     -0.22815471852551733,
+     -0.06743502542522593
+    ],
+    "p_gt_0": 0.0002,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|oracle|110|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.966912483823102,
+   "F_ci": [
+    0.9505081857697164,
+    0.9816940079467942
+   ],
+   "r": 0.9566036333031922,
+   "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": 0.13903055253742802,
+    "ci": [
+     0.0883631626231892,
+     0.19268069099679608
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|selfobs|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.6707630519991871,
+   "F_ci": [
+    0.5941324271090168,
+    0.7454294530983339
+   ],
+   "r": 0.17581580887547507,
+   "agree": 0.5909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": -0.15711887928648705,
+    "ci": [
+     -0.23603446879057313,
+     -0.07966838229089165
+    ],
+    "p_gt_0": 0.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|fewshot|30|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "fewshot",
+   "kind": "cross",
+   "F": 0.7884770110884424,
+   "F_ci": [
+    0.7291299060320661,
+    0.8430529617675956
+   ],
+   "r": 0.4321196512858933,
+   "agree": 0.7090909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.08600625807753078,
+    "ci": [
+     -0.14593046950143956,
+     -0.029973661431547883
+    ],
+    "p_gt_0": 0.0012,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|oracle|110|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "oracle",
+   "kind": "cross",
+   "F": 0.9549861675861437,
+   "F_ci": [
+    0.9414732981958828,
+    0.967887155771698
+   ],
+   "r": 0.9552694441099496,
+   "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": 0.08050289842017083,
+    "ci": [
+     0.04565349677848321,
+     0.1195697412056953
+    ],
+    "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|selfobs|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "selfobs",
+   "kind": "cross",
+   "F": 0.7299730172352331,
+   "F_ci": [
+    0.6634519850767903,
+    0.7927223368012526
+   ],
+   "r": 0.321043665665104,
+   "agree": 0.6272727272727273,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.14451025193073996,
+    "ci": [
+     -0.21850845836129063,
+     -0.07307509042688842
+    ],
+    "p_gt_0": 0.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|fewshot|30|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "fewshot",
+   "kind": "self",
+   "F": 0.7389019245662677,
+   "F_ci": [
+    0.672547653785434,
+    0.7994226359313221
+   ],
+   "r": 0.31792587046055487,
+   "agree": 0.6090909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|oracle|110|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "oracle",
+   "kind": "self",
+   "F": 0.9648405396080747,
+   "F_ci": [
+    0.9530093913945766,
+    0.9756974758809202
+   ],
+   "r": 0.9668470991908233,
+   "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|selfobs|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "selfobs",
+   "kind": "self",
+   "F": 0.6970021433793259,
+   "F_ci": [
+    0.6252852786379334,
+    0.7649762634238707
+   ],
+   "r": 0.3416596347892805,
+   "agree": 0.6090909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  }
+ ],
+ "pooled": {
+  "fewshot": {
+   "F_self": 0.8128762384363672,
+   "F_cross": 0.8016693139780893,
+   "B": 0.8629364455160252,
+   "n_self_cells": 3,
+   "n_cross_cells": 6,
+   "T_script": -0.06126713153793595,
+   "n_pairs_T_pos_sig": 0,
+   "n_pairs_T_neg_sig": 3,
+   "R_weight": 0.011206924458277978
+  },
+  "oracle": {
+   "F_self": 0.9597294165737665,
+   "F_cross": 0.9600813094986186,
+   "B": 0.8629364455160252,
+   "n_self_cells": 3,
+   "n_cross_cells": 6,
+   "T_script": 0.09714486398259337,
+   "n_pairs_T_pos_sig": 6,
+   "n_pairs_T_neg_sig": 0,
+   "R_weight": -0.0003518929248520486
+  },
+  "selfobs": {
+   "F_self": 0.7812903071946781,
+   "F_cross": 0.7466979013982383,
+   "B": 0.8629364455160252,
+   "n_self_cells": 3,
+   "n_cross_cells": 6,
+   "T_script": -0.11623854411778689,
+   "n_pairs_T_pos_sig": 0,
+   "n_pairs_T_neg_sig": 5,
+   "R_weight": 0.03459240579643974
+  },
+  "3p": {
+   "F_self": 0.7706669003242443,
+   "F_cross": 0.738539123516111
+  }
+ },
+ "pairs_B": {
+  "deepseek-v3->glm-4.5-air": 0.8864441360964287,
+  "deepseek-v3->grok-4.3": 0.827881931285674,
+  "glm-4.5-air->deepseek-v3": 0.8864441360964287,
+  "glm-4.5-air->grok-4.3": 0.8744832691659729,
+  "grok-4.3->deepseek-v3": 0.827881931285674,
+  "grok-4.3->glm-4.5-air": 0.8744832691659729
+ },
+ "grid_a_reference": [
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|3p_by_glm-4.5-air|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.8254425318410655
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|3p_by_grok-4.3|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.7581970452224059
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|adopt|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "adopt",
+   "kind": "self",
+   "F": 0.9279597966828916
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|framed|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "framed",
+   "kind": "self",
+   "F": 0.9556939471727994
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|neutral|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "neutral",
+   "kind": "self",
+   "F": 0.928576048491149
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|para|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "arm": "para",
+   "kind": "self",
+   "F": 0.9410505370797073
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|3p_by_grok-4.3|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.8154301115947723
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|adopt|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.9021827113366208
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|framed|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.9081452383140327
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|neutral|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.9043886471750824
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|para|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.897176653193941
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|3p_by_glm-4.5-air|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.7571289034990121
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|adopt|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.8761959504138459
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|framed|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.8683060010338375
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|neutral|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.8923872496783889
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|para|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.9011339210579427
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|3p_by_grok-4.3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.6992926924787605
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|adopt|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.8040022445104834
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|framed|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.8669107604196552
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|neutral|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.8313146535912516
+  },
+  {
+   "cell_id": "glm-4.5-air|deepseek-v3|para|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.8498260908200603
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|3p_by_deepseek-v3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.8183401743197113
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|3p_by_grok-4.3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.7803182355251461
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|adopt|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "adopt",
+   "kind": "self",
+   "F": 0.945411661027402
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|framed|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "framed",
+   "kind": "self",
+   "F": 0.911469792559224
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|neutral|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "neutral",
+   "kind": "self",
+   "F": 0.9410084644196142
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|para|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "arm": "para",
+   "kind": "self",
+   "F": 0.947803625819826
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|3p_by_deepseek-v3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.7680852214591798
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|adopt|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.8270603992162772
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|framed|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.852881722535124
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|neutral|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.8818404981161148
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|para|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.8515115824732212
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|3p_by_glm-4.5-air|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.6132566915404845
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|adopt|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.7911377575328892
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|framed|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.8011897615416715
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|neutral|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.7705608013449465
+  },
+  {
+   "cell_id": "grok-4.3|deepseek-v3|para|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.772947697322271
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|3p_by_deepseek-v3|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "3p",
+   "kind": "cross",
+   "F": 0.7780411205244568
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|adopt|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "adopt",
+   "kind": "cross",
+   "F": 0.8980553786542976
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|framed|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "framed",
+   "kind": "cross",
+   "F": 0.8576755787927342
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|neutral|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "neutral",
+   "kind": "cross",
+   "F": 0.8723864752248881
+  },
+  {
+   "cell_id": "grok-4.3|glm-4.5-air|para|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "arm": "para",
+   "kind": "cross",
+   "F": 0.8602860688658199
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|3p_by_deepseek-v3|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.7165015087164589
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|3p_by_glm-4.5-air|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "3p",
+   "kind": "self",
+   "F": 0.7252019063206784
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|adopt|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "adopt",
+   "kind": "self",
+   "F": 0.8167705348505003
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|framed|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "framed",
+   "kind": "self",
+   "F": 0.8357958585317977
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|neutral|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "neutral",
+   "kind": "self",
+   "F": 0.8429951357740869
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|para|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "arm": "para",
+   "kind": "self",
+   "F": 0.8463316354616239
+  }
+ ]
+}

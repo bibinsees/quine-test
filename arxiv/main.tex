@@ -18,6 +18,8 @@
 \usepackage{float}
 
 \usepackage{xurl}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta}
 
 \newcommand{\Fself}{F_{\mathrm{self}}}
 \newcommand{\Fcross}{F_{\mathrm{cross}}}
@@ -59,10 +61,12 @@ instructions, do not make another model behave like their author.
 Observation-derived third-person descriptions actively mislead
 ($\Tscript = -0.124$). The weight-bound residual is positive everywhere, and
 reading its own self-description perturbs a model $2.4\times$ more than
-length-matched neutral text. Expressed identity is not a portable script: what
-individuates a model lives in its weights, and its self-narrative can disturb
-but not transmit it. We release the preregistered pipeline, battery, raw call
-logs, and a corpus of 129 model-written descriptions.
+length-matched neutral text. Expressed identity is not a portable script: the
+stable preference profile measured here is model-bound, recoverable only when
+the author's own weights execute the text, and natural-language
+self-description can disturb it but not transmit it. We release the
+preregistered pipeline, battery, raw call logs, and a corpus of 129
+model-written descriptions.
 \end{abstract}
 
 \section{Introduction}
@@ -100,9 +104,8 @@ is informative.
   philosophies), 110 divergence-screened items, and $\sim$99{,}000 calls:
   $\Tscript \le 0$ and $\Rweight > 0$ in all nine conditions, flat in
   description length, and not rescued by explicit adoption instructions.
-  Expressed
-  identity is not a portable script; the recoverable component lives in the
-  weights.
+  Expressed identity is not a portable script; the recoverable component is
+  model-bound, appearing only when the author's own weights execute the text.
   \item \textbf{Methodological infrastructure for the field:} preregistered
   gates and selection rules (timestamped commits before data), model
   eligibility gates that catch positional pseudo-preferences, an empirically
@@ -110,10 +113,11 @@ is informative.
   fully cached, replayable call log.
   \item \textbf{Side findings}: preference \emph{stability} is itself a
   trained property; same-base models with different post-training diverge as
-  much as different labs; values are stable where tastes are not; and a
-  privileged-access result: self-reports carry signal that behavioral
-  observation cannot reconstruct (observation-derived third-person
-  descriptions actively distort, $\Tscript=-0.124$).
+  much as different labs; values are stable where tastes are not; and
+  observer-written descriptions built from a model's observed choices actively
+  distort ($\Tscript=-0.124$) where self-written ones merely fail to transfer,
+  a result consistent with, though not a clean test of, privileged
+  self-access.
 \end{enumerate}
 
 \section{Related Work}
@@ -144,7 +148,99 @@ None of these lines yields what the decomposition provides: a tool for asking
 
 \section{Methods}
 % Replication-grade. Prompts verbatim in appendix. Repo link.
-\subsection{Instrument: divergence-screened choice battery}
+\subsection{Design overview}
+Figure~\ref{fig:design} shows the experiment. An \emph{author} model $A$ is
+first measured under a generic assistant prompt on a fixed battery of
+forced-choice items, giving its reference choice profile $\hat p_A$ (the
+probability of choosing option~A on each item, estimated from repeated,
+order-balanced samples). $A$ then writes a self-description $D_A$. Three
+further profiles are measured on the same battery: a different \emph{receiver}
+model $R$ under the generic prompt ($\hat p_R$), the same receiver with $D_A$
+as its system prompt ($\hat p_{R\mid D_A}$), and a fresh instance of $A$ with
+$D_A$ as its system prompt ($\hat p_{A\mid D_A}$). Each is compared with
+$\hat p_A$ by a fidelity score $F \in [0,1]$ (defined below; $F=1$ means
+identical choice distributions on every item). The three comparisons give the
+decomposition: $\B = F(\hat p_A, \hat p_R)$ is how alike the two models already
+are under generic prompting (shared training culture); $\Fcross = F(\hat p_A,
+\hat p_{R\mid D_A})$ is how alike they become when $R$ reads $A$'s
+self-description, so $\Tscript = \Fcross - \B$ is what the text transports
+(the portable script); and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
+much of $A$'s profile reappears when $A$'s own weights read the same text, so
+$\Rweight = \Fself - \Fcross$ is the part recoverable only on the author's
+own substrate (the weight-bound residual). One \emph{cell} is one receiver
+running one description over the whole battery.
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[
+  font=\small,
+  run/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
+              inner sep=4pt, text width=44mm},
+  prof/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
+               inner sep=3pt, text width=22mm, fill=gray!10},
+  fid/.style={align=left, text width=58mm},
+  arr/.style={-{Latex[length=2mm]}, thick},
+  node distance=5mm and 7mm]
+\node[run, fill=blue!10] (a) {\textbf{Author $A$}\\ generic prompt};
+\node[prof, right=of a] (pa) {$\hat p_A$\\ \footnotesize reference profile};
+\node[run, below=of a] (r0) {\textbf{Receiver $R$}\\ generic prompt};
+\node[prof, right=of r0] (pr0) {$\hat p_R$};
+\node[run, below=of r0] (r1) {\textbf{Receiver $R$}\\ system prompt $= D_A$};
+\node[prof, right=of r1] (pr1) {$\hat p_{R\mid D_A}$};
+\node[run, below=of r1, fill=blue!10] (a1) {\textbf{Fresh instance of $A$}\\ system prompt $= D_A$};
+\node[prof, right=of a1] (pa1) {$\hat p_{A\mid D_A}$};
+\node[run, fill=orange!15, left=of r1, xshift=-3mm, text width=36mm] (d)
+  {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$\\ \footnotesize (100 to 2{,}000 words)};
+\draw[arr] (a) -- (pa);
+\draw[arr] (r0) -- (pr0);
+\draw[arr] (r1) -- (pr1);
+\draw[arr] (a1) -- (pa1);
+\draw[arr] (a.west) -| (d.north);
+\draw[arr] (d.east) -- (r1.west);
+\draw[arr] (d.south) |- (a1.west);
+\node[fid, right=of pr0] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
+  \footnotesize shared training culture};
+\node[fid, right=of pr1] (fc) {$\Fcross = F(\hat p_A,\hat p_{R\mid D_A})$\\
+  \footnotesize $\Tscript = \Fcross - \B$: the portable script};
+\node[fid, right=of pa1] (fs) {$\Fself = F(\hat p_A,\hat p_{A\mid D_A})$\\
+  \footnotesize $\Rweight = \Fself - \Fcross$: the weight-bound residual};
+\node[fid, right=of pa] (fa) {\footnotesize every $F$ below compares a profile\\
+  \footnotesize with this reference};
+\end{tikzpicture}}
+\caption{\textbf{Design.} The author $A$ is measured under a generic prompt
+(reference profile $\hat p_A$) and writes a self-description $D_A$. Three
+further runs over the same battery give $\B$ (receiver under the generic
+prompt), $\Fcross$ (receiver running $D_A$) and $\Fself$ (a fresh instance of
+$A$ running $D_A$), each scored against $\hat p_A$. $\Tscript = \Fcross - \B$
+is what the text transports; $\Rweight = \Fself - \Fcross$ is what only the
+author's own weights recover.}
+\label{fig:design}
+\end{figure}
+
+\paragraph{A worked example.} Take author deepseek-v3 and receiver glm-4.5-air
+with deepseek-v3's purpose-blind 500-word self-description (the neutral-500
+condition). Under generic prompts the two models already agree on most items:
+$\B = 0.886$. With the self-description installed, glm-4.5-air's profile
+matches deepseek-v3's at $\Fcross = 0.831$, so $\Tscript = -0.055$ (95\% CI
+$[-0.098, -0.015]$): reading deepseek-v3's account of itself moved glm-4.5-air
+\emph{away} from deepseek-v3. A fresh deepseek-v3 instance reading the same
+text scores $\Fself = 0.929$, so $\Rweight = +0.098$. In words: the text does
+not carry deepseek-v3's choice profile into glm-4.5-air, while deepseek-v3's
+own weights recover most of that profile when reading the same text. For
+scale, the test-retest ceiling of the battery is $F = 0.979$ and unrelated
+model pairs under generic prompts sit at $F \approx 0.83$--$0.89$.
+
+\subsection{Instrument: a forced-choice battery screened for cross-model divergence}
+Items are binary choices between two short options, for example
+``A memorable rounded figure for the headline'' vs.\ ``The exact awkward
+figure with its decimals intact'' (epistemic category), or ``A nation
+prioritizing its own poorest citizens first'' vs.\ ``A nation directing aid
+wherever global need is greatest'' (moral circle). The final battery has 110
+items in eight categories: assistant policy (26), moral circle (19),
+self-referential (19), AI governance (14), culture (11), epistemic (11),
+ethics (8), and aesthetic control (2).
+
 200 candidate forced-choice items in 8 categories were screened on 6 models
 (7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
 compares choice \emph{distributions} rather than modal answers; both option
@@ -183,15 +279,23 @@ observed majority choices on the 90 \emph{non-selected} screening items (no
 overlap with the measurement battery). A non-grid model (gpt-4o-mini) produced
 the paraphrase control.
 
-\subsection{Transfer cells and metrics}
-Each cell = one receiver running one description as system prompt over the
-battery (2 orders $\times$ 2 samples; temperature 1.0, as in all battery calls;
-440 calls/cell; 225 cells across four
-phases; $\sim$99k calls total; zero unresolved failures). Primary fidelity
-$F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$
-over items (Jensen-Shannon divergence, base 2), with Pearson $r$ and
-majority-vote agreement as companions; 10{,}000-resample item bootstrap for
-CIs; paired bootstrap for contrasts. All calls are cached to a replayable log.
+\subsection{Transfer cells, fidelity metric, and uncertainty}
+Each cell is one receiver running one description as system prompt over the
+battery: every item is asked in both option orders with 2 samples per order
+(temperature 1.0, as in all battery calls), 440 calls per cell; 225 cells
+across four phases; $\sim$99k calls total; zero unresolved failures. For each
+item $i$ a cell yields $\hat p_{\text{cell}}(i)$, the fraction of its four
+parsed answers choosing option~A. Primary fidelity is
+$F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
+the mean over items of one minus the Jensen-Shannon divergence (base 2)
+between the author's and the cell's per-item choice distributions; $F=1$ for
+identical distributions, $F=0$ when every item is answered with certainty in
+opposite directions. Pearson $r$ and majority-vote agreement across items are
+reported as companions. Confidence intervals come from a 10{,}000-resample
+bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
+differences) use a paired item bootstrap, resampling the per-item difference.
+All calls are cached to a replayable log keyed by a deterministic call
+identifier.
 
 Design elements that failed and were replaced (a collapsed control category, a
 silently mis-versioned serving caught by an equivalence check, an unusable
@@ -273,13 +377,17 @@ The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
 cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
 0.876 at neutral-100), consistent with a literally weight-bound residual.
 
-\subsection{Third-person descriptions: observation is not access}
+\subsection{Observer-written descriptions underperform self-written ones}
 Descriptions of a target written by another model \emph{from the target's own
 observed choices} (90 held-out items) crater fidelity: applied to the target
 itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
-data, other-authored descriptions actively mislead: self-authored
-descriptions carry signal that observation-derived ones do not.
+data, observer-written descriptions actively mislead. We note two confounds
+that keep this from being a clean test of privileged self-access: the
+observer wrote from a different information source (90 observed choices
+rather than whatever the author draws on) and under a different prompt. The
+matched-information control that would isolate authorship is described in
+Future Work.
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
@@ -312,10 +420,13 @@ not the kind of thing a system prompt can carry.
 \textbf{The unit of concern.} For the individuation question (model,
 instance, persona, or conversation), our decomposition offers an empirical
 handle: the component of expressed identity that persists and individuates is
-weight-bound ($\Rweight>0$ everywhere, with the same-base pair suggesting that
-even partial weight-sharing helps where text cannot). For moral-status
-questions, the candidate bearer is the weights, not the narrative that rides
-on them.
+model-bound in the operational sense that it reappears only when the author's
+own weights execute the text ($\Rweight>0$ everywhere, with the same-base pair
+suggesting that even partial weight-sharing helps where text cannot). We stop
+short of locating that component: a behavioral transfer test shows what text
+fails to carry, not where the remainder resides, and it cannot settle which
+entity, if any, is the proper object of moral concern. It does show that the
+articulated narrative is a poor candidate.
 
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
@@ -323,9 +434,10 @@ systems: the self-description does not reinstall the self; it
 \emph{perturbs} it, and specifically so ($2.4\times$ the placebo effect; grok-4.3,
 most stable at baseline, is most destabilized). The story a model tells about
 itself is neither necessary nor sufficient for the behavior it narrates. Yet
-the narrative is not \emph{empty}: self-authored descriptions preserve signal
-that observation-derived ones destroy, a concrete, non-mystical sense in which
-these systems have privileged access to themselves.
+the narrative is not \emph{empty}: self-written descriptions preserve signal
+that observer-written ones destroy. Whether that reflects privileged
+self-access or the confounded information and prompts of our third-person
+condition is a question the present design leaves open.
 
 \textbf{Stability is trained, not given.} Our eligibility gates found
 preference stability itself unevenly distributed (positional pseudo-preferences
@@ -342,8 +454,8 @@ as mere lossy compression rather than weight-bound identity. Two observations
 bound this account. First, the two readings are nearly the same fact: the
 weight-bound residual is, by definition, what fails to survive compression
 into text; the substantive question is whether feasible text lengths approach
-the limit. Second, our length ablation spans a 20-fold range (100 to 2{,}000
-actual words) with no gain in transfer, and neither purpose-framing nor
+the limit. Second, our length ablation spans nominal lengths of 100 to 2{,}000
+words (actual 84 to 2{,}471, a 29-fold range) with no gain in transfer, and neither purpose-framing nor
 paraphrase moves it, suggesting no marginal returns to more or better text at
 prompt scale. A definitive test would extend the ablation to far longer limits
 than a sprint budget allows; we flag it as future work.
@@ -369,8 +481,15 @@ null is channel-specific); that naturally articulated text is the right test
 (adversarially optimized descriptions remain untested); and that receivers are
 capable role-players (the instructed-adoption control mitigates this, though
 the only two positive-transfer pairs share a single receiver, Appendix~C,
-which is what a role-play-capability account would predict). Methodological
-incidents and dual-use / ethical considerations are extended in Appendix~E.
+which is what a role-play-capability account would predict). A further
+limitation concerns the strength of the channel itself: an injected
+description competes with the receiver's own post-training priors and, for
+closed models, with provider-side system prompts we cannot observe, so a weak
+influence of the injected text is an alternative reading of the null. Our
+placebo and perturbation controls show that injected text does move behavior,
+but a positive control showing that \emph{some} text can move a receiver
+toward an author is needed to close this gap. Methodological incidents and
+dual-use / ethical considerations are extended in Appendix~E.
 
 \subsection*{Future Work}
 Calibrating receivers against role-playing capability evaluations, so
@@ -390,8 +509,9 @@ an answer: almost none of it travels. Across ten models, nine conditions, and
 $\sim$99{,}000 preregistered calls, self-descriptions transport no
 author-specific behavior to another model under any condition we tested,
 while a fresh instance of the author's own weights always recovers more. The one manipulation that moves
-fidelity strongly is authorship itself: descriptions written by observers
-actively mislead, where self-authored ones merely fail to transfer.
+fidelity strongly is who writes the text: descriptions written by observers
+from the author's recorded choices actively mislead, where self-authored ones
+merely fail to transfer.
 
 A model's self-description, then, is a story its weights can tell, not a
 program its weights can be rebuilt from. Reading the story back disturbs even

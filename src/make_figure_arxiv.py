@@ -32,10 +32,12 @@ CONDITIONS = [
     ("neutral", "self-\ndescription"),
     ("adopt", "self-desc.\n+ adopt"),
     ("3p", "observer-\nwritten"),
-    ("selfobs", "self-\nobserved"),
-    ("optimized", "optimized\n(5 rounds)"),
-    ("fewshot", "demos\n(30 items)"),
-    ("oracle", "demos\n(110 items)"),
+    ("selfobs-500", "self-\nobserved"),
+    ("optimized-500", "optimized\n(5 rounds)"),
+    ("fewshot-30", "demos\nk=30"),
+    ("fewshot-60", "demos\nk=60"),
+    ("fewshot-90", "demos\nk=90"),
+    ("oracle-110", "answer key\nk=110"),
 ]
 
 
@@ -48,11 +50,12 @@ def main() -> None:
     for pair, b in pc["pairs_B"].items():
         vals["cross"]["B"].append(b)
     for c in pc["grid_a_reference"] + pc["cells"]:
-        if c["arm"] in vals[c["kind"]]:
-            vals[c["kind"]][c["arm"]].append(c["F"])
+        key = c.get("cond", c["arm"])  # sprint reference cells keyed by arm, added ones by cond
+        if key in vals[c["kind"]]:
+            vals[c["kind"]][key].append(c["F"])
 
-    fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.4), dpi=200, sharey=True,
-                             gridspec_kw={"width_ratios": [8, 7]})
+    fig, axes = plt.subplots(1, 2, figsize=(13.6, 4.6), dpi=200, sharey=True,
+                             gridspec_kw={"width_ratios": [10, 9]})
     fig.patch.set_facecolor(SURFACE)
     for ax, kind, color, marker, title in (
             (axes[0], "cross", ORANGE, "^", "Cross cells: another model runs the text"),

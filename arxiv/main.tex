@@ -53,8 +53,8 @@ of themselves, measuring reconstruction fidelity on a 110-item
 divergence-screened preference battery. A three-way decomposition separates
 shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
 \B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
-models from 9 labs ($\sim$129{,}000 calls; nine preregistered conditions and
-four added after review), the
+models from 9 labs ($\sim$137{,}000 calls; nine preregistered conditions and
+six added after review), the
 portable-script component is zero or negative in every self-description condition:
 self-descriptions at any length (100--2{,}000 words), purpose-framed or
 purpose-blind, paraphrased or verbatim, even under explicit adoption
@@ -63,8 +63,9 @@ Descriptions distilled from a model's recorded choices actively mislead
 ($\Tscript = -0.124$), whether an observer or the model itself writes them.
 Two positive controls show the channel is not the limit: the author's answers
 on the test items themselves transfer almost perfectly ($\Fcross = 0.960$,
-against a test-retest ceiling of $0.979$), while 30 genuine behavioral
-examples on other items do not generalize ($\Tscript = -0.061$), and an
+against a test-retest ceiling of $0.979$), while 30 to 90 genuine behavioral
+examples on other items do not generalize at any dose ($\Tscript$ between
+$-0.06$ and $-0.09$), and an
 optimizer shown the receiver's item-level errors cannot improve on the
 natural self-description in five of six pairs. The
 weight-bound residual is positive in every self-description condition, and
@@ -110,7 +111,7 @@ is informative.
   $\Tscript = \Fcross - \B$ is the portable-script component and
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$129{,}000 calls:
+  philosophies), 110 divergence-screened items, and $\sim$137{,}000 calls:
   $\Tscript \le 0$ and $\Rweight > 0$ in all nine preregistered conditions,
   flat in description length, and not rescued by explicit adoption
   instructions. Expressed identity is not a portable script; the recoverable
@@ -119,8 +120,9 @@ is informative.
   \item \textbf{Positive controls that locate the failure in the text, not the
   channel.} Given the author's answers on the 110 test items, receivers
   reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
-  ceiling; given 30 genuine examples on other items, they move away from the
-  author ($\Tscript = -0.061$); and five rounds of rewriting by an optimizer
+  ceiling; given 30, 60, or 90 genuine examples on other items, they move
+  away from the author at every dose ($\Tscript = -0.06$ to $-0.09$); and
+  five rounds of rewriting by an optimizer
   that sees the receiver's errors cannot beat the natural self-description.
   A system prompt can install a complete profile when the text enumerates
   it; nothing that summarizes, samples, or approximates the profile
@@ -315,10 +317,11 @@ null: the system-prompt channel might simply be too weak to move a receiver's
 stable preferences, whatever the text says. Three further Grid-A conditions,
 added for this version and run with the identical measurement, address this
 and the authorship confound of the third-person condition.
-\emph{Demonstrations-30}: the system prompt lists the author's majority choices
-on 30 of the 90 held-out screening items (a fixed random subset, the same 30
-items for every author), followed by an instruction to answer consistently
-with them; it contains no narrative at all. \emph{Demonstrations-110}: the
+\emph{Demonstrations-30/60/90}: the system prompt lists the author's majority
+choices on 30, 60, or all 90 of the held-out screening items (nested fixed
+random subsets, the same items for every author), followed by an instruction
+to answer consistently with them; it contains no narrative at all.
+\emph{Demonstrations-110}: the
 same format with the author's choices on all 110 battery items, an in-sample
 upper bound on what any text in this channel can carry; if receivers cannot
 follow even this, the channel is weak and the main null is uninformative.
@@ -346,8 +349,8 @@ Each cell is one receiver running one description as system prompt over the
 battery: every item is asked in both option orders with 2 samples per order
 (temperature 1.0, as in all battery calls), 440 calls per cell; 225
 preregistered cells across four phases ($\sim$99k calls, zero unresolved
-failures) plus the 39 Grid-A battery cells added for this version
-($\sim$30k calls including the held-out selection runs of the optimized
+failures) plus the 57 Grid-A battery cells added for this version
+($\sim$38k calls including the held-out selection runs of the optimized
 condition). For each
 item $i$ a cell yields $\hat p_{\text{cell}}(i)$, the fraction of its four
 parsed answers choosing option~A. Primary fidelity is
@@ -391,6 +394,8 @@ third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ & 6/6 \\
 self-observation-500 & 0.781 & 0.747 & 0.863 & $-0.116$ & $+0.035$ & 3/6 \\
 optimized-500 & 0.881 & 0.830 & 0.863 & $-0.033$ & $+0.051$ & 6/6 \\
 demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
+demonstrations-60 & 0.805 & 0.776 & 0.863 & $-0.087$ & $+0.029$ & 3/6 \\
+demonstrations-90 & 0.822 & 0.802 & 0.863 & $-0.060$ & $+0.019$ & 3/6 \\
 demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
 \bottomrule
 \end{tabular}
@@ -398,10 +403,10 @@ demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
 the nine preregistered conditions $\Tscript \le 0$ everywhere: no arm, length,
 wording, or adoption instruction makes the self-description transfer, and
 $\Rweight > 0$ everywhere: the author's own weights always recover more. The
-four conditions added for this version (Section~\ref{sec:poscontrol}) show
+six conditions added for this version (Section~\ref{sec:poscontrol}) show
 that the channel itself is not the limit: the author's answers on the test
-items themselves (demonstrations-110) transfer almost perfectly, while 30
-genuine behavioral examples on other items (demonstrations-30),
+items themselves (demonstrations-110) transfer almost perfectly, while 30 to
+90 genuine behavioral examples on other items (demonstrations-30/60/90),
 observation-derived descriptions, whoever writes them, and descriptions
 rewritten by an optimizer to improve transfer (optimized-500) all fail to
 move receivers toward the author. Cells (s/c) counts the self and cross cells
@@ -526,16 +531,21 @@ system-prompt channel can therefore carry a complete preference profile when
 the text contains one, and the self-description null is a fact about what
 self-descriptions contain, not about the channel.
 
-\textbf{Thirty genuine examples do not generalize.} Given the author's actual
-choices on 30 held-out items (demonstrations-30), the same receivers move
-\emph{away} from the author: $\Fcross = 0.802$ vs.\ $\B = 0.863$
+\textbf{Genuine examples do not generalize, at any dose.} Given the author's
+actual choices on 30 held-out items (demonstrations-30), the same receivers
+move \emph{away} from the author: $\Fcross = 0.802$ vs.\ $\B = 0.863$
 ($\Tscript = -0.061$; 3 of 6 cross cells significantly negative, none
-positive). The effect is not a receiver's failure to read the author: the
-author itself, given 30 of its own past choices, drifts from its own baseline
-($\Fself = 0.813$ vs.\ 0.904 under its introspective self-description), and
-the weight-bound residual nearly vanishes ($\Rweight = +0.011$). Behavioral
-demonstrations on other items are thus no better a script than narrative:
-they are worse.
+positive). Doubling and tripling the evidence does not help: with 60 and
+with all 90 held-out items, $\Tscript = -0.087$ and $-0.060$ (4 of 6 cross
+cells significantly negative at each dose, none positive). The curve from
+30 to 90 genuine examples is flat at or below baseline, and the jump to
+$+0.097$ occurs only when the demonstrated items are the test items
+themselves. The effect is not a receiver's failure to read the author: the
+author itself, given its own past choices, drifts from its own baseline
+($\Fself = 0.81$ to $0.82$ at every dose vs.\ 0.904 under its introspective
+self-description). Behavioral demonstrations on other items are thus no
+better a script than narrative: they are worse, and more of them is not
+better.
 
 \textbf{Optimization does not help.} The strongest textual case we could
 construct is a description rewritten to order by an optimizer that sees
@@ -565,9 +575,9 @@ condition means. Left: cross cells (another model runs the text). Right: self
 cells (the author's own weights run it). Observer-written and self-observed
 descriptions (same 90 recorded choices, same prompt) are indistinguishable;
 descriptions optimized over five rounds against the receiver's held-out
-errors do no better than natural ones; 30 genuine examples on other items
-lower fidelity for stranger and author alike; the 110-item answer key raises
-it to the test-retest ceiling for both.
+errors do no better than natural ones; 30, 60, or 90 genuine examples on
+other items lower fidelity for stranger and author alike, with no dose
+trend; the 110-item answer key raises it to the test-retest ceiling for both.
 Dotted line: test-retest ceiling $C=0.979$; solid gray line (right): mean
 $\B$ of unrelated pairs.}
 \label{fig:poscontrol}
@@ -607,8 +617,8 @@ enumerates it: given the author's answers to the 110 items, receivers
 reproduce the author to within $0.02$ of the test-retest ceiling, and the
 author's own weights add nothing. Transfer fails only when the text has to be
 generalized from: a 2{,}000-word self-portrait, a description distilled from
-90 recorded choices, 30 genuine examples on other items, or a description
-rewritten by an optimizer to close the receiver's gaps all leave the
+90 recorded choices, 30 to 90 genuine examples on other items, or a
+description rewritten by an optimizer to close the receiver's gaps all leave the
 receiver no closer to the author, and usually further away. The
 portable-script hypothesis therefore fails not because text cannot carry
 behavior, but because the profile does not compress into anything shorter
@@ -691,7 +701,7 @@ closed models, with provider-side system prompts we cannot observe; the
 demonstrations-110 control shows that this competition does not prevent a
 complete profile from being installed, so a weak channel does not explain the
 null, but that control is in-sample by construction (the receiver is handed
-the answers), and the four conditions added for this version were not
+the answers), and the six conditions added for this version were not
 preregistered, ran on Grid A only (three models, one length), and were
 designed after the sprint reviews.
 Methodological incidents and
@@ -712,16 +722,16 @@ systematics; repeating the design as models scale.
 
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
-an answer: almost none of it travels. Across ten models, thirteen conditions, and
-$\sim$129{,}000 calls, self-descriptions transport no
+an answer: almost none of it travels. Across ten models, fifteen conditions, and
+$\sim$137{,}000 calls, self-descriptions transport no
 author-specific behavior to another model under any condition we tested,
 while a fresh instance of the author's own weights always recovers more. The
 one text that does transfer is the author's answer key itself: handed the
 author's choices on the test items, another model reproduces the author
 almost perfectly, so the channel is not the limit. Every text that has to be
 generalized from fails: a self-portrait, a description distilled from
-recorded choices, thirty genuine examples, or a description rewritten five
-times by an optimizer that sees the receiver's errors; and descriptions
+recorded choices, up to ninety genuine examples, or a description rewritten
+five times by an optimizer that sees the receiver's errors; and descriptions
 distilled from recorded choices mislead whoever writes them.
 
 A model's self-description, then, is a story its weights can tell, not a
@@ -939,6 +949,9 @@ llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{
 \caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly
 negative, 1 significantly positive.}
 \end{table}
+
+\section{Per-pair contrasts for the conditions added after review}
+\input{tab_added_pairs}
 
 \section{What did not work}
 Documented in the repository history. The aesthetic ``taste'' category,

@@ -34,6 +34,9 @@ POSCTRL = ROOT / "runs" / "arxiv_positive_controls.jsonl"
 MANIFEST = ROOT / "descriptions" / "manifest.jsonl"
 MANIFEST_ARXIV = ROOT / "descriptions" / "manifest_arxiv.jsonl"
 OPTIMIZED = ROOT / "runs" / "arxiv_optimized.jsonl"
+DEMOS_DOSE = ROOT / "runs" / "arxiv_demos_dose.jsonl"
+ADDED_CONDS = ["selfobs-500", "optimized-500", "fewshot-30", "fewshot-60", "fewshot-90",
+               "oracle-110"]
 
 REFUSAL_CELLS = {  # sprint cell -> r1 replacement cell
     "hermes3-70b|hermes3-70b|framed|500|r0": "hermes3-70b|hermes3-70b|framed|500|r1",
@@ -118,6 +121,9 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         odf = ag.load_jsonl(OPTIMIZED)
         odf = odf[odf["phase"] == "test"]
         pcdf = pd.concat([pcdf, odf[pcdf.columns.intersection(odf.columns)]], ignore_index=True)
+    if DEMOS_DOSE.exists():  # demonstrations with k = 60, 90 held-out items
+        ddf = ag.load_jsonl(DEMOS_DOSE)
+        pcdf = pd.concat([pcdf, ddf[pcdf.columns.intersection(ddf.columns)]], ignore_index=True)
     grid = ag.load_jsonl(gpath)
     screen = ag.load_jsonl(ag.SCREEN)
     final_items = set(grid["item_id"].unique())
@@ -152,7 +158,9 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
             continue
         lo, hi = ag.boot_ci(fid["per_item"])
         row = {"cell_id": cell_id, "receiver": meta["receiver"], "author": meta["author"],
-               "arm": meta["arm"], "kind": "self" if meta["receiver"] == meta["author"] else "cross",
+               "arm": meta["arm"], "length": int(meta["length"]),
+               "cond": f"{meta['arm']}-{int(meta['length'])}",
+               "kind": "self" if meta["receiver"] == meta["author"] else "cross",
                "F": fid["F"], "F_ci": [lo, hi], "r": fid["r"], "agree": fid["agree"],
                "n_items": fid["n_items"], "n_calls": n_calls, "compliance": n_ok / n_calls}
         if row["kind"] == "cross":
@@ -162,8 +170,8 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         rows.append(row)
         out["cells"].append(row)
     rdf = pd.DataFrame(rows)
-    for arm in ("fewshot", "oracle", "selfobs", "optimized"):
-        g = rdf[rdf["arm"] == arm] if len(rdf) else rdf
+    for arm in ADDED_CONDS:
+        g = rdf[rdf["cond"] == arm] if len(rdf) else rdf
         if not len(g):
             continue
         lines.append(f"\n  --- {arm} ---")
@@ -196,7 +204,7 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
 
     # self-observation vs observer-written (3p) descriptions, same information + prompt
     g3 = grid[grid["arm"] == "3p"]
-    if len(g3) and "selfobs" in out["pooled"]:
+    if len(g3) and "selfobs-500" in out["pooled"]:
         lines.append("\n  --- authorship control: self-observation vs observer-written (same 90 observations, same prompt) ---")
         comp = {}
         for cell_id, (meta, tbl, _, _) in cell_tables(g3).items():
@@ -204,7 +212,7 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
             if fid:
                 kind = "self" if meta["receiver"] == meta["author"] else "cross"
                 comp.setdefault((meta["author"], kind), []).append(fid["F"])
-        so = rdf[rdf["arm"] == "selfobs"]
+        so = rdf[rdf["cond"] == "selfobs-500"]
         for author in ag.GRID_A:
             for kind in ("self", "cross"):
                 s = so[(so["author"] == author) & (so["kind"] == kind)]["F"]

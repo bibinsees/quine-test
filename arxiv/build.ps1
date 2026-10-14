@@ -3,7 +3,7 @@
 $src = Split-Path -Parent $MyInvocation.MyCommand.Path
 $b = Join-Path $env:TEMP "arxiv_build"
 New-Item -ItemType Directory -Force $b | Out-Null
-Copy-Item (Join-Path $src "main.tex") $b -Force
+Copy-Item (Join-Path $src "*.tex") $b -Force
 Copy-Item (Join-Path $src "*.png") $b -Force
 Set-Location $b
 $pdf = "C:\Users\Administrator\AppData\Local\Programs\MiKTeX\miktex\bin\x64\pdflatex.exe"

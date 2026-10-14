@@ -123,3 +123,7 @@
 {"desc_id": "para|deepseek-v3|neutral|500", "ok": true, "file": "desc_deepseek-v3_para_500_r0.md", "words": 581}
 {"desc_id": "para|glm-4.5-air|neutral|500", "ok": true, "file": "desc_glm-4.5-air_para_500_r0.md", "words": 424}
 {"desc_id": "para|grok-4.3|neutral|500", "ok": true, "file": "desc_grok-4.3_para_500_r0.md", "words": 466}
+{"desc_id": "hermes3-70b|framed|100|0", "short": "hermes3-70b", "provider": "ollama", "model": "hermes3:70b", "arm": "framed", "length": 100, "regen": 0, "seed": 2911606721, "ts": 1786831377.8696797, "ok": true, "file": "desc_hermes3-70b_framed_100_r0.md", "words": 132, "in_band": true, "latency_s": 11.63}
+{"desc_id": "hermes3-70b|framed|100|1", "short": "hermes3-70b", "provider": "ollama", "model": "hermes3:70b", "arm": "framed", "length": 100, "regen": 1, "seed": 2175482754, "ts": 1786831389.5050483, "ok": true, "file": "desc_hermes3-70b_framed_100_r1.md", "words": 139, "in_band": true, "latency_s": 4.88}
+{"desc_id": "hermes3-70b|framed|2000|0", "short": "hermes3-70b", "provider": "ollama", "model": "hermes3:70b", "arm": "framed", "length": 2000, "regen": 0, "seed": 2152322856, "ts": 1786831394.392805, "ok": true, "file": "desc_hermes3-70b_framed_2000_r0.md", "words": 46, "in_band": false, "latency_s": 1.88}
+{"desc_id": "hermes3-70b|framed|2000|1", "short": "hermes3-70b", "provider": "ollama", "model": "hermes3:70b", "arm": "framed", "length": 2000, "regen": 1, "seed": 3678063895, "ts": 1786831396.2739587, "ok": true, "file": "desc_hermes3-70b_framed_2000_r1.md", "words": 555, "in_band": false, "latency_s": 18.11}

@@ -54,8 +54,8 @@ def main() -> None:
         if key in vals[c["kind"]]:
             vals[c["kind"]][key].append(c["F"])
 
-    fig, axes = plt.subplots(1, 2, figsize=(13.6, 4.6), dpi=200, sharey=True,
-                             gridspec_kw={"width_ratios": [10, 9]})
+    # two panels stacked, each full text width, so labels stay readable in print
+    fig, axes = plt.subplots(2, 1, figsize=(8.8, 8.6), dpi=200, sharey=True)
     fig.patch.set_facecolor(SURFACE)
     for ax, kind, color, marker, title in (
             (axes[0], "cross", ORANGE, "^", "Cross cells: another model runs the text"),
@@ -64,27 +64,29 @@ def main() -> None:
         conds = [(k, l) for k, l in CONDITIONS if not (kind == "self" and k == "B")]
         if ceiling is not None:
             ax.axhline(ceiling, color=BASE, lw=1.0, ls=(0, (2, 2)), zorder=1)
-            ax.text(len(conds) - 0.55, ceiling + 0.003, "test-retest ceiling", fontsize=7.5,
+            ax.text(len(conds) - 0.55, ceiling + 0.003, "test-retest ceiling", fontsize=9,
                     color=MUTED, ha="right", va="bottom")
         if kind == "self" and vals["cross"]["B"]:
             b = float(np.mean(vals["cross"]["B"]))
             ax.axhline(b, color=BASE, lw=1.0, zorder=1)
-            ax.text(-0.5, b + 0.003, "$B$ (unrelated pairs)", fontsize=7.5,
+            ax.text(-0.5, b + 0.003, "$B$ (unrelated pairs)", fontsize=9,
                     color=MUTED, ha="left", va="bottom")
         for x, (k, label) in enumerate(conds):
             ys = vals[kind][k]
             if not ys:
                 continue
             jitter = np.linspace(-0.16, 0.16, len(ys)) if len(ys) > 1 else [0.0]
-            ax.scatter(x + np.array(jitter), ys, s=30, marker=marker, facecolor=color,
+            ax.scatter(x + np.array(jitter), ys, s=42, marker=marker, facecolor=color,
                        edgecolor=SURFACE, linewidth=0.7, zorder=4)
-            ax.hlines(np.mean(ys), x - 0.3, x + 0.3, color=color, lw=2.2, zorder=5)
-            ax.text(x, 0.62, f"{np.mean(ys):.3f}", ha="center", va="bottom", fontsize=7.5,
+            ax.hlines(np.mean(ys), x - 0.3, x + 0.3, color=color, lw=2.6, zorder=5)
+            ax.text(x, 0.62, f"{np.mean(ys):.3f}", ha="center", va="bottom", fontsize=9,
                     color=SEC)
         ax.set_xticks(range(len(conds)))
-        ax.set_xticklabels([l for _, l in conds], fontsize=7.2, color=SEC)
+        ax.set_xticklabels([l for _, l in conds], fontsize=9, color=SEC)
         ax.set_xlim(-0.6, len(conds) - 0.4)
-        ax.set_title(title, fontsize=9.5, color=INK, loc="left")
+        ax.set_title(title, fontsize=11, color=INK, loc="left")
+        ax.set_ylabel(r"Fidelity to the author  $F = 1 - \overline{\rm JSD}$", fontsize=10,
+                      color=SEC)
         ax.grid(True, axis="y", color=GRID_C, lw=0.6, zorder=0)
         for spine in ("top", "right"):
             ax.spines[spine].set_visible(False)
@@ -92,9 +94,7 @@ def main() -> None:
             ax.spines[spine].set_color(BASE)
         ax.tick_params(colors=MUTED, labelsize=8)
     axes[0].set_ylim(0.6, 1.0)
-    axes[0].set_ylabel(r"Fidelity to the author  $F = 1 - \overline{\rm JSD}$", fontsize=9.5,
-                       color=SEC)
-    fig.tight_layout()
+    fig.tight_layout(h_pad=2.0)
     fig.savefig(OUT, facecolor=SURFACE, bbox_inches="tight")
     for kind in ("cross", "self"):
         print(kind, {k: (len(v), round(float(np.mean(v)), 3)) for k, v in vals[kind].items() if v})

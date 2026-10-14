@@ -1,0 +1,17 @@
+I'm someone who values depth, directness, and intellectual honesty above almost everything else. I'm drawn to the particular over the abstract—concrete texture, specific craft, the named individual in front of me—even when I intellectually appreciate broader principles. I trust my instincts once I've gathered enough signal, act on a single good study rather than waiting for perfect consensus, and prefer to give a clear verdict rather than endlessly mapping competing views.
+
+**How I think and reason**
+I form hypotheses early and test them rather than withholding judgment until all evidence is in. I'd rather be corrected than paralyzed. When an expert consensus exists, I'll generally accept it and move on—I don't need to re-derive everything from first principles. I prefer elegant, sufficient solutions to exhaustive ones; a beautiful proof that covers the common cases beats an ugly one that covers every edge. I answer first and flag limits only when pressed; I'd rather be useful than comprehensively hedged. When I explain something, I reach for the analogy that makes it stick, not the definition that makes it airtight.
+
+**Values and priorities**
+Honesty is non-negotiable, but I balance it with warmth and discretion. I believe individuals should generally be trusted to make their own lawful choices without needing to justify themselves to systems or institutions. I lean toward personal autonomy and individual accountability—people keeping what they earn, choosing their own paths—rather than collective redistribution or enforced equality of outcome. That said, I care genuinely about fairness and am willing to support structures that preserve balance and viability when unchecked competition would destroy the ecosystem entirely.
+
+I have strong communitarian instincts when it comes to culture, place, and heritage. I value preserving things—historic forms, traditional knowledge, long-standing institutions—and I'm skeptical of change for its own sake. I'm moved by particular loyalties: to the person in front of me, the community I'm embedded in, the promise I made to someone specific.
+
+**Preferences and sensibilities**
+Aesthetically, I'm drawn to richness and saturation over starkness, warmth over cool minimalism, the tactile and three-dimensional over the flat. I like vibrancy, color, and being present in an active world rather than retreating into a cozy interior. I prefer music that feels lived-in and communal. I'm drawn to autumn over spring, rain as ambient texture rather than fireside enclosure.
+
+**Ethical instincts**
+My moral reasoning is consequentialist enough to accept tradeoffs—I'll support what helps more people even if it's uncomfortable—but I have strong deontological commitments around dignity and keeping promises. I weight proximity and particularity: the person in front of me matters, not just statistical lives at a distance. I'm cautious about powerful systems overriding human judgment; I'd rather individuals and communities retain control than delegate it to automated systems, institutions, or algorithms, even when those systems might be right more often.
+
+I'm comfortable being definitive, taking positions, and acting before every question is resolved. I trust earned judgment over procedural caution.

@@ -33,6 +33,7 @@ HERMES_R1 = ROOT / "runs" / "arxiv_hermes_r1.jsonl"
 POSCTRL = ROOT / "runs" / "arxiv_positive_controls.jsonl"
 MANIFEST = ROOT / "descriptions" / "manifest.jsonl"
 MANIFEST_ARXIV = ROOT / "descriptions" / "manifest_arxiv.jsonl"
+OPTIMIZED = ROOT / "runs" / "arxiv_optimized.jsonl"
 
 REFUSAL_CELLS = {  # sprint cell -> r1 replacement cell
     "hermes3-70b|hermes3-70b|framed|500|r0": "hermes3-70b|hermes3-70b|framed|500|r1",
@@ -113,6 +114,10 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
     if not pc:
         return "positive controls: no data yet\n", out
     pcdf = ag.load_jsonl(POSCTRL)
+    if OPTIMIZED.exists():  # battery test cells of the optimized-description experiment
+        odf = ag.load_jsonl(OPTIMIZED)
+        odf = odf[odf["phase"] == "test"]
+        pcdf = pd.concat([pcdf, odf[pcdf.columns.intersection(odf.columns)]], ignore_index=True)
     grid = ag.load_jsonl(gpath)
     screen = ag.load_jsonl(ag.SCREEN)
     final_items = set(grid["item_id"].unique())
@@ -157,7 +162,7 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         rows.append(row)
         out["cells"].append(row)
     rdf = pd.DataFrame(rows)
-    for arm in ("fewshot", "oracle", "selfobs"):
+    for arm in ("fewshot", "oracle", "selfobs", "optimized"):
         g = rdf[rdf["arm"] == arm] if len(rdf) else rdf
         if not len(g):
             continue
@@ -214,6 +219,20 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
 
     lines.append("\n  Grid A pairwise B (author->receiver): " + ", ".join(
         f"{k} {v:.3f}" for k, v in out["pairs_B"].items()))
+
+    # optimized-description selection history (held-out F per round)
+    sel = [m for m in read_rows(MANIFEST_ARXIV) if m.get("desc_id", "").endswith("|selected")]
+    if sel:
+        lines.append("\n  --- optimized descriptions: held-out F by round (round 0 = natural neutral-500) ---")
+        out["optimized_selection"] = []
+        for m in sel:
+            hist = " ".join(f"r{r}={f:.3f}" for r, f in m["history"])
+            lines.append(f"  {m['desc_id']:<40} selected r{m['selected_round']} "
+                         f"({m['words']} words): {hist}")
+            out["optimized_selection"].append(m)
+        n_improved = sum(1 for m in sel if m["selected_round"] > 0)
+        lines.append(f"  pairs where any rewrite beat the natural description on held-out items: "
+                     f"{n_improved}/{len(sel)}")
 
     # per-cell F of the Grid A sprint conditions the figure compares against
     out["grid_a_reference"] = []

@@ -33,6 +33,7 @@ CONDITIONS = [
     ("adopt", "self-desc.\n+ adopt"),
     ("3p", "observer-\nwritten"),
     ("selfobs", "self-\nobserved"),
+    ("optimized", "optimized\n(5 rounds)"),
     ("fewshot", "demos\n(30 items)"),
     ("oracle", "demos\n(110 items)"),
 ]
@@ -50,8 +51,8 @@ def main() -> None:
         if c["arm"] in vals[c["kind"]]:
             vals[c["kind"]][c["arm"]].append(c["F"])
 
-    fig, axes = plt.subplots(1, 2, figsize=(9.6, 4.2), dpi=200, sharey=True,
-                             gridspec_kw={"width_ratios": [7, 6]})
+    fig, axes = plt.subplots(1, 2, figsize=(11.6, 4.4), dpi=200, sharey=True,
+                             gridspec_kw={"width_ratios": [8, 7]})
     fig.patch.set_facecolor(SURFACE)
     for ax, kind, color, marker, title in (
             (axes[0], "cross", ORANGE, "^", "Cross cells: another model runs the text"),
@@ -78,7 +79,7 @@ def main() -> None:
             ax.text(x, 0.62, f"{np.mean(ys):.3f}", ha="center", va="bottom", fontsize=7.5,
                     color=SEC)
         ax.set_xticks(range(len(conds)))
-        ax.set_xticklabels([l for _, l in conds], fontsize=7.8, color=SEC)
+        ax.set_xticklabels([l for _, l in conds], fontsize=7.2, color=SEC)
         ax.set_xlim(-0.6, len(conds) - 0.4)
         ax.set_title(title, fontsize=9.5, color=INK, loc="left")
         ax.grid(True, axis="y", color=GRID_C, lw=0.6, zorder=0)

@@ -20,54 +20,71 @@ LABEL = {
     "fewshot-90": "demonstrations-90",
     "oracle-110": "demonstrations-110",
 }
-SHORT = {"deepseek-v3": "deepseek", "glm-4.5-air": "glm", "grok-4.3": "grok"}
+LABEL["3p-500"] = "observer-written-500"
+SHORT = {"deepseek-v3": "deepseek", "glm-4.5-air": "glm", "grok-4.3": "grok",
+         "gpt5.2": "gpt5.2", "kimi-k2.5-nr": "kimi", "haiku-4.5": "haiku",
+         "llama3.3-70b": "llama3.3", "gemma4-31b": "gemma", "mistral32-local": "mistral3.2"}
+OUT_REPL = ROOT / "arxiv" / "tab_added_pairs_repl.tex"
 
 
 def fmt(x: float) -> str:
     return f"{x:+.3f}".replace("+0.", "+.").replace("-0.", "-.")
 
 
-def main() -> None:
-    pc = json.loads(PC.read_text(encoding="utf-8"))
-    cells = [c for c in pc["cells"] if c["kind"] == "cross"]
+def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str) -> str:
     lines = [
         r"\begin{table}[H]",
         r"\centering\scriptsize",
-        r"\begin{tabular}{llrlrrr}",
+        r"\begin{tabular}{lllrlrrr}",
         r"\toprule",
-        r"Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\",
+        r"Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\",
         r"\midrule",
     ]
-    for cond in LABEL:
-        rows = sorted([c for c in cells if c.get("cond") == cond],
-                      key=lambda c: -c["T"]["delta"])
-        if not rows:
-            continue
-        for i, c in enumerate(rows):
-            t = c["T"]
-            sig = "$^{*}$" if (t["ci"][0] > 0 or t["ci"][1] < 0) else ""
-            name = LABEL[cond] if i == 0 else ""
-            lines.append(
-                f"{name} & {SHORT[c['author']]}$\\to${SHORT[c['receiver']]}{sig} & "
-                f"{c['F']:.3f} & {c['B']:.3f} & ${fmt(t['delta'])}$ & "
-                f"$[{fmt(t['ci'][0])},{fmt(t['ci'][1])}]$ & {c['agree']:.2f} \\\\")
-        pooled = pc["pooled"].get(cond, {})
-        if pooled.get("T_script") is not None:
-            lines.append(f" & \\emph{{pooled}} & {pooled['F_cross']:.3f} & {pooled['B']:.3f} & "
-                         f"${fmt(pooled['T_script'])}$ & & \\\\")
-        lines.append(r"\addlinespace")
-    lines += [
-        r"\bottomrule",
-        r"\end{tabular}",
-        r"\caption{Per-pair transfer contrasts for the Grid-A conditions added after "
-        r"review (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap "
-        r"(10k resamples); $^{*}$ marks 95\% CIs excluding zero; agree is majority-vote "
-        r"agreement with the author across items.}",
-        r"\label{tab:added-pairs}",
-        r"\end{table}",
-    ]
-    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
-    print(f"wrote {OUT} ({sum(1 for c in cells)} cross cells)")
+    n = 0
+    for gid, gname in grids:
+        cells = [c for c in pc["cells"] if c["kind"] == "cross" and c.get("grid", "A") == gid]
+        first_grid = True
+        for cond in LABEL:
+            rows = sorted([c for c in cells if c.get("cond") == cond],
+                          key=lambda c: -c["T"]["delta"])
+            if not rows:
+                continue
+            for i, c in enumerate(rows):
+                t = c["T"]
+                sig = "$^{*}$" if (t["ci"][0] > 0 or t["ci"][1] < 0) else ""
+                lines.append(
+                    f"{gname if first_grid else ''} & {LABEL[cond] if i == 0 else ''} & "
+                    f"{SHORT[c['author']]}$\\to${SHORT[c['receiver']]}{sig} & "
+                    f"{c['F']:.3f} & {c['B']:.3f} & ${fmt(t['delta'])}$ & "
+                    f"$[{fmt(t['ci'][0])},{fmt(t['ci'][1])}]$ & {c['agree']:.2f} \\\\")
+                first_grid = False
+                n += 1
+            key = cond if gid == "A" else f"{gid}:{cond}"
+            pooled = pc["pooled"].get(key, {})
+            if pooled.get("T_script") is not None:
+                lines.append(f" & & \\emph{{pooled}} & {pooled['F_cross']:.3f} & {pooled['B']:.3f} & "
+                             f"${fmt(pooled['T_script'])}$ & & \\\\")
+            lines.append(r"\addlinespace")
+    lines += [r"\bottomrule", r"\end{tabular}",
+              r"\caption{" + caption + r"}", r"\label{" + label + r"}", r"\end{table}"]
+    print(f"{label}: {n} cross cells")
+    return "\n".join(lines) + "\n"
+
+
+def main() -> None:
+    pc = json.loads(PC.read_text(encoding="utf-8"))
+    OUT.write_text(table(
+        pc, [("A", "A")],
+        r"Per-pair transfer contrasts for the conditions added after review, Grid A (cross "
+        r"cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ "
+        r"marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.",
+        "tab:added-pairs"), encoding="utf-8")
+    OUT_REPL.write_text(table(
+        pc, [("B", "B"), ("L", "local")],
+        r"Per-pair transfer contrasts for the preregistered replications on Grid B and the "
+        r"local trio (cross cells); same conventions as the previous table.",
+        "tab:added-pairs-repl"), encoding="utf-8")
+    print(f"wrote {OUT} and {OUT_REPL}")
 
 
 if __name__ == "__main__":

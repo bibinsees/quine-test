@@ -17,6 +17,7 @@ Writes results/arxiv/analysis.txt and results/arxiv/positive_controls.json.
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import json
 from pathlib import Path
@@ -35,6 +36,12 @@ MANIFEST = ROOT / "descriptions" / "manifest.jsonl"
 MANIFEST_ARXIV = ROOT / "descriptions" / "manifest_arxiv.jsonl"
 OPTIMIZED = ROOT / "runs" / "arxiv_optimized.jsonl"
 DEMOS_DOSE = ROOT / "runs" / "arxiv_demos_dose.jsonl"
+GRIDB = ROOT / "runs" / "arxiv_gridb.jsonl"
+LOCAL_DEMOS = ROOT / "runs" / "arxiv_local_demos.jsonl"
+GRID_OF = {**{m: "A" for m in ag.GRID_A}, **{m: "B" for m in ag.GRID_B},
+           **{m: "L" for m in ag.LOCALS}}
+GRID_NAME = {"A": "Grid A", "B": "Grid B (preregistered replication)",
+             "L": "local trio (preregistered replication)"}
 ADDED_CONDS = ["selfobs-500", "optimized-500", "fewshot-30", "fewshot-60", "fewshot-90",
                "oracle-110"]
 
@@ -121,9 +128,10 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         odf = ag.load_jsonl(OPTIMIZED)
         odf = odf[odf["phase"] == "test"]
         pcdf = pd.concat([pcdf, odf[pcdf.columns.intersection(odf.columns)]], ignore_index=True)
-    if DEMOS_DOSE.exists():  # demonstrations with k = 60, 90 held-out items
-        ddf = ag.load_jsonl(DEMOS_DOSE)
-        pcdf = pd.concat([pcdf, ddf[pcdf.columns.intersection(ddf.columns)]], ignore_index=True)
+    for extra in (DEMOS_DOSE, GRIDB, LOCAL_DEMOS):  # k = 60/90 dose; Grid B and local-trio replications
+        if extra.exists():
+            edf = ag.load_jsonl(extra)
+            pcdf = pd.concat([pcdf, edf[pcdf.columns.intersection(edf.columns)]], ignore_index=True)
     grid = ag.load_jsonl(gpath)
     screen = ag.load_jsonl(ag.SCREEN)
     final_items = set(grid["item_id"].unique())
@@ -140,24 +148,31 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         return res
 
     B = {}
-    for a in ag.GRID_A:
-        for r in ag.GRID_A:
-            if a != r:
+    for a in ref:
+        for r in ref:
+            if a != r and GRID_OF.get(a) == GRID_OF.get(r):
                 B[(a, r)] = ag.fidelity(ref[a], ref[r])
-                out["pairs_B"][f"{a}->{r}"] = B[(a, r)]["F"]
+                if GRID_OF.get(a) == "A":
+                    out["pairs_B"][f"{a}->{r}"] = B[(a, r)]["F"]
 
     lines.append("=" * 78)
-    lines.append("8. POSITIVE CONTROLS (Grid A): few-shot-30, oracle-110, self-observation-500")
+    lines.append("8. CONDITIONS ADDED AFTER REVIEW: Grid A, then preregistered replications")
     lines.append("   F vs the AUTHOR's generic-prompt reference; T = F_cross - B (paired bootstrap)")
     lines.append("=" * 78)
     rows = []
     for cell_id, (meta, tbl, n_calls, n_ok) in cell_tables(pcdf).items():
+        if n_calls < CALLS_PER_CELL:
+            lines.append(f"  {cell_id:<48} incomplete ({n_calls} calls), skipped")
+            continue
         fid = ag.fidelity(ref[meta["author"]], tbl)
         if fid is None:
             lines.append(f"  {cell_id:<48} partial ({n_calls} calls), skipped")
             continue
+        # per-cell bootstrap seed, so a cell's CI does not depend on which other cells exist
+        ag.RNG = np.random.default_rng(int(hashlib.sha256(cell_id.encode()).hexdigest()[:8], 16))
         lo, hi = ag.boot_ci(fid["per_item"])
         row = {"cell_id": cell_id, "receiver": meta["receiver"], "author": meta["author"],
+               "grid": GRID_OF[meta["receiver"]],
                "arm": meta["arm"], "length": int(meta["length"]),
                "cond": f"{meta['arm']}-{int(meta['length'])}",
                "kind": "self" if meta["receiver"] == meta["author"] else "cross",
@@ -170,11 +185,14 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         rows.append(row)
         out["cells"].append(row)
     rdf = pd.DataFrame(rows)
-    for arm in ADDED_CONDS:
-        g = rdf[rdf["cond"] == arm] if len(rdf) else rdf
+    for gid, cond in [(g, c) for g in ("A", "B", "L") for c in ADDED_CONDS + ["3p-500"]]:
+        if cond == "3p-500" and gid == "A":
+            continue  # Grid A observer-written cells live in the sprint grid (handled below)
+        arm = cond if gid == "A" else f"{gid}:{cond}"  # key: plain for Grid A (figure/table scripts)
+        g = rdf[(rdf["cond"] == cond) & (rdf["grid"] == gid)] if len(rdf) else rdf
         if not len(g):
             continue
-        lines.append(f"\n  --- {arm} ---")
+        lines.append(f"\n  --- {GRID_NAME[gid]}: {cond} ---")
         for _, c in g.sort_values(["kind", "author", "receiver"]).iterrows():
             if c["kind"] == "cross":
                 t = c["T"]
@@ -202,28 +220,74 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         lines.append(f"  POOLED {arm}: " + "  ".join(
             f"{k}={v:.3f}" if isinstance(v, float) else f"{k}={v}" for k, v in pooled.items()))
 
-    # self-observation vs observer-written (3p) descriptions, same information + prompt
-    g3 = grid[grid["arm"] == "3p"]
-    if len(g3) and "selfobs-500" in out["pooled"]:
-        lines.append("\n  --- authorship control: self-observation vs observer-written (same 90 observations, same prompt) ---")
-        comp = {}
-        for cell_id, (meta, tbl, _, _) in cell_tables(g3).items():
-            fid = ag.fidelity(ref[meta["author"]], tbl)
-            if fid:
-                kind = "self" if meta["receiver"] == meta["author"] else "cross"
-                comp.setdefault((meta["author"], kind), []).append(fid["F"])
-        so = rdf[rdf["cond"] == "selfobs-500"]
-        for author in ag.GRID_A:
+    # self-observation vs observer-written (3p) descriptions, same information + prompt.
+    # Grid A observer-written cells are sprint cells (grid.jsonl); Grid B ones were run here.
+    comp: dict = {}
+    for cell_id, (meta, tbl, n_calls, _) in cell_tables(grid[grid["arm"] == "3p"]).items():
+        fid = ag.fidelity(ref[meta["author"]], tbl)
+        if fid:
+            kind = "self" if meta["receiver"] == meta["author"] else "cross"
+            comp.setdefault((GRID_OF[meta["receiver"]], meta["author"], kind), []).append(fid["F"])
+    if len(rdf):
+        for _, c in rdf[rdf["cond"] == "3p-500"].iterrows():
+            comp.setdefault((c["grid"], c["author"], c["kind"]), []).append(c["F"])
+    out["authorship"] = {}
+    for gid in ("A", "B"):
+        so = rdf[(rdf["cond"] == "selfobs-500") & (rdf["grid"] == gid)] if len(rdf) else rdf
+        have3 = [k for k in comp if k[0] == gid]
+        if not len(so) or not have3:
+            continue
+        lines.append(f"\n  --- {GRID_NAME[gid]}: authorship control, self-observation vs observer-written "
+                     f"(same 90 observations, same prompt) ---")
+        per_target = []
+        for author in sorted(so["author"].unique()):
             for kind in ("self", "cross"):
                 s = so[(so["author"] == author) & (so["kind"] == kind)]["F"]
-                o = comp.get((author, kind), [])
+                o = comp.get((gid, author, kind), [])
                 if len(s) and o:
+                    d = float(s.mean() - np.mean(o))
+                    per_target.append({"author": author, "kind": kind, "selfobs_F": float(s.mean()),
+                                       "observer_F": float(np.mean(o)), "d": d})
                     lines.append(f"  {kind:<5} target {author:<12} self-written-from-obs F={s.mean():.3f}  "
-                                 f"observer-written F={np.mean(o):.3f}  d={s.mean()-np.mean(o):+.3f}")
-        pooled3 = {k: float(np.mean([f for (a, kk), fs in comp.items() if kk == k for f in fs]))
+                                 f"observer-written F={np.mean(o):.3f}  d={d:+.3f}")
+        pooled3 = {k: float(np.mean([f for (gg, a, kk), fs in comp.items() if gg == gid and kk == k for f in fs]))
                    for k in ("self", "cross")}
-        out["pooled"]["3p"] = {"F_self": pooled3["self"], "F_cross": pooled3["cross"]}
-        lines.append(f"  POOLED 3p (observer-written): F_self={pooled3['self']:.3f} F_cross={pooled3['cross']:.3f}")
+        key = "3p" if gid == "A" else f"{gid}:3p"
+        out["pooled"][key] = {"F_self": pooled3["self"], "F_cross": pooled3["cross"]}
+        out["authorship"][gid] = per_target
+        lines.append(f"  POOLED observer-written: F_self={pooled3['self']:.3f} F_cross={pooled3['cross']:.3f}")
+
+    # preregistered predictions for the replications (pilot/protocol_arxiv_*_replication.md)
+    def pooled_of(gid, cond):
+        p = out["pooled"].get(f"{gid}:{cond}")
+        return p if p and "T_script" in p and "R_weight" in p else None
+    checks = []
+    for gid in ("B", "L"):
+        p110, p30, p90 = pooled_of(gid, "oracle-110"), pooled_of(gid, "fewshot-30"), pooled_of(gid, "fewshot-90")
+        if p110:
+            checks.append((gid, "P1 demos-110: T>0, 6/6 cross pairs sig. positive, F_cross>=0.93, |R|<=0.02",
+                           p110["T_script"] > 0 and p110["n_pairs_T_pos_sig"] == 6
+                           and p110["F_cross"] >= 0.93 and abs(p110["R_weight"]) <= 0.02))
+        if p30:
+            checks.append((gid, "P2 demos-30: T<=0 and no cross pair sig. positive",
+                           p30["T_script"] <= 0 and p30["n_pairs_T_pos_sig"] == 0))
+        if p90 and gid == "L":
+            checks.append((gid, "P3 demos-90: T<=0, no cross pair sig. positive",
+                           p90["T_script"] <= 0 and p90["n_pairs_T_pos_sig"] == 0))
+        pso = pooled_of(gid, "selfobs-500")
+        if pso and gid == "B":
+            checks.append((gid, "P3 self-observation: T<0", pso["T_script"] < 0))
+            p3 = out["pooled"].get("B:3p")
+            if p3:
+                dself, dcross = pso["F_self"] - p3["F_self"], pso["F_cross"] - p3["F_cross"]
+                signs = {np.sign(t["d"]) for t in out["authorship"].get("B", [])}
+                checks.append((gid, f"P4 authorship: |dF_cross|={abs(dcross):.3f}<0.03, |dF_self|={abs(dself):.3f}<0.03, mixed signs",
+                               abs(dcross) < 0.03 and abs(dself) < 0.03 and len(signs) > 1))
+    if checks:
+        lines.append("\n  --- preregistered predictions ---")
+        for gid, text, ok in checks:
+            lines.append(f"  [{'PASS' if ok else 'FAIL'}] {GRID_NAME[gid]}: {text}")
+        out["predictions"] = [{"grid": g, "prediction": t, "pass": bool(o)} for g, t, o in checks]
 
     lines.append("\n  Grid A pairwise B (author->receiver): " + ", ".join(
         f"{k} {v:.3f}" for k, v in out["pairs_B"].items()))

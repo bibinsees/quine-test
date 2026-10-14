@@ -1,0 +1,26 @@
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llccccccl}
+\toprule
+Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & sig.\ pairs ($+$/$-$) & Cells (s/c) \\
+\midrule
+Grid A (exploratory) & demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $-0.000$ & 6/0 & 3/6 \\
+ & demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 0/3 & 3/6 \\
+ & demonstrations-90 & 0.822 & 0.802 & 0.863 & $-0.060$ & $+0.019$ & 0/4 & 3/6 \\
+ & self-observation-500 & 0.781 & 0.747 & 0.863 & $-0.116$ & $+0.035$ & 0/5 & 3/6 \\
+ & observer-written-500 & 0.771 & 0.739 & & & & & \\
+\addlinespace
+Grid B (preregistered) & demonstrations-110 & 0.946 & 0.959 & 0.913 & $+0.046$ & $-0.013$ & 6/0 & 3/6 \\
+ & demonstrations-30 & 0.838 & 0.805 & 0.913 & $-0.108$ & $+0.033$ & 0/5 & 3/6 \\
+ & self-observation-500 & 0.829 & 0.798 & 0.913 & $-0.116$ & $+0.031$ & 0/6 & 3/6 \\
+ & observer-written-500 & 0.834 & 0.798 & & & & & \\
+\addlinespace
+Local trio (preregistered) & demonstrations-110 & 0.958 & 0.955 & 0.893 & $+0.062$ & $+0.003$ & 5/0 & 3/6 \\
+ & demonstrations-30 & 0.834 & 0.823 & 0.893 & $-0.070$ & $+0.011$ & 0/4 & 3/6 \\
+ & demonstrations-90 & 0.820 & 0.815 & 0.893 & $-0.079$ & $+0.005$ & 0/5 & 3/6 \\
+\addlinespace
+\bottomrule
+\end{tabular}
+\caption{Conditions added after review: Grid A, where they were designed, and the two preregistered replication grids (predictions committed before running; \texttt{pilot/protocol\_arxiv\_*\_replication.md} in the repository). sig.\ pairs counts cross cells whose 95\% paired-bootstrap CI for $\Tscript$ lies entirely above ($+$) or below ($-$) zero.}
+\label{tab:replication}
+\end{table}

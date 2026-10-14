@@ -49,7 +49,7 @@ def main() -> None:
     vals = {"cross": {k: [] for k, _ in CONDITIONS}, "self": {k: [] for k, _ in CONDITIONS}}
     for pair, b in pc["pairs_B"].items():
         vals["cross"]["B"].append(b)
-    for c in pc["grid_a_reference"] + pc["cells"]:
+    for c in pc["grid_a_reference"] + [c for c in pc["cells"] if c.get("grid", "A") == "A"]:
         key = c.get("cond", c["arm"])  # sprint reference cells keyed by arm, added ones by cond
         if key in vals[c["kind"]]:
             vals[c["kind"]][key].append(c["F"])

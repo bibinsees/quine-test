@@ -77,8 +77,8 @@ def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     OUT.write_text(table(
         pc, [("A", "A")],
-        r"Per-pair transfer contrasts for the conditions added after review, Grid A (cross "
-        r"cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ "
+        r"Per-pair transfer contrasts for the positive-control, authorship and placement "
+        r"conditions, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ "
         r"marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.",
         "tab:added-pairs"), encoding="utf-8")
     OUT_REPL.write_text(table(

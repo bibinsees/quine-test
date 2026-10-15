@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PC = ROOT / "results" / "arxiv" / "positive_controls.json"
 OUT = ROOT / "arxiv" / "tab_replication.tex"
 
-GRIDS = [("A", "Grid A (exploratory)"), ("B", "Grid B (preregistered)"),
+GRIDS = [("A", "Grid A"), ("B", "Grid B (preregistered)"),
          ("L", "Local trio (preregistered)")]
 CONDS = [("oracle-110", "demonstrations-110"), ("fewshot-30", "demonstrations-30"),
          ("fewshot-90", "demonstrations-90"), ("selfobs-500", "self-observation-500"),
@@ -46,7 +46,7 @@ def main() -> None:
             first = False
         lines.append(r"\addlinespace")
     lines += [r"\bottomrule", r"\end{tabular}}",
-              r"\caption{Conditions added after review: Grid A, where they were designed, and "
+              r"\caption{Positive-control and authorship conditions on Grid A and on "
               r"the two preregistered replication grids (predictions committed before running; "
               r"\texttt{pilot/protocol\_arxiv\_*\_replication.md} in the repository). sig.\ pairs "
               r"counts cross cells whose 95\% paired-bootstrap CI for $\Tscript$ lies entirely "

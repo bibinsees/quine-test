@@ -60,9 +60,11 @@ portable-script component is zero or negative in every self-description conditio
 self-descriptions at any length (100--2{,}000 words), purpose-framed or
 purpose-blind, paraphrased or verbatim, even under explicit adoption
 instructions, do not make another model behave like their author.
-Descriptions distilled from a model's recorded choices actively mislead
-($\Tscript = -0.124$), whether an observer or the model itself writes them.
-Two positive controls show the channel is not the limit: the author's answers
+Descriptions written from a list of a model's recorded choices are worse
+than none: they move the receiver away from the author (mean
+$\Tscript = -0.124$ over the six author-receiver pairs of a three-model grid),
+whether an observer or the model itself writes them.
+Two positive controls show that neither the system prompt nor the user message is the limit: the author's answers
 on the test items themselves transfer almost perfectly ($\Fcross = 0.960$,
 against a test-retest ceiling of $0.979$), while 30 to 90 genuine behavioral
 examples on other items do not generalize at any dose ($\Tscript$ between
@@ -348,6 +350,9 @@ fidelity is then tested once on the 110-item battery by the receiver (cross
 cell) and by the author (self cell). Selection and test never share items.
 This condition is the closest we can come, within the system-prompt channel,
 to text selected \emph{for} transfer. Prompts are in Appendix~\ref{app:prompts}.
+\emph{Placement control}: the neutral-500 self-descriptions and the 110-item
+answer key were also run with the text in the user message, before the
+question, and the generic prompt as system prompt (Grid A, 18 cells).
 
 \paragraph{Preregistered replications.} The conditions above were designed
 after the sprint reviews and run on Grid A, so they are exploratory. We then
@@ -552,7 +557,10 @@ The author's own weights do no better with the answer key than a stranger's
 item, there is nothing left for the weights to add. The
 system-prompt channel can therefore carry a complete preference profile when
 the text contains one, and the self-description null is a fact about what
-self-descriptions contain, not about the channel.
+self-descriptions contain, not about the channel. Placement does not matter:
+in the user message the answer key transfers as before ($\Fcross = 0.961$,
+$\Tscript = +0.098$, all six pairs) and the self-description fails as before
+($\Tscript = -0.005$).
 
 \textbf{Genuine examples do not generalize, at any dose.} Given the author's
 actual choices on 30 held-out items (demonstrations-30), the same receivers
@@ -782,8 +790,9 @@ proven their absence (over- and under-attribution risks run in both
 directions). The battery is 110 items, single-turn, English, assistant-framed.
 Four assumptions bound the interpretation: that forced-choice preferences
 sample identity-relevant behavior (the null concerns choice behavior, not
-style or voice); that the system prompt is the right execution channel (the
-null is channel-specific); that the texts tested span what text can do (our
+style or voice); that prompting is the right execution channel (both
+system-prompt and user-message placement were tested; fine-tuning
+remains untested); that the texts tested span what text can do (our
 optimized condition used one optimizer, five rounds and a 500-word budget;
 a stronger search or a longer budget could in principle find text we did
 not); and that receivers are

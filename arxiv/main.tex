@@ -60,24 +60,19 @@ comes closer to the author's choices. The channel (prompt placement in the
 system prompt or the user message) is not the limit: handed the author's
 actual answers to the test questions, a receiver reproduces the author almost
 perfectly (fidelity 0.960, against the 0.979 a model reaches when compared
-with itself). Better text does not help either. We recorded each model's
-choices on a separate set of questions and had a description written from
-that record, once by another model and once by the author itself. Both
-versions made receivers \emph{less} like the author than no description at
-all. Showing a receiver the author's actual choices on 30 to 90 of those
-separate questions did not help it on the test questions. A second model
-that rewrote the self-description five times, each time seeing where the
-receiver went wrong, could not improve on the original. Finally, a
-self-description unsettles its own author: reading it moves the author's
-choices away from its usual ones, 2.4 times more than unrelated text of the
-same length does.
+with itself). Better text does not help either. Descriptions written from a
+record of the author's past choices, whether by another model or by the
+author itself, leave receivers \emph{less} like the author than no
+description at all, and a second model that repeatedly rewrites the
+self-description cannot improve on the original. Reading its own
+self-description even moves the author's choices away from its usual ones,
+2.4 times more than unrelated text of the same length does.
 
 Expressed identity is not a portable script. The preference profile measured
-here is model-bound: no text shorter than the full list of its answers
-carries it to another model, yet the author's own weights still find it in
-text no other model can use. A model's account of itself should be treated
-as one more behavior to measure, not as what governs its behavior. We release
-the preregistered pipeline, battery, raw call logs, and 171 model-written
+here is model-bound: no text short of the author's full list of answers
+carries it to another model. A model's account of itself should be treated
+as behavior to measure, not as what governs its behavior. We release the
+preregistered pipeline, battery, raw call logs, and 171 model-written
 descriptions.
 \end{abstract}
 

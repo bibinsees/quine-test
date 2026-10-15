@@ -3,6 +3,7 @@
 \usepackage[a4paper, margin=2.4cm]{geometry}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{amsmath}
 \usepackage{xcolor}
 \usepackage[colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue]{hyperref}
@@ -271,7 +272,7 @@ to test why self-descriptions fail to transfer.
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{p{3.3cm}p{3.9cm}p{2.0cm}p{3.6cm}l}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}l}
 \toprule
 Condition & Text in the receiver's prompt & Written by & Built from & Grids \\
 \midrule

@@ -42,42 +42,39 @@ Minds Research Sprint}, August 2026}}
 \begin{abstract}
 Frontier language models express coherent preferences, but behavioral evidence
 alone cannot say whether these belong to the model or to a character it
-portrays. We operationalize Hofstadter's thesis that the ``I'' is a
-self-description as a falsifiable transfer experiment: models write their own
-``source code'', a self-description intended to reproduce their behavior,
-which we execute as the system prompt of other models, and of fresh instances
-of themselves, measuring reconstruction fidelity on a 110-item
-divergence-screened preference battery. A three-way decomposition separates
-shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
-\B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
-models from 9 labs ($\sim$176{,}000 calls, seventeen conditions, with
-preregistered replications on two further grids), the
-portable-script component is zero or negative in every self-description condition:
-self-descriptions at any length (100--2{,}000 words), purpose-framed or
-purpose-blind, paraphrased or verbatim, even under explicit adoption
-instructions, do not make another model behave like their author.
-Descriptions written from a list of a model's recorded choices are worse
-than none: they move the receiver away from the author (mean
-$\Tscript = -0.124$ over the six author-receiver pairs of a three-model grid),
-whether an observer or the model itself writes them.
-Two positive controls show that neither the system prompt nor the user message is the limit: the author's answers
-on the test items themselves transfer almost perfectly ($\Fcross = 0.960$,
-against a test-retest ceiling of $0.979$), while 30 to 90 genuine behavioral
-examples on other items do not generalize at any dose ($\Tscript$ between
-$-0.06$ and $-0.09$), and an
-optimizer shown the receiver's item-level errors cannot improve on the
-natural self-description in five of six pairs. Both demonstration results
-and the authorship null replicate on six further models under predictions
-committed before running. The
-weight-bound residual is positive in every self-description condition, and
-reading its own self-description perturbs a model $2.4\times$ more than
-length-matched neutral text. Expressed identity is not a portable script: the
-stable preference profile measured here is model-bound, recoverable only when
-the author's own weights execute the text, and any text that summarizes or
-samples it, rather than enumerating it item by item, can disturb it but not
-transmit it. We release the
-preregistered pipeline, battery, raw call logs, and a corpus of 171
-model-written descriptions.
+portrays. We test this with a transfer experiment inspired by Hofstadter's
+quine: each of ten models from nine labs writes a description of itself; that
+text is placed in another model's prompt, and in a fresh instance of the
+author's own, and we measure how closely the receiver then reproduces the
+author's choices on a 110-item preference battery. If expressed identity were
+a script, the author's own script should reinstall it elsewhere.
+
+It does not. Across seventeen conditions and about 176{,}000 calls, no
+self-description, at any length from 100 to 2{,}000 words, written with or
+without knowledge of its purpose, paraphrased, or run under an explicit
+instruction to adopt it, makes another model behave more like its author than
+a generic prompt does; many make it behave less so. A fresh instance of the
+author's own weights reading the same text always recovers more. The channel
+is not the limit: handed the author's actual answers to the test questions, a
+receiver reproduces the author almost perfectly (fidelity 0.960, against a
+test-retest ceiling of 0.979), in the system prompt or the user message alike.
+Nor is better text the answer: descriptions built from the author's recorded
+choices, whether another model or the author itself writes them, leave
+receivers less like the author than no description at all; the author's
+genuine choices on 30 to 90 other questions do not generalize; and an
+optimizer that rewrites the description while seeing the receiver's errors
+cannot beat the original. Only an item-by-item enumeration transfers. Reading
+its own self-description also perturbs the author, 2.4 times more than
+unrelated text of the same length. These results replicate on six further
+models under predictions committed before running.
+
+Expressed identity is not a portable script. The preference profile measured
+here is model-bound: it does not compress into any text shorter than itself
+that another model can unpack, and the author's weights were the only thing
+we tested that does. A model's account of itself should be treated as one
+more behavior to measure, not as what governs its behavior. We release the
+preregistered pipeline, battery, raw call logs, and 171 model-written
+descriptions.
 \end{abstract}
 
 \section{Introduction}

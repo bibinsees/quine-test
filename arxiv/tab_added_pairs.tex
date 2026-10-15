@@ -52,6 +52,22 @@ A & self-observation-500 & glm$\to$deepseek$^{*}$ & 0.814 & 0.886 & $-.073$ & $[
  &  & glm$\to$deepseek$^{*}$ & 0.959 & 0.886 & $+.072$ & $[+.039,+.108]$ & 0.99 \\
  & & \emph{pooled} & 0.960 & 0.863 & $+.097$ & & \\
 \addlinespace
+ & neutral-500, user msg. & grok$\to$deepseek$^{*}$ & 0.883 & 0.828 & $+.056$ & $[+.005,+.108]$ & 0.72 \\
+ &  & glm$\to$deepseek$^{*}$ & 0.923 & 0.886 & $+.037$ & $[+.005,+.069]$ & 0.84 \\
+ &  & glm$\to$grok & 0.899 & 0.874 & $+.024$ & $[-.014,+.063]$ & 0.85 \\
+ &  & deepseek$\to$grok & 0.791 & 0.828 & $-.037$ & $[-.085,+.010]$ & 0.71 \\
+ &  & grok$\to$glm & 0.838 & 0.874 & $-.037$ & $[-.080,+.003]$ & 0.71 \\
+ &  & deepseek$\to$glm$^{*}$ & 0.813 & 0.886 & $-.073$ & $[-.114,-.035]$ & 0.69 \\
+ & & \emph{pooled} & 0.858 & 0.863 & $-.005$ & & \\
+\addlinespace
+ & demonstrations-110, user msg. & deepseek$\to$grok$^{*}$ & 0.964 & 0.828 & $+.136$ & $[+.087,+.190]$ & 1.00 \\
+ &  & grok$\to$deepseek$^{*}$ & 0.961 & 0.828 & $+.133$ & $[+.086,+.186]$ & 0.99 \\
+ &  & grok$\to$glm$^{*}$ & 0.967 & 0.874 & $+.093$ & $[+.058,+.131]$ & 1.00 \\
+ &  & glm$\to$grok$^{*}$ & 0.955 & 0.874 & $+.081$ & $[+.045,+.121]$ & 1.00 \\
+ &  & deepseek$\to$glm$^{*}$ & 0.964 & 0.886 & $+.078$ & $[+.042,+.117]$ & 1.00 \\
+ &  & glm$\to$deepseek$^{*}$ & 0.955 & 0.886 & $+.069$ & $[+.037,+.105]$ & 1.00 \\
+ & & \emph{pooled} & 0.961 & 0.863 & $+.098$ & & \\
+\addlinespace
 \bottomrule
 \end{tabular}
 \caption{Per-pair transfer contrasts for the conditions added after review, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.}

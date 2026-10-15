@@ -20,6 +20,8 @@ LABEL = {
     "fewshot-90": "demonstrations-90",
     "oracle-110": "demonstrations-110",
 }
+LABEL["neutral_user-500"] = "neutral-500, user msg."
+LABEL["oracle_user-110"] = "demonstrations-110, user msg."
 LABEL["3p-500"] = "observer-written-500"
 SHORT = {"deepseek-v3": "deepseek", "glm-4.5-air": "glm", "grok-4.3": "grok",
          "gpt5.2": "gpt5.2", "kimi-k2.5-nr": "kimi", "haiku-4.5": "haiku",

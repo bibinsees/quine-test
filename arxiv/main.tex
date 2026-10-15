@@ -53,8 +53,8 @@ of themselves, measuring reconstruction fidelity on a 110-item
 divergence-screened preference battery. A three-way decomposition separates
 shared training culture ($\B$), the portable script ($\Tscript = \Fcross -
 \B$), and the weight-bound residual ($\Rweight = \Fself - \Fcross$). Across 10
-models from 9 labs ($\sim$168{,}000 calls; nine preregistered conditions,
-six added after review, and preregistered replications of the added
+models from 9 labs ($\sim$176{,}000 calls; nine preregistered conditions,
+eight added after review, and preregistered replications of the added
 conditions on two further grids), the
 portable-script component is zero or negative in every self-description condition:
 self-descriptions at any length (100--2{,}000 words), purpose-framed or
@@ -116,7 +116,7 @@ is informative.
   $\Tscript = \Fcross - \B$ is the portable-script component and
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$168{,}000 calls:
+  philosophies), 110 divergence-screened items, and $\sim$176{,}000 calls:
   $\Tscript \le 0$ and $\Rweight > 0$ in all nine preregistered conditions,
   flat in description length, and not rescued by explicit adoption
   instructions. Expressed identity is not a portable script; the recoverable
@@ -376,8 +376,8 @@ Each cell is one receiver running one description as system prompt over the
 battery: every item is asked in both option orders with 2 samples per order
 (temperature 1.0, as in all battery calls), 440 calls per cell; 225
 preregistered cells across four phases ($\sim$99k calls, zero unresolved
-failures) plus 123 battery cells added for this version: 57 on Grid A, 39
-on Grid B and 27 on the local trio ($\sim$69k calls including the held-out
+failures) plus 141 battery cells added for this version: 75 on Grid A, 39
+on Grid B and 27 on the local trio ($\sim$77k calls including the held-out
 selection runs of the optimized condition and the trio's held-out screening).
 For each
 item $i$ a cell yields $\hat p_{\text{cell}}(i)$, the fraction of its four
@@ -425,20 +425,24 @@ demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
 demonstrations-60 & 0.805 & 0.776 & 0.863 & $-0.087$ & $+0.029$ & 3/6 \\
 demonstrations-90 & 0.822 & 0.802 & 0.863 & $-0.060$ & $+0.019$ & 3/6 \\
 demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
+neutral-500, user msg. & 0.893 & 0.858 & 0.863 & $-0.005$ & $+0.035$ & 3/6 \\
+demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $+0.098$ & $-0.002$ & 3/6 \\
 \bottomrule
 \end{tabular}
 \caption{Decomposition across all conditions, pooled over directed pairs. In
 the nine preregistered conditions $\Tscript \le 0$ everywhere: no arm, length,
 wording, or adoption instruction makes the self-description transfer, and
 $\Rweight > 0$ everywhere: the author's own weights always recover more. The
-six conditions added for this version (Section~\ref{sec:poscontrol}) show
-that the channel itself is not the limit: the author's answers on the test
-items themselves (demonstrations-110) transfer almost perfectly, while 30 to
-90 genuine behavioral examples on other items (demonstrations-30/60/90),
-observation-derived descriptions, whoever writes them, and descriptions
-rewritten by an optimizer to improve transfer (optimized-500) all fail to
-move receivers toward the author. Cells (s/c) counts the self and cross cells
-pooled per row.
+eight conditions added for this version (Section~\ref{sec:poscontrol}) show
+that neither the system prompt nor the user message is the limit: the
+author's answers on the test items themselves (demonstrations-110) transfer
+almost perfectly in either placement, while 30 to 90 genuine behavioral
+examples on other items (demonstrations-30/60/90), observation-derived
+descriptions, whoever writes them, descriptions rewritten by an optimizer to
+improve transfer (optimized-500), and self-descriptions placed in the user
+message all fail to move receivers toward the author. ``user msg.'' rows
+place the text in the user message before the question instead of in the
+system prompt. Cells (s/c) counts the self and cross cells pooled per row.
 ($\B$ varies by row because each condition pools only the directed pairs that
 ran it; contrasts are always computed within-pool.)}
 \label{tab:decomp}
@@ -649,6 +653,9 @@ descriptions optimized over five rounds against the receiver's held-out
 errors do no better than natural ones; 30, 60, or 90 genuine examples on
 other items lower fidelity for stranger and author alike, with no dose
 trend; the 110-item answer key raises it to the test-retest ceiling for both.
+The two rightmost columns repeat the self-description and the answer key with
+the text in the user message instead of the system prompt: placement changes
+neither.
 Dotted line: test-retest ceiling $C=0.979$; solid gray line (bottom): mean
 $\B$ of unrelated pairs.}
 \label{fig:poscontrol}
@@ -804,13 +811,13 @@ closed models, with provider-side system prompts we cannot observe; the
 demonstrations-110 control shows that this competition does not prevent a
 complete profile from being installed, so a weak channel does not explain the
 null, but that control is in-sample by construction (the receiver is handed
-the answers), and the six conditions added for this version were designed
+the answers), and the eight conditions added for this version were designed
 on Grid A after the sprint reviews and are exploratory there; the
 demonstration and authorship conditions were subsequently replicated under
 preregistered predictions on Grid B and the local trio
 (Section~\ref{sec:replication}), with one of twelve prediction criteria
-missed (a single local pair short of significance), while optimized-500 and
-demonstrations-60 were run on Grid A only.
+missed (a single local pair short of significance), while optimized-500,
+demonstrations-60 and the placement control were run on Grid A only.
 Methodological incidents and
 dual-use / ethical considerations are extended in Appendix~E.
 
@@ -829,13 +836,14 @@ systematics; repeating the design as models scale.
 
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
-an answer: almost none of it travels. Across ten models, fifteen conditions, and
-$\sim$168{,}000 calls, self-descriptions transport no
+an answer: almost none of it travels. Across ten models, seventeen conditions, and
+$\sim$176{,}000 calls, self-descriptions transport no
 author-specific behavior to another model under any condition we tested,
 while a fresh instance of the author's own weights always recovers more. The
 one text that does transfer is the author's answer key itself: handed the
 author's choices on the test items, another model reproduces the author
-almost perfectly, on every grid we tried, so the channel is not the limit.
+almost perfectly, on every grid we tried and whether the text sits in the
+system prompt or the user message, so neither placement is the limit.
 Every text that has to be
 generalized from fails: a self-portrait, a description distilled from
 recorded choices, up to ninety genuine examples, or a description rewritten
@@ -1080,8 +1088,10 @@ non-reasoning constraint.
 \section{Changes from the sprint version}
 This paper extends the report submitted to the Digital Minds Research Sprint
 (August 2026). The sprint data (nine preregistered conditions, 225 cells,
-$\sim$99k calls) are unchanged. Added after the sprint reviews: six Grid-A
-conditions (self-observation-500, optimized-500, demonstrations-30/60/90/110;
+$\sim$99k calls) are unchanged. Added after the sprint reviews: eight Grid-A
+conditions (self-observation-500, optimized-500, demonstrations-30/60/90/110,
+and a placement control running neutral-500 and demonstrations-110 in the
+user message instead of the system prompt;
 Sections~\ref{sec:poscontrol-methods} and~\ref{sec:poscontrol}), designed in
 response to the reviews and therefore exploratory, and preregistered
 replications of the demonstration and authorship conditions on Grid B and the

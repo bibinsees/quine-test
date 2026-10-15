@@ -38,6 +38,8 @@ CONDITIONS = [
     ("fewshot-60", "demos\nk=60"),
     ("fewshot-90", "demos\nk=90"),
     ("oracle-110", "answer key\nk=110"),
+    ("neutral_user-500", "self-desc.\nuser msg."),
+    ("oracle_user-110", "answer key\nuser msg."),
 ]
 
 

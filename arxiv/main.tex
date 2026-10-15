@@ -51,31 +51,30 @@ divergence-screened preference battery. If expressed identity were a script,
 the author's own script should reinstall it elsewhere.
 
 It does not. Across ten models from nine labs, seventeen conditions and
-about 176{,}000 calls, no
-self-description, at any length from 100 to 2{,}000 words, written with or
-without knowledge of its purpose, paraphrased, or run under an explicit
-instruction to adopt it, makes another model behave more like its author than
-a generic prompt does; many make it behave less so. A fresh instance of the
-author's own weights reading the same text always recovers more. The channel
-(prompt placement in the system prompt or the user message) is not the limit:
-handed the author's actual answers to the test questions, a receiver
-reproduces the author almost perfectly (fidelity 0.960, against a test-retest
-ceiling of 0.979). Nor is better text the answer: descriptions built from the author's recorded
-choices, whether another model or the author itself writes them, leave
-receivers less like the author than no description at all; the author's
-genuine choices on 30 to 90 other questions do not generalize; and an
-optimizer that rewrites the description while seeing the receiver's errors
-cannot beat the original. Only an item-by-item enumeration transfers. Reading
-its own self-description also perturbs the author, 2.4 times more than
-unrelated text of the same length. These results replicate on six further
-models under predictions committed before running.
+about 176{,}000 calls, no self-description, at any length from 100 to
+2{,}000 words, written with or without knowledge of its purpose, paraphrased,
+or run under an explicit instruction to adopt it, makes another model behave
+more like its author than a generic prompt does; many make it behave less so.
+A fresh instance of the author's own weights reading the same text always
+comes closer to the author's choices. The channel (prompt placement in the
+system prompt or the user message) is not the limit: handed the author's
+actual answers to the test questions, a receiver reproduces the author almost
+perfectly (fidelity 0.960, against the 0.979 a model reaches when compared
+with itself). Nor is better text the answer: descriptions built from the
+author's recorded choices on other questions, whether another model or the
+author itself writes them, leave receivers less like the author than no
+description at all; the author's genuine choices on 30 to 90 other questions
+do not generalize; and a second model that repeatedly rewrites the
+self-description to fix the receiver's mistakes cannot beat the original.
+Reading its own self-description also shifts the author's own choices away
+from its usual ones, 2.4 times more than unrelated text of the same length.
 
 Expressed identity is not a portable script. The preference profile measured
-here is model-bound: it does not compress into any text shorter than itself
-that another model can unpack, and the author's weights were the only thing
-we tested that does. A model's account of itself should be treated as one
-more behavior to measure, not as what governs its behavior. We release the
-preregistered pipeline, battery, raw call logs, and 171 model-written
+here is model-bound: no text shorter than the full list of its answers
+carries it to another model, yet the author's own weights still find it in
+text no other model can use. A model's account of itself should be treated
+as one more behavior to measure, not as what governs its behavior. We release
+the preregistered pipeline, battery, raw call logs, and 171 model-written
 descriptions.
 \end{abstract}
 

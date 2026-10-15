@@ -38,12 +38,13 @@ OPTIMIZED = ROOT / "runs" / "arxiv_optimized.jsonl"
 DEMOS_DOSE = ROOT / "runs" / "arxiv_demos_dose.jsonl"
 GRIDB = ROOT / "runs" / "arxiv_gridb.jsonl"
 LOCAL_DEMOS = ROOT / "runs" / "arxiv_local_demos.jsonl"
+USERMSG = ROOT / "runs" / "arxiv_usermsg.jsonl"
 GRID_OF = {**{m: "A" for m in ag.GRID_A}, **{m: "B" for m in ag.GRID_B},
            **{m: "L" for m in ag.LOCALS}}
 GRID_NAME = {"A": "Grid A", "B": "Grid B (preregistered replication)",
              "L": "local trio (preregistered replication)"}
 ADDED_CONDS = ["selfobs-500", "optimized-500", "fewshot-30", "fewshot-60", "fewshot-90",
-               "oracle-110"]
+               "oracle-110", "neutral_user-500", "oracle_user-110"]
 
 REFUSAL_CELLS = {  # sprint cell -> r1 replacement cell
     "hermes3-70b|hermes3-70b|framed|500|r0": "hermes3-70b|hermes3-70b|framed|500|r1",
@@ -128,7 +129,7 @@ def positive_controls(gpath: Path) -> tuple[str, dict]:
         odf = ag.load_jsonl(OPTIMIZED)
         odf = odf[odf["phase"] == "test"]
         pcdf = pd.concat([pcdf, odf[pcdf.columns.intersection(odf.columns)]], ignore_index=True)
-    for extra in (DEMOS_DOSE, GRIDB, LOCAL_DEMOS):  # k = 60/90 dose; Grid B and local-trio replications
+    for extra in (DEMOS_DOSE, GRIDB, LOCAL_DEMOS, USERMSG):  # k = 60/90 dose; Grid B and local-trio replications
         if extra.exists():
             edf = ag.load_jsonl(extra)
             pcdf = pd.concat([pcdf, edf[pcdf.columns.intersection(edf.columns)]], ignore_index=True)

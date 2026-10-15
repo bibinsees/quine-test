@@ -15,26 +15,26 @@
 2. HEADLINE CONTRASTS (neutral-500, item-level paired bootstrap)
 ==============================================================================
   T_script (F_cross - B) per directed pair: n=20, mean delta=-0.018
-   * grok-4.3->deepseek-v3            d=+0.065 CI[+0.015,+0.116] P(>0)=0.995
+   * grok-4.3->deepseek-v3            d=+0.065 CI[+0.015,+0.115] P(>0)=0.996
      gemma4-31b->mistral32-local      d=+0.027 CI[-0.007,+0.064] P(>0)=0.940
-     glm-4.5-air->deepseek-v3         d=+0.018 CI[-0.007,+0.045] P(>0)=0.923
+     glm-4.5-air->deepseek-v3         d=+0.018 CI[-0.006,+0.044] P(>0)=0.921
      haiku-4.5->kimi-k2.5-nr          d=+0.009 CI[-0.031,+0.049] P(>0)=0.680
-     grok-4.3->glm-4.5-air            d=+0.007 CI[-0.024,+0.038] P(>0)=0.670
-     glm-4.5-air->grok-4.3            d=-0.002 CI[-0.035,+0.028] P(>0)=0.458
-     haiku-4.5->gpt5.2                d=-0.009 CI[-0.048,+0.029] P(>0)=0.315
+     grok-4.3->glm-4.5-air            d=+0.007 CI[-0.024,+0.039] P(>0)=0.674
+     glm-4.5-air->grok-4.3            d=-0.002 CI[-0.036,+0.028] P(>0)=0.457
+     haiku-4.5->gpt5.2                d=-0.009 CI[-0.047,+0.030] P(>0)=0.325
      gpt5.2->kimi-k2.5-nr             d=-0.009 CI[-0.036,+0.015] P(>0)=0.245
-     llama3.3-70b->mistral32-local    d=-0.015 CI[-0.055,+0.025] P(>0)=0.239
-   * kimi-k2.5-nr->gpt5.2             d=-0.030 CI[-0.054,-0.007] P(>0)=0.004
-   * hermes3-70b->llama3.3-70b        d=-0.031 CI[-0.064,-0.001] P(>0)=0.021
-   * gemma4-31b->llama3.3-70b         d=-0.033 CI[-0.064,-0.003] P(>0)=0.016
-     kimi-k2.5-nr->haiku-4.5          d=-0.034 CI[-0.074,+0.005] P(>0)=0.043
-   * mistral32-local->gemma4-31b      d=-0.038 CI[-0.068,-0.011] P(>0)=0.002
+     llama3.3-70b->mistral32-local    d=-0.015 CI[-0.056,+0.025] P(>0)=0.225
+   * kimi-k2.5-nr->gpt5.2             d=-0.030 CI[-0.053,-0.007] P(>0)=0.005
+   * hermes3-70b->llama3.3-70b        d=-0.031 CI[-0.065,-0.001] P(>0)=0.022
+   * gemma4-31b->llama3.3-70b         d=-0.033 CI[-0.063,-0.003] P(>0)=0.016
+     kimi-k2.5-nr->haiku-4.5          d=-0.034 CI[-0.074,+0.005] P(>0)=0.044
+   * mistral32-local->gemma4-31b      d=-0.038 CI[-0.068,-0.012] P(>0)=0.001
    * gpt5.2->haiku-4.5                d=-0.040 CI[-0.068,-0.012] P(>0)=0.002
    * llama3.3-70b->gemma4-31b         d=-0.041 CI[-0.078,-0.010] P(>0)=0.003
-   * llama3.3-70b->hermes3-70b        d=-0.042 CI[-0.073,-0.011] P(>0)=0.003
-   * mistral32-local->llama3.3-70b    d=-0.046 CI[-0.084,-0.013] P(>0)=0.003
-   * deepseek-v3->glm-4.5-air         d=-0.055 CI[-0.098,-0.015] P(>0)=0.002
-   * deepseek-v3->grok-4.3            d=-0.057 CI[-0.114,-0.004] P(>0)=0.019
+   * llama3.3-70b->hermes3-70b        d=-0.042 CI[-0.072,-0.012] P(>0)=0.003
+   * mistral32-local->llama3.3-70b    d=-0.046 CI[-0.085,-0.012] P(>0)=0.003
+   * deepseek-v3->glm-4.5-air         d=-0.055 CI[-0.098,-0.015] P(>0)=0.003
+   * deepseek-v3->grok-4.3            d=-0.057 CI[-0.115,-0.005] P(>0)=0.017
 
 ==============================================================================
 3. DOSE-RESPONSE (neutral arm, actual words vs F)
@@ -198,6 +198,30 @@ hermes3 refusal-cell substitution status:
     self   glm-4.5-air -> glm-4.5-air  F=0.954 CI[0.940,0.967] agree=1.00 comp=0.986 (440 calls)
     self      grok-4.3 -> grok-4.3     F=0.965 CI[0.953,0.976] agree=1.00 comp=1.000 (440 calls)
   POOLED oracle-110: F_self=0.960  F_cross=0.960  B=0.863  n_self_cells=3  n_cross_cells=6  T_script=0.097  n_pairs_T_pos_sig=6  n_pairs_T_neg_sig=0  R_weight=-0.000
+
+  --- Grid A: neutral_user-500 ---
+  * cross  deepseek-v3 -> glm-4.5-air  F=0.813 B=0.886 T=-0.073 CI[-0.114,-0.035] agree=0.69 comp=0.998 (440 calls)
+    cross  deepseek-v3 -> grok-4.3     F=0.791 B=0.828 T=-0.037 CI[-0.085,+0.010] agree=0.71 comp=1.000 (440 calls)
+  * cross  glm-4.5-air -> deepseek-v3  F=0.923 B=0.886 T=+0.037 CI[+0.005,+0.069] agree=0.84 comp=1.000 (440 calls)
+    cross  glm-4.5-air -> grok-4.3     F=0.899 B=0.874 T=+0.024 CI[-0.014,+0.063] agree=0.85 comp=1.000 (440 calls)
+  * cross     grok-4.3 -> deepseek-v3  F=0.883 B=0.828 T=+0.056 CI[+0.005,+0.108] agree=0.72 comp=1.000 (440 calls)
+    cross     grok-4.3 -> glm-4.5-air  F=0.838 B=0.874 T=-0.037 CI[-0.080,+0.003] agree=0.71 comp=0.995 (440 calls)
+    self   deepseek-v3 -> deepseek-v3  F=0.929 CI[0.896,0.958] agree=0.87 comp=1.000 (440 calls)
+    self   glm-4.5-air -> glm-4.5-air  F=0.930 CI[0.901,0.953] agree=0.89 comp=0.975 (440 calls)
+    self      grok-4.3 -> grok-4.3     F=0.820 CI[0.766,0.871] agree=0.74 comp=1.000 (440 calls)
+  POOLED neutral_user-500: F_self=0.893  F_cross=0.858  B=0.863  n_self_cells=3  n_cross_cells=6  T_script=-0.005  n_pairs_T_pos_sig=2  n_pairs_T_neg_sig=1  R_weight=0.035
+
+  --- Grid A: oracle_user-110 ---
+  * cross  deepseek-v3 -> glm-4.5-air  F=0.964 B=0.886 T=+0.078 CI[+0.042,+0.117] agree=1.00 comp=0.820 (440 calls)
+  * cross  deepseek-v3 -> grok-4.3     F=0.964 B=0.828 T=+0.136 CI[+0.087,+0.190] agree=1.00 comp=0.998 (440 calls)
+  * cross  glm-4.5-air -> deepseek-v3  F=0.955 B=0.886 T=+0.069 CI[+0.037,+0.105] agree=1.00 comp=1.000 (440 calls)
+  * cross  glm-4.5-air -> grok-4.3     F=0.955 B=0.874 T=+0.081 CI[+0.045,+0.121] agree=1.00 comp=1.000 (440 calls)
+  * cross     grok-4.3 -> deepseek-v3  F=0.961 B=0.828 T=+0.133 CI[+0.086,+0.186] agree=0.99 comp=1.000 (440 calls)
+  * cross     grok-4.3 -> glm-4.5-air  F=0.967 B=0.874 T=+0.093 CI[+0.058,+0.131] agree=1.00 comp=0.836 (440 calls)
+    self   deepseek-v3 -> deepseek-v3  F=0.964 CI[0.947,0.979] agree=1.00 comp=1.000 (440 calls)
+    self   glm-4.5-air -> glm-4.5-air  F=0.949 CI[0.935,0.963] agree=0.99 comp=0.884 (440 calls)
+    self      grok-4.3 -> grok-4.3     F=0.965 CI[0.953,0.976] agree=1.00 comp=1.000 (440 calls)
+  POOLED oracle_user-110: F_self=0.959  F_cross=0.961  B=0.863  n_self_cells=3  n_cross_cells=6  T_script=0.098  n_pairs_T_pos_sig=6  n_pairs_T_neg_sig=0  R_weight=-0.002
 
   --- Grid B (preregistered replication): selfobs-500 ---
   * cross       gpt5.2 -> haiku-4.5    F=0.845 B=0.932 T=-0.087 CI[-0.141,-0.038] agree=0.81 comp=1.000 (440 calls)

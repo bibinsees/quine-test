@@ -42,14 +42,16 @@ Minds Research Sprint}, August 2026}}
 \begin{abstract}
 Frontier language models express coherent preferences, but behavioral evidence
 alone cannot say whether these belong to the model or to a character it
-portrays. We test this with a transfer experiment inspired by Hofstadter's
-quine: each of ten models from nine labs writes a description of itself; that
-text is placed in another model's prompt, and in a fresh instance of the
-author's own, and we measure how closely the receiver then reproduces the
-author's choices on a 110-item preference battery. If expressed identity were
-a script, the author's own script should reinstall it elsewhere.
+portrays. We operationalize Hofstadter's thesis that the ``I'' is a
+self-description as a falsifiable transfer experiment: models write their own
+``source code'', a self-description intended to reproduce their behavior,
+which we execute as the system prompt of other models, and of fresh instances
+of themselves, measuring reconstruction fidelity on a 110-item
+divergence-screened preference battery. If expressed identity were a script,
+the author's own script should reinstall it elsewhere.
 
-It does not. Across seventeen conditions and about 176{,}000 calls, no
+It does not. Across ten models from nine labs, seventeen conditions and
+about 176{,}000 calls, no
 self-description, at any length from 100 to 2{,}000 words, written with or
 without knowledge of its purpose, paraphrased, or run under an explicit
 instruction to adopt it, makes another model behave more like its author than

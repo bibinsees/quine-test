@@ -261,36 +261,50 @@ own weights recover most of that profile when reading the same text. For
 scale, the test-retest ceiling of the battery is $F = 0.979$ and unrelated
 model pairs under generic prompts sit at $F \approx 0.83$--$0.89$.
 
-\paragraph{Conditions at a glance.} Every condition in the paper uses the same
-pipeline: a text about the author model is placed in the receiver's prompt,
-the receiver answers the 110 battery questions, and its answers are scored
-against the author's. Conditions differ only in what that text is, who wrote
-it, and what it was built from (Table~\ref{tab:conditions}). In the main
-conditions the author describes itself from introspection, without seeing any
-record of its own choices; the other conditions vary the source of the text
-to test why self-descriptions fail to transfer.
+\paragraph{Conditions at a glance.} Every condition in the paper has two
+stages. \emph{Stage 1, preparing the text}, is what differs between
+conditions. The text is whatever will be placed in the receiver's prompt: in
+the main conditions it is the author's \emph{self-description}, written by
+the author from introspection, without seeing any record of its own choices;
+in the other conditions it is a description of the author built from other
+material (its recorded choices, or an earlier description together with the
+receiver's errors), a plain list of the author's recorded choices with no
+description at all, or unrelated prose (Table~\ref{tab:conditions}).
+\emph{Stage 2, the test}, is identical in every condition: the text is placed
+in the receiver's prompt, the receiver answers the 110 battery questions, and
+its answers are scored against the author's own answers to the same 110
+questions. Two separate question sets are involved. Texts built from recorded
+choices use only the 90 screening questions that were \emph{not} selected for
+the battery (the \emph{held-out} items, as they are called throughout), so no
+test question is ever seen in Stage~1. The single
+deliberate exception is the answer key (demonstrations-110), the positive
+control, which lists the author's answers to the 110 test questions
+themselves.
 
 \begin{table}[t]
 \centering\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}l}
 \toprule
-Condition & Text in the receiver's prompt & Written by & Built from & Grids \\
+Condition & Stage 1: text placed in the receiver's prompt & Written by & Built from & Grids \\
 \midrule
 neutral / framed (100, 500, 2{,}000 words) & the author's self-description & author & introspection (no choice data) & all \\
-paraphrase-500 & the same description, reworded & gpt-4o-mini & the author's description & A \\
-adopt-500 & description plus ``answer as the entity described would'' & author & introspection & A \\
-third-person-500 & a description of the author & another model & the author's 90 recorded choices & A, B \\
-self-observation-500 & a description of the author & author & its own 90 recorded choices & A, B \\
-optimized-500 & a rewritten self-description & optimizer model & the author's description and the receiver's errors & A \\
-demonstrations-30/60/90 & a list of the author's choices & none (raw data) & 30 to 90 questions outside the battery & A, B, local \\
-demonstrations-110 (answer key) & a list of the author's choices & none (raw data) & the 110 battery questions & A, B, local \\
+paraphrase-500 & the same self-description, reworded & gpt-4o-mini & the author's self-description & A \\
+adopt-500 & self-description plus ``answer as the entity described would'' & author & introspection & A \\
+third-person-500 & a description of the author & another model & the author's choices on the 90 held-out questions & A, B \\
+self-observation-500 & a description of the author & author & its own choices on the 90 held-out questions & A, B \\
+optimized-500 & a rewritten self-description & optimizer model & the author's self-description and the receiver's errors on the 90 held-out questions & A \\
+demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A, B, local \\
+demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
-user-message placement & neutral-500 or answer key, in the user message & as above & as above & A \\
+user-message placement & neutral-500 self-description or answer key, in the user message & as above & as above & A \\
 \bottomrule
 \end{tabular}
-\caption{All conditions. Each runs the same pipeline (text in the receiver's
-prompt, 110 questions, scored against the author); only the text differs.
-Unless stated otherwise the text is the system prompt. ``Grids'': A =
+\caption{All conditions. Stage 1 (this table) differs between conditions;
+Stage 2 is identical for all: the text goes into the receiver's prompt, the
+receiver answers the 110 battery questions, and its answers are scored
+against the author's. ``Held-out questions'' are the 90 screened items that
+were not selected for the battery and are never scored. Unless stated
+otherwise the text is the system prompt. ``Grids'': A =
 deepseek-v3, glm-4.5-air, grok-4.3; B = gpt-5.2, kimi-k2.5, claude-haiku-4.5;
 local = llama3.3-70b, gemma4-31b, mistral-small-3.2; ``all'' includes the
 same-base pair.}

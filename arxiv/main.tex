@@ -604,7 +604,10 @@ placebo size and well short of the self-description's.
 costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
 $0.979 \to 0.918$, a drop $2.4\times$ the placebo's: reading its own
 self-description shifts even the author away from its baseline, and the
-perturbation is specific to identity content, not generic prompt sensitivity. Extreme case:
+perturbation is specific to identity content, not generic prompt sensitivity.
+The content need not be the model's own: running another model's
+self-description moves a model from its baseline by the same amount (mean
+$F=0.926$ vs.\ $0.918$ for its own; Appendix~\ref{app:ladder}). Extreme case:
 grok-4.3 drops to $0.843$ under its own description while placebo leaves it at
 $0.968$. \textbf{(3) Instructed adoption (adopt-500).} Telling the receiver
 to answer exactly as the entity described would does not rescue transfer
@@ -794,7 +797,10 @@ articulated narrative is a poor candidate.
 self-description constitute the self. We find the reverse dynamic in these
 systems: the self-description does not reinstall the self; it
 \emph{perturbs} it, and specifically so ($2.4\times$ the placebo effect; grok-4.3,
-most stable at baseline, is most destabilized). The story a model tells about
+most stable at baseline, is most destabilized). The perturbation is not tied
+to self-reference: another model's self-description disturbs a model as much
+as its own, so what unsettles the author is reading an identity narrative at
+all, not recognizing itself in one. The story a model tells about
 itself is neither necessary nor sufficient for the behavior it narrates. The
 matched-information control shows that introspective self-descriptions
 outperform descriptions distilled from

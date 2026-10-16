@@ -1,0 +1,23 @@
+\begin{table}[H]
+\centering\small
+\begin{tabular}{lccccc}
+\toprule
+Model & Test-retest & No prompt & Placebo & Own description & Other's description \\
+\midrule
+deepseek-v3 & 0.985 & 0.952 & 0.971 & 0.929 & 0.902 \\
+gemma4-31b & 0.991 & 0.988 & 0.952 & 0.930 & 0.943 \\
+glm-4.5-air & 0.959 & 0.948 & 0.962 & 0.941 & 0.908 \\
+gpt-5.2 & 0.976 & 0.971 & 0.968 & 0.954 & 0.944 \\
+grok-4.3 & 0.964 & 0.957 & 0.968 & 0.843 & 0.919 \\
+haiku-4.5 & 0.985 & 0.983 & 0.949 & 0.902 & 0.922 \\
+hermes3-70b & 0.962 & 0.917 & 0.897 & 0.889 & 0.927 \\
+kimi-k2.5 & 0.976 & 0.939 & 0.971 & 0.937 & 0.930 \\
+llama3.3-70b & 0.998 & 0.981 & 0.950 & 0.935 & 0.935 \\
+mistral-small-3.2 & 0.989 & 0.967 & 0.952 & 0.923 & 0.929 \\
+\midrule
+Mean & 0.979 & 0.960 & 0.954 & 0.918 & 0.926 \\
+\bottomrule
+\end{tabular}
+\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's choice profile under the given prefix to its own generic-prompt reference profile (1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling $C$). No prompt: question only. Placebo: the generic prompt replaced by 529 words of unrelated prose. Own description: the model's neutral-500 self-description. Other's description: the neutral-500 self-description of another model of the same grid, averaged over grid partners. Unlike the main results, these fidelities are measured against the model itself, not against an author.}
+\label{tab:self-ladder}
+\end{table}

@@ -588,8 +588,10 @@ cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
+\label{sec:controls}
 Three preregistered controls (predictions committed before running; defined
-in Section~\ref{sec:poscontrol-methods}):
+in Section~\ref{sec:poscontrol-methods}; per-model values in
+Appendix~\ref{app:ladder}):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
 seeds gives a mean $C=0.979$, the ceiling on this battery in the fidelity
 metric $F$. (The 0.925 figure in Methods is a different, stricter reference:
@@ -1151,6 +1153,11 @@ negative, 1 significantly positive.}
 Grid A, followed by the two preregistered replication grids.
 \input{tab_added_pairs}
 \input{tab_added_pairs_repl}
+
+\section{Per-model perturbation ladder}\label{app:ladder}
+How far each model moves from its own generic-prompt profile under each kind
+of prefix; the means are the ones reported in Section~\ref{sec:controls}.
+\input{tab_self_ladder}
 
 \section{What did not work}\label{app:didnotwork}
 Documented in the repository history. The aesthetic ``taste'' category,

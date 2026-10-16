@@ -36,8 +36,9 @@ def main() -> None:
               r"$C$). No prompt: question only. Placebo: the generic prompt replaced by 529 words of "
               r"unrelated prose. Own description: the model's neutral-500 self-description. Other's "
               r"description: the neutral-500 self-description of another model of the same grid, "
-              r"averaged over grid partners. Unlike the main results, these fidelities are measured "
-              r"against the model itself, not against an author.}",
+              r"averaged over grid partners. These fidelities answer a different question from "
+              r"Table~\ref{tab:decomp}: not how close a model comes to the author whose description "
+              r"it reads, but how far each prefix moves the model from its own usual choices.}",
               r"\label{tab:self-ladder}", r"\end{table}"]
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {OUT} ({len(d['rows'])} models)")

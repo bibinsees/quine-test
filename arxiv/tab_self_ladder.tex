@@ -18,6 +18,6 @@ mistral-small-3.2 & 0.989 & 0.967 & 0.952 & 0.923 & 0.929 \\
 Mean & 0.979 & 0.960 & 0.954 & 0.918 & 0.926 \\
 \bottomrule
 \end{tabular}
-\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's choice profile under the given prefix to its own generic-prompt reference profile (1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling $C$). No prompt: question only. Placebo: the generic prompt replaced by 529 words of unrelated prose. Own description: the model's neutral-500 self-description. Other's description: the neutral-500 self-description of another model of the same grid, averaged over grid partners. Unlike the main results, these fidelities are measured against the model itself, not against an author.}
+\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's choice profile under the given prefix to its own generic-prompt reference profile (1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling $C$). No prompt: question only. Placebo: the generic prompt replaced by 529 words of unrelated prose. Own description: the model's neutral-500 self-description. Other's description: the neutral-500 self-description of another model of the same grid, averaged over grid partners. These fidelities answer a different question from Table~\ref{tab:decomp}: not how close a model comes to the author whose description it reads, but how far each prefix moves the model from its own usual choices.}
 \label{tab:self-ladder}
 \end{table}

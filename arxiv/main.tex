@@ -101,23 +101,24 @@ is informative.
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
   philosophies), 110 divergence-screened items, and $\sim$176{,}000 calls:
-  $\Tscript \le 0$ and $\Rweight > 0$ in all nine preregistered conditions,
-  flat in description length, and not rescued by explicit adoption
-  instructions. Expressed identity is not a portable script; the recoverable
+  pooled $\Tscript \le 0$ and pooled $\Rweight > 0$ in all nine
+  self-description conditions (one of 20 author-receiver pairs is reliably
+  positive at 500 words), flat in description length, and not rescued by
+  explicit adoption instructions. Expressed identity is not a portable script; the recoverable
   component is model-bound, appearing only when the author's own weights
   execute the text.
-  \item \textbf{Positive controls that locate the failure in the text, not the
-  channel.} Given the author's answers on the 110 test items, receivers
+  \item \textbf{Positive controls: receivers follow supplied answers but do
+  not generalize from examples.} Given the author's answers on the 110 test items, receivers
   reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
   ceiling; given 30, 60, or 90 genuine examples on other items, they move
   away from the author at every dose ($\Tscript = -0.06$ to $-0.09$); and
   the answer-key and held-out-example results replicate on Grid B and on the
   local trio under preregistered predictions; and
   five rounds of rewriting by an optimizer
-  that sees the receiver's errors cannot beat the natural self-description.
-  A system prompt can install a complete profile when the text enumerates
-  it; nothing that summarizes, samples, or approximates the profile
-  transfers.
+  that sees the receiver's errors fail to improve on the natural
+  self-description in five of six pairs. A prompt installs the measured
+  choices when the text lists them; no text we tested that summarizes,
+  samples, or approximates the profile improved transfer on average.
   \item \textbf{Methodological infrastructure for the field:} preregistered
   gates and selection rules (timestamped commits before data), model
   eligibility gates that catch positional pseudo-preferences, an empirically
@@ -496,10 +497,10 @@ demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $+0.098$ & $-0.002$ & 3/
 \end{tabular}
 \caption{Decomposition across all conditions, pooled over directed pairs. In
 the nine self-description conditions (upper block) $\Tscript \le 0$
-everywhere: no arm, length, wording, or adoption instruction makes the
-self-description transfer, and $\Rweight > 0$ everywhere: the author's own
-weights always recover more. The lower block (Section~\ref{sec:poscontrol}) shows
-that neither the system prompt nor the user message is the limit: the
+everywhere: no arm, length, wording, or adoption instruction improves
+transfer on average, and pooled $\Rweight > 0$ everywhere: the author's own
+weights recover more on average. The lower block (Section~\ref{sec:poscontrol}) shows
+that receivers follow supplied answers in either placement: the
 author's answers on the test items themselves (demonstrations-110) transfer
 almost perfectly in either placement, while 30 to 90 genuine behavioral
 examples on other items (demonstrations-30/60/90), observation-derived
@@ -643,9 +644,8 @@ $[+0.081, +0.178]$).
 The author's own weights do no better with the answer key than a stranger's
 ($\Fself = 0.960$, $\Rweight = 0.000$): with the behavior spelled out item by
 item, there is nothing left for the weights to add. The
-system-prompt channel can therefore carry a complete preference profile when
-the text contains one, and the self-description null is a fact about what
-self-descriptions contain, not about the channel. Placement does not matter:
+self-description null is therefore not explained by the channel being too
+weak to move a receiver's choices. Placement does not matter:
 in the user message the answer key transfers as before ($\Fcross = 0.961$,
 $\Tscript = +0.098$, all six pairs) and the self-description fails as before
 ($\Tscript = -0.005$).
@@ -911,15 +911,14 @@ systematics; repeating the design as models scale.
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
 an answer: almost none of it travels. Across ten models, seventeen conditions, and
-$\sim$176{,}000 calls, self-descriptions transport no
-author-specific behavior to another model under any condition we tested,
-while a fresh instance of the author's own weights always recovers more. The
+$\sim$176{,}000 calls, self-descriptions do not improve transfer to another
+model on average in any condition we tested, while a fresh instance of the
+author's own weights recovers more on average. The
 one text that does transfer is the author's answer key itself: handed the
 author's choices on the test items, another model reproduces the author
 almost perfectly, on every grid we tried and whether the text sits in the
-system prompt or the user message, so neither placement is the limit.
-Every text that has to be
-generalized from fails: a self-portrait, a description distilled from
+system prompt or the user message. No text that had to be generalized from
+improved transfer on average: a self-portrait, a description distilled from
 recorded choices, up to ninety genuine examples, or a description rewritten
 five times by an optimizer that sees the receiver's errors; and descriptions
 distilled from recorded choices mislead whoever writes them.
@@ -931,7 +930,8 @@ is more than the character it describes itself to be. For AI welfare, this
 cuts both ways: those who dismiss model preferences as ``just a
 portrayed character'' must explain why the character's own script cannot
 produce them; those who take model self-reports at face value must reckon with
-self-narratives that demonstrably do not govern the behavior they narrate. The
+self-narratives that demonstrably do not suffice to reproduce the behavior
+they narrate. The
 instruments built here are released for the field to sharpen both sides of
 that argument.
 

@@ -286,6 +286,7 @@ optimized-500 & a rewritten self-description & optimizer model & the author's se
 demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A, B, local \\
 demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
+no-prompt baseline & nothing (question only) & none & none & all \\
 user-message placement & neutral-500 self-description or answer key, in the user message & as above & as above & A \\
 \bottomrule
 \end{tabular}
@@ -413,7 +414,9 @@ how much any long system prompt disturbs a model. The \emph{test-retest}
 condition re-runs each model's generic-prompt baseline with fresh random
 seeds and no added text; it measures the highest fidelity attainable on this
 battery (the ceiling $C$), since even a model compared with itself does not
-reach $F=1$ at temperature 1.0.
+reach $F=1$ at temperature 1.0. A \emph{no-prompt} baseline, with the
+question alone and no system prompt, was also run for every model to check
+that the generic prompt itself is inert.
 
 \paragraph{Placement control.} The neutral-500 self-descriptions and the
 answer key were also run with the text placed in the user message, before
@@ -590,7 +593,11 @@ in Section~\ref{sec:poscontrol-methods}):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
 seeds gives a mean $C=0.979$, the ceiling on this battery in the fidelity
 metric $F$. (The 0.925 figure in Methods is a different, stricter reference:
-majority-vote agreement across serving providers.)
+majority-vote agreement across serving providers.) Removing the generic
+prompt altogether (question only, all ten models) yields a profile at
+$F=0.960$ against the generic-prompt reference, the same shift as the
+placebo: the reference prompt is not perfectly inert, but its effect is of
+placebo size and well short of the self-description's.
 \textbf{(2) Placebo.} The length-matched ocean-currents text
 costs $0.979 \to 0.954$; the model's \emph{own self-description} costs
 $0.979 \to 0.918$, a drop $2.4\times$ the placebo's: reading its own

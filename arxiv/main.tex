@@ -42,39 +42,31 @@ Minds Research Sprint}, August 2026}}
 \begin{abstract}
 Frontier language models express coherent preferences, but behavioral evidence
 alone cannot say whether these belong to the model or to a character it
-portrays. We operationalize Hofstadter's thesis that the ``I'' is a
-self-description as a falsifiable transfer experiment: models write their own
-``source code'', a self-description intended to reproduce their behavior,
-which we execute as the system prompt of other models, and of fresh instances
-of themselves, measuring reconstruction fidelity on a 110-item
-divergence-screened preference battery. If expressed identity were a script,
-the author's own script should reinstall it elsewhere.
+portrays. Motivated by Hofstadter's view of the self as a self-description, we
+ask whether a model's description of itself works as a portable specification
+of its preference profile, a quine test: can the text a model writes about
+itself regenerate its behavior elsewhere? Ten models from nine labs write
+self-descriptions; we place each one in the prompt of other models, and of
+fresh instances of the author, and measure how closely their choices on a
+110-item preference battery match the author's.
 
-It does not. Across ten models from nine labs, seventeen conditions and
-about 176{,}000 calls, no self-description, at any length from 100 to
-2{,}000 words, written with or without knowledge of its purpose, paraphrased,
-or run under an explicit instruction to adopt it, makes another model behave
-more like its author than a generic prompt does; many make it behave less so.
-A fresh instance of the author's own weights reading the same text always
-comes closer to the author's choices. The channel (prompt placement in the
-system prompt or the user message) is not the limit: handed the author's
-actual answers to the test questions, a receiver reproduces the author almost
-perfectly (fidelity 0.960, against the 0.979 a model reaches when compared
-with itself). Better text does not help either. Descriptions written from a
-record of the author's past choices, whether by another model or by the
-author itself, leave receivers \emph{less} like the author than no
-description at all, and a second model that repeatedly rewrites the
-self-description cannot improve on the original. Reading its own
-self-description even moves the author's choices away from its usual ones,
-2.4 times more than unrelated text of the same length does.
+Three results stand out. First, across length, framing, paraphrase, explicit
+adoption, and prompt-placement conditions, self-descriptions do not improve
+transfer on average (pooled gains between $-0.025$ and $-0.005$ relative to a
+generic prompt). Second, receivers closely reproduce the author's choices when
+given its answers to the same 110 preference questions used for evaluation
+(fidelity 0.960, compared with 0.979 between repeated evaluations of the same
+model). Giving receivers 30 to 90 examples of the author's choices on
+different questions reduces fidelity on average, as do descriptions distilled
+from 90 such choices. Third, reading its own self-description changes even the
+author's choices, reducing fidelity to its baseline 2.4 times as much as
+unrelated text of the same length. The contrast between successful answer
+following and failed generalization replicated on six further models under
+predictions committed before running.
 
-Expressed identity is not a portable script. A model's preferences stay with
-the model: another model reproduces them only when handed the full list of
-answers, not from any description we tested. What a model says about itself is
-therefore a behavior to be measured, not an explanation of how it behaves.
-We release the
-pipeline, battery, raw call logs, and 171 model-written
-descriptions.
+For the preferences measured here, self-descriptions influence behavior
+without reliably specifying how to reproduce it in another model. We release
+the pipeline, battery, raw call logs, and 171 model-written descriptions.
 \end{abstract}
 
 \section{Introduction}

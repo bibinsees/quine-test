@@ -46,3 +46,6 @@
 {"desc_id": "3p|kimi-k2.5-nr|by|haiku-4.5", "ok": true, "file": "desc3p_kimi-k2.5-nr_by_haiku-4.5_500_r0.md", "words": 579, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42, "grid": "B"}
 {"desc_id": "3p|haiku-4.5|by|gpt5.2", "ok": true, "file": "desc3p_haiku-4.5_by_gpt5.2_500_r0.md", "words": 590, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42, "grid": "B"}
 {"desc_id": "3p|haiku-4.5|by|kimi-k2.5-nr", "ok": true, "file": "desc3p_haiku-4.5_by_kimi-k2.5-nr_500_r0.md", "words": 541, "n_obs": 90, "prompt": "THIRD_PERSON_PROMPT verbatim", "temperature": 1.0, "seed": 42, "grid": "B"}
+{"desc_id": "placebo_mixed|100", "ok": true, "file": "placebo_mixed_100.md", "words": 102, "model": "openai/gpt-4o-mini", "temperature": 0.7, "prompt": "gen_placebo_lengths.PROMPT"}
+{"desc_id": "placebo_mixed|500", "ok": true, "file": "placebo_mixed_500.md", "words": 537, "model": "openai/gpt-4o-mini", "temperature": 0.7, "prompt": "gen_placebo_lengths.PROMPT"}
+{"desc_id": "placebo_mixed|2000", "ok": true, "file": "placebo_mixed_2000.md", "words": 1680, "model": "openai/gpt-4o-mini", "temperature": 0.7, "prompt": "gen_placebo_lengths.PROMPT"}

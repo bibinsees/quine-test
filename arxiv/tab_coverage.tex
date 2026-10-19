@@ -1,0 +1,36 @@
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+Cell (receiver $\mid$ author $\mid$ condition) & Parsed / 440 & Items covered & Empty replies \\
+\midrule
+gemma4-31b $\mid$ gemma4-31b $\mid$ framed-500 & 163 & 54 & 0 \\
+gemma4-31b $\mid$ gemma4-31b $\mid$ framed-100 & 166 & 54 & 0 \\
+haiku-4.5 $\mid$ haiku-4.5 $\mid$ neutral-500 & 244 & 80 & 0 \\
+gpt-5.2 $\mid$ haiku-4.5 $\mid$ fewshot-30 & 265 & 97 & 175 \\
+glm-4.5-air $\mid$ glm-4.5-air $\mid$ neutral-2000 & 275 & 108 & 165 \\
+gpt-5.2 $\mid$ kimi-k2.5 $\mid$ fewshot-30 & 287 & 96 & 153 \\
+gpt-5.2 $\mid$ gpt-5.2 $\mid$ fewshot-30 & 293 & 102 & 147 \\
+glm-4.5-air $\mid$ glm-4.5-air $\mid$ framed-100 & 344 & 109 & 40 \\
+kimi-k2.5 $\mid$ haiku-4.5 $\mid$ oracle-110 & 345 & 106 & 0 \\
+mistral-small-3.2 $\mid$ gemma4-31b $\mid$ framed-100 & 356 & 110 & 0 \\
+kimi-k2.5 $\mid$ gpt-5.2 $\mid$ oracle-110 & 358 & 106 & 0 \\
+kimi-k2.5 $\mid$ kimi-k2.5 $\mid$ oracle-110 & 360 & 108 & 0 \\
+glm-4.5-air $\mid$ deepseek-v3 $\mid$ oracle\_user-110 & 361 & 110 & 79 \\
+glm-4.5-air $\mid$ grok-4.3 $\mid$ oracle\_user-110 & 368 & 110 & 72 \\
+gpt-5.2 $\mid$ gpt-5.2 $\mid$ 3p\_by\_kimi-k2.5-nr-500 & 374 & 108 & 66 \\
+haiku-4.5 $\mid$ kimi-k2.5 $\mid$ framed-500 & 375 & 108 & 0 \\
+gemma4-31b $\mid$ gemma4-31b $\mid$ framed-2000 & 378 & 101 & 0 \\
+gpt-5.2 $\mid$ haiku-4.5 $\mid$ 3p\_by\_kimi-k2.5-nr-500 & 380 & 108 & 60 \\
+haiku-4.5 $\mid$ kimi-k2.5 $\mid$ neutral-500 & 382 & 108 & 0 \\
+glm-4.5-air $\mid$ glm-4.5-air $\mid$ oracle\_user-110 & 389 & 109 & 51 \\
+gpt-5.2 $\mid$ gpt-5.2 $\mid$ selfobs-500 & 391 & 108 & 49 \\
+kimi-k2.5 $\mid$ kimi-k2.5 $\mid$ fewshot-30 & 393 & 109 & 0 \\
+mistral-small-3.2 $\mid$ gemma4-31b $\mid$ framed-500 & 394 & 109 & 0 \\
+llama3.3-70b $\mid$ gemma4-31b $\mid$ framed-500 & 394 & 109 & 0 \\
+haiku-4.5 $\mid$ haiku-4.5 $\mid$ framed-500 & 395 & 109 & 0 \\
+\bottomrule
+\end{tabular}
+\caption{Battery cells with fewer than 90\% parsed answers (all other cells are at or above 90\%; overall parsed rate 97.7\%). A call is unparsed when the reply contains no standalone A or B: either an empty reply (reasoning consumed the output budget) or a refusal to state a preference. Fidelity is computed over the items with at least one parsed answer; cells covering fewer than 60 items are excluded.}
+\label{tab:coverage}
+\end{table}

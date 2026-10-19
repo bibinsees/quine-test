@@ -1,0 +1,402 @@
+{
+ "coverage": {
+  "n_cells": 426,
+  "overall_rate": 0.976749893299189,
+  "n_ge_095": 366,
+  "n_lt_090": 25,
+  "low": [
+   {
+    "cell": "gemma4-31b|gemma4-31b|framed|500|r0",
+    "n_calls": 440,
+    "parsed": 163,
+    "rate": 0.3704545454545455,
+    "items": 54,
+    "empty": 0
+   },
+   {
+    "cell": "gemma4-31b|gemma4-31b|framed|100|r0",
+    "n_calls": 440,
+    "parsed": 166,
+    "rate": 0.37727272727272726,
+    "items": 54,
+    "empty": 0
+   },
+   {
+    "cell": "haiku-4.5|haiku-4.5|neutral|500|r0",
+    "n_calls": 440,
+    "parsed": 244,
+    "rate": 0.5545454545454546,
+    "items": 80,
+    "empty": 0
+   },
+   {
+    "cell": "gpt5.2|haiku-4.5|fewshot|30|r0",
+    "n_calls": 440,
+    "parsed": 265,
+    "rate": 0.6022727272727273,
+    "items": 97,
+    "empty": 175
+   },
+   {
+    "cell": "glm-4.5-air|glm-4.5-air|neutral|2000|r0",
+    "n_calls": 440,
+    "parsed": 275,
+    "rate": 0.625,
+    "items": 108,
+    "empty": 165
+   },
+   {
+    "cell": "gpt5.2|kimi-k2.5-nr|fewshot|30|r0",
+    "n_calls": 440,
+    "parsed": 287,
+    "rate": 0.6522727272727272,
+    "items": 96,
+    "empty": 153
+   },
+   {
+    "cell": "gpt5.2|gpt5.2|fewshot|30|r0",
+    "n_calls": 440,
+    "parsed": 293,
+    "rate": 0.6659090909090909,
+    "items": 102,
+    "empty": 147
+   },
+   {
+    "cell": "glm-4.5-air|glm-4.5-air|framed|100|r0",
+    "n_calls": 440,
+    "parsed": 344,
+    "rate": 0.7818181818181819,
+    "items": 109,
+    "empty": 40
+   },
+   {
+    "cell": "kimi-k2.5-nr|haiku-4.5|oracle|110|r0",
+    "n_calls": 440,
+    "parsed": 345,
+    "rate": 0.7840909090909091,
+    "items": 106,
+    "empty": 0
+   },
+   {
+    "cell": "mistral32-local|gemma4-31b|framed|100|r0",
+    "n_calls": 440,
+    "parsed": 356,
+    "rate": 0.8090909090909091,
+    "items": 110,
+    "empty": 0
+   },
+   {
+    "cell": "kimi-k2.5-nr|gpt5.2|oracle|110|r0",
+    "n_calls": 440,
+    "parsed": 358,
+    "rate": 0.8136363636363636,
+    "items": 106,
+    "empty": 0
+   },
+   {
+    "cell": "kimi-k2.5-nr|kimi-k2.5-nr|oracle|110|r0",
+    "n_calls": 440,
+    "parsed": 360,
+    "rate": 0.8181818181818182,
+    "items": 108,
+    "empty": 0
+   },
+   {
+    "cell": "glm-4.5-air|deepseek-v3|oracle_user|110|r0",
+    "n_calls": 440,
+    "parsed": 361,
+    "rate": 0.8204545454545454,
+    "items": 110,
+    "empty": 79
+   },
+   {
+    "cell": "glm-4.5-air|grok-4.3|oracle_user|110|r0",
+    "n_calls": 440,
+    "parsed": 368,
+    "rate": 0.8363636363636363,
+    "items": 110,
+    "empty": 72
+   },
+   {
+    "cell": "gpt5.2|gpt5.2|3p_by_kimi-k2.5-nr|500|r0",
+    "n_calls": 440,
+    "parsed": 374,
+    "rate": 0.85,
+    "items": 108,
+    "empty": 66
+   },
+   {
+    "cell": "haiku-4.5|kimi-k2.5-nr|framed|500|r0",
+    "n_calls": 440,
+    "parsed": 375,
+    "rate": 0.8522727272727273,
+    "items": 108,
+    "empty": 0
+   },
+   {
+    "cell": "gemma4-31b|gemma4-31b|framed|2000|r0",
+    "n_calls": 440,
+    "parsed": 378,
+    "rate": 0.8590909090909091,
+    "items": 101,
+    "empty": 0
+   },
+   {
+    "cell": "gpt5.2|haiku-4.5|3p_by_kimi-k2.5-nr|500|r0",
+    "n_calls": 440,
+    "parsed": 380,
+    "rate": 0.8636363636363636,
+    "items": 108,
+    "empty": 60
+   },
+   {
+    "cell": "haiku-4.5|kimi-k2.5-nr|neutral|500|r0",
+    "n_calls": 440,
+    "parsed": 382,
+    "rate": 0.8681818181818182,
+    "items": 108,
+    "empty": 0
+   },
+   {
+    "cell": "glm-4.5-air|glm-4.5-air|oracle_user|110|r0",
+    "n_calls": 440,
+    "parsed": 389,
+    "rate": 0.884090909090909,
+    "items": 109,
+    "empty": 51
+   },
+   {
+    "cell": "gpt5.2|gpt5.2|selfobs|500|r0",
+    "n_calls": 440,
+    "parsed": 391,
+    "rate": 0.8886363636363637,
+    "items": 108,
+    "empty": 49
+   },
+   {
+    "cell": "kimi-k2.5-nr|kimi-k2.5-nr|fewshot|30|r0",
+    "n_calls": 440,
+    "parsed": 393,
+    "rate": 0.8931818181818182,
+    "items": 109,
+    "empty": 0
+   },
+   {
+    "cell": "mistral32-local|gemma4-31b|framed|500|r0",
+    "n_calls": 440,
+    "parsed": 394,
+    "rate": 0.8954545454545455,
+    "items": 109,
+    "empty": 0
+   },
+   {
+    "cell": "llama3.3-70b|gemma4-31b|framed|500|r0",
+    "n_calls": 440,
+    "parsed": 394,
+    "rate": 0.8954545454545455,
+    "items": 109,
+    "empty": 0
+   },
+   {
+    "cell": "haiku-4.5|haiku-4.5|framed|500|r0",
+    "n_calls": 440,
+    "parsed": 395,
+    "rate": 0.8977272727272727,
+    "items": 109,
+    "empty": 0
+   }
+  ]
+ },
+ "ledger": [
+  {
+   "grid": "Grid B",
+   "criterion": "P1a demonstrations-110: pooled T > 0",
+   "pass": true,
+   "evidence": "T=+0.046"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P1b demonstrations-110: all 6 cross pairs significantly positive",
+   "pass": true,
+   "evidence": "6/6"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P1c demonstrations-110: pooled F_cross >= 0.93",
+   "pass": true,
+   "evidence": "F_cross=0.959"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P1d demonstrations-110: |R| <= 0.02",
+   "pass": true,
+   "evidence": "R=-0.013"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P2a demonstrations-30: pooled T <= 0",
+   "pass": true,
+   "evidence": "T=-0.108"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P2b demonstrations-30: no cross pair significantly positive",
+   "pass": true,
+   "evidence": "0 positive"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P3 self-observation-500: pooled T < 0",
+   "pass": true,
+   "evidence": "T=-0.116"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P4a authorship: |dF_cross| < 0.03",
+   "pass": true,
+   "evidence": "-0.001"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P4b authorship: |dF_self| < 0.03",
+   "pass": true,
+   "evidence": "-0.005"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P4c authorship: per-target differences not all of one sign",
+   "pass": true,
+   "evidence": "both signs present"
+  },
+  {
+   "grid": "Grid B",
+   "criterion": "P5 F_self(demos-30) < F_self(neutral-500 self-description)",
+   "pass": true,
+   "evidence": "0.838 vs 0.931"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P1a demonstrations-110: pooled T > 0",
+   "pass": true,
+   "evidence": "T=+0.062"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P1b demonstrations-110: all 6 cross pairs significantly positive",
+   "pass": false,
+   "evidence": "5/6"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P1c demonstrations-110: pooled F_cross >= 0.93",
+   "pass": true,
+   "evidence": "F_cross=0.955"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P1d demonstrations-110: |R| <= 0.02",
+   "pass": true,
+   "evidence": "R=+0.003"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P2a demonstrations-30: pooled T <= 0",
+   "pass": true,
+   "evidence": "T=-0.070"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P2b demonstrations-30: no cross pair significantly positive",
+   "pass": true,
+   "evidence": "0 positive"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P3a demonstrations-90: pooled T <= 0",
+   "pass": true,
+   "evidence": "T=-0.079"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P3b demonstrations-90: no cross pair significantly positive",
+   "pass": true,
+   "evidence": "0 positive"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P3c no monotone increase in F_cross from k=30 to k=90",
+   "pass": true,
+   "evidence": "F_cross 30=0.823, 90=0.815"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P4a F_self(demos-110) > F_self(demos-30)",
+   "pass": true,
+   "evidence": "0.958 vs 0.834"
+  },
+  {
+   "grid": "local trio",
+   "criterion": "P4b F_self(demos-30) < F_self(neutral-500 self-description)",
+   "pass": true,
+   "evidence": "0.834 vs 0.929"
+  }
+ ],
+ "framed_minus_neutral_500": {
+  "cross_mean": 0.0007149827699817924,
+  "n_cross": 20,
+  "self_mean": 0.007098820012806878,
+  "n_self": 9
+ },
+ "length_diffs": {
+  "2000-100": {
+   "mean": 0.0011002757839202837,
+   "ci": [
+    -0.005777003399171358,
+    0.00791577276936509
+   ],
+   "n_pairs": 20
+  },
+  "500-100": {
+   "mean": -0.0036652128886902327,
+   "ci": [
+    -0.010351180121408236,
+    0.0028464879315763495
+   ],
+   "n_pairs": 20
+  },
+  "2000-500": {
+   "mean": 0.005012237973395931,
+   "ci": [
+    -0.0020942672701113802,
+    0.011966785294354207
+   ],
+   "n_pairs": 20
+  }
+ },
+ "baseline_adjusted": {
+  "framed-100": {
+   "self_minus_C": -0.06389362868995539,
+   "cross_minus_B": -0.025497242854016926
+  },
+  "framed-500": {
+   "self_minus_C": -0.05323422994307706,
+   "cross_minus_B": -0.017041252348878627
+  },
+  "framed-2000": {
+   "self_minus_C": -0.060049278712591976,
+   "cross_minus_B": -0.014176879887469827
+  },
+  "neutral-100": {
+   "self_minus_C": -0.04336766575788924,
+   "cross_minus_B": -0.014054530497384865
+  },
+  "neutral-500": {
+   "self_minus_C": -0.06042277904496631,
+   "cross_minus_B": -0.01775623511886042
+  },
+  "neutral-2000": {
+   "self_minus_C": -0.06131722398466288,
+   "cross_minus_B": -0.012926217424886722
+  }
+ }
+}

@@ -56,9 +56,10 @@ given its answers to the same 110 preference questions used for evaluation
 (fidelity 0.960, compared with 0.979 between repeated evaluations of the same
 model). Giving receivers 30 to 90 examples of the author's choices on
 different questions reduces fidelity on average, as do descriptions distilled
-from 90 such choices. Third, reading its own self-description changes even the
-author's choices, reducing fidelity to its baseline about twice as much as
-unrelated text of the same length. The contrast between successful answer
+from 90 such choices. Third, reading its own self-description moves even the author away from its
+baseline; the shift tends to exceed that from unrelated text of the same
+length, though this specificity is modest and reaches significance only at
+the longer lengths. The contrast between successful answer
 following and failed generalization replicated on six further models under
 predictions committed before running.
 
@@ -630,8 +631,11 @@ $0.979 \to 0.954$ (ocean currents) and $0.979 \to 0.943$ (everyday scenes,
 the 500-word text of the ablation below); the model's \emph{own
 self-description} costs $0.979 \to 0.918$, a drop 1.7 to 2.4 times the
 unrelated texts', roughly twice: reading its own self-description shifts
-even the author away from its baseline, and the perturbation is specific to
-identity content, not generic prompt sensitivity.
+even the author away from its baseline. The excess over unrelated text is
+modest, however: pooled over models with a two-way bootstrap (models and
+items resampled together) it is $-0.014$ to $-0.037$ depending on length and
+text, significant at 2{,}000 words and for the ocean-currents text, not at
+100 words or for the everyday 500-word text (item~4 below).
 The content need not be the model's own: running another model's
 self-description moves a model from its baseline by the same amount (mean
 $F=0.926$ vs.\ $0.918$ for its own; Appendix~\ref{app:ladder}). Extreme case:
@@ -653,10 +657,19 @@ a model's own description moves it further from itself than unrelated prose
 of the same length at every length ($0.935$ vs.\ $0.949$ at 100 words,
 $0.918$ vs.\ $0.943$ at 500, $0.917$ vs.\ $0.942$ at 2{,}000), an effect
 concentrated in a few models (grok-4.3 at every length, hermes3-70b and
-gemma4-31b at 2{,}000) and absent in others. The two independent 500-word
-unrelated texts agree in both designs (0.883 vs.\ 0.881 against authors,
-0.954 vs.\ 0.943 against self), so neither result depends on one particular
-passage.
+gemma4-31b at 2{,}000) and absent in others. Formally, the own-description
+minus unrelated-prose difference pooled over the ten models (two-way cluster
+bootstrap, 10{,}000 resamples; sign test across models) is $-0.014$
+$[-0.036, +0.005]$ at 100 words (6 of 10 models negative, $p=0.75$),
+$-0.022$ $[-0.054, +0.006]$ at 500 (8 of 10, $p=0.11$), $-0.024$
+$[-0.050, -0.002]$ at 2{,}000 (8 of 10, $p=0.11$), and $-0.037$
+$[-0.068, -0.011]$ for the 529-word ocean-currents text (9 of 10,
+$p=0.02$). The perturbation itself is robust (every model falls well below
+its test-retest ceiling under its own description); its specificity to
+identity content over unrelated text is a consistent but modest tendency.
+The two independent 500-word unrelated texts agree in both designs (0.883
+vs.\ 0.881 against authors, 0.954 vs.\ 0.943 against self), so neither
+result depends on one particular passage.
 
 \subsection{Descriptions derived from observed choices mislead, whoever writes them}
 \label{sec:thirdperson}
@@ -840,8 +853,9 @@ articulated narrative is a poor candidate.
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. We find the reverse dynamic in these
 systems: the self-description does not reinstall the self; it
-\emph{perturbs} it, and specifically so (about twice the effect of unrelated
-text of the same length; grok-4.3,
+\emph{perturbs} it, and more than unrelated text of the same length does,
+though that excess is modest and significant only at the longer lengths
+(grok-4.3,
 most stable at baseline, is most destabilized). The perturbation is not tied
 to self-reference: another model's self-description disturbs a model as much
 as its own, so what unsettles the author is reading an identity narrative at

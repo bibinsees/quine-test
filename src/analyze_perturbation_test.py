@@ -68,7 +68,9 @@ def main() -> None:
                  & (grid["length"] == n) & (grid["regen"] == 0)]
         return tbl_of(c) if len(c) else None
 
-    conditions = {100: ("mixed", 100), 500: ("mixed", 500), 2000: ("mixed", 2000), "500-ocean": ("ocean", 500)}
+    expo = ag.load_jsonl(RUNS.with_name("arxiv_placebo_expo.jsonl")) if RUNS.with_name("arxiv_placebo_expo.jsonl").exists() else None
+    conditions = {"100-mixed": ("mixed", 100), "500-mixed": ("mixed", 500), "2000-mixed": ("mixed", 2000),
+                  "100-expo": ("expo", 100), "500-expo": ("ocean", 500), "2000-expo": ("expo", 2000)}
     out = {}
     rng = np.random.default_rng(14)
     print(f"{'condition':<10} {'n_models':>8} {'mean d':>8} {'95% CI (cluster boot)':>24} {'models d<0':>11} {'sign-test p':>12}")
@@ -80,6 +82,10 @@ def main() -> None:
                 continue
             if src == "mixed":
                 g = runs[(runs["receiver"] == m) & (runs["length"] == n)]
+            elif src == "expo":
+                if expo is None:
+                    continue
+                g = expo[(expo["receiver"] == m) & (expo["length"] == n)]
             else:
                 g = grid[(grid["receiver"] == m) & (grid["arm"] == "placebo")]
             if len(g) < 440:

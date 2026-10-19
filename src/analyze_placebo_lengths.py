@@ -42,9 +42,18 @@ def sig(ci):
 
 
 def main() -> None:
+    import sys
+    style = sys.argv[sys.argv.index("--style") + 1] if "--style" in sys.argv else "mixed"
+    runs_path = RUNS if style == "mixed" else RUNS.with_name(f"arxiv_placebo_{style}.jsonl")
+    out_path = OUT if style == "mixed" else OUT.with_name(f"placebo_lengths_{style}.json")
     grid = ag.load_jsonl(MERGED if MERGED.exists() else ag.GRID)
     screen = ag.load_jsonl(ag.SCREEN)
-    runs = ag.load_jsonl(RUNS)
+    runs = ag.load_jsonl(runs_path)
+    if style == "expo":  # the 500-word member of the expository set is the original placebo
+        pl = grid[grid["arm"] == "placebo"].copy()
+        pl["length"] = 500
+        runs = __import__("pandas").concat([runs, pl[runs.columns.intersection(pl.columns)]], ignore_index=True)
+    print(f"style: {style}")
     final_items = set(grid["item_id"].unique())
     ref = ag.p_hat_table(screen[screen["item_id"].isin(final_items)], "short")
     for model, t in ag.p_hat_table(grid[grid["arm"] == "baseline"], "receiver").items():
@@ -154,8 +163,8 @@ def main() -> None:
         out["table8"]["models"] += rows
         out["table8"]["pooled"][str(n)] = pooled
 
-    OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
-    print(f"\nwritten to {OUT}")
+    out_path.write_text(json.dumps(out, indent=1), encoding="utf-8")
+    print(f"\nwritten to {out_path}")
 
 
 if __name__ == "__main__":

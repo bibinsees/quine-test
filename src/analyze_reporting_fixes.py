@@ -179,6 +179,19 @@ def main() -> None:
              n_sig_pos("A", "demos_bal-55") == 0, f"{n_sig_pos('A', 'demos_bal-55')} positive, "
              f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} negative"),
         ]
+    # stable-item observation-derived descriptions (pilot/protocol_arxiv_obs_stable.md), if run
+    if "3p_stable-500" in P and "selfobs_stable-500" in P:
+        p3s, pss = P["3p_stable-500"], P["selfobs_stable-500"]
+        ledger += [
+            ("Grid A (stable-item descriptions)", "H4a observer-written from stable items: pooled F_self > 0.771",
+             p3s["F_self"] > 0.771, f"F_self={p3s['F_self']:.3f}"),
+            ("Grid A (stable-item descriptions)", "H4a self-observation from stable items: pooled F_self > 0.781",
+             pss["F_self"] > 0.781, f"F_self={pss['F_self']:.3f}"),
+            ("Grid A (stable-item descriptions)", "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
+             abs(pss["F_self"] - p3s["F_self"]) < 0.03, f"{pss['F_self'] - p3s['F_self']:+.3f}"),
+            ("Grid A (stable-item descriptions)", "H4c (no direction predicted) self-observation cross T_script",
+             True, f"T={pss['T_script']:+.3f}, {pss['n_pairs_T_pos_sig']} pairs sig. +, {pss['n_pairs_T_neg_sig']} sig. -"),
+        ]
     n_pass = sum(1 for x in ledger if x[2])
     print(f"\nprediction ledger: {n_pass}/{len(ledger)} criteria met")
     for g, text, ok, ev in ledger:
@@ -194,8 +207,9 @@ def main() -> None:
               r"\caption{Every criterion registered in the replication and balanced-demonstration protocols "
               r"(\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, "
               r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}) and its outcome: " + f"{n_pass} of {len(ledger)} met. "
-              r"H3 registered no direction; its two rows record the outcome against the two pre-stated readings.}",
+              r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}, "
+              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}) and its outcome: " + f"{n_pass} of {len(ledger)} met. "
+              r"H3 and H4c registered no direction; their rows record the outcome as observed.}",
               r"\label{tab:ledger}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

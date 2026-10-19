@@ -363,6 +363,30 @@
    "criterion": "H3 balanced-55: no cross pair significantly positive",
    "pass": false,
    "evidence": "1 positive, 1 negative"
+  },
+  {
+   "grid": "Grid A (stable-item descriptions)",
+   "criterion": "H4a observer-written from stable items: pooled F_self > 0.771",
+   "pass": true,
+   "evidence": "F_self=0.846"
+  },
+  {
+   "grid": "Grid A (stable-item descriptions)",
+   "criterion": "H4a self-observation from stable items: pooled F_self > 0.781",
+   "pass": true,
+   "evidence": "F_self=0.852"
+  },
+  {
+   "grid": "Grid A (stable-item descriptions)",
+   "criterion": "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
+   "pass": true,
+   "evidence": "+0.006"
+  },
+  {
+   "grid": "Grid A (stable-item descriptions)",
+   "criterion": "H4c (no direction predicted) self-observation cross T_script",
+   "pass": true,
+   "evidence": "T=-0.031, 0 pairs sig. +, 2 sig. -"
   }
  ],
  "framed_minus_neutral_500": {

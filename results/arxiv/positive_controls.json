@@ -1,6 +1,46 @@
 {
  "cells": [
   {
+   "cell_id": "deepseek-v3|deepseek-v3|3p_stable_by_glm-4.5-air|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.8878243809485687,
+   "F_ci": [
+    0.8418497850890819,
+    0.9283774507615679
+   ],
+   "r": 0.7277345048400102,
+   "agree": 0.8363636363636363,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|3p_stable_by_grok-4.3|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.7770581511009241,
+   "F_ci": [
+    0.7122238611252781,
+    0.8381231558653142
+   ],
+   "r": 0.4610189165737146,
+   "agree": 0.7272727272727273,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
    "cell_id": "deepseek-v3|deepseek-v3|demos_bal|55|r0",
    "receiver": "deepseek-v3",
    "author": "deepseek-v3",
@@ -196,6 +236,26 @@
    ],
    "r": 0.9462833794201575,
    "agree": 0.990909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "deepseek-v3|deepseek-v3|selfobs_stable|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "self",
+   "F": 0.8731481028878361,
+   "F_ci": [
+    0.8240155822473508,
+    0.916572658596505
+   ],
+   "r": 0.7170542388586318,
+   "agree": 0.8181818181818182,
    "n_items": 110,
    "n_calls": 440,
    "compliance": 1.0
@@ -487,6 +547,36 @@
      0.10826498985250631
     ],
     "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|selfobs_stable|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.8971340682436765,
+   "F_ci": [
+    0.8582838354869127,
+    0.930723391296051
+   ],
+   "r": 0.7691362245549759,
+   "agree": 0.8545454545454545,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": 0.01068993214724767,
+    "ci": [
+     -0.03345101129728387,
+     0.05302848343360335
+    ],
+    "p_gt_0": 0.6921,
     "n": 110
    }
   },
@@ -787,6 +877,36 @@
      0.17745896233398356
     ],
     "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|selfobs_stable|500|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.8572930398078931,
+   "F_ci": [
+    0.8078460093644543,
+    0.9018529127781912
+   ],
+   "r": 0.6375997088980726,
+   "agree": 0.7909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": 0.029411108522218975,
+    "ci": [
+     -0.03599228328343233,
+     0.09459080994911345
+    ],
+    "p_gt_0": 0.8166,
     "n": 110
    }
   },
@@ -1331,6 +1451,36 @@
    }
   },
   {
+   "cell_id": "glm-4.5-air|deepseek-v3|selfobs_stable|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.8118609569285659,
+   "F_ci": [
+    0.7513111114867335,
+    0.8670827445793796
+   ],
+   "r": 0.5465224454452428,
+   "agree": 0.7454545454545455,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9931818181818182,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.074583179167863,
+    "ci": [
+     -0.12592821998233278,
+     -0.02622063477979173
+    ],
+    "p_gt_0": 0.0008,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "glm-4.5-air|deepseek-v3|selfobs|500|r0",
    "receiver": "glm-4.5-air",
    "author": "deepseek-v3",
@@ -1359,6 +1509,46 @@
     "p_gt_0": 0.0001,
     "n": 110
    }
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|3p_stable_by_deepseek-v3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.8895720048769888,
+   "F_ci": [
+    0.8553625938373093,
+    0.9203791733827151
+   ],
+   "r": 0.7616846944353878,
+   "agree": 0.8363636363636363,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|3p_stable_by_grok-4.3|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.8986037168352615,
+   "F_ci": [
+    0.8609195293670717,
+    0.9310432328723288
+   ],
+   "r": 0.7783425629745677,
+   "agree": 0.8818181818181818,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
   },
   {
    "cell_id": "glm-4.5-air|glm-4.5-air|demos_bal|55|r0",
@@ -1559,6 +1749,26 @@
    "n_items": 110,
    "n_calls": 440,
    "compliance": 0.9863636363636363
+  },
+  {
+   "cell_id": "glm-4.5-air|glm-4.5-air|selfobs_stable|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "self",
+   "F": 0.8946528939156496,
+   "F_ci": [
+    0.85117498537882,
+    0.9327151155099898
+   ],
+   "r": 0.7571129886582482,
+   "agree": 0.8909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9977272727272727
   },
   {
    "cell_id": "glm-4.5-air|glm-4.5-air|selfobs|500|r0",
@@ -1847,6 +2057,36 @@
      0.12924311520463064
     ],
     "p_gt_0": 1.0,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|selfobs_stable|500|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.8319887145363896,
+   "F_ci": [
+    0.7783035762479512,
+    0.8798842454395223
+   ],
+   "r": 0.559624191258962,
+   "agree": 0.7363636363636363,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9977272727272727,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.042494554629583625,
+    "ci": [
+     -0.09397619132572292,
+     0.008689896322311201
+    ],
+    "p_gt_0": 0.0531,
     "n": 110
    }
   },
@@ -2491,6 +2731,36 @@
    }
   },
   {
+   "cell_id": "grok-4.3|deepseek-v3|selfobs_stable|500|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.7533213474331907,
+   "F_ci": [
+    0.6832419381816417,
+    0.8183274990218433
+   ],
+   "r": 0.4186403369427064,
+   "agree": 0.7272727272727273,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": -0.07456058385248339,
+    "ci": [
+     -0.14166833971164344,
+     -0.010345961596582626
+    ],
+    "p_gt_0": 0.0117,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "grok-4.3|deepseek-v3|selfobs|500|r0",
    "receiver": "grok-4.3",
    "author": "deepseek-v3",
@@ -2791,6 +3061,36 @@
    }
   },
   {
+   "cell_id": "grok-4.3|glm-4.5-air|selfobs_stable|500|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "cross",
+   "F": 0.8392199067047862,
+   "F_ci": [
+    0.7813286601422927,
+    0.8918292967020053
+   ],
+   "r": 0.6329115033372447,
+   "agree": 0.8,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.035263362461187,
+    "ci": [
+     -0.09191778012983827,
+     0.019224124737666316
+    ],
+    "p_gt_0": 0.1068,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "grok-4.3|glm-4.5-air|selfobs|500|r0",
    "receiver": "grok-4.3",
    "author": "glm-4.5-air",
@@ -2819,6 +3119,46 @@
     "p_gt_0": 0.0,
     "n": 110
    }
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|3p_stable_by_deepseek-v3|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.811328571436666,
+   "F_ci": [
+    0.7489778641166208,
+    0.8696221085176663
+   ],
+   "r": 0.5496208356832007,
+   "agree": 0.7545454545454545,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|3p_stable_by_glm-4.5-air|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "3p_stable",
+   "length": 500,
+   "cond": "3p_stable-500",
+   "kind": "self",
+   "F": 0.8098942861589142,
+   "F_ci": [
+    0.7522923097839287,
+    0.8641954623432747
+   ],
+   "r": 0.5847979698883834,
+   "agree": 0.7272727272727273,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
   },
   {
    "cell_id": "grok-4.3|grok-4.3|demos_bal|55|r0",
@@ -3016,6 +3356,26 @@
    ],
    "r": 0.9668470991908233,
    "agree": 1.0,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|selfobs_stable|500|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "selfobs_stable",
+   "length": 500,
+   "cond": "selfobs_stable-500",
+   "kind": "self",
+   "F": 0.7868264370342467,
+   "F_ci": [
+    0.7241642031891037,
+    0.8452946635902927
+   ],
+   "r": 0.5034188781443187,
+   "agree": 0.7181818181818181,
    "n_items": 110,
    "n_calls": 440,
    "compliance": 1.0
@@ -4311,6 +4671,24 @@
    "n_pairs_T_pos_sig": 1,
    "n_pairs_T_neg_sig": 1,
    "R_weight": 0.013727060460623774
+  },
+  "3p_stable-500": {
+   "F_self": 0.8457135185595539,
+   "F_cross": null,
+   "B": null,
+   "n_self_cells": 6,
+   "n_cross_cells": 0
+  },
+  "selfobs_stable-500": {
+   "F_self": 0.8515424779459108,
+   "F_cross": 0.8318030056090836,
+   "B": 0.8629364455160252,
+   "n_self_cells": 3,
+   "n_cross_cells": 6,
+   "T_script": -0.031133439906941618,
+   "n_pairs_T_pos_sig": 0,
+   "n_pairs_T_neg_sig": 2,
+   "R_weight": 0.019739472336827157
   },
   "B:selfobs-500": {
    "F_self": 0.8286832132455612,

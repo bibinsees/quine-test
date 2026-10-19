@@ -20,6 +20,7 @@ LABEL = {
     "fewshot-90": "demonstrations-90",
     "oracle-110": "demonstrations-110",
 }
+LABEL["selfobs_stable-500"] = "self-observation-500, stable items"
 LABEL["fewshot_bal-30"] = "demos-30, balanced"
 LABEL["demos_bal-55"] = "demos-55, balanced"
 LABEL["neutral_user-500"] = "neutral-500, user msg."

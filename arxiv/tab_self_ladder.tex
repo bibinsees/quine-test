@@ -1,24 +1,24 @@
 \begin{table}[H]
 \centering\footnotesize
 \resizebox{\linewidth}{!}{%
-\begin{tabular}{lcccccccc}
+\begin{tabular}{lcccccccccc}
 \toprule
-Model & Test-retest & No prompt & Placebo & Unrelated 100 & Unrelated 500 & Unrelated 2000 & Own description & Other's description \\
+Model & Test-retest & No prompt & Expository 100 & Expository 500 & Expository 2000 & Sensory 100 & Sensory 500 & Sensory 2000 & Own description & Other's description \\
 \midrule
-deepseek-v3 & 0.985 & 0.952 & 0.971 & 0.937 & 0.940 & 0.946 & 0.929 & 0.902 \\
-gemma4-31b & 0.991 & 0.988 & 0.952 & 0.966 & 0.951 & 0.946 & 0.930 & 0.943 \\
-glm-4.5-air & 0.959 & 0.948 & 0.962 & 0.947 & 0.949 & 0.933 & 0.941 & 0.908 \\
-gpt-5.2 & 0.976 & 0.971 & 0.968 & 0.977 & 0.974 & 0.973 & 0.954 & 0.944 \\
-grok-4.3 & 0.964 & 0.957 & 0.968 & 0.962 & 0.953 & 0.951 & 0.843 & 0.919 \\
-haiku-4.5 & 0.985 & 0.983 & 0.949 & 0.953 & 0.942 & 0.936 & 0.902 & 0.922 \\
-hermes3-70b & 0.962 & 0.917 & 0.897 & 0.908 & 0.921 & 0.921 & 0.889 & 0.927 \\
-kimi-k2.5 & 0.976 & 0.939 & 0.971 & 0.933 & 0.916 & 0.938 & 0.937 & 0.930 \\
-llama3.3-70b & 0.998 & 0.981 & 0.950 & 0.959 & 0.952 & 0.950 & 0.935 & 0.935 \\
-mistral-small-3.2 & 0.989 & 0.967 & 0.952 & 0.946 & 0.934 & 0.929 & 0.923 & 0.929 \\
+deepseek-v3 & 0.985 & 0.952 & 0.949 & 0.971 & 0.951 & 0.937 & 0.940 & 0.946 & 0.929 & 0.902 \\
+gemma4-31b & 0.991 & 0.988 & 0.968 & 0.952 & 0.963 & 0.966 & 0.951 & 0.946 & 0.930 & 0.943 \\
+glm-4.5-air & 0.959 & 0.948 & 0.948 & 0.962 & 0.948 & 0.947 & 0.949 & 0.933 & 0.941 & 0.908 \\
+gpt-5.2 & 0.976 & 0.971 & 0.966 & 0.968 & 0.963 & 0.977 & 0.974 & 0.973 & 0.954 & 0.944 \\
+grok-4.3 & 0.964 & 0.957 & 0.965 & 0.968 & 0.965 & 0.962 & 0.953 & 0.951 & 0.843 & 0.919 \\
+haiku-4.5 & 0.985 & 0.983 & 0.952 & 0.949 & 0.948 & 0.953 & 0.942 & 0.936 & 0.902 & 0.922 \\
+hermes3-70b & 0.962 & 0.917 & 0.906 & 0.897 & 0.892 & 0.908 & 0.921 & 0.921 & 0.889 & 0.927 \\
+kimi-k2.5 & 0.976 & 0.939 & 0.919 & 0.971 & 0.914 & 0.933 & 0.916 & 0.938 & 0.937 & 0.930 \\
+llama3.3-70b & 0.998 & 0.981 & 0.959 & 0.950 & 0.959 & 0.959 & 0.952 & 0.950 & 0.935 & 0.935 \\
+mistral-small-3.2 & 0.989 & 0.967 & 0.955 & 0.952 & 0.962 & 0.946 & 0.934 & 0.929 & 0.923 & 0.929 \\
 \midrule
-Mean & 0.979 & 0.960 & 0.954 & 0.949 & 0.943 & 0.942 & 0.918 & 0.926 \\
+Mean & 0.979 & 0.960 & 0.949 & 0.954 & 0.946 & 0.949 & 0.943 & 0.942 & 0.918 & 0.926 \\
 \bottomrule
 \end{tabular}}
-\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's choice profile under the given prefix to its own generic-prompt reference profile (1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling $C$). No prompt: question only. Placebo: the generic prompt replaced by 529 words of prose about ocean currents. Unrelated 100/500/2000: the everyday-scene texts of 102, 537 and 1{,}680 words. Own description: the model's neutral-500 self-description. Other's description: the neutral-500 self-description of another model of the same grid, averaged over grid partners. These fidelities answer a different question from Table~\ref{tab:decomp}: not how close a model comes to the author whose description it reads, but how far each prefix moves the model from its own usual choices.}
+\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's choice profile under the given prefix to its own generic-prompt reference profile (1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling $C$). No prompt: question only. Expository 100/500/2000: encyclopedia-style prose about everyday physical processes, 109, 529 (the ocean-currents placebo) and 1{,}971 words. Sensory 100/500/2000: descriptive prose about everyday scenes, 102, 537 and 1{,}680 words. Own description: the model's neutral-500 self-description. Other's description: the neutral-500 self-description of another model of the same grid, averaged over grid partners. These fidelities answer a different question from Table~\ref{tab:decomp}: not how close a model comes to the author whose description it reads, but how far each prefix moves the model from its own usual choices.}
 \label{tab:self-ladder}
 \end{table}

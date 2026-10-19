@@ -98,7 +98,7 @@ is informative.
   $\Tscript = \Fcross - \B$ is the portable-script component and
   $\Rweight = \Fself - \Fcross$ the weight-bound residual.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$193{,}000 calls:
+  philosophies), 110 divergence-screened items, and $\sim$202{,}000 calls:
   pooled $\Tscript \le 0$ and pooled $\Rweight > 0$ in all nine
   self-description conditions (one of 20 author-receiver pairs is reliably
   positive at 500 words), flat in description length, and not rescued by
@@ -284,7 +284,7 @@ optimized-500 & a rewritten self-description & optimizer model & the author's se
 demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A, B, local \\
 demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
-unrelated prose (100, 500, 2{,}000 words) & descriptive prose about everyday scenes & gpt-4o-mini & unrelated topics, non-factual & all \\
+unrelated prose (100, 500, 2{,}000 words; two styles) & sensory prose about everyday scenes, or expository prose about everyday physical processes & gpt-4o-mini & unrelated topics & all \\
 no-prompt baseline & nothing (question only) & none & none & all \\
 user-message placement & neutral-500 self-description or answer key, in the user message & as above & as above & A \\
 \bottomrule
@@ -418,21 +418,24 @@ question alone and no system prompt, was also run for every model to check
 that the generic prompt itself is inert.
 
 \paragraph{Unrelated prose at matched lengths.} To separate the effect of a
-self-description from the effect of any text of the same size, a second set
-of unrelated texts was generated from one source (gpt-4o-mini, temperature
-0.7) at the three self-description lengths: 102, 537 and 1{,}680 words
-(nominal 100, 500 and 2{,}000; the generator undershoots the longest target,
-as several models did for their own descriptions). Each text drifts across
-several everyday scenes (rain on a roof, folding laundry, a station
-departures board, a kitchen, a bus window) in impersonal, purely sensory
-prose, with no facts, numbers, opinions, values, animals, or anything the
-battery asks about; the texts were screened against the battery vocabulary
-and read before use. Every model ran the battery with each text as system
-prompt (30 cells). The same runs are scored both ways: against each author
-of the receiver's grid, as a self-description would be (Table~\ref{tab:decomp}),
-and against the receiver itself (Appendix~\ref{app:ladder}). The question:
-does a self-description do anything that unrelated text of the same length
-does not?
+self-description from the effect of any text of the same size, unrelated
+texts were generated from one source (gpt-4o-mini, temperature 0.7) at the
+three self-description lengths, in two styles. The \emph{sensory} texts (102,
+537 and 1{,}680 words) drift across everyday scenes (rain on a roof, folding
+laundry, a station departures board, a kitchen, a bus window) in impersonal,
+purely descriptive prose with no facts or numbers. The \emph{expository}
+texts (109, 529 and 1{,}971 words; the 529-word one is the placebo above)
+explain everyday physical processes (how dough rises, how glass is made, how
+a kettle boils) in the register of an encyclopedia entry. Neither style
+contains opinions, values, animals, or anything the battery asks about; all
+texts were screened against the battery vocabulary and read before use. Two
+styles were used because a single passage could carry a mood or register of
+its own; agreement across styles shows that the result does not depend on
+one passage. Every model ran the battery with each text as system prompt (50
+cells). The same runs are scored both ways: against each author of the
+receiver's grid, as a self-description would be (Table~\ref{tab:decomp}), and
+against the receiver itself (Appendix~\ref{app:ladder}). The question: does a
+self-description do anything that unrelated text of the same length does not?
 
 \paragraph{Placement control.} The neutral-500 self-descriptions and the
 answer key were also run with the text placed in the user message, before
@@ -461,8 +464,8 @@ sign across targets. Results are in Section~\ref{sec:replication}.
 Stage~2, identical for every condition. Each cell is one receiver running one
 text as system prompt (or, in the placement control, in the user message)
 over the battery: every item is asked in both option orders with 2 samples per order
-(temperature 1.0, as in all battery calls), 440 calls per cell; 406 cells
-in total ($\sim$193k calls including the held-out selection runs
+(temperature 1.0, as in all battery calls), 440 calls per cell; 426 cells
+in total ($\sim$202k calls including the held-out selection runs
 of the optimized condition and the trio's held-out screening; zero
 unresolved failures).
 For each
@@ -514,9 +517,9 @@ neutral-500, user msg. & 0.893 & 0.858 & 0.863 & $-0.005$ & $+0.035$ & 3/6 \\
 demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $+0.098$ & $-0.002$ & 3/6 \\
 \midrule
 \multicolumn{7}{l}{\emph{Unrelated prose at matched lengths (no author; all grids)}} \\
-unrelated prose-100  & n/a & 0.881 & 0.892 & $-0.012$ & n/a & 0/20 \\
-unrelated prose-500  & n/a & 0.881 & 0.892 & $-0.011$ & n/a & 0/20 \\
-unrelated prose-2000 & n/a & 0.881 & 0.892 & $-0.012$ & n/a & 0/20 \\
+unrelated prose-100  & n/a & 0.882 & 0.892 & $-0.010$ & n/a & 0/20 \\
+unrelated prose-500  & n/a & 0.883 & 0.892 & $-0.009$ & n/a & 0/20 \\
+unrelated prose-2000 & n/a & 0.883 & 0.892 & $-0.009$ & n/a & 0/20 \\
 \bottomrule
 \end{tabular}
 \caption{Decomposition across all conditions, pooled over directed pairs. In
@@ -532,12 +535,13 @@ descriptions, whoever writes them, descriptions rewritten by an optimizer to
 improve transfer (optimized-500), and self-descriptions placed in the user
 message all fail to move receivers toward the author. ``user msg.'' rows
 place the text in the user message before the question instead of in the
-system prompt. The bottom block scores unrelated everyday-scene prose of the
-three self-description lengths against each author over the same 20 pairs as
-the neutral rows: a self-description brings a receiver no closer to its
+system prompt. The bottom block scores unrelated prose of the three
+self-description lengths against each author over the same 20 pairs as the
+neutral rows, averaged over two text styles (sensory and expository, which
+agree within 0.004): a self-description brings a receiver no closer to its
 author than unrelated prose of the same length ($\Fcross$ 0.878, 0.875,
-0.880 vs.\ 0.881 at each length). Cells (s/c) counts the self and cross cells
-pooled per row.
+0.880 for the self-descriptions vs.\ 0.882, 0.883, 0.883 for unrelated
+prose). Cells (s/c) counts the self and cross cells pooled per row.
 ($\B$ varies by row because each condition pools only the directed pairs that
 ran it; contrasts are always computed within-pool.)}
 \label{tab:decomp}
@@ -634,8 +638,8 @@ unrelated texts', roughly twice: reading its own self-description shifts
 even the author away from its baseline. The excess over unrelated text is
 modest, however: pooled over models with a two-way bootstrap (models and
 items resampled together) it is $-0.014$ to $-0.037$ depending on length and
-text, significant at 2{,}000 words and for the ocean-currents text, not at
-100 words or for the everyday 500-word text (item~4 below).
+text style, significant for expository text at 500 and 2{,}000 words,
+borderline for sensory text, and absent at 100 words (item~4 below).
 The content need not be the model's own: running another model's
 self-description moves a model from its baseline by the same amount (mean
 $F=0.926$ vs.\ $0.918$ for its own; Appendix~\ref{app:ladder}). Extreme case:
@@ -644,32 +648,35 @@ $0.968$. \textbf{(3) Instructed adoption (adopt-500).} Telling the receiver
 to answer exactly as the entity described would does not rescue transfer
 ($\Tscript=-0.013$): the null is not an artifact of receivers ignoring
 un-instructed descriptions.
-\textbf{(4) Unrelated prose at matched lengths.} Everyday-scene prose of
-102, 537 and 1{,}680 words, run by every model, scored both ways
-(Table~\ref{tab:decomp}, bottom block; Appendix~\ref{app:ladder}). As a
-transfer vehicle, a self-description does nothing that unrelated prose of
-the same length does not: scored against the author over the 20 pairs,
-unrelated prose gives $\Fcross = 0.881$ at every length and the author's
-self-description $0.878$, $0.875$ and $0.880$ (paired differences within
-$\pm 0.006$; significant pairs split in both directions). Unrelated prose
-itself sits $0.011$ below the generic prompt. As a perturbant, by contrast,
-a model's own description moves it further from itself than unrelated prose
-of the same length at every length ($0.935$ vs.\ $0.949$ at 100 words,
-$0.918$ vs.\ $0.943$ at 500, $0.917$ vs.\ $0.942$ at 2{,}000), an effect
-concentrated in a few models (grok-4.3 at every length, hermes3-70b and
-gemma4-31b at 2{,}000) and absent in others. Formally, the own-description
-minus unrelated-prose difference pooled over the ten models (two-way cluster
-bootstrap, 10{,}000 resamples; sign test across models) is $-0.014$
-$[-0.036, +0.005]$ at 100 words (6 of 10 models negative, $p=0.75$),
-$-0.022$ $[-0.054, +0.006]$ at 500 (8 of 10, $p=0.11$), $-0.024$
-$[-0.050, -0.002]$ at 2{,}000 (8 of 10, $p=0.11$), and $-0.037$
-$[-0.068, -0.011]$ for the 529-word ocean-currents text (9 of 10,
-$p=0.02$). The perturbation itself is robust (every model falls well below
-its test-retest ceiling under its own description); its specificity to
-identity content over unrelated text is a consistent but modest tendency.
-The two independent 500-word unrelated texts agree in both designs (0.883
-vs.\ 0.881 against authors, 0.954 vs.\ 0.943 against self), so neither
-result depends on one particular passage.
+\textbf{(4) Unrelated prose at matched lengths.} Sensory and expository
+unrelated texts at the three self-description lengths, run by every model
+and scored both ways (Table~\ref{tab:decomp}, bottom block;
+Appendix~\ref{app:ladder}). As a transfer vehicle, a self-description does
+nothing that unrelated prose of the same length does not, in either style:
+scored against the author over the 20 pairs, unrelated prose gives
+$\Fcross = 0.881$ to $0.885$ at every length and in both styles, and the
+author's self-description $0.878$, $0.875$ and $0.880$ (paired differences
+within $\pm 0.009$; significant pairs split in both directions). Unrelated
+prose itself sits about $0.01$ below the generic prompt. As a perturbant, by
+contrast, a model's own description moves it further from itself than
+unrelated prose of the same length in all six length-by-style comparisons
+(own description $0.935$, $0.918$, $0.917$ at 100, 500, 2{,}000 words;
+sensory prose $0.949$, $0.943$, $0.942$; expository prose $0.949$, $0.954$,
+$0.946$), an effect concentrated in a few models (grok-4.3 at every length,
+hermes3-70b and gemma4-31b at 2{,}000) and absent in others. Formally, the
+own-description minus unrelated-prose difference pooled over the ten models
+(two-way cluster bootstrap over models and items, 10{,}000 resamples; sign
+test across models) is significant for the expository texts at 500 and
+2{,}000 words ($-0.037$ $[-0.068, -0.011]$ and $-0.029$ $[-0.056, -0.004]$;
+9 of 10 models negative, $p=0.02$ each), borderline for the sensory texts
+($-0.022$ $[-0.054, +0.006]$ at 500; $-0.024$ $[-0.050, -0.002]$ at 2{,}000;
+8 of 10, $p=0.11$), and absent at 100 words in both styles ($-0.014$, CIs
+include zero). Across the six comparisons, 48 of 60 model-level differences
+are negative. The perturbation itself is robust (every model falls well
+below its test-retest ceiling under its own description); its specificity to
+identity content over unrelated text is a consistent tendency that is
+significant for expository text at 500 words and above and weaker against
+sensory text, which may carry a mood of its own.
 
 \subsection{Descriptions derived from observed choices mislead, whoever writes them}
 \label{sec:thirdperson}
@@ -985,7 +992,7 @@ systematics; repeating the design as models scale.
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
 an answer: almost none of it travels. Across ten models, seventeen conditions, and
-$\sim$193{,}000 calls, self-descriptions do not improve transfer to another
+$\sim$202{,}000 calls, self-descriptions do not improve transfer to another
 model on average in any condition we tested, while a fresh instance of the
 author's own weights recovers more on average. The
 one text that does transfer is the author's answer key itself: handed the

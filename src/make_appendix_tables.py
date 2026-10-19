@@ -20,8 +20,8 @@ LABEL = {
     "fewshot-90": "demonstrations-90",
     "oracle-110": "demonstrations-110",
 }
-LABEL["fewshot_bal-30"] = "demonstrations-30, balanced"
-LABEL["demos_bal-55"] = "demonstrations-55, balanced, stable items"
+LABEL["fewshot_bal-30"] = "demos-30, balanced"
+LABEL["demos_bal-55"] = "demos-55, balanced"
 LABEL["neutral_user-500"] = "neutral-500, user msg."
 LABEL["oracle_user-110"] = "demonstrations-110, user msg."
 LABEL["3p-500"] = "observer-written-500"

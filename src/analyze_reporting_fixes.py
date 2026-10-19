@@ -184,8 +184,9 @@ def main() -> None:
     for g, text, ok, ev in ledger:
         print(f"  [{'PASS' if ok else 'FAIL'}] {g:<10} {text:<62} {ev}")
     out["ledger"] = [{"grid": g, "criterion": t, "pass": bool(o), "evidence": e} for g, t, o, e in ledger]
-    lines = [r"\begin{table}[H]", r"\centering\footnotesize", r"\begin{tabular}{llcl}", r"\toprule",
-             r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
+    lines = [r"\begin{table}[H]", r"\centering\scriptsize",
+             r"\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{7.6cm}c>{\raggedright\arraybackslash}p{4.6cm}}",
+             r"\toprule", r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
     for g, t, o, e in ledger:
         lines.append(f"{g} & {t.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} & "
                      f"{'yes' if o else 'no'} & {e.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} \\\\")

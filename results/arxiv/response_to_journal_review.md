@@ -202,7 +202,14 @@ the protocol commit, and makes the inspection claim separately; the Section 4.4 
 the Grid A value 0.904.
 
 **Related Work.** You are right, and our search was at fault: arXiv:2609.32758 (Zhou et al.,
-"How Far Do Persona Effects Generalize in Language Models?") exists. A comparison is pending
-the authors' decision on the Related Work section; the paper's finding that persona-effect
-relationships are predictable within a model but transfer unreliably across models and
-prompt wordings is directly relevant and will be discussed alongside Luz de Araujo and Roth.
+"How Far Do Persona Effects Generalize in Language Models?") exists. Related Work now has a
+paragraph, "Persona effects and their portability," comparing both papers with ours: Luz de
+Araujo and Roth (162 personas, seven models, a 30-paraphrase prompt-sensitivity control;
+personas produce more variability than the control and some behaviors generalize across
+models) and Zhou et al. (57 attributes, seven model pairs; effects "predictable without
+being portable," with cross-model reuse underperforming target-side rescaling). We state the
+design difference (assigned role vs the model's own self-description; shift size vs
+reproduction of the author's profile) and the convergence: identity text reliably moves
+behavior, but the text-to-behavior relationship does not travel across models without
+refitting, and a prompt-sensitivity control is needed before a persona effect is read as
+content-specific.

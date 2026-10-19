@@ -339,6 +339,30 @@
    "criterion": "P4b F_self(demos-30) < F_self(neutral-500 self-description)",
    "pass": true,
    "evidence": "0.834 vs 0.929"
+  },
+  {
+   "grid": "Grid A (balanced demos)",
+   "criterion": "H1 first-option rate within 3 points of generic prompt (both conditions)",
+   "pass": true,
+   "evidence": "generic 0.495; balanced-30 0.514; balanced-55 0.506"
+  },
+  {
+   "grid": "Grid A (balanced demos)",
+   "criterion": "H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061)",
+   "pass": true,
+   "evidence": "T=-0.043"
+  },
+  {
+   "grid": "Grid A (balanced demos)",
+   "criterion": "H3 (no direction predicted) balanced-55: pooled T <= 0",
+   "pass": true,
+   "evidence": "T=-0.008"
+  },
+  {
+   "grid": "Grid A (balanced demos)",
+   "criterion": "H3 balanced-55: no cross pair significantly positive",
+   "pass": false,
+   "evidence": "1 positive, 1 negative"
   }
  ],
  "framed_minus_neutral_500": {

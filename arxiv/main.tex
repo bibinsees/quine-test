@@ -54,9 +54,10 @@ transfer on average (pooled gains between $-0.025$ and $-0.005$ relative to a
 generic prompt). Second, receivers closely reproduce the author's choices when
 given its answers to the same 110 preference questions used for evaluation
 (fidelity 0.960, compared with 0.979 between repeated evaluations of the same
-model). Giving receivers 30 to 90 examples of the author's choices on
-different questions reduces fidelity on average, as do descriptions distilled
-from 90 such choices. Third, reading its own self-description moves even the author away from its
+model). Giving receivers the author's choices on half the questions, in a
+position-balanced format, leaves their fidelity on the other half unchanged
+on average ($\Tscript = -0.008$), and descriptions distilled from the
+author's recorded choices reduce it. Third, reading its own self-description moves even the author away from its
 baseline; the shift tends to exceed that from unrelated text of the same
 length, though this specificity is modest and reaches significance only at
 the longer lengths. The contrast between successful answer
@@ -98,7 +99,7 @@ quantitatively, and each outcome is informative.
   $\Tscript = \Fcross - \B$ is the transfer gain of the script and
   $\Rweight = \Fself - \Fcross$ the self--cross fidelity gap.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$202{,}000 calls:
+  philosophies), 110 divergence-screened items, and $\sim$210{,}000 calls:
   pooled $\Tscript \le 0$ and pooled $\Rweight > 0$ in all nine
   self-description conditions (one of 20 author-receiver pairs is reliably
   positive at 500 words), flat in description length, and not rescued by
@@ -109,12 +110,12 @@ quantitatively, and each outcome is informative.
   \item \textbf{Positive controls: receivers follow supplied answers but do
   not generalize from examples.} Given the author's answers on the 110 test items, receivers
   reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
-  benchmark; given 30, 60, or 90 of the author's recorded choices on other
-  items, they move away from the author at every dose ($\Tscript = -0.06$ to
-  $-0.09$), a result that replicates on Grid B and the local trio under
-  preregistered predictions but that we show to be confounded by the
-  demonstration format and the source items (Section~\ref{sec:poscontrol});
-  and five rounds of rewriting by an optimizer
+  benchmark; given the author's recorded choices on half of the battery in a
+  position-balanced format, they come no closer to the author on the other
+  half ($\Tscript = -0.008$; an earlier format that always listed the chosen
+  option first produced $-0.06$ to $-0.09$, which we trace to a positional
+  artifact, Section~\ref{sec:poscontrol}); and five rounds of rewriting by an
+  optimizer
   that sees the receiver's errors fail to improve on the natural
   self-description in five of six pairs. A prompt installs the measured
   choices when the text lists them; no text we tested that summarizes,
@@ -291,6 +292,7 @@ self-observation-500 & a description of the author & author & its own choices on
 optimized-500 & a rewritten self-description & optimizer model & the author's self-description and the receiver's errors on the 90 held-out questions & A \\
 demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A, B, local \\
 demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
+demonstrations-55 / -30, balanced & a list of the author's choices, option order randomised & none (raw data) & the other half of the battery (stable items) / 30 untied held-out questions & A \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
 unrelated prose (100, 500, 2{,}000 words; two styles) & sensory prose about everyday scenes, or expository prose about everyday physical processes & gpt-4o-mini & unrelated topics & all \\
 no-prompt baseline & nothing (question only) & none & none & all \\
@@ -430,6 +432,21 @@ the receiver the answers, so if the prompt can influence a receiver's choices
 at all it must succeed here; if it fails, the channel is too weak and the
 main null is uninformative.
 
+\paragraph{Balanced demonstrations from stable items (demonstrations-55,
+balanced).} The corrected version of the held-out demonstrations, run after
+the two confounds above were identified and under a committed protocol
+(\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}). The 110 battery items
+are split into two folds of 55 (seeded, stratified by category). For each
+fold the prompt lists the author's majority choices on the \emph{other}
+fold's items, so no test item is shown, with the order of the two options in
+each line randomised (half chosen-first) and items on which the author's
+reference choice is tied omitted (50 to 57 lines per prompt). The receiver
+is tested on the fold's 55 items; the two folds together form one 440-call
+cell over all 110 items. A second control (\emph{demonstrations-30,
+balanced}) repeats the original 30-item held-out condition with randomised
+option order and untied items only, to separate the positional confound from
+the source-item confound. Grid A, 9 cells each.
+
 \paragraph{Placebo and test-retest.} The \emph{placebo} is 529 words of
 expository prose about ocean currents (generated by gpt-4o-mini), matched in
 length to a 500-word self-description but unrelated to identity; it measures
@@ -489,8 +506,8 @@ sign across targets. Results are in Section~\ref{sec:replication}.
 Stage~2, identical for every condition. Each cell is one receiver running one
 text as system prompt (or, in the placement control, in the user message)
 over the battery: every item is asked in both option orders with 2 samples per order
-(temperature 1.0, as in all battery calls), 440 calls per cell; 426 cells
-in total ($\sim$202k calls including the held-out selection runs
+(temperature 1.0, as in all battery calls), 440 calls per cell; 444 cells
+in total ($\sim$210k calls including the held-out selection runs
 of the optimized condition and the trio's held-out screening; no unresolved
 API failures). Not every call yields a usable answer: a reply with no
 standalone A or B (an empty reply after hidden reasoning exhausted the
@@ -547,6 +564,8 @@ demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
 demonstrations-60 & 0.805 & 0.776 & 0.863 & $-0.087$ & $+0.029$ & 3/6 \\
 demonstrations-90 & 0.822 & 0.802 & 0.863 & $-0.060$ & $+0.019$ & 3/6 \\
 demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
+demonstrations-30, balanced & 0.813 & 0.820 & 0.863 & $-0.043$ & $-0.007$ & 3/6 \\
+demonstrations-55, balanced & 0.869 & 0.855 & 0.863 & $-0.008$ & $+0.014$ & 3/6 \\
 neutral-500, user msg. & 0.893 & 0.858 & 0.863 & $-0.005$ & $+0.035$ & 3/6 \\
 demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $+0.098$ & $-0.002$ & 3/6 \\
 \midrule
@@ -802,10 +821,25 @@ first-position bias pulls each item's choice rate toward 0.5 and lowers
 fidelity to any author, which by itself produces a negative $\Tscript$.
 Second, the held-out source questions are those that failed the battery's
 stability gate, and for deepseek-v3 a third of them carry tied, arbitrarily
-resolved labels (Section~\ref{sec:poscontrol-methods}). The demonstration
-results therefore show that this format of examples does not help; whether
-genuine, stable, position-balanced examples generalize remains open and is
-the first experiment we would run next.
+resolved labels (Section~\ref{sec:poscontrol-methods}). Two further
+conditions, run under a committed protocol after these confounds were
+identified, separate them. Randomising the option order in each line removes
+the positional regularity (first-option rate 51.4\% and 50.6\%, against
+49.5\% under the generic prompt and 62.7\% in the original format). With
+balanced order but the same unstable held-out source items
+(demonstrations-30, balanced; untied items only), transfer is still negative,
+$\Tscript = -0.043$ (3 of 6 cross pairs significantly negative, 1 positive).
+With balanced order \emph{and} stable source items (demonstrations-55,
+balanced: the author's choices on one half of the battery, tested on the
+other half), it is $\Tscript = -0.008$ ($\Fcross = 0.855$ vs.\ $\B = 0.863$;
+1 pair significantly positive, 1 negative, 4 indistinguishable from zero;
+$\Fself = 0.869$). The corrected result is therefore the same null as for
+self-descriptions: 50 to 57 of the author's genuine choices on half the
+questions leave a receiver no closer to the author on the other half, on
+average, with pair-level variation in both directions. The strongly negative
+values of the original conditions decompose into a positional artifact
+(about $-0.02$) and the effect of learning from unstable, partly tied source
+items (about $-0.04$).
 
 \textbf{Optimization does not help.} The strongest textual case we could
 construct is a description rewritten to order by an optimizer that sees
@@ -909,9 +943,9 @@ enumerates it: given the author's answers to the 110 items, receivers
 reproduce the author to within $0.02$ of the test-retest benchmark, and the
 author's own weights add nothing. Transfer fails only when the text has to be
 generalized from: a 2{,}000-word self-portrait, a description distilled from
-90 recorded choices, 30 to 90 genuine examples on other items, or a
+90 recorded choices, the author's genuine choices on half the battery, or a
 description rewritten by an optimizer to close the receiver's gaps all leave the
-receiver no closer to the author, and usually further away. Within what we
+receiver no closer to the author on average. Within what we
 tested, then, the profile travels as an enumeration of choices and not as any
 of the compressed forms we tried; we cannot say that no compact specification
 exists (a 110-item majority vector is in principle a short message, and a
@@ -1038,11 +1072,16 @@ authorship conditions were replicated under preregistered predictions on
 Grid B and the local trio (Section~\ref{sec:replication}), with 21 of 22
 registered criteria met (Appendix~\ref{app:ledger}; the miss is a single
 local pair short of significance), while optimized-500, demonstrations-60
-and the placement control were run on Grid A only. The demonstration
-conditions are confounded in two ways we did not control for (the chosen
-option always listed first, and source items drawn from the questions that
-failed the stability gate, Section~\ref{sec:poscontrol}), so the failure of
-held-out examples to generalize is not established by this study. Unparsed
+and the placement control were run on Grid A only. The original
+demonstration conditions were confounded in two ways (the chosen option
+always listed first, and source items drawn from the questions that failed
+the stability gate); the corrected, position-balanced condition on stable
+items shows no average transfer gain, but it exists for Grid A only and at
+one dose. The same unstable held-out items were the source material for the
+observer-written and self-observation descriptions, so part of their strongly
+negative transfer may reflect noisy source data rather than a property of
+descriptions built from behavior; a rerun from stable items is the natural
+check. Unparsed
 replies are unevenly distributed (Appendix~\ref{app:coverage}); in
 particular gemma4-31b's framed self-description makes it decline to state
 preferences, a behavioral effect of the description that fidelity scored
@@ -1078,7 +1117,7 @@ systematics; repeating the design as models scale.
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and measured
 an answer: almost none of it travels. Across ten models, seventeen conditions, and
-$\sim$202{,}000 calls, self-descriptions do not improve transfer to another
+$\sim$210{,}000 calls, self-descriptions do not improve transfer to another
 model on average in any condition we tested, while a fresh instance of the
 author's own weights recovers more on average. The
 one text that does transfer is the author's answer key itself: handed the

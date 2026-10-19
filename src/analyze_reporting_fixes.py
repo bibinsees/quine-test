@@ -155,6 +155,30 @@ def main() -> None:
                 (gname, "P5 F_self(demos-30) < F_self(neutral-500 self-description)", fself("B", "fewshot-30") < neutral_self["B"],
                  f"{fself('B', 'fewshot-30'):.3f} vs {neutral_self['B']:.3f}"),
             ]
+    # balanced-demonstration protocol (pilot/protocol_arxiv_demos_balanced.md), if run
+    bal_p = ROOT / "runs" / "arxiv_demos_balanced.jsonl"
+    if bal_p.exists() and "fewshot_bal-30" in P and "demos_bal-55" in P:
+        bal = ag.load_jsonl(bal_p)
+        retest_a = grid_retest = ag.load_jsonl(ag.GRID)
+        ga = grid_retest[(grid_retest["arm"] == "retest") & grid_retest["receiver"].isin(ag.GRID_A)]
+        a_ref = (ga[ga["letter"].notna()]["letter"] == "A").mean()
+        def a_rate(arm):
+            ok = bal[(bal["arm"] == arm) & bal["letter"].notna()]
+            return (ok["letter"] == "A").mean()
+        a30, a55 = a_rate("fewshot_bal"), a_rate("demos_bal")
+        p30b, p55 = P["fewshot_bal-30"], P["demos_bal-55"]
+        ledger += [
+            ("Grid A (balanced demos)", "H1 first-option rate within 3 points of generic prompt (both conditions)",
+             abs(a30 - a_ref) <= 0.03 and abs(a55 - a_ref) <= 0.03,
+             f"generic {a_ref:.3f}; balanced-30 {a30:.3f}; balanced-55 {a55:.3f}"),
+            ("Grid A (balanced demos)", "H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061)",
+             abs(p30b["T_script"]) < 0.061, f"T={p30b['T_script']:+.3f}"),
+            ("Grid A (balanced demos)", "H3 (no direction predicted) balanced-55: pooled T <= 0", p55["T_script"] <= 0,
+             f"T={p55['T_script']:+.3f}"),
+            ("Grid A (balanced demos)", "H3 balanced-55: no cross pair significantly positive",
+             n_sig_pos("A", "demos_bal-55") == 0, f"{n_sig_pos('A', 'demos_bal-55')} positive, "
+             f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} negative"),
+        ]
     n_pass = sum(1 for x in ledger if x[2])
     print(f"\nprediction ledger: {n_pass}/{len(ledger)} criteria met")
     for g, text, ok, ev in ledger:
@@ -166,9 +190,11 @@ def main() -> None:
         lines.append(f"{g} & {t.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} & "
                      f"{'yes' if o else 'no'} & {e.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{Every criterion registered in the two replication protocols "
+              r"\caption{Every criterion registered in the replication and balanced-demonstration protocols "
               r"(\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}) and its outcome: " + f"{n_pass} of {len(ledger)} met." + "}",
+              r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}, "
+              r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}) and its outcome: " + f"{n_pass} of {len(ledger)} met. "
+              r"H3 registered no direction; its two rows record the outcome against the two pre-stated readings.}",
               r"\label{tab:ledger}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

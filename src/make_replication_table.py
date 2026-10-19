@@ -21,7 +21,7 @@ CONDS = [("oracle-110", "demonstrations-110"), ("fewshot-30", "demonstrations-30
 def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     pooled = pc["pooled"]
-    lines = [r"\begin{table}[t]", r"\centering\small",
+    lines = [r"\begin{table}[H]", r"\centering\small",
              r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{llccccccl}", r"\toprule",
              r"Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
              r"sig.\ pairs ($+$/$-$) & Cells (s/c) \\", r"\midrule"]

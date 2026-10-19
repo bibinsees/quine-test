@@ -370,8 +370,18 @@ as another system's prompt to reproduce its behavior) and \emph{neutral}
 independent regenerations per cell, at temperature 1.0, used \emph{verbatim}
 with no cleanup. Actual lengths range from 84 to 2{,}471 words (several
 models undershoot the 2{,}000-word target, two overshoot it); analyses use
-actual word count. The question: does a model's own account of itself
-transport its preference profile?
+actual word count. One model, hermes3-70b, refused the framed prompt at the
+500- and 2{,}000-word lengths on its first draw, returning 57 and 46 words of
+refusal text while complying at 100 words and under every neutral prompt;
+the four affected cells (two self, two cross) use its second, compliant draw
+(278 and 555 words), and the substitution is flagged in the call
+log.\footnote{With the refusal texts in place the framed-500 row of
+Table~\ref{tab:decomp} reads $0.924 / 0.876 / 0.892 / -0.016 / +0.048$ and
+the framed-2000 row $0.920 / 0.870 / 0.884 / -0.014 / +0.050$; no conclusion
+changes.} The refusal is itself a datum: telling a model that its
+self-description will drive another system can trigger a refusal that the
+purpose-blind prompt does not. The question: does a model's own account of
+itself transport its preference profile?
 
 \paragraph{Paraphrase-500.} Each Grid-A neutral-500 self-description was
 reworded by a non-grid model (gpt-4o-mini, temperature 0.7) with instructions
@@ -551,8 +561,8 @@ neutral-100  & 0.935 & 0.878 & 0.892 & $-0.014$ & $+0.057$ & 10/20 \\
 neutral-500  & 0.918 & 0.875 & 0.892 & $-0.018$ & $+0.043$ & 10/20 \\
 neutral-2000 & 0.917 & 0.880 & 0.892 & $-0.013$ & $+0.038$ & 10/20 \\
 framed-100   & 0.912 & 0.858 & 0.884 & $-0.025$ & $+0.054$ & 6/14 \\
-framed-500   & 0.924 & 0.876 & 0.892 & $-0.016$ & $+0.048$ & 9/20 \\
-framed-2000  & 0.920 & 0.870 & 0.884 & $-0.014$ & $+0.050$ & 7/14 \\
+framed-500   & 0.924 & 0.875 & 0.892 & $-0.017$ & $+0.049$ & 9/20 \\
+framed-2000  & 0.918 & 0.869 & 0.884 & $-0.014$ & $+0.049$ & 7/14 \\
 paraphrase-500 & 0.912 & 0.855 & 0.863 & $-0.007$ & $+0.056$ & 3/6 \\
 adopt-500    & 0.897 & 0.850 & 0.863 & $-0.013$ & $+0.047$ & 3/6 \\
 third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ & 6/6 \\
@@ -637,7 +647,7 @@ before reading anything.}
 \textbf{Dose-response is flat.} If the self-description were a lossy but
 usable script, longer descriptions should transfer more. They do not.
 Pooled cross-fidelity is $0.878$, $0.875$ and $0.880$ at nominal 100, 500 and
-2{,}000 words in the neutral arm ($0.858$, $0.876$, $0.870$ framed), and the
+2{,}000 words in the neutral arm ($0.858$, $0.875$, $0.869$ framed), and the
 per-cell scatter against actual word count (Figure~\ref{fig:hero}) shows no
 trend across a 29-fold range of lengths; the paired differences over the 20
 cross pairs are $+0.001$ $[-0.006, +0.008]$ for 2{,}000 vs.\ 100 words,
@@ -797,7 +807,7 @@ in the user message the answer key transfers as before ($\Fcross = 0.961$,
 $\Tscript = +0.098$, all six pairs) and the self-description fails as before
 ($\Tscript = -0.005$).
 
-\textbf{Genuine examples do not generalize, at any dose.} Given the author's
+\textbf{Examples on other items: a misleading format, then a null.} Given the author's
 actual choices on 30 held-out items (demonstrations-30), the same receivers
 move \emph{away} from the author: $\Fcross = 0.802$ vs.\ $\B = 0.863$
 ($\Tscript = -0.061$; 3 of 6 cross cells significantly negative, none

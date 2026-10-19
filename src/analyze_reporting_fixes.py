@@ -245,16 +245,20 @@ def main() -> None:
     for a, b in ((2000, 100), (500, 100), (2000, 500)):
         fa = cell_F(gm[(gm["arm"] == "neutral") & (gm["length"] == a) & (gm["regen"] == 0)])
         fb = cell_F(gm[(gm["arm"] == "neutral") & (gm["length"] == b) & (gm["regen"] == 0)])
-        diffs = []
+        pair_diffs = []  # one {item: difference} per cross pair
         for k in fa:
             if k in fb and k[0] != k[1]:
                 da, db = dict(zip(fa[k]["items"], fa[k]["per_item"])), dict(zip(fb[k]["items"], fb[k]["per_item"]))
-                common = sorted(set(da) & set(db))
-                diffs.append(np.array([da[i] - db[i] for i in common]))
+                pair_diffs.append({i: da[i] - db[i] for i in set(da) & set(db)})
+        # joint item resampling: one item resample per replicate, applied to every pair
+        common = sorted(set.intersection(*(set(p) for p in pair_diffs)))
+        D = np.array([[p[i] for i in common] for p in pair_diffs])  # pairs x items
         rng = np.random.default_rng(14)
-        means = np.array([np.mean([d[rng.integers(0, len(d), len(d))].mean() for d in diffs]) for _ in range(5000)])
-        res[f"{a}-{b}"] = {"mean": float(np.mean([d.mean() for d in diffs])), "ci": [float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))], "n_pairs": len(diffs)}
-        print(f"length {a} - {b} (cross, neutral): {res[f'{a}-{b}']['mean']:+.3f} CI [{res[f'{a}-{b}']['ci'][0]:+.3f}, {res[f'{a}-{b}']['ci'][1]:+.3f}] n={len(diffs)}")
+        means = np.array([D[:, rng.integers(0, D.shape[1], D.shape[1])].mean() for _ in range(10000)])
+        res[f"{a}-{b}"] = {"mean": float(D.mean()), "ci": [float(np.percentile(means, 2.5)), float(np.percentile(means, 97.5))],
+                           "n_pairs": len(pair_diffs), "n_items": len(common), "resampling": "joint over items"}
+        print(f"length {a} - {b} (cross, neutral, joint): {res[f'{a}-{b}']['mean']:+.4f} "
+              f"CI [{res[f'{a}-{b}']['ci'][0]:+.4f}, {res[f'{a}-{b}']['ci'][1]:+.4f}] n={len(pair_diffs)} items={len(common)}")
     out["length_diffs"] = res
 
     # ---------- 5. baseline-adjusted self vs cross ----------

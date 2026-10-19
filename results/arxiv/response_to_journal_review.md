@@ -201,6 +201,43 @@ now states that pilot calls began about three hours and screening calls about a 
 the protocol commit, and makes the inspection claim separately; the Section 4.4 comparator is
 the Grid A value 0.904.
 
+---
+
+# Response to the third-round assessment
+
+All four issues and both small corrections are verified and applied.
+
+1. **Pooled vs universal advantage.** Verified: for grok-4.3's neutral-500 description,
+   grok itself scores 0.843 against its reference while deepseek-v3 scores 0.892. The
+   Introduction now reads "across the pooled comparisons, instances of the author remain
+   closer to its reference profile than other receivers do"; the Discussion's "above any
+   receiver" is replaced by the same pooled wording.
+
+2. **Individuation.** Replaced with your sentence, extended by the reason: "These results
+   constrain the use of elicited self-descriptions as substitutes for measured preference
+   profiles; they do not determine whether the underlying behavior is best understood as a
+   model property or an enacted persona, since the design manipulates the text a receiver
+   reads and not the candidate units themselves."
+
+3. **Headings and conclusions.** Contribution 3 heading: "receivers follow supplied answers,
+   while examples on other items show no detected average gain." Discussion: "no summarizing
+   text we tested installs it in another model (only the item-by-item answer key does)."
+   Conclusion: descriptions distilled from recorded choices "do no better than introspective
+   ones whoever writes them, and mislead when the recorded choices are unreliable." Results
+   4.2 and 4.4: the unrelated-prose controls "show that a self-description does more than
+   those passages do; they do not isolate identity semantics from the first-person voice,
+   directives, or refusal policies." The Results 4.5 paragraph heading is "a misleading
+   format, then no detected gain."
+
+4. **Consistent bootstrap.** The length comparisons now use joint item resampling: 2,000 vs
+   100 +0.001 [-0.007, +0.010], 500 vs 100 -0.003 [-0.011, +0.004], 2,000 vs 500 +0.006
+   [-0.002, +0.013] (your +0.0056 [-0.0018, +0.0131] reproduces); the text says
+   "approximately within +-0.01."
+
+Small corrections: the second 0.918 comparator in Section 4.4 is now 0.904; the literature
+paragraph no longer implies that refitting succeeded in our study, and distinguishes our
+optimizer result from Zhou et al.'s fitted persona-effect relationships.
+
 **Related Work.** You are right, and our search was at fault: arXiv:2609.32758 (Zhou et al.,
 "How Far Do Persona Effects Generalize in Language Models?") exists. Related Work now has a
 paragraph, "Persona effects and their portability," comparing both papers with ours: Luz de

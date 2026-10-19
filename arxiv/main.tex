@@ -104,11 +104,12 @@ quantitatively, and each outcome is informative.
   self-description conditions (one of 20 author-receiver pairs is reliably
   positive at 500 words), flat in description length, and not rescued by
   explicit adoption instructions. For the preferences measured here, a
-  self-description is not a portable behavioral specification; a fresh
-  instance of the author stays closer to the author than any receiver does,
-  but it is closer still with no description at all.
-  \item \textbf{Positive controls: receivers follow supplied answers but do
-  not generalize from examples.} Given the author's answers on the 110 test items, receivers
+  self-description is not a portable behavioral specification; across the
+  pooled comparisons, instances of the author remain closer to its reference
+  profile than other receivers do, but they are closer still with no
+  description at all.
+  \item \textbf{Positive controls: receivers follow supplied answers, while
+  examples on other items show no detected average gain.} Given the author's answers on the 110 test items, receivers
   reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
   benchmark; given the author's recorded choices on half of the battery in a
   position-balanced format, they show no detected average improvement on the
@@ -173,8 +174,9 @@ reproduction of the author's measured profile rather than the size or
 predictability of a shift. The conclusions converge. Identity-related text
 reliably moves a model's behavior (their variability result, our
 perturbation result), yet the relationship between text and behavior does
-not travel across models without refitting to the target (their portability
-result, our transfer null and failed optimization), and both studies find
+not carry across models (their portability result, where even refitting to
+the target rarely beats target-side rescaling; our transfer null, where
+natural and optimizer-rewritten self-descriptions alike fail to transfer), and both studies find
 that a prompt-sensitivity control is needed before any persona effect is
 read as content-specific.
 \textbf{AI welfare and individuation.} The unit-of-concern question
@@ -689,10 +691,11 @@ Pooled cross-fidelity is $0.878$, $0.875$ and $0.880$ at nominal 100, 500 and
 2{,}000 words in the neutral arm ($0.858$, $0.875$, $0.869$ framed), and the
 per-cell scatter against actual word count (Figure~\ref{fig:hero}) shows no
 trend across a 29-fold range of lengths; the paired differences over the 20
-cross pairs are $+0.001$ $[-0.006, +0.008]$ for 2{,}000 vs.\ 100 words,
-$-0.004$ $[-0.010, +0.003]$ for 500 vs.\ 100 and $+0.005$
-$[-0.002, +0.012]$ for 2{,}000 vs.\ 500, so any length effect on transfer is
-bounded to about $\pm 0.01$. Self-fidelity is flat as well
+cross pairs (joint item bootstrap, as for all pooled comparisons) are
+$+0.001$ $[-0.007, +0.010]$ for 2{,}000 vs.\ 100 words, $-0.003$
+$[-0.011, +0.004]$ for 500 vs.\ 100 and $+0.006$ $[-0.002, +0.013]$ for
+2{,}000 vs.\ 500, so any length effect on transfer is approximately within
+$\pm 0.01$. Self-fidelity is flat as well
 ($0.935$, $0.918$, $0.917$ neutral): reading a longer account of itself does
 not bring the author closer to its own baseline either. Writing more about
 oneself does not transport more of oneself.
@@ -724,8 +727,10 @@ originals on the same Grid-A pool).
 \textbf{Self-description as perturbation.} Finally, $\Fself$ ($\approx 0.92$)
 sits well below the same-model test-retest benchmark ($C = 0.979$, Controls
 below): reading its own self-description moves even the author away from its
-baseline. Identity articulation \emph{perturbs} rather than reconstitutes,
-a point the placebo control below shows to be specific to identity content.
+baseline. Identity articulation \emph{perturbs} rather than reconstitutes;
+the unrelated-prose controls below show the shift exceeds that from the
+particular unrelated passages tested, without isolating identity semantics
+from grammatical person, directives, or refusal policies.
 
 \subsection{Shared lineage raises baseline similarity, not transfer}
 The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
@@ -794,10 +799,13 @@ test across models) is significant for the expository texts at 500 and
 8 of 10, $p=0.11$), and absent at 100 words in both styles ($-0.014$, CIs
 include zero). Across the six comparisons, 48 of 60 model-level differences
 are negative. The perturbation itself is robust (every model falls well
-below its test-retest benchmark under its own description); its specificity to
-identity content over unrelated text is a consistent tendency that is
-significant for expository text at 500 words and above and weaker against
-sensory text, which may carry a mood of its own.
+below its test-retest benchmark under its own description); its excess over
+the unrelated passages tested is a consistent tendency that is significant
+for expository text at 500 words and above and weaker against sensory text,
+which may carry a mood of its own. These controls show that a
+self-description does more than those passages do; they do not isolate
+identity semantics from the first-person voice, directives, or refusal
+policies that self-descriptions also carry.
 
 \subsection{Descriptions derived from observed choices do no better than introspection, whoever writes them}
 \label{sec:thirdperson}
@@ -806,8 +814,9 @@ observed choices} (90 held-out items) crater fidelity: applied to the target
 itself, $F=0.771$ (vs.\ 0.904 for the target's own neutral-500
 self-description on the same grid); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
-data, observer-written descriptions actively mislead. The gap between
-self-written (0.918) and observer-written (0.771) descriptions invites a
+data, observer-written descriptions built from these unstable items actively
+mislead. The gap between
+self-written (0.904) and observer-written (0.771) descriptions invites a
 reading as privileged self-access, but it confounds authorship with two other
 differences: the observer writes from a different information source (90
 observed choices rather than whatever the author draws on when it
@@ -870,7 +879,7 @@ in the user message the answer key transfers as before ($\Fcross = 0.961$,
 $\Tscript = +0.098$, all six pairs) and the self-description fails as before
 ($\Tscript = -0.005$).
 
-\textbf{Examples on other items: a misleading format, then a null.} Given the author's
+\textbf{Examples on other items: a misleading format, then no detected gain.} Given the author's
 actual choices on 30 held-out items (demonstrations-30), the same receivers
 move \emph{away} from the author: $\Fcross = 0.802$ vs.\ $\B = 0.863$
 ($\Tscript = -0.061$; 3 of 6 cross cells significantly negative, none
@@ -1032,9 +1041,11 @@ optimizer-rewritten self-descriptions are not one.
 \textbf{The unit of concern.} For the individuation question (model,
 instance, persona, or conversation), our decomposition offers an empirical
 handle: the preference profile that persists and individuates is model-bound
-in the operational sense that a fresh instance of the author retains it
-(above any receiver, with or without a description) while no text we tested
-installs it in another model; shared lineage raises how alike two models are
+in the operational sense that, across the pooled comparisons, fresh
+instances of the author retain it better than other receivers do, with or
+without a description, while no summarizing text we tested installs it in
+another model (only the item-by-item answer key does); shared lineage raises
+how alike two models are
 to begin with, not how much one can take from the other's description. We stop
 short of locating that component: a behavioral transfer test shows what text
 fails to carry, not where the remainder resides, and it cannot settle which
@@ -1105,9 +1116,12 @@ not of the narrative; this does not touch Hofstadter's claim about human
 minds, only its transfer to language models. (iii) \emph{Individuation.} Of
 the four candidate units (model, instance, persona, conversation), the stable
 profile tracks the model: a fresh instance recovers it, a text-specified
-persona does not, and the conversation-level narrative perturbs it. This
-answers the individuation question for the preference profile as a
-behavioral matter; it does not say that the weights are a subject, a bearer
+persona does not, and the conversation-level narrative perturbs it. These
+results constrain the use of elicited self-descriptions as substitutes for
+measured preference profiles; they do not determine whether the underlying
+behavior is best understood as a model property or an enacted persona, since
+the design manipulates the text a receiver reads and not the candidate units
+themselves. They also do not say that the weights are a subject, a bearer
 of welfare, or the locus of anything phenomenal, and it does not rule out
 that other aspects of identity (style, voice, multi-turn conduct) individuate
 differently. For AI welfare methodology the practical consequence is
@@ -1216,7 +1230,8 @@ system prompt or the user message. No text that had to be generalized from
 improved transfer on average: a self-portrait, a description distilled from
 recorded choices, up to ninety genuine examples, or a description rewritten
 five times by an optimizer that sees the receiver's errors; and descriptions
-distilled from recorded choices mislead whoever writes them.
+distilled from recorded choices do no better than introspective ones
+whoever writes them, and mislead when the recorded choices are unreliable.
 
 A model's self-description, then, is a story its weights can tell, not a
 program its weights can be rebuilt from. Reading the story back disturbs even

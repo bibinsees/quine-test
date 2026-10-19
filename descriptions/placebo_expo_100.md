@@ -1,0 +1,3 @@
+Bread dough rises primarily due to the fermentation of yeast, a process in which yeast consumes sugars and produces carbon dioxide gas and alcohol. The carbon dioxide gas forms bubbles in the dough, causing it to expand and rise. This process is facilitated by warmth and moisture, which activate the yeast and enhance its activity.
+
+In contrast, glass is made from sand through a process that involves heating silica (silicon dioxide) to high temperatures, typically around 1700 degrees Celsius. At this temperature, the sand melts and transforms into a viscous liquid. As it cools, the liquid solidifies into glass, forming a non-crystalline structure that is characteristic of this material.

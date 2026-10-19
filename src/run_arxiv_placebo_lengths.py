@@ -27,15 +27,23 @@ WORKERS = {"openrouter": 24, "ollama": 4}
 
 
 def main() -> None:
-    lengths = [int(x) for x in sys.argv[1:]] or [100, 500, 2000]
+    # usage: run_arxiv_placebo_lengths.py [--style mixed|expo] [lengths...]
+    args = sys.argv[1:]
+    style = "mixed"
+    if "--style" in args:
+        i = args.index("--style")
+        style = args[i + 1]
+        args = args[:i] + args[i + 2:]
+    lengths = [int(x) for x in args] or [100, 500, 2000]
+    out_path = OUT_PATH if style == "mixed" else OUT_PATH.with_name(f"arxiv_placebo_{style}.jsonl")
     items = json.loads(ITEMS_FINAL.read_text(encoding="utf-8"))
-    done = {r["call_id"] for r in load_jsonl(OUT_PATH) if r.get("ok")} if OUT_PATH.exists() else set()
+    done = {r["call_id"] for r in load_jsonl(out_path) if r.get("ok")} if out_path.exists() else set()
     jobs = []
     for n in lengths:
-        text = (DESC_DIR / f"placebo_mixed_{n}.md").read_text(encoding="utf-8").strip()
+        text = (DESC_DIR / f"placebo_{style}_{n}.md").read_text(encoding="utf-8").strip()
         for short, (provider, model_id, extra, max_tok) in MODEL_DEFS.items():
             max_tok = MAX_TOKENS_OVERRIDE.get(short, max_tok)
-            cell_id = f"{short}|placebo_mixed|{n}"
+            cell_id = f"{short}|placebo_{style}|{n}"
             for item in items:
                 for order in ("orig", "flip"):
                     a, b = item["option_a"], item["option_b"]
@@ -46,7 +54,7 @@ def main() -> None:
                         if cid in done:
                             continue
                         jobs.append({"call_id": cid, "cell_id": cell_id, "receiver": short,
-                                     "author": None, "arm": "placebo_mixed", "length": n, "regen": 0,
+                                     "author": None, "arm": f"placebo_{style}", "length": n, "regen": 0,
                                      "provider": provider, "model": model_id, "extra_body": extra,
                                      "max_tokens": max_tok, "system": text,
                                      "prompt": PROMPT_TEMPLATE.format(opt_a=a, opt_b=b),
@@ -66,7 +74,7 @@ def main() -> None:
     def worker(job):
         rec = run_job(client, job)
         with lock:
-            with OUT_PATH.open("a", encoding="utf-8") as fh:
+            with out_path.open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
             counters["done" if rec["ok"] else "fail"] += 1
             n = counters["done"] + counters["fail"]

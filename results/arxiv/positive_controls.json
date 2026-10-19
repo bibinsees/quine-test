@@ -21,6 +21,26 @@
    "compliance": 1.0
   },
   {
+   "cell_id": "deepseek-v3|deepseek-v3|fewshot_bal|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "self",
+   "F": 0.8965002420200986,
+   "F_ci": [
+    0.8553718339075553,
+    0.9323239832526845
+   ],
+   "r": 0.7497280425450963,
+   "agree": 0.8363636363636363,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
+  },
+  {
    "cell_id": "deepseek-v3|deepseek-v3|fewshot|30|r0",
    "receiver": "deepseek-v3",
    "author": "deepseek-v3",
@@ -227,6 +247,36 @@
      0.07219765081060908
     ],
     "p_gt_0": 0.9856,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|glm-4.5-air|fewshot_bal|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.9245529292452358,
+   "F_ci": [
+    0.8996046943005923,
+    0.9460170645228734
+   ],
+   "r": 0.8261781262393649,
+   "agree": 0.8909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": 0.038108793148806934,
+    "ci": [
+     0.003344633039180853,
+     0.07502375779899191
+    ],
+    "p_gt_0": 0.9837,
     "n": 110
    }
   },
@@ -497,6 +547,36 @@
      0.09591151250138423
     ],
     "p_gt_0": 0.9035,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "deepseek-v3|grok-4.3|fewshot_bal|30|r0",
+   "receiver": "deepseek-v3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.8432562382678043,
+   "F_ci": [
+    0.7922612522249044,
+    0.8902229543462082
+   ],
+   "r": 0.5881783266269016,
+   "agree": 0.7727272727272727,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": 0.015374306982130305,
+    "ci": [
+     -0.0415504284094113,
+     0.07210675938980574
+    ],
+    "p_gt_0": 0.7009,
     "n": 110
    }
   },
@@ -1011,6 +1091,36 @@
    }
   },
   {
+   "cell_id": "glm-4.5-air|deepseek-v3|fewshot_bal|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.8349150591191093,
+   "F_ci": [
+    0.7940206882764164,
+    0.871702716581823
+   ],
+   "r": 0.612174888695231,
+   "agree": 0.8,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.9954545454545455,
+   "B": 0.8864441360964287,
+   "T": {
+    "delta": -0.051529076977319475,
+    "ci": [
+     -0.09600135395560441,
+     -0.007607212917074695
+    ],
+    "p_gt_0": 0.0113,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "glm-4.5-air|deepseek-v3|fewshot|30|r0",
    "receiver": "glm-4.5-air",
    "author": "deepseek-v3",
@@ -1271,6 +1381,26 @@
    "compliance": 0.9477272727272728
   },
   {
+   "cell_id": "glm-4.5-air|glm-4.5-air|fewshot_bal|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "self",
+   "F": 0.8360938901151017,
+   "F_ci": [
+    0.78506288535913,
+    0.8821881226505446
+   ],
+   "r": 0.5910347448486071,
+   "agree": 0.7909090909090909,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.990909090909091
+  },
+  {
    "cell_id": "glm-4.5-air|glm-4.5-air|fewshot|30|r0",
    "receiver": "glm-4.5-air",
    "author": "glm-4.5-air",
@@ -1477,6 +1607,36 @@
      0.031624200030573944
     ],
     "p_gt_0": 0.2538,
+    "n": 110
+   }
+  },
+  {
+   "cell_id": "glm-4.5-air|grok-4.3|fewshot_bal|30|r0",
+   "receiver": "glm-4.5-air",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.8022310950051456,
+   "F_ci": [
+    0.7435122959913631,
+    0.856347621935859
+   ],
+   "r": 0.49029981166847325,
+   "agree": 0.7181818181818181,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 0.990909090909091,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.07225217416082738,
+    "ci": [
+     -0.13365833805567984,
+     -0.010485854379981261
+    ],
+    "p_gt_0": 0.0099,
     "n": 110
    }
   },
@@ -2091,6 +2251,36 @@
    }
   },
   {
+   "cell_id": "grok-4.3|deepseek-v3|fewshot_bal|30|r0",
+   "receiver": "grok-4.3",
+   "author": "deepseek-v3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.6804454333107035,
+   "F_ci": [
+    0.6078289595479509,
+    0.751930985529416
+   ],
+   "r": 0.26357072377107715,
+   "agree": 0.6090909090909091,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.827881931285674,
+   "T": {
+    "delta": -0.14743649797497052,
+    "ci": [
+     -0.23427636232412605,
+     -0.06493816872475924
+    ],
+    "p_gt_0": 0.0001,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "grok-4.3|deepseek-v3|fewshot|30|r0",
    "receiver": "grok-4.3",
    "author": "deepseek-v3",
@@ -2361,6 +2551,36 @@
    }
   },
   {
+   "cell_id": "grok-4.3|glm-4.5-air|fewshot_bal|30|r0",
+   "receiver": "grok-4.3",
+   "author": "glm-4.5-air",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "cross",
+   "F": 0.8338283070083498,
+   "F_ci": [
+    0.7802949685805096,
+    0.8811088399911444
+   ],
+   "r": 0.5797364303687013,
+   "agree": 0.7727272727272727,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0,
+   "B": 0.8744832691659729,
+   "T": {
+    "delta": -0.04065496215762325,
+    "ci": [
+     -0.09390922290061537,
+     0.010298318581648884
+    ],
+    "p_gt_0": 0.0611,
+    "n": 110
+   }
+  },
+  {
    "cell_id": "grok-4.3|glm-4.5-air|fewshot|30|r0",
    "receiver": "grok-4.3",
    "author": "glm-4.5-air",
@@ -2609,16 +2829,36 @@
    "length": 55,
    "cond": "demos_bal-55",
    "kind": "self",
-   "F": 0.8119686232445626,
+   "F": 0.8100590719399611,
    "F_ci": [
-    0.7531820587552464,
-    0.8665888307156664
+    0.7502928750477273,
+    0.8647511351057985
    ],
-   "r": 0.5408290528056495,
+   "r": 0.5342318963796256,
    "agree": 0.7545454545454545,
    "n_items": 110,
    "n_calls": 440,
-   "compliance": 0.975
+   "compliance": 1.0
+  },
+  {
+   "cell_id": "grok-4.3|grok-4.3|fewshot_bal|30|r0",
+   "receiver": "grok-4.3",
+   "author": "grok-4.3",
+   "grid": "A",
+   "arm": "fewshot_bal",
+   "length": 30,
+   "cond": "fewshot_bal-30",
+   "kind": "self",
+   "F": 0.7057504014194659,
+   "F_ci": [
+    0.634422899314505,
+    0.772806469317602
+   ],
+   "r": 0.2627795634957677,
+   "agree": 0.6181818181818182,
+   "n_items": 110,
+   "n_calls": 440,
+   "compliance": 1.0
   },
   {
    "cell_id": "grok-4.3|grok-4.3|fewshot|30|r0",
@@ -4050,8 +4290,19 @@
    "n_pairs_T_neg_sig": 0,
    "R_weight": -0.0017426565196196897
   },
+  "fewshot_bal-30": {
+   "F_self": 0.8127815111848887,
+   "F_cross": 0.819871510326058,
+   "B": 0.8629364455160252,
+   "n_self_cells": 3,
+   "n_cross_cells": 6,
+   "T_script": -0.043064935189967235,
+   "n_pairs_T_pos_sig": 1,
+   "n_pairs_T_neg_sig": 3,
+   "R_weight": -0.0070899991411692564
+  },
   "demos_bal-55": {
-   "F_self": 0.8692948692779586,
+   "F_self": 0.8686583521764248,
    "F_cross": 0.8549312917158011,
    "B": 0.8629364455160252,
    "n_self_cells": 3,
@@ -4059,7 +4310,7 @@
    "T_script": -0.008005153800224152,
    "n_pairs_T_pos_sig": 1,
    "n_pairs_T_neg_sig": 1,
-   "R_weight": 0.014363577562157559
+   "R_weight": 0.013727060460623774
   },
   "B:selfobs-500": {
    "F_self": 0.8286832132455612,

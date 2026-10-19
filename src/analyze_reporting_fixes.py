@@ -26,7 +26,8 @@ PC = ROOT / "results" / "arxiv" / "positive_controls.json"
 OUT = ROOT / "results" / "arxiv" / "reporting_fixes.json"
 RUN_FILES = ["grid.jsonl", "arxiv_positive_controls.jsonl", "arxiv_optimized.jsonl", "arxiv_demos_dose.jsonl",
              "arxiv_gridb.jsonl", "arxiv_local_demos.jsonl", "arxiv_usermsg.jsonl", "arxiv_nosys.jsonl",
-             "arxiv_placebo_lengths.jsonl", "arxiv_placebo_expo.jsonl"]
+             "arxiv_placebo_lengths.jsonl", "arxiv_placebo_expo.jsonl", "arxiv_demos_balanced.jsonl",
+             "arxiv_obs_stable.jsonl"]
 NAME = {"mistral32-local": "mistral-small-3.2", "kimi-k2.5-nr": "kimi-k2.5", "gpt5.2": "gpt-5.2"}
 
 
@@ -173,11 +174,10 @@ def main() -> None:
              f"generic {a_ref:.3f}; balanced-30 {a30:.3f}; balanced-55 {a55:.3f}"),
             ("Grid A (balanced demos)", "H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061)",
              abs(p30b["T_script"]) < 0.061, f"T={p30b['T_script']:+.3f}"),
-            ("Grid A (balanced demos)", "H3 (no direction predicted) balanced-55: pooled T <= 0", p55["T_script"] <= 0,
-             f"T={p55['T_script']:+.3f}"),
-            ("Grid A (balanced demos)", "H3 balanced-55: no cross pair significantly positive",
-             n_sig_pos("A", "demos_bal-55") == 0, f"{n_sig_pos('A', 'demos_bal-55')} positive, "
-             f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} negative"),
+            ("Grid A (balanced demos)", "H3 [registered open question, no direction predicted] balanced-55 generalisation",
+             None, f"T={p55['T_script']:+.3f}; {n_sig_pos('A', 'demos_bal-55')} pair sig. +, "
+             f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} sig. -: "
+             "intermediate outcome under the registered rule"),
         ]
     # stable-item observation-derived descriptions (pilot/protocol_arxiv_obs_stable.md), if run
     if "3p_stable-500" in P and "selfobs_stable-500" in P:
@@ -189,27 +189,36 @@ def main() -> None:
              pss["F_self"] > 0.781, f"F_self={pss['F_self']:.3f}"),
             ("Grid A (stable-item descriptions)", "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
              abs(pss["F_self"] - p3s["F_self"]) < 0.03, f"{pss['F_self'] - p3s['F_self']:+.3f}"),
-            ("Grid A (stable-item descriptions)", "H4c (no direction predicted) self-observation cross T_script",
-             True, f"T={pss['T_script']:+.3f}, {pss['n_pairs_T_pos_sig']} pairs sig. +, {pss['n_pairs_T_neg_sig']} sig. -"),
+            ("Grid A (stable-item descriptions)", "H4c [registered open question, no direction predicted] self-observation cross T_script",
+             None, f"T={pss['T_script']:+.3f}, {pss['n_pairs_T_pos_sig']} pairs sig. +, {pss['n_pairs_T_neg_sig']} sig. -: observed, not scored"),
         ]
-    n_pass = sum(1 for x in ledger if x[2])
-    print(f"\nprediction ledger: {n_pass}/{len(ledger)} criteria met")
+    preds = [x for x in ledger if x[2] is not None]
+    n_pass = sum(1 for x in preds if x[2])
+    n_open = len(ledger) - len(preds)
+    print(f"\nprediction ledger: {n_pass}/{len(preds)} predicted criteria met; {n_open} registered open questions reported, not scored")
     for g, text, ok, ev in ledger:
-        print(f"  [{'PASS' if ok else 'FAIL'}] {g:<10} {text:<62} {ev}")
-    out["ledger"] = [{"grid": g, "criterion": t, "pass": bool(o), "evidence": e} for g, t, o, e in ledger]
+        tag = "OPEN" if ok is None else ("PASS" if ok else "FAIL")
+        print(f"  [{tag}] {g:<10} {text:<62} {ev}")
+    out["ledger"] = [{"grid": g, "criterion": t, "pass": (None if o is None else bool(o)), "evidence": e}
+                     for g, t, o, e in ledger]
+    out["ledger_summary"] = {"predicted": len(preds), "met": n_pass, "open": n_open}
     lines = [r"\begin{table}[H]", r"\centering\scriptsize",
-             r"\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{7.6cm}c>{\raggedright\arraybackslash}p{4.6cm}}",
+             r"\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.0cm}>{\raggedright\arraybackslash}p{1.1cm}>{\raggedright\arraybackslash}p{4.3cm}}",
              r"\toprule", r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
+    def tex(s):
+        return (s.replace("_", "-").replace(">=", "$\\geq$").replace("<=", "$\\leq$").replace(">", "$>$")
+                .replace("<", "$<$").replace("|", "$|$").replace("[", "(").replace("]", ")"))
     for g, t, o, e in ledger:
-        lines.append(f"{g} & {t.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} & "
-                     f"{'yes' if o else 'no'} & {e.replace('_', '-').replace('>=', '$\\geq$').replace('<=', '$\\leq$').replace('>', '$>$').replace('<', '$<$').replace('|', '$|$')} \\\\")
+        met = "n/a (open)" if o is None else ("yes" if o else "no")
+        lines.append(f"{g} & {tex(t)} & {met} & {tex(e)} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{Every criterion registered in the replication and balanced-demonstration protocols "
               r"(\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, "
               r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}, "
               r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}) and its outcome: " + f"{n_pass} of {len(ledger)} met. "
-              r"H3 and H4c registered no direction; their rows record the outcome as observed.}",
+              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}) and its outcome. Predicted criteria: "
+              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (H3, H4c) "
+              r"carried no directional prediction; their rows record the observed outcome and are not counted.}",
               r"\label{tab:ledger}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

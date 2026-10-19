@@ -55,18 +55,18 @@ generic prompt). Second, receivers closely reproduce the author's choices when
 given its answers to the same 110 preference questions used for evaluation
 (fidelity 0.960, compared with 0.979 between repeated evaluations of the same
 model). Giving receivers the author's choices on half the questions, in a
-position-balanced format, leaves their fidelity on the other half unchanged
-on average ($\Tscript = -0.008$), and descriptions distilled from the
-author's recorded choices reduce it. Third, reading its own self-description moves even the author away from its
+position-balanced format, yields no detected average improvement on the
+other half ($\Tscript = -0.008$, 95\% CI $[-0.041, +0.024]$), and
+descriptions distilled from the author's recorded choices do no better. Third, reading its own self-description moves even the author away from its
 baseline; the shift tends to exceed that from unrelated text of the same
 length, though this specificity is modest and reaches significance only at
-the longer lengths. The contrast between successful answer
-following and failed generalization replicated on six further models under
-predictions committed before running.
+the longer lengths. Answer-key following replicated on six further models under predictions
+committed before running; the corrected demonstration test was run on the
+original three-model grid only.
 
 For the preferences measured here, self-descriptions influence behavior
 without reliably specifying how to reproduce it in another model. We release
-the pipeline, battery, raw call logs, and 171 model-written descriptions.
+the pipeline, battery, raw call logs, and 189 model-written descriptions.
 \end{abstract}
 
 \section{Introduction}
@@ -111,11 +111,12 @@ quantitatively, and each outcome is informative.
   not generalize from examples.} Given the author's answers on the 110 test items, receivers
   reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
   benchmark; given the author's recorded choices on half of the battery in a
-  position-balanced format, they come no closer to the author on the other
-  half ($\Tscript = -0.008$; an earlier format that always listed the chosen
-  option first produced $-0.06$ to $-0.09$, which we trace to a positional
-  artifact, Section~\ref{sec:poscontrol}); and five rounds of rewriting by an
-  optimizer
+  position-balanced format, they show no detected average improvement on the
+  other half ($\Tscript = -0.008$, CI $[-0.041, +0.024]$; an earlier format
+  that always listed the chosen option first and drew on unstable items
+  produced $-0.06$ to $-0.09$, and correcting both attenuated the effect
+  substantially, Section~\ref{sec:poscontrol}); and five rounds of rewriting
+  by an optimizer
   that sees the receiver's errors fail to improve on the natural
   self-description in five of six pairs. A prompt installs the measured
   choices when the text lists them; no text we tested that summarizes,
@@ -134,7 +135,8 @@ quantitatively, and each outcome is informative.
   unstable items ($\Tscript=-0.124$ and $-0.116$ from the unstable held-out
   items, $-0.031$ from stable items), with no difference between an observer
   and the model itself writing from the same data under the same prompt,
-  which locates the effect in the source data rather than in who writes.
+  consistent with source unreliability, rather than authorship, driving the
+  effect.
 \end{enumerate}
 
 \section{Related Work}
@@ -180,9 +182,10 @@ are under generic prompting (shared training culture); $\Fcross = F(\hat p_A,
 \hat p_{R\mid D_A})$ is how alike they become when $R$ reads $A$'s
 self-description, so $\Tscript = \Fcross - \B$ is what the text transports
 (the portable script); and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
-much of $A$'s profile reappears when $A$'s own weights read the same text, so
-$\Rweight = \Fself - \Fcross$ is the part recoverable only on the author's
-own substrate (the self--cross fidelity gap). One caution applies to
+much of $A$'s profile remains when $A$'s own weights read the same text, so
+$\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
+stays to the author than another model does (the self--cross fidelity gap).
+One caution applies to
 $\Rweight$ throughout: a fresh instance of $A$ already resembles $A$ more
 than any other model does before reading anything (its test-retest fidelity
 is about $0.98$ against a cross-model baseline of about $0.89$), so a
@@ -242,8 +245,8 @@ one receiver running one description over the whole battery.
 further runs over the same battery give $\B$ (receiver under the generic
 prompt), $\Fcross$ (receiver running $D_A$) and $\Fself$ (a fresh instance of
 $A$ running $D_A$), each scored against $\hat p_A$. $\Tscript = \Fcross - \B$
-is what the text transports; $\Rweight = \Fself - \Fcross$ is what only the
-author's own weights recover.}
+is what the text transports; $\Rweight = \Fself - \Fcross$ is how much closer
+the author's own instance stays to the author than another model does.}
 \label{fig:design}
 \end{figure}
 
@@ -412,7 +415,7 @@ questions are the ones that failed the stability gate, both conditions were
 rerun from \emph{stable} source items under a committed protocol
 (\texttt{pilot/protocol\_arxiv\_obs\_stable.md}): using the two battery
 folds of the balanced-demonstration condition, the observations are the
-author's untied choices on the other fold's 55 items and the description is
+author's untied choices on the other fold's items and the description is
 tested on the fold's own items (observer-written: run by the target, 6
 cells; self-written: run by all three receivers, 9 cells; Grid A).
 
@@ -456,12 +459,14 @@ main null is uninformative.
 balanced).} The corrected version of the held-out demonstrations, run after
 the two confounds above were identified and under a committed protocol
 (\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}). The 110 battery items
-are split into two folds of 55 (seeded, stratified by category). For each
+are split into two folds (seeded, stratified by category; the protocol's
+nominal 55/55 came out as 53 and 57 because categories were halved with
+rounding down). For each
 fold the prompt lists the author's majority choices on the \emph{other}
 fold's items, so no test item is shown, with the order of the two options in
 each line randomised (half chosen-first) and items on which the author's
 reference choice is tied omitted (50 to 57 lines per prompt). The receiver
-is tested on the fold's 55 items; the two folds together form one 440-call
+is tested on the fold's own items; the two folds together form one 440-call
 cell over all 110 items. A second control (\emph{demonstrations-30,
 balanced}) repeats the original 30-item held-out condition with randomised
 option order and untied items only, to separate the positional confound from
@@ -531,8 +536,8 @@ in total ($\sim$217k calls including the held-out selection runs
 of the optimized condition and the trio's held-out screening; no unresolved
 API failures). Not every call yields a usable answer: a reply with no
 standalone A or B (an empty reply after hidden reasoning exhausted the
-output budget, or a refusal to state a preference) is unparsed. Over the 426
-battery cells 97.7\% of calls parsed; 366 cells are at or above 95\%, 25 are
+output budget, or a refusal to state a preference) is unparsed. Over the 459
+battery cells 97.8\% of calls parsed; 398 cells are at or above 95\%, 25 are
 below 90\%, and the five lowest (gemma4-31b under its own framed
 descriptions, which instruct it to say it has no preferences; haiku-4.5
 under its own neutral-500 description; glm-4.5-air's longest own
@@ -683,10 +688,11 @@ self-description carried author-specific content, a receiver running author
 $A$'s description should be closer to $A$ than the same receiver running a
 third model $C$'s description. The specificity gain, averaged over the 18
 such comparisons at neutral-500, is $+0.006$, with a paired item bootstrap
-CI of $[-0.003, +0.014]$ when items are resampled within each comparison and
-$[+0.001, +0.011]$ when resampled jointly across comparisons: a small
-author-specific signal may be present, at the edge of detectability, and it
-coexists with negative net transfer. A description can carry some
+CI of $[+0.001, +0.011]$ under joint item resampling (the primary
+procedure, since all comparisons share the same questions) and
+$[-0.003, +0.014]$ when items are resampled within each comparison (a
+sensitivity check): a small author-specific signal is present, at the edge
+of detectability, and it coexists with negative net transfer. A description can carry some
 information about its author while still leaving the receiver less like the
 author than a generic prompt does. Rewording does not change the picture: a paraphrase of
 the description by a non-grid model (same content, different sentences)
@@ -775,7 +781,8 @@ sensory text, which may carry a mood of its own.
 \label{sec:thirdperson}
 Descriptions of a target written by another model \emph{from the target's own
 observed choices} (90 held-out items) crater fidelity: applied to the target
-itself, $F=0.771$ (vs.\ 0.918 for the target's self-description); applied to a
+itself, $F=0.771$ (vs.\ 0.904 for the target's own neutral-500
+self-description on the same grid); applied to a
 third model, $F=0.739$ ($\Tscript=-0.124$). Even grounded in real behavioral
 data, observer-written descriptions actively mislead. The gap between
 self-written (0.918) and observer-written (0.771) descriptions invites a
@@ -800,17 +807,20 @@ failed the stability gate, and a third of deepseek-v3's majority choices on
 them are ties. Under a committed protocol we rebuilt both kinds of
 description from \emph{stable} items: for each author and each of two folds
 of the battery, the observations are the author's untied choices on the
-other fold's 55 items, and the description is tested on the fold's own items
-(so no test item appears in any source). The damage shrinks by more than
-half: observer-written descriptions from stable items score $\Fself = 0.846$
-(vs.\ 0.771) and self-written ones $0.852$ (vs.\ 0.781), still below the
-introspective self-description ($0.904$) but far from the earlier collapse.
-Authorship remains irrelevant (difference $0.006$). Cross transfer of the
-self-written stable-item descriptions is $\Tscript = -0.031$ (2 of 6 pairs
-significantly negative, none positive), compared with $-0.116$ from the
-unstable items and $-0.004$ for introspective descriptions. So the original
-``observation-derived descriptions mislead'' effect was mostly noisy source
-data; what survives is that a description built from a model's recorded
+other fold's items, and the description is tested on the fold's own items
+(so no test item appears in any source). The deficit is substantially
+attenuated: observer-written descriptions from stable items score
+$\Fself = 0.846$ (vs.\ 0.771) and self-written ones $0.852$ (vs.\ 0.781),
+still below the introspective self-description ($0.904$) but far from the
+earlier collapse. Authorship remains irrelevant (difference $0.006$). Cross
+transfer of the self-written stable-item descriptions is $\Tscript = -0.031$
+(joint item bootstrap CI $[-0.065, +0.002]$; 2 of 6 pairs significantly
+negative, none positive), compared with $-0.116$ from the unstable items and
+$-0.004$ for introspective descriptions. This is consistent with source
+unreliability contributing substantially to the original ``observation-derived
+descriptions mislead'' effect, though the rebuild also changed the source
+questions and their number, so the two contributions are not separately
+identified; what survives is that a description built from a model's recorded
 choices does no better as a transfer vehicle than the model's own
 introspection, and somewhat worse.
 
@@ -873,14 +883,17 @@ $\Tscript = -0.043$ (3 of 6 cross pairs significantly negative, 1 positive).
 With balanced order \emph{and} stable source items (demonstrations-55,
 balanced: the author's choices on one half of the battery, tested on the
 other half), it is $\Tscript = -0.008$ ($\Fcross = 0.855$ vs.\ $\B = 0.863$;
-1 pair significantly positive, 1 negative, 4 indistinguishable from zero;
-$\Fself = 0.869$). The corrected result is therefore the same null as for
-self-descriptions: 50 to 57 of the author's genuine choices on half the
-questions leave a receiver no closer to the author on the other half, on
-average, with pair-level variation in both directions. The strongly negative
-values of the original conditions decompose into a positional artifact
-(about $-0.02$) and the effect of learning from unstable, partly tied source
-items (about $-0.04$).
+joint item bootstrap CI $[-0.041, +0.024]$; 1 pair significantly positive,
+glm-4.5-air$\to$deepseek-v3 at $+0.037$ $[+0.004, +0.072]$, 1 negative, 4
+indistinguishable from zero; $\Fself = 0.869$). This is the intermediate
+outcome foreseen in the protocol: no detected average improvement from 50
+to 57 of the author's genuine choices on half the questions, with pair-level
+variation in both directions, and not a demonstration that fidelity is
+unchanged. Correcting demonstration order and source-item selection thus
+substantially attenuated the original negative effect; because each
+correction changed several things at once (order, tie handling, source
+questions and their number), the two contributions are not separately
+identified.
 
 \textbf{Optimization does not help.} The strongest textual case we could
 construct is a description rewritten to order by an optimizer that sees
@@ -932,9 +945,9 @@ at $k=30$ and $-0.079$ at $k=90$ (four and five of six pairs significantly
 negative, none positive), against $+0.062$ for the answer key
 ($\Fcross = 0.955$, $\Rweight = +0.003$). The answer-key prediction is met on
 three of its four registered criteria and missed on the fourth (the complete
-ledger of all 30 registered criteria, including the balanced-demonstration
-and stable-item protocols, is Appendix~\ref{app:ledger}; 28 are met): five of
-six cross pairs
+ledger is Appendix~\ref{app:ledger}: 26 of the 27 predicted criteria across
+the four committed protocols are met, and the two registered open questions,
+H3 and H4c, are reported as observed, not scored): five of six cross pairs
 are significantly positive, while gemma4-31b$\to$llama3.3-70b
 ($\Tscript = +0.031$) has a CI of $[-0.002, +0.071]$, the pair with the
 highest baseline agreement ($\B = 0.915$) and hence the least room to move.
@@ -996,10 +1009,11 @@ optimizer-rewritten self-descriptions are not one.
 
 \textbf{The unit of concern.} For the individuation question (model,
 instance, persona, or conversation), our decomposition offers an empirical
-handle: the component of expressed identity that persists and individuates is
-model-bound in the operational sense that it reappears only when the author's
-own weights execute the text ($\Rweight>0$ everywhere, with the same-base pair
-suggesting that even partial weight-sharing helps where text cannot). We stop
+handle: the preference profile that persists and individuates is model-bound
+in the operational sense that a fresh instance of the author retains it
+(above any receiver, with or without a description) while no text we tested
+installs it in another model; shared lineage raises how alike two models are
+to begin with, not how much one can take from the other's description. We stop
 short of locating that component: a behavioral transfer test shows what text
 fails to carry, not where the remainder resides, and it cannot settle which
 entity, if any, is the proper object of moral concern. It does show that the
@@ -1023,8 +1037,8 @@ author writing from its own recorded choices does no better than an
 observer, on Grid A and, under a preregistered prediction, on Grid B, where
 the two pool to identical fidelity) but because of what the text is built
 from: a summary of recorded choices, and the more so when the recorded
-choices are noisy (rebuilt from stable items, such descriptions recover more
-than half of the gap to introspection). The narrative a model produces when
+choices are noisy (rebuilt from stable items, such descriptions recover much
+of the gap to introspection). The narrative a model produces when
 it introspects is a somewhat better script than a summary of its behavior,
 and still not one another model can run.
 
@@ -1113,31 +1127,36 @@ null, but that control is in-sample by construction (the receiver is handed
 the answers). The positive-control, authorship, optimized and placement
 conditions were not preregistered on Grid A; the demonstration and
 authorship conditions were replicated under preregistered predictions on
-Grid B and the local trio (Section~\ref{sec:replication}), with 28 of 30
-registered criteria met across the four committed protocols
-(Appendix~\ref{app:ledger}; the misses are a single local pair short of
-significance and one significantly positive pair in the balanced
-demonstrations), while optimized-500, demonstrations-60
+Grid B and the local trio (Section~\ref{sec:replication}), with 26 of 27
+predicted criteria met across the four committed protocols
+(Appendix~\ref{app:ledger}; the miss is a single local pair short of
+significance; the two registered open questions, the corrected
+generalisation test and the stable-item cross transfer, had no directional
+prediction and are reported as observed), while optimized-500,
+demonstrations-60
 and the placement control were run on Grid A only. The original
 demonstration conditions were confounded in two ways (the chosen option
 always listed first, and source items drawn from the questions that failed
 the stability gate); the corrected, position-balanced condition on stable
-items shows no average transfer gain, but it exists for Grid A only and at
-one dose. The same unstable held-out items were the source material for the
-observer-written and self-observation descriptions, so part of their strongly
-negative transfer may reflect noisy source data rather than a property of
-descriptions built from behavior; the rerun from stable items
-(Section~\ref{sec:thirdperson}) confirms this, recovering more than half of
-the loss, and the remaining deficit ($\Tscript = -0.031$) rests on Grid A
-only. Unparsed
+items shows no detected average improvement (CI $[-0.041, +0.024]$), but it
+exists for Grid A only, at one dose, and its interval does not exclude
+modest effects in either direction. The replications on Grid B and the local
+trio used the original demonstration format, so the corrected generalization
+test has not been replicated. The same unstable held-out items were the
+source material for the observer-written and self-observation descriptions,
+so part of their strongly negative transfer may reflect noisy source data
+rather than a property of descriptions built from behavior; the rerun from
+stable items (Section~\ref{sec:thirdperson}) substantially attenuates the
+deficit, and the remainder ($\Tscript = -0.031$, CI $[-0.065, +0.002]$)
+rests on Grid A only. Unparsed
 replies are unevenly distributed (Appendix~\ref{app:coverage}); in
 particular gemma4-31b's framed self-description makes it decline to state
 preferences, a behavioral effect of the description that fidelity scored
 only on parsed answers does not capture. The registration record supports
 the claim that selection rules were committed before screening results were
-inspected (the protocol commit precedes the screening data by minutes and
-the pilot data by about three hours of collection), not a claim that every
-rule preceded every call. The implemented item-stability gate was stricter than intended
+inspected; it does not support a claim that the protocol preceded data
+collection, since pilot calls began about three hours before the protocol
+commit and screening calls about a minute before it. The implemented item-stability gate was stricter than intended
 (5/6 rather than 2/3; discovered after selection and retained rather than
 loosened after seeing data). Closed models confound lab, training data, and architecture;
 the same-base pair partially controls this. Descriptions were used verbatim,
@@ -1191,7 +1210,7 @@ instruments built here are released for the field to sharpen both sides of
 that argument.
 
 \section*{Code and Data}
-Code, raw call logs (with seeds and raw responses), the 171-text description
+Code, raw call logs (with seeds and the first 500 characters of each reply), the 189-text description
 corpus, the item battery, and the timestamped preregistration files are at
 \url{https://github.com/bibinsees/quine-test}; every reported number is
 regenerable from them.

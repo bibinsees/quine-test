@@ -146,3 +146,63 @@ considering for the Related Work section.
 We have adopted it. The abstract's conclusion reads: "For the preferences measured here,
 self-descriptions influence behavior without reliably specifying how to reproduce it in
 another model."
+
+---
+
+# Response to the second-round assessment
+
+Thank you for checking the revision and the new cells. All points are accepted; the changes
+below are in `arxiv/main.tex` (commit noted in the repository log).
+
+1. **Residual "weight-bound" wording.** The three passages you cite are rewritten. Methods:
+   R is "how much closer the author's own instance stays to the author than another model
+   does." Figure 1 caption: the same. Discussion ("The unit of concern"): the profile is
+   model-bound only in the operational sense that a fresh instance of the author retains it
+   while no tested text installs it elsewhere, and shared lineage "raises how alike two
+   models are to begin with, not how much one can take from the other's description,"
+   consistent with Section 4.3.
+
+2. **"Unchanged" and the registered intermediate outcome.** We now report joint item
+   bootstrap intervals (items resampled once per replicate and applied to every pair):
+   demonstrations-55 balanced T = -0.008 [-0.041, +0.024]; self-observation from stable
+   items T = -0.031 [-0.065, +0.002]. The abstract, contribution 3 and Results 4.5 say "no
+   detected average improvement," name the one significantly positive pair
+   (glm-4.5-air -> deepseek-v3, +0.037 [+0.004, +0.072]), and call the result the
+   intermediate outcome foreseen in the protocol, "not a demonstration that fidelity is
+   unchanged."
+
+3. **Causal decomposition.** Removed. Results 4.5 now reads: "Correcting demonstration order
+   and source-item selection thus substantially attenuated the original negative effect;
+   because each correction changed several things at once (order, tie handling, source
+   questions and their number), the two contributions are not separately identified."
+   Section 4.4 likewise says the stable-item rebuild is "consistent with source
+   unreliability contributing substantially," with the same caveat, and "mostly noisy source
+   data" is gone; contribution 4 is reworded to match.
+
+4. **Replication scope in the abstract.** Now: "Answer-key following replicated on six
+   further models under predictions committed before running; the corrected demonstration
+   test was run on the original three-model grid only." Limitations adds that the Grid B and
+   local-trio replications used the original demonstration format.
+
+5. **Ledger.** `analyze_reporting_fixes.py` now types each row as a predicted criterion or a
+   registered open question; H3 and H4c are marked open, carry no pass/fail, and are
+   excluded from the count. The headline is "26 of 27 predicted criteria met; two registered
+   open questions reported as observed" (Results 4.7, Limitations, Appendix table caption).
+
+6. **Bootstrap framing.** Agreed that joint item resampling is the natural primary procedure
+   for a shared battery. The specificity paragraph now presents the joint interval
+   [+0.001, +0.011] as primary and the within-comparison interval [-0.003, +0.014] as a
+   sensitivity check; the earlier framing as a discrepancy is withdrawn.
+
+Smaller corrections, all applied: fold sizes stated as 53 and 57 with the reason (categories
+halved with rounding down) and the nominal 55/55 noted; corpus count 189; coverage recomputed
+over all 459 cells (97.8% parsed; 398 at or above 95%, 25 below 90%); the chronology sentence
+now states that pilot calls began about three hours and screening calls about a minute before
+the protocol commit, and makes the inspection claim separately; the Section 4.4 comparator is
+the Grid A value 0.904.
+
+**Related Work.** You are right, and our search was at fault: arXiv:2609.32758 (Zhou et al.,
+"How Far Do Persona Effects Generalize in Language Models?") exists. A comparison is pending
+the authors' decision on the Related Work section; the paper's finding that persona-effect
+relationships are predictable within a model but transfer unreliably across models and
+prompt wordings is directly relevant and will be discussed alongside Luz de Araujo and Roth.

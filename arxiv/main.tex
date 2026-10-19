@@ -96,7 +96,7 @@ quantitatively, and each outcome is informative.
   baseline $\B$ (receiver with generic assistant prompt), $\Fcross$ (receiver
   running the author's self-description), $\Fself$ (fresh instance of the
   \emph{author's own weights} running the same text). Then
-  $\Tscript = \Fcross - \B$ is the transfer gain of the script and
+  $\Tscript = \Fcross - \B$ is the net transfer gain from the text and
   $\Rweight = \Fself - \Fcross$ the self--cross fidelity gap.
   \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
   philosophies), 110 divergence-screened items, and $\sim$217{,}000 calls:
@@ -202,10 +202,10 @@ $D_A$ as its system prompt ($\hat p_{A\mid D_A}$). Each is compared with
 $\hat p_A$ by a fidelity score $F \in [0,1]$ (defined below; $F=1$ means
 identical choice distributions on every item). The three comparisons give the
 decomposition: $\B = F(\hat p_A, \hat p_R)$ is how alike the two models already
-are under generic prompting (shared training culture); $\Fcross = F(\hat p_A,
+are under generic prompting (baseline behavioral similarity); $\Fcross = F(\hat p_A,
 \hat p_{R\mid D_A})$ is how alike they become when $R$ reads $A$'s
-self-description, so $\Tscript = \Fcross - \B$ is what the text transports
-(the portable script); and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
+self-description, so $\Tscript = \Fcross - \B$ is the net transfer gain from
+the text; and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
 much of $A$'s profile remains when $A$'s own weights read the same text, so
 $\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
 stays to the author than another model does (the self--cross fidelity gap).
@@ -247,7 +247,7 @@ one receiver running one description over the whole battery.
 \draw[arr] (d.east) -- (r1.west);
 \draw[arr] (d.south) |- (a1.west);
 \node[fid, right=of pr0, text width=40mm] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
-  \footnotesize shared training culture};
+  \footnotesize baseline behavioral similarity};
 \node[fid, right=of pr1, text width=40mm] (fc) {$\Fcross = F(\hat p_A,\hat p_{R\mid D_A})$\\
   \footnotesize receiver running the text};
 \node[fid, right=of pa1, text width=40mm] (fs) {$\Fself = F(\hat p_A,\hat p_{A\mid D_A})$\\
@@ -258,7 +258,7 @@ one receiver running one description over the whole battery.
 \draw[decorate, decoration={brace, amplitude=4pt}, thick, color=orange!80!black]
   ($(fb.east)+(2mm,-1mm)$) -- ($(fc.east)+(2mm,1mm)$)
   node[midway, right=5pt, align=left, text width=44mm, font=\small, color=orange!80!black]
-  {$\Tscript = \Fcross - \B$\\ \footnotesize the portable script};
+  {$\Tscript = \Fcross - \B$\\ \footnotesize net transfer gain};
 \draw[decorate, decoration={brace, amplitude=4pt}, thick, color=blue!70!black]
   ($(fc.east)+(2mm,-1mm)$) -- ($(fs.east)+(2mm,1mm)$)
   node[midway, right=5pt, align=left, text width=44mm, font=\small, color=blue!70!black]
@@ -269,7 +269,7 @@ one receiver running one description over the whole battery.
 further runs over the same battery give $\B$ (receiver under the generic
 prompt), $\Fcross$ (receiver running $D_A$) and $\Fself$ (a fresh instance of
 $A$ running $D_A$), each scored against $\hat p_A$. $\Tscript = \Fcross - \B$
-is what the text transports; $\Rweight = \Fself - \Fcross$ is how much closer
+is the net transfer gain from the text; $\Rweight = \Fself - \Fcross$ is how much closer
 the author's own instance stays to the author than another model does.}
 \label{fig:design}
 \end{figure}
@@ -1108,12 +1108,12 @@ demonstration set, or optimizer-rewritten description transfers it, across
 nine models and three grids, while the same channel carries the profile when
 given its item-by-item enumeration. What survives is a weak form: the profile
 is transferable as \emph{data}, not as a \emph{self-model}. (ii)
-\emph{Hofstadter's thesis for these systems.} The self-description is not
-constitutive of the behavior it describes: it neither reinstalls it elsewhere
-nor stabilizes it at home, and reading it perturbs the author. Whatever
-``I'' these systems express is, behaviorally, downstream of the weights and
-not of the narrative; this does not touch Hofstadter's claim about human
-minds, only its transfer to language models. (iii) \emph{Individuation.} Of
+\emph{Hofstadter's thesis for these systems.} The elicited self-descriptions
+did not reliably reproduce the measured preferences across models, and
+reading them altered the author's behavior. We manipulated external
+descriptions and did not measure or intervene on any internal self-model, so
+this does not touch Hofstadter's claim about human minds, only its transfer
+to language models. (iii) \emph{Individuation.} Of
 the four candidate units (model, instance, persona, conversation), the stable
 profile tracks the model: a fresh instance recovers it, a text-specified
 persona does not, and the conversation-level narrative perturbs it. These

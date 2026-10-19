@@ -250,3 +250,29 @@ reproduction of the author's profile) and the convergence: identity text reliabl
 behavior, but the text-to-behavior relationship does not travel across models without
 refitting, and a prompt-sensitivity control is needed before a persona effect is read as
 content-specific.
+
+---
+
+# Response to the fourth-round assessment
+
+Thank you for confirming that the third-round points are closed. We checked both remaining
+items against the manuscript at `83281e6` and applied them; neither required new analysis.
+
+1. **Descriptive metric labels.** Verified: the Methods decomposition sentence, the Figure 1
+   node labels, the Figure 1 caption, and contribution 1 in the Introduction still used
+   "shared training culture" and "what the text transports" / "the portable script." All
+   now read "baseline behavioral similarity" for $B$ and "net transfer gain" for $T$
+   (Introduction, Methods, Figure 1 labels and caption). The symbols $B$, $T_{\mathrm{script}}$
+   and $R_{\mathrm{weight}}$ are unchanged. No other occurrence of the old labels remains.
+
+2. **Philosophical qualification.** Verified: Discussion item (ii) still read "Whatever 'I'
+   these systems express is, behaviorally, downstream of the weights and not of the
+   narrative." It now reads: "The elicited self-descriptions did not reliably reproduce the
+   measured preferences across models, and reading them altered the author's behavior. We
+   manipulated external descriptions and did not measure or intervene on any internal
+   self-model, so this does not touch Hofstadter's claim about human minds, only its
+   transfer to language models." Item (iii) already carried the matching individuation
+   qualification from the previous round and is unchanged.
+
+No numerical results, tables, or figures changed in this round; the compiled manuscript is
+still 28 pages with no overfull boxes.

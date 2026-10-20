@@ -30,6 +30,25 @@ Ten models from nine labs write self-descriptions. Each description is placed in
 
 Models: deepseek-v3, glm-4.5-air, grok-4.3 (Grid A); gpt-5.2, kimi-k2.5, claude-haiku-4.5 (Grid B); llama3.3-70b, gemma4-31b, mistral-small-3.2 (local trio); hermes3-70b (same-base pair with llama3.3-70b). 22 configurations gate-tested; exclusions in the paper's Appendix B.
 
+## Regenerating the numbers from the logs (no API calls)
+
+Requires Python 3.12 with `numpy`, `pandas` and `matplotlib` (the audit scripts in `results/` use only the standard library). From `src/`, in this order:
+
+```
+python analyze_arxiv.py              # merged grid + added conditions -> results/arxiv/positive_controls.json, analysis.txt
+python analyze_pooled_T.py           # joint item bootstrap for pooled gains (Grid A conditions)
+python analyze_strength.py           # pooled gains with upper bounds, movement decomposition, identification -> strength.json
+python analyze_policy.py             # known-persona control -> policy_persona.json
+python analyze_reporting_fixes.py    # coverage table, prediction ledger, length and framing contrasts
+python analyze_coverage_sensitivity.py   # coverage and fresh-reference robustness checks
+python analyze_parser_sensitivity.py     # parser sensitivity and self-fidelity length contrasts
+python analyze_self_ladder.py && python make_ladder_table.py
+python make_appendix_tables.py && python make_replication_table.py && python make_policy_table.py
+python make_figure.py && python make_summary_figure.py
+```
+
+Then compile `arxiv/main.tex` with pdflatex (two passes; `arxiv/build.ps1` does this on Windows with MiKTeX). The `run_*.py` scripts re-query model APIs and are not needed to regenerate the manuscript. Local models were served through Ollama (Open WebUI); tags are recorded in `src/run_grid.py` and the call logs carry the model identifier of every call.
+
 ## LLM usage
 
 Built with Claude (Anthropic) under team direction; see the paper's LLM Usage Statement for the division of labor.

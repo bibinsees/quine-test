@@ -223,8 +223,8 @@ def main() -> None:
     out["ledger"] = [{"grid": g, "criterion": t, "pass": (None if o is None else bool(o)), "evidence": e}
                      for g, t, o, e in ledger]
     out["ledger_summary"] = {"predicted": len(preds), "met": n_pass, "open": n_open}
-    lines = [r"\begin{table}[H]", r"\centering\scriptsize",
-             r"\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.0cm}>{\raggedright\arraybackslash}p{1.1cm}>{\raggedright\arraybackslash}p{4.3cm}}",
+    lines = [r"\begin{table}[p]", r"\centering\scriptsize",
+             r"\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{4.1cm}}",
              r"\toprule", r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
     def tex(s):
         return (s.replace("_", "-").replace(">=", "$\\geq$").replace("<=", "$\\leq$").replace(">", "$>$")

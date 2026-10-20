@@ -93,8 +93,8 @@ Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a charac
 specifiable in text), then a sufficiently detailed self-authored description
 should reconstitute the author's choice behavior when executed as the system
 prompt of a different model. If instead the profile is not captured by what
-the model can say about itself, self-descriptions will not transport it,
-however long or purpose-written. The design measures the split
+the model can say about itself, self-descriptions will not transport it at
+any length or framing we can test. The design measures the split
 quantitatively, and each outcome is informative.
 
 \Needspace{4\baselineskip}
@@ -672,9 +672,13 @@ against a gain of $+0.097$ when the text lists the answers
 and battery fixed and resample items only; the item estimates rest on
 nominally four answers each. They are not driven by poorly covered cells:
 restricting each pool to cross cells with at least 90\% parsed answers
-changes no pooled gain by more than $0.002$, and at 95\% the two framed
+changes no pooled gain by more than $0.003$, and at 95\% the two framed
 pools that shrink most (to 8 and 11 pairs) have upper bounds of $+0.002$ and
-$+0.004$. Figure~\ref{fig:summary} collects every condition on one axis.
+$+0.004$. Nor do they depend on reusing the receiver's reference sample:
+taking each receiver's baseline from its independent test-retest cell
+instead leaves every pooled gain negative ($-0.013$ to $-0.023$) with every
+upper bound below zero. Figure~\ref{fig:summary} collects every condition on
+one axis.
 \begin{table}[!tbp]
 \centering\small
 \begin{tabular}{lcccccc}
@@ -767,9 +771,10 @@ model. Per-model values in Appendix~\ref{app:ladder}.}
 any length.} Fidelity $F$ vs.\ actual description length (neutral arm, r0).
 Blue circles: the author's own weights running the description ($\Fself$,
 mean 0.924); orange triangles: a different model running it ($\Fcross$,
-0.878); gray band: generic-prompt baseline $\B$ over the same 20 directed
-pairs as the orange points ($0.892 \pm 0.013$, mean $\pm$ 2 s.e.); dashed
-lines: series means. Both series are flat; mean $\Fcross$ does not rise above
+0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
+directed pairs as the orange points ($0.892$; no band is drawn because the
+pairs share models and reversed pairs have identical $\B$); dashed lines:
+series means. Both series are flat; mean $\Fcross$ does not rise above
 $\B$ at any length and sits slightly below it, while $\Fself$ sits
 consistently above it, at about the margin a fresh author instance has over any other model
 before reading anything.}
@@ -1314,10 +1319,10 @@ self-descriptions produced no average reconstruction gain.
 A model's native self-description, then, is a story its weights can tell,
 not a program its weights can be rebuilt from. Reading the story back
 disturbs even its teller, and moves another reader mostly sideways. By the
-most direct test we could construct, the assistant's measured preferences
-are not recoverable from the character it describes itself to be. The
-instruments built here are released so the field can sharpen both sides of
-that argument.
+most direct test we could construct, the native self-descriptions tested
+here did not improve average reproduction of the measured preference
+choices in another model. The instruments built here are released so the
+field can sharpen both sides of that argument.
 
 \section*{Code and Data}
 Code, raw call logs (with seeds and the first 500 characters of each reply), the 198-text description

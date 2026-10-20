@@ -48,6 +48,27 @@ def main() -> None:
                 out[f"{arm}-{n}|>={thr:.2f}"] = res
                 print(f"{arm + '-' + str(n):<14}{thr:>10.2f}{res['n_pairs']:>6}{res['mean']:>+9.3f}   "
                       f"[{res['ci'][0]:+.3f}, {res['ci'][1]:+.3f}]{res['upper95']:>+9.3f}")
+    # fresh-reference check: the receiver's baseline B taken from its independent test-retest
+    # cell instead of the reference profile used for the author (removes shared-sample reuse
+    # on the receiver side; the author's reference is unchanged)
+    retest = {m: tbl_of(g) for m, g in grid[grid["arm"] == "retest"].groupby("receiver")}
+    print("\nfresh receiver baseline (test-retest cell):")
+    for arm, n in CONDS:
+        df = grid[(grid["arm"] == arm) & (grid["length"] == n) & (grid["regen"] == 0)]
+        pairs = []
+        for (r, a), g in df.groupby(["receiver", "author"]):
+            if r == a or a not in ref or r not in retest or len(g) < 400:
+                continue
+            fc, b = ag.fidelity(ref[a], tbl_of(g)), ag.fidelity(ref[a], retest[r])
+            if fc is None or b is None:
+                continue
+            dc, db = dict(zip(fc["items"], fc["per_item"])), dict(zip(b["items"], b["per_item"]))
+            pairs.append({i: dc[i] - db[i] for i in set(dc) & set(db)})
+        res = joint_pooled(pairs)
+        if res:
+            out[f"{arm}-{n}|retest-baseline"] = res
+            print(f"{arm + '-' + str(n):<14}{'retest':>10}{res['n_pairs']:>6}{res['mean']:>+9.3f}   "
+                  f"[{res['ci'][0]:+.3f}, {res['ci'][1]:+.3f}]{res['upper95']:>+9.3f}")
     OUT.write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(f"wrote {OUT}")
 

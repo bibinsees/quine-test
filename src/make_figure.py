@@ -77,7 +77,8 @@ def main() -> None:
     ax.set_facecolor(SURFACE)
 
     # baseline band (B +/- 2 SE) — neutral gray, recessive
-    ax.axhspan(b_mean - 2 * b_se, b_mean + 2 * b_se, color="#f0efec", zorder=1)
+    # baseline B as a line only: the 20 directed pairs share models and reversed pairs have
+    # identical B, so a naive standard-error band would overstate precision
     ax.axhline(b_mean, color=BASE, lw=1.2, zorder=2)
 
     ax.scatter(cross_pts[:, 0], cross_pts[:, 1], s=34, marker="^",
@@ -109,7 +110,7 @@ def main() -> None:
         va="top")
     ax.annotate(
         r"$T_{\rm script} = F_{\rm cross} - B \leq 0$: the description brings"
-        "\nthe receiver no closer to the author, at any length",
+        "\nthe receiver no closer to the author on average, at any length",
         xy=(0.02, 0.13), xycoords="axes fraction", fontsize=8.5, color=INK,
         va="top")
 

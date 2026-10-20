@@ -32,22 +32,30 @@ Models: deepseek-v3, glm-4.5-air, grok-4.3 (Grid A); gpt-5.2, kimi-k2.5, claude-
 
 ## Regenerating the numbers from the logs (no API calls)
 
-Requires Python 3.12 with `numpy`, `pandas` and `matplotlib` (the audit scripts in `results/` use only the standard library). From `src/`, in this order:
+Environment used for the manuscript numbers: Python 3.13.5 with `numpy` 2.1.3, `pandas` 2.2.3, `matplotlib` 3.10.0 and `requests` 2.32.3 (`requests` is imported by the runner modules that the analysis scripts load for constants; no network call is made by the steps below). The audit scripts in `results/` use only the standard library. From `src/`, one command per line, in this order:
 
 ```
-python analyze_arxiv.py              # merged grid + added conditions -> results/arxiv/positive_controls.json, analysis.txt
-python analyze_pooled_T.py           # joint item bootstrap for pooled gains (Grid A conditions)
-python analyze_strength.py           # pooled gains with upper bounds, movement decomposition, identification -> strength.json
-python analyze_policy.py             # known-persona control -> policy_persona.json
-python analyze_reporting_fixes.py    # coverage table, prediction ledger, length and framing contrasts
+python analyze_arxiv.py                  # merged grid + added conditions -> results/arxiv/positive_controls.json, analysis.txt
+python analyze_pooled_T.py               # joint item bootstrap for pooled gains (Grid A conditions)
+python analyze_placebo_lengths.py        # unrelated prose, sensory style -> placebo_lengths.json
+python analyze_placebo_lengths.py --style expo   # unrelated prose, expository style -> placebo_lengths_expo.json
+python analyze_perturbation_test.py      # two-way cluster bootstrap and sign tests for the perturbation
+python run_arxiv_policy.py gate          # analysis-only stage: development gate from existing logs -> policy_gate.json (makes no calls)
+python analyze_policy.py                 # known-persona control -> policy_persona.json
+python analyze_strength.py               # pooled gains with upper bounds, movement decomposition, identification -> strength.json
+python analyze_reporting_fixes.py        # coverage table, prediction ledger, length and framing contrasts
 python analyze_coverage_sensitivity.py   # coverage and fresh-reference robustness checks
 python analyze_parser_sensitivity.py     # parser sensitivity and self-fidelity length contrasts
-python analyze_self_ladder.py && python make_ladder_table.py
-python make_appendix_tables.py && python make_replication_table.py && python make_policy_table.py
-python make_figure.py && python make_summary_figure.py
+python analyze_self_ladder.py
+python make_ladder_table.py
+python make_appendix_tables.py
+python make_replication_table.py
+python make_policy_table.py
+python make_figure.py
+python make_summary_figure.py
 ```
 
-Then compile `arxiv/main.tex` with pdflatex (two passes; `arxiv/build.ps1` does this on Windows with MiKTeX). The `run_*.py` scripts re-query model APIs and are not needed to regenerate the manuscript. Local models were served through Ollama (Open WebUI); tags are recorded in `src/run_grid.py` and the call logs carry the model identifier of every call.
+Then compile `arxiv/main.tex` with pdflatex (two passes; `arxiv/build.ps1` does this on Windows with MiKTeX). The other `run_*.py` stages re-query model APIs and are not needed to regenerate the manuscript. API models were called through OpenRouter with the model identifiers in `src/run_grid.py`; local models were served through Ollama (Open WebUI) with the tags recorded there, and every call record in `runs/` carries the model identifier used. Quantization and serving versions of the local models were not recorded beyond the tag.
 
 ## LLM usage
 

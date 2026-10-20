@@ -1,6 +1,6 @@
-\begin{table}[p]
-\centering\scriptsize
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{4.1cm}}
+\begin{table}[H]
+\centering\scriptsize\renewcommand{\arraystretch}{0.88}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}
 \toprule
 Grid & Registered criterion & Met & Observed \\
 \midrule
@@ -26,20 +26,20 @@ local trio & P3b demonstrations-90: no cross pair significantly positive & yes &
 local trio & P3c no monotone increase in F-cross from k=30 to k=90 & yes & F-cross 30=0.823, 90=0.815 \\
 local trio & P4a F-self(demos-110) $>$ F-self(demos-30) & yes & 0.958 vs 0.834 \\
 local trio & P4b F-self(demos-30) $<$ F-self(neutral-500 self-description) & yes & 0.834 vs 0.929 \\
-Grid A (balanced demos) & H1 first-option rate within 3 points of generic prompt (both conditions) & yes & generic 0.495; balanced-30 0.514; balanced-55 0.506 \\
-Grid A (balanced demos) & H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061) & yes & T=-0.043 \\
-Grid A (balanced demos) & H3 (registered open question, no direction predicted) balanced-55 generalisation & n/a (open) & T=-0.008; 1 pair sig. +, 1 sig. -: intermediate outcome under the registered rule \\
-Grid A (stable-item descriptions) & H4a observer-written from stable items: pooled F-self $>$ 0.771 & yes & F-self=0.846 \\
-Grid A (stable-item descriptions) & H4a self-observation from stable items: pooled F-self $>$ 0.781 & yes & F-self=0.852 \\
-Grid A (stable-item descriptions) & H4b authorship: $|$F-self(self-obs) - F-self(observer)$|$ $<$ 0.03 & yes & +0.006 \\
-Grid A (stable-item descriptions) & H4c (registered open question, no direction predicted) self-observation cross T-script & n/a (open) & T=-0.031, 0 pairs sig. +, 2 sig. -: observed, not scored \\
-Grid A (known persona) & H5a policy text transfers: pooled T-policy CI $>$ 0 and $\geq$ 5 of 6 directed pairs sig. + & yes & T=+0.198 (+0.148, +0.248); 6/6 pairs sig. + \\
-Grid A (known persona) & H5b policy-conditioned self-description transfers: pooled T-desc CI $>$ 0 & yes & T=+0.185 (+0.141, +0.230) \\
-Grid A (known persona) & H5c (registered open question, no direction predicted) T-policy - T-desc & n/a (open) & +0.013 (-0.003, +0.029): observed, not scored \\
-Grid A (known persona) & H5d T-desc $>$ T-native on the same receivers and items: CI of difference $>$ 0 & yes & +0.194 (+0.143, +0.245) \\
-Grid A (known persona) & H5e (registered open question) self re-adoption F(target, source reading its own policy description) & n/a (open) & 0.899 to 0.962 over 9 targets: observed, not scored \\
+A, balanced demos & H1 first-option rate within 3 points of generic prompt (both conditions) & yes & generic 0.495; bal.-30 0.514; bal.-55 0.506 \\
+A, balanced demos & H2 balanced-30 pooled T closer to zero than original -0.061 & yes & T=-0.043 \\
+A, balanced demos & H3 (open) balanced-55 generalisation & open & T=-0.008; 1 pair sig. +, 1 sig. - \\
+A, stable items & H4a observer-written from stable items: pooled F-self $>$ 0.771 & yes & F-self=0.846 \\
+A, stable items & H4a self-observation from stable items: pooled F-self $>$ 0.781 & yes & F-self=0.852 \\
+A, stable items & H4b authorship: $|$F-self(self-obs) - F-self(observer)$|$ $<$ 0.03 & yes & +0.006 \\
+A, stable items & H4c (open) self-observation cross T & open & T=-0.031; 0 sig. +, 2 sig. - \\
+A, known persona & H5a policy text transfers: pooled T-policy CI $>$ 0, $\geq$ 5 of 6 pairs sig. + & yes & T=+0.198 (+0.148, +0.248); 6/6 \\
+A, known persona & H5b policy-conditioned self-description: pooled T-desc CI $>$ 0 & yes & T=+0.185 (+0.141, +0.230) \\
+A, known persona & H5c (open) T-policy - T-desc & open & +0.013 (-0.003, +0.029) \\
+A, known persona & H5d T-desc $>$ T-native, same receivers and items: CI $>$ 0 & yes & +0.194 (+0.143, +0.245) \\
+A, known persona & H5e (open) self re-adoption F(target, source reading own policy description) & open & 0.899 to 0.962 over 9 targets \\
 \bottomrule
 \end{tabular}
-\caption{Every criterion registered in the replication and balanced-demonstration protocols (\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, \texttt{pilot/protocol\_arxiv\_local\_replication.md}, \texttt{pilot/protocol\_arxiv\_demos\_balanced.md}, \texttt{pilot/protocol\_arxiv\_obs\_stable.md}, \texttt{pilot/protocol\_arxiv\_policy\_persona.md}) and its outcome. Predicted criteria: 29 of 30 met. 4 registered open questions (H3, H4c, H5c, H5e) carried no directional prediction; their rows record the observed outcome and are not counted.}
+\caption{Every criterion registered in the five committed protocols (the \texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: 29 of 30 met. 4 registered open questions (marked ``open'') carried no directional prediction; their rows record the observed outcome and are not counted.}
 \label{tab:ledger}
 \end{table}

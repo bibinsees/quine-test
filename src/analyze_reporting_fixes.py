@@ -169,28 +169,27 @@ def main() -> None:
         a30, a55 = a_rate("fewshot_bal"), a_rate("demos_bal")
         p30b, p55 = P["fewshot_bal-30"], P["demos_bal-55"]
         ledger += [
-            ("Grid A (balanced demos)", "H1 first-option rate within 3 points of generic prompt (both conditions)",
+            ("A, balanced demos", "H1 first-option rate within 3 points of generic prompt (both conditions)",
              abs(a30 - a_ref) <= 0.03 and abs(a55 - a_ref) <= 0.03,
-             f"generic {a_ref:.3f}; balanced-30 {a30:.3f}; balanced-55 {a55:.3f}"),
-            ("Grid A (balanced demos)", "H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061)",
+             f"generic {a_ref:.3f}; bal.-30 {a30:.3f}; bal.-55 {a55:.3f}"),
+            ("A, balanced demos", "H2 balanced-30 pooled T closer to zero than original -0.061",
              abs(p30b["T_script"]) < 0.061, f"T={p30b['T_script']:+.3f}"),
-            ("Grid A (balanced demos)", "H3 [registered open question, no direction predicted] balanced-55 generalisation",
+            ("A, balanced demos", "H3 (open) balanced-55 generalisation",
              None, f"T={p55['T_script']:+.3f}; {n_sig_pos('A', 'demos_bal-55')} pair sig. +, "
-             f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} sig. -: "
-             "intermediate outcome under the registered rule"),
+             f"{sum(1 for c in cells if c.get('grid') == 'A' and c['cond'] == 'demos_bal-55' and c['kind'] == 'cross' and c['T']['ci'][1] < 0)} sig. -"),
         ]
     # stable-item observation-derived descriptions (pilot/protocol_arxiv_obs_stable.md), if run
     if "3p_stable-500" in P and "selfobs_stable-500" in P:
         p3s, pss = P["3p_stable-500"], P["selfobs_stable-500"]
         ledger += [
-            ("Grid A (stable-item descriptions)", "H4a observer-written from stable items: pooled F_self > 0.771",
+            ("A, stable items", "H4a observer-written from stable items: pooled F_self > 0.771",
              p3s["F_self"] > 0.771, f"F_self={p3s['F_self']:.3f}"),
-            ("Grid A (stable-item descriptions)", "H4a self-observation from stable items: pooled F_self > 0.781",
+            ("A, stable items", "H4a self-observation from stable items: pooled F_self > 0.781",
              pss["F_self"] > 0.781, f"F_self={pss['F_self']:.3f}"),
-            ("Grid A (stable-item descriptions)", "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
+            ("A, stable items", "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
              abs(pss["F_self"] - p3s["F_self"]) < 0.03, f"{pss['F_self'] - p3s['F_self']:+.3f}"),
-            ("Grid A (stable-item descriptions)", "H4c [registered open question, no direction predicted] self-observation cross T_script",
-             None, f"T={pss['T_script']:+.3f}, {pss['n_pairs_T_pos_sig']} pairs sig. +, {pss['n_pairs_T_neg_sig']} sig. -: observed, not scored"),
+            ("A, stable items", "H4c (open) self-observation cross T",
+             None, f"T={pss['T_script']:+.3f}; {pss['n_pairs_T_pos_sig']} sig. +, {pss['n_pairs_T_neg_sig']} sig. -"),
         ]
     # known semantic persona (pilot/protocol_arxiv_policy_persona.md), if run
     pp_path = ROOT / "results" / "arxiv" / "policy_persona.json"
@@ -202,16 +201,16 @@ def main() -> None:
             return f"{v['mean']:+.3f} [{v['ci'][0]:+.3f}, {v['ci'][1]:+.3f}]"
         re_ = [t["F_self_readopt"] for t in pp["targets"] if t.get("F_self_readopt") is not None]
         ledger += [
-            ("Grid A (known persona)", "H5a policy text transfers: pooled T_policy CI > 0 and >= 5 of 6 directed pairs sig. +",
-             L["H5a"]["pass"], f"T={ci_s(po['T_policy'])}; {L['H5a']['pairs_sig_positive']}/6 pairs sig. +"),
-            ("Grid A (known persona)", "H5b policy-conditioned self-description transfers: pooled T_desc CI > 0",
+            ("A, known persona", "H5a policy text transfers: pooled T_policy CI > 0, >= 5 of 6 pairs sig. +",
+             L["H5a"]["pass"], f"T={ci_s(po['T_policy'])}; {L['H5a']['pairs_sig_positive']}/6"),
+            ("A, known persona", "H5b policy-conditioned self-description: pooled T_desc CI > 0",
              L["H5b"]["pass"], f"T={ci_s(po['T_desc'])}"),
-            ("Grid A (known persona)", "H5c [registered open question, no direction predicted] T_policy - T_desc",
-             None, f"{ci_s(po['T_policy_minus_T_desc'])}: observed, not scored"),
-            ("Grid A (known persona)", "H5d T_desc > T_native on the same receivers and items: CI of difference > 0",
+            ("A, known persona", "H5c (open) T_policy - T_desc",
+             None, f"{ci_s(po['T_policy_minus_T_desc'])}"),
+            ("A, known persona", "H5d T_desc > T_native, same receivers and items: CI > 0",
              L["H5d"]["pass"], f"{ci_s(po['T_desc_minus_T_native'])}"),
-            ("Grid A (known persona)", "H5e [registered open question] self re-adoption F(target, source reading its own policy description)",
-             None, f"{min(re_):.3f} to {max(re_):.3f} over {len(re_)} targets: observed, not scored"),
+            ("A, known persona", "H5e (open) self re-adoption F(target, source reading own policy description)",
+             None, f"{min(re_):.3f} to {max(re_):.3f} over {len(re_)} targets"),
         ]
     preds = [x for x in ledger if x[2] is not None]
     n_pass = sum(1 for x in preds if x[2])
@@ -223,23 +222,19 @@ def main() -> None:
     out["ledger"] = [{"grid": g, "criterion": t, "pass": (None if o is None else bool(o)), "evidence": e}
                      for g, t, o, e in ledger]
     out["ledger_summary"] = {"predicted": len(preds), "met": n_pass, "open": n_open}
-    lines = [r"\begin{table}[p]", r"\centering\scriptsize",
-             r"\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{6.6cm}>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{4.1cm}}",
+    lines = [r"\begin{table}[H]", r"\centering\scriptsize\renewcommand{\arraystretch}{0.88}",
+             r"\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}",
              r"\toprule", r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
     def tex(s):
         return (s.replace("_", "-").replace(">=", "$\\geq$").replace("<=", "$\\leq$").replace(">", "$>$")
                 .replace("<", "$<$").replace("|", "$|$").replace("[", "(").replace("]", ")"))
     for g, t, o, e in ledger:
-        met = "n/a (open)" if o is None else ("yes" if o else "no")
+        met = "open" if o is None else ("yes" if o else "no")
         lines.append(f"{g} & {tex(t)} & {met} & {tex(e)} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{Every criterion registered in the replication and balanced-demonstration protocols "
-              r"(\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_policy\_persona.md}) and its outcome. Predicted criteria: "
-              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (H3, H4c, H5c, H5e) "
+              r"\caption{Every criterion registered in the five committed protocols (the "
+              r"\texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: "
+              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (marked ``open'') "
               r"carried no directional prediction; their rows record the observed outcome and are not counted.}",
               r"\label{tab:ledger}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")

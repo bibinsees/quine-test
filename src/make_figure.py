@@ -40,6 +40,7 @@ def collect():
 
     pts = {"self": [], "cross": []}
     b_vals = []
+    cross_pairs = set()
     cells = grid[(grid["arm"] == "neutral") & (grid["regen"] == 0)]
     for cell_id, g in cells.groupby("cell_id"):
         meta = g.iloc[0]
@@ -56,12 +57,13 @@ def collect():
             continue
         kind = "self" if meta["receiver"] == author else "cross"
         pts[kind].append((w, fid["F"]))
-    for a in ref:
-        for r in ref:
-            if a != r:
-                fid = ag.fidelity(ref[a], ref[r])
-                if fid:
-                    b_vals.append(fid["F"])
+        if kind == "cross":
+            cross_pairs.add((author, meta["receiver"]))
+    # baseline B over exactly the directed pairs whose cross cells are plotted (matched baseline)
+    for a, r in sorted(cross_pairs):
+        fid = ag.fidelity(ref[a], ref[r])
+        if fid:
+            b_vals.append(fid["F"])
     return pts, float(np.mean(b_vals)), float(np.std(b_vals) / np.sqrt(len(b_vals)))
 
 

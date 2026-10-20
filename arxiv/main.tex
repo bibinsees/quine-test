@@ -54,8 +54,8 @@ fresh instances of the author, and measure how closely their choices on a
 
 Three results stand out. First, the prompt carries a complete profile when
 the text lists it: given the author's answers to the 110 questions,
-receivers reproduce the author at fidelity 0.960, against 0.979 between
-repeated evaluations of the same model, on three model grids. Second, no
+receivers reproduce the author at fidelity 0.955 to 0.960 across three model
+grids, against 0.979 between repeated evaluations of the same model. Second, no
 native self-description does. Across length, framing, paraphrase, explicit
 adoption and prompt placement, self-descriptions do not improve transfer on
 average (pooled gains $-0.025$ to $-0.005$ relative to a generic prompt;
@@ -119,7 +119,8 @@ quantitatively, and each outcome is informative.
   by an optimizer that sees the receiver's errors (pooled $\Tscript \le 0$
   in every condition, 95\% upper bound below $+0.01$ in every system-prompt
   condition and $+0.015$ for user-message placement; one of 20 pairs
-  reliably positive); descriptions distilled from recorded choices
+  positive under an unadjusted 95\% interval); descriptions distilled from
+  recorded choices
   ($-0.124$ from unstable items, $-0.031$ from stable ones, whoever writes
   them); the author's own choices on half the battery in a position-balanced
   format ($-0.008$, CI $[-0.041, +0.024]$). On average, instances of the
@@ -143,13 +144,14 @@ quantitatively, and each outcome is informative.
 We also release the methodological infrastructure (preregistered gates and
 selection rules fixed before screening results were inspected, model
 eligibility gates that catch positional pseudo-preferences, an empirically
-measured same-model repeatability benchmark, divergence-screened item
-selection, a cached call log keyed by deterministic identifiers, and a corpus
-of 198 model-written descriptions) and report side findings: preference
-\emph{stability} differs sharply across training recipes; same-base models with
-different post-training diverge as much as different labs; values are stable
-where tastes are not; and who writes a description from recorded choices,
-the model itself or an observer, shows no detected advantage.
+measured same-model repeatability benchmark, stability-screened and
+divergence-ranked item selection, a cached call log keyed by deterministic
+identifiers, and a corpus of 198 model-written descriptions) and report side
+findings: preference \emph{stability} differs sharply across training
+recipes; same-base models with different post-training diverge as much as
+different labs; the aesthetic (taste) items were far less order-stable than
+value items under screening; and who writes a description from recorded
+choices, the model itself or an observer, shows no detected advantage.
 
 The result cuts both ways: those who dismiss model preferences as ``just a
 portrayed character'' must explain why the character's own script does not
@@ -586,7 +588,10 @@ descriptions, which instruct it to say it has no preferences; haiku-4.5
 under its own neutral-500 description; glm-4.5-air's longest own
 descriptions) are listed in Appendix~\ref{app:coverage}. For each item $i$ a
 cell yields $\hat p_{\text{cell}}(i)$, the fraction of its parsed answers
-(nominally four) choosing option~A; items with no parsed answer are dropped
+(nominally four) choosing option~A. Reference profiles $\hat p_A$ come from
+the screening run for the API models (six answers per item) and from a
+440-call generic-prompt cell for the local models and hermes3-70b (four);
+items with no parsed answer are dropped
 from that cell, and full-battery cells covering fewer than 60 items are
 excluded (the 27 half-battery cells of the known-persona control are
 evaluated on their 57 items, with a 50-item floor). Pooled comparisons
@@ -639,7 +644,8 @@ Table~\ref{tab:decomp} reports the decomposition for all conditions;
 Figure~\ref{fig:hero} shows the underlying dose-response. At neutral-500,
 10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
 (receiving another model's self-description makes the receiver \emph{less}
-like the author than its generic default); one pair is reliably positive
+like the author than its generic default); one pair is positive under an
+unadjusted 95\% interval
 (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all per-pair
 contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
 to description resampling: rerunning every Grid-A neutral-500 cell with an
@@ -662,8 +668,13 @@ and adoption conditions ($+0.009$ and $+0.007$); for the user-message
 placement control it is $+0.015$. An average gain of $0.01$ or more from a
 self-description in the system prompt is thus excluded in every condition,
 against a gain of $+0.097$ when the text lists the answers
-(Section~\ref{sec:poscontrol}). Figure~\ref{fig:summary} collects every
-condition on one axis.
+(Section~\ref{sec:poscontrol}). These bounds hold the models, descriptions
+and battery fixed and resample items only; the item estimates rest on
+nominally four answers each. They are not driven by poorly covered cells:
+restricting each pool to cross cells with at least 90\% parsed answers
+changes no pooled gain by more than $0.002$, and at 95\% the two framed
+pools that shrink most (to 8 and 11 pairs) have upper bounds of $+0.002$ and
+$+0.004$. Figure~\ref{fig:summary} collects every condition on one axis.
 \begin{table}[!tbp]
 \centering\small
 \begin{tabular}{lcccccc}
@@ -752,21 +763,21 @@ model. Per-model values in Appendix~\ref{app:ladder}.}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
-\caption{\textbf{The self does not transfer as text.} Fidelity $F$ vs.\ actual
-description length (neutral arm, r0). Blue circles: the author's own weights
-running the description ($\Fself$, mean 0.924); orange triangles: a different
-model running it ($\Fcross$, 0.878); gray band: generic-prompt baseline $\B$
-pooled over all model pairs ($0.889 \pm 0.006$; the condition rows of
-Table~\ref{tab:decomp} pool only each condition's own pairs, hence their
-slightly different $\B$); dashed lines: series means. Both series are flat;
-$\Fcross$ never separates from $\B$, while $\Fself$ sits consistently above
-it, at about the margin a fresh author instance has over any other model
+\caption{\textbf{Native self-descriptions do not improve reconstruction at
+any length.} Fidelity $F$ vs.\ actual description length (neutral arm, r0).
+Blue circles: the author's own weights running the description ($\Fself$,
+mean 0.924); orange triangles: a different model running it ($\Fcross$,
+0.878); gray band: generic-prompt baseline $\B$ over the same 20 directed
+pairs as the orange points ($0.892 \pm 0.013$, mean $\pm$ 2 s.e.); dashed
+lines: series means. Both series are flat; mean $\Fcross$ does not rise above
+$\B$ at any length and sits slightly below it, while $\Fself$ sits
+consistently above it, at about the margin a fresh author instance has over any other model
 before reading anything.}
 \label{fig:hero}
 \end{figure}
 
-\subsection{A compact semantic description can transfer, when the profile was
-put there by text}
+\subsection{A compact semantic description can transfer: the known-persona
+control}
 \label{sec:semantic}
 The null admits two readings: the native profile is not the kind of thing a
 description specifies, or receivers cannot execute semantic descriptions of
@@ -815,7 +826,8 @@ the case in which a self-description is a specification, and the point is
 that the tested native descriptions did not reliably reconstruct the
 measured profiles.
 
-\subsection{Length, framing, wording and lineage do not matter}
+\subsection{No detected transfer benefit from length, framing, wording or
+lineage}
 \textbf{Dose-response is flat.} If the self-description were a lossy but
 usable script, longer descriptions should transfer more. They do not.
 Pooled cross-fidelity is $0.878$, $0.875$ and $0.880$ at nominal 100, 500 and
@@ -1101,7 +1113,8 @@ negative, none positive), against $+0.062$ for the answer key
 ($\Fcross = 0.955$, $\Rweight = +0.003$). The answer-key prediction is met on
 three of its four registered criteria and missed on the fourth (the complete
 ledger is Appendix~\ref{app:ledger}: 29 of the 30 predicted criteria across
-the five preregistered protocols are met, and the four registered open
+the five preregistered protocols are met, a transparent ledger rather than
+a count of independent confirmations since the criteria share data, and the four registered open
 questions, H3, H4c, H5c and H5e, are reported as observed, not scored): five of six cross pairs
 are significantly positive, while gemma4-31b$\to$llama3.3-70b
 ($\Tscript = +0.031$) has a CI of $[-0.002, +0.071]$, the pair with the
@@ -1287,8 +1300,8 @@ batteries; repeating the design as models scale.
 
 \section{Conclusion}
 We asked how much of a model's self survives its own description, and
-measured an answer: for native preference profiles, almost none of it
-travels. Across ten models, nineteen conditions and $\sim$227{,}000 calls,
+measured an answer: for native preference profiles, no average
+reconstruction gain was detected in any tested form of the text. Across ten models, nineteen conditions and $\sim$227{,}000 calls,
 self-descriptions do not improve transfer to another model on average in any
 condition, while a fresh instance of the author's own weights retains more.
 The text that does transfer is either the answer key, the author's choices

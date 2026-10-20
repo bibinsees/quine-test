@@ -161,19 +161,18 @@ behavior they narrate.
 \section{Related Work}
 \textbf{Preference coherence and utility engineering.} Mazeika et
 al.~\cite{cais} show increasingly coherent value systems emerging with
-scale; we adopt their forced-choice battery style but measure the
-\emph{transferability} of the value profile rather than its existence.
-\textbf{Model self-knowledge.} Behavioral self-awareness
-(Betley et al.~\cite{betley}), introspective self-prediction (Binder et
-al.~\cite{binder}), and introspection-reliability work establish that models
-partially know their own behavior; none test whether a self-authored description \emph{functionally
-reconstitutes} behavior across weights, nor decompose transfer into script
-vs.\ model-bound components. \textbf{Persona transfer.} Shanahan et
-al.~\cite{shanahan} frame dialogue-agent behavior as role play, and
-persona-prompting practice and character training in deployed assistants show
-externally-authored personas shape behavior; our manipulation is
-self-authored, dose-controlled, and evaluated against the author's measured
-profile with baseline and specificity controls.
+scale and steer them by fine-tuning; we adopt their battery style but ask
+whether the profile \emph{transfers as text}.
+\textbf{Model self-knowledge.} Models fine-tuned into a behavior can
+describe it without having seen examples (Betley et al.~\cite{betley}), and
+models trained for self-prediction predict their own behavior better than
+another model does (Binder et al.~\cite{binder}). Both show that a model can
+\emph{describe} a tendency; neither tests whether the description is an
+executable specification that reconstitutes the behavior in other weights.
+\textbf{Role-play accounts.} Shanahan et al.~\cite{shanahan} propose role
+play as the framing for dialogue-agent behavior, a conceptual account rather
+than a portability test; ours is self-authored, dose-controlled, and scored
+against the author's measured profile with baseline and specificity controls.
 \textbf{Persona effects and their portability.} Two recent studies ask
 how far persona prompting generalizes. Luz de Araujo and
 Roth~\cite{luzdearaujo} assign 162 personas to seven models on five
@@ -184,29 +183,25 @@ Zhou et al.~\cite{zhou2026} fit persona-effect relationships for 57
 attributes across seven pairs of 7--9B open models and test whether the
 fitted relationships carry to new questions, other models and reworded
 prompts; they find the effects ``predictable without being portable'':
-gains borrowed from another model pair generally underperform a scaling
-fitted on the target itself, and apparent transfer can arise from
-calibrating to the target alone. Our
-design differs in both the text and the target: the persona is the model's
-own account of itself rather than an assigned role, and the criterion is
-reproduction of the author's measured profile rather than the size or
-predictability of a shift. The conclusions converge. Identity-related text
-reliably moves a model's behavior (their variability result, our
-perturbation result), yet the relationship between text and behavior does
-not carry across models (their portability result, where borrowed gains do
-not beat a target-fitted scaling; our transfer null, where
-natural and optimizer-rewritten self-descriptions alike fail to transfer), and both studies find
-that a prompt-sensitivity control is needed before any persona effect is
-read as content-specific.
+reusing relationships fitted on one model pair often fails to outperform
+target-only scaling, although refitting on the target can help, and
+apparent transfer can arise from calibrating to the target alone. These
+findings are distinct from ours and from each other: Luz de Araujo and Roth
+find partial cross-model consistency of persona \emph{effects}, Zhou et al.\
+test the reuse of fitted statistical relationships, and we test whether a
+model's \emph{own} description lets another model reproduce the author's
+measured profile. All three agree that identity-related text reliably moves
+behavior and that a prompt-sensitivity control is needed before a persona
+effect is read as content-specific.
 \textbf{AI welfare and individuation.} The unit-of-concern question
 (model, instance, persona, conversation) motivates the
 decomposition: a
 persona that cannot be exported as text is a poor candidate for
 ``just a character.''
 
-None of these lines yields what the decomposition provides: a tool for asking
-\emph{what a model's own account of its persona can and cannot carry}, not
-merely how consistent the persona is.
+Previous work asks whether models can describe their behavior and whether
+persona prompts change behavior. We ask whether a model's own description
+enables another model to reproduce its measured preference profile.
 
 \section{Methods}
 \subsection{Design overview}
@@ -1300,8 +1295,8 @@ CMEP, Eleos AI, and CIMC.
 % Author Contributions and LLM Usage Statement go here.
 
 \begin{thebibliography}{9}\small
-\bibitem{geb} D.~Hofstadter, 1979. \emph{G\"odel, Escher, Bach: An Eternal
-Golden Braid}. Basic Books. ISBN 9780465026562.
+\bibitem{geb} D.~Hofstadter, 1999 [first published 1979]. \emph{G\"odel,
+Escher, Bach: An Eternal Golden Braid}. Basic Books. ISBN 9780465026562.
 \url{https://www.hachettebookgroup.com/titles/douglas-r-hofstadter/godel-escher-bach/9780465026562/}
 \bibitem{cais} M.~Mazeika, X.~Yin, R.~Tamirisa, J.~Lim, B.~W.~Lee, R.~Ren,
 L.~Phan, N.~Mu, A.~Khoja, O.~Zhang, D.~Hendrycks, 2025. Utility Engineering:

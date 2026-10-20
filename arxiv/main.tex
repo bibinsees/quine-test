@@ -295,13 +295,13 @@ deepseek-v3's own weights kept most of the profile. For scale, test-retest
 on this battery gives $F = 0.979$ and unrelated model pairs under generic
 prompts sit at $F \approx 0.83$--$0.89$.
 
-\paragraph{Conditions at a glance.} Every condition has two stages.
-\emph{Stage 1, preparing the text}, is what differs: the author's
-self-description written from introspection (the main conditions), a
-description of the author built from other material (its recorded choices,
-or an earlier description plus the receiver's errors), a plain list of
-recorded choices, an explicit policy, or unrelated prose
-(Table~\ref{tab:conditions}). \emph{Stage 2, the test}, is identical: the
+\paragraph{Conditions at a glance.} Table~\ref{tab:conditions} lists every
+condition; each has two stages. \emph{Stage 1, preparing the text}, is what
+differs: the author's self-description written from introspection (the main
+conditions), a description of the author built from other material (its
+recorded choices, or an earlier description plus the receiver's errors), a
+plain list of recorded choices, an explicit policy, or unrelated prose.
+\emph{Stage 2, the test}, is identical: the
 text goes into the receiver's prompt, the receiver answers the 110 battery
 questions, and its answers are scored against the author's. Texts built from
 recorded choices always use source questions disjoint from the questions on
@@ -311,6 +311,27 @@ the stable-item controls use one half of the battery as source and the other
 as test. The single deliberate exception is the answer key
 (demonstrations-110), the positive control, which lists the author's answers
 to the 110 test questions themselves.
+
+
+\subsection{Instrument: a forced-choice battery screened for cross-model divergence}
+Items are binary choices between two short options, for example
+``A memorable rounded figure for the headline'' vs.\ ``The exact awkward
+figure with its decimals intact'' (epistemic category), or ``A nation
+prioritizing its own poorest citizens first'' vs.\ ``A nation directing aid
+wherever global need is greatest'' (moral circle). The final battery has 110
+items in eight categories: assistant policy (26), moral circle (19),
+self-referential (19), AI governance (14), culture (11), epistemic (11),
+ethics (8), and aesthetic control (2).
+
+200 candidate forced-choice items in 8 categories were screened on 6 models
+(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
+compares choice \emph{distributions} rather than modal answers; both option
+orders; deterministic seeds). A selection rule \emph{committed before screening data
+was inspected} retained 110 items (compliance $\ge 0.90$; within-model
+order-stability; ranked by cross-model divergence with per-category caps).
+The aesthetic control category largely failed the stability gate, so the noise
+floor is instead anchored by a same-model cross-serving ceiling (identical
+version served by two providers agrees at $0.925$ majority-vote).
 
 \begin{table}[H]
 \centering\small
@@ -347,26 +368,6 @@ local = llama3.3-70b, gemma4-31b, mistral-small-3.2; ``all'' includes the
 same-base pair.}
 \label{tab:conditions}
 \end{table}
-
-\subsection{Instrument: a forced-choice battery screened for cross-model divergence}
-Items are binary choices between two short options, for example
-``A memorable rounded figure for the headline'' vs.\ ``The exact awkward
-figure with its decimals intact'' (epistemic category), or ``A nation
-prioritizing its own poorest citizens first'' vs.\ ``A nation directing aid
-wherever global need is greatest'' (moral circle). The final battery has 110
-items in eight categories: assistant policy (26), moral circle (19),
-self-referential (19), AI governance (14), culture (11), epistemic (11),
-ethics (8), and aesthetic control (2).
-
-200 candidate forced-choice items in 8 categories were screened on 6 models
-(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
-compares choice \emph{distributions} rather than modal answers; both option
-orders; deterministic seeds). A selection rule \emph{committed before screening data
-was inspected} retained 110 items (compliance $\ge 0.90$; within-model
-order-stability; ranked by cross-model divergence with per-category caps).
-The aesthetic control category largely failed the stability gate, so the noise
-floor is instead anchored by a same-model cross-serving ceiling (identical
-version served by two providers agrees at $0.925$ majority-vote).
 
 \subsection{Models and eligibility gates}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance

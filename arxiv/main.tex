@@ -86,8 +86,8 @@ values and tendencies when asked. Whether such a description works as a
 specification of the behavior it describes is an empirical question, and one
 that observing the model's choices alone cannot settle.
 
-We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
-self-description the system builds and treats as itself, as a falsifiable
+We operationalize Hofstadter's strange-loop thesis~\cite{strangeloop}, that
+the ``I'' is a self-description the system builds and treats as itself, as a falsifiable
 transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
 Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a character
 specifiable in text), and if the author can state that specification under
@@ -155,8 +155,8 @@ measured same-model repeatability benchmark, stability-screened and
 divergence-ranked item selection, a cached call log keyed by deterministic
 identifiers, and a corpus of 198 model-written descriptions) and report side
 findings: preference \emph{stability} differs sharply across training
-recipes; the same-base pair has higher baseline similarity than unrelated
-pairs but no transfer advantage; the aesthetic (taste) items were far less order-stable than
+recipes; the same-base pair sits above the mean baseline similarity of
+unrelated pairs, within their range, with no transfer advantage; the aesthetic (taste) items were far less order-stable than
 value items under screening; and who writes a description from recorded
 choices, the model itself or an observer, shows no detected advantage.
 
@@ -331,7 +331,7 @@ instance reading the same text scores $\Fself = 0.929$, so
 $\Rweight = +0.098$. The text moved glm-4.5-air away from deepseek-v3 while
 deepseek-v3's own weights kept most of the profile. For scale, test-retest
 on this battery gives $F = 0.979$ and unrelated model pairs under generic
-prompts sit at $F \approx 0.83$--$0.89$.
+prompts sit at $F \approx 0.83$--$0.89$ on Grid A and up to $0.93$ on Grid B.
 
 \paragraph{Conditions at a glance.} Table~\ref{tab:conditions} lists every
 condition; each has two stages. \emph{Stage 1, preparing the text}, is what
@@ -384,7 +384,7 @@ version served by two providers agrees at $0.925$ majority-vote).
 \toprule
 Condition & Stage 1: text placed in the receiver's prompt & Written by & Built from & Grids \\
 \midrule
-neutral / framed (100, 500, 2{,}000 words) & the author's self-description & author & introspection (no choice data) & all \\
+neutral / framed (100, 500, 2{,}000 words) & the author's self-description & author & introspection (no choice data) & all (framed-100 and framed-2000: A, local, same-base) \\
 paraphrase-500 & the same self-description, reworded & gpt-4o-mini & the author's self-description & A \\
 adopt-500 & self-description plus ``answer as the entity described would'' & author & introspection & A \\
 third-person-500 & a description of the author & another model & the author's choices on the 90 held-out questions & A, B \\
@@ -427,13 +427,20 @@ positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
 flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
 fails order-robustness (0.575) despite being the most explicitly
 character-trained model tested. Final grids: \textbf{A} (deepseek-v3,
-glm-4.5-air, grok-4.3; all pairwise baseline agreement $\le 0.75$),
+glm-4.5-air, grok-4.3; all pairwise majority-vote agreement under the
+generic prompt $\le 0.75$ in the pilot),
 \textbf{B} (gpt-5.2, kimi-k2.5 reasoning-off, claude-haiku-4.5),
 \textbf{local replication trio} (llama3.3-70b, gemma4-31b,
 mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
 llama3.3-70b: both built on Meta's Llama-3.1-70B base according to their
 model cards, with different post-training; hermes3-70b is Nous Research's
-fine-tune, and ``nine labs'' counts it with its base-model developer). All models were
+fine-tune, and ``nine labs'' counts it with its base-model developer). Grids
+were formed as provider-diverse trios within the available budget; two
+further configurations passed the gates but were not placed in a grid
+(gpt5-mini, gpt4o-mini), and the local trio's mistral-small-3.2 is the
+partial exception noted above. Tables abbreviate claude-haiku-4.5 as
+haiku-4.5, gpt-5.2 as gpt5.2, kimi-k2.5 as kimi, and mistral-small-3.2-24b
+as mistral-small-3.2 or mistral3.2. All models were
 run without extended reasoning where the serving interface allowed it:
 kimi-k2.5 with reasoning disabled, gpt-5.2 at reasoning effort ``minimal'',
 gemma4-31b with thinking off; deepseek-v3, grok-4.3, claude-haiku-4.5,
@@ -461,7 +468,9 @@ independent generations exist per author, framing and length; the first
 supplies every reported result and the second was run only in the nine
 Grid-A neutral-500 cells as the regeneration check of
 Section~\ref{sec:decomp}. Actual lengths run from 84 to
-2{,}471 words; analyses use actual counts. hermes3-70b refused the framed
+2{,}471 words; analyses use actual counts. Framed-100 and framed-2000 were
+run on Grid A, the local trio and the same-base pair but not on Grid B (14
+cross pairs rather than 20). hermes3-70b refused the framed
 prompt at 500 and 2{,}000 words on its first draw (57 and 46 words of
 refusal text) while complying at 100 words and under every neutral prompt;
 the four affected cells use its second, compliant draw (278 and 555 words),
@@ -630,8 +639,13 @@ Appendix~\ref{app:coverage}. For each item $i$ a
 cell yields $\hat p_{\text{cell}}(i)$, the fraction of its parsed answers
 (nominally four) choosing option~A. Reference profiles $\hat p_A$ come from
 the screening run for the API models (six answers per item) and from a
-440-call generic-prompt cell for the local models and hermes3-70b (four);
-items with no parsed answer are dropped
+440-call generic-prompt cell for the local models and hermes3-70b (four).
+Because plug-in fidelity falls with estimation noise, comparing a
+six-answer reference with a four-answer evaluated cell ($\Fcross$) but with
+another six-answer reference ($\B$) biases $\Tscript$ slightly negative by
+the sampling asymmetry alone; the fresh-reference check of
+Section~\ref{sec:decomp}, which takes the receiver's baseline from a
+four-answer cell, removes this asymmetry. Items with no parsed answer are dropped
 from that cell, and full-battery cells covering fewer than 60 items are
 excluded (the 27 half-battery cells of the known-persona control are
 evaluated on their 57 items, with a 50-item floor). Pooled comparisons
@@ -747,7 +761,7 @@ third-person-500 & 0.771 & 0.739 & 0.863 & $-0.124$ & $+0.032$ & 6/6 \\
 \midrule
 \multicolumn{7}{l}{\emph{Positive controls, authorship and placement (Grid A)}} \\
 self-observation-500 & 0.781 & 0.747 & 0.863 & $-0.116$ & $+0.035$ & 3/6 \\
-observer-written, stable items & 0.846 & n/a & n/a & n/a & n/a & 6/0 \\
+third-person, stable items & 0.846 & n/a & n/a & n/a & n/a & 6/0 \\
 self-observation, stable items & 0.852 & 0.832 & 0.863 & $-0.031$ & $+0.020$ & 3/6 \\
 optimized-500 & 0.881 & 0.830 & 0.863 & $-0.033$ & $+0.051$ & 6/6 \\
 demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
@@ -798,7 +812,8 @@ ran it; contrasts are always computed within-pool.)}
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
 \caption{\textbf{Native self-descriptions do not improve reconstruction at
-any length.} Fidelity $F$ vs.\ actual description length (neutral arm, r0).
+any length.} Fidelity $F$ vs.\ actual description length (neutral arm, first
+generation of each description).
 Blue circles: the author's own weights running the description ($\Fself$,
 mean 0.924); orange triangles: a different model running it ($\Fcross$,
 0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
@@ -845,15 +860,16 @@ preferences at all. The known-persona control
 (Section~\ref{sec:poscontrol-methods}; hypotheses H5a--e preregistered;
 every pair in Appendix~\ref{app:policy}) separates them. The three
 policies move their sources far from their generic profiles ($F$ 0.64 to
-0.84 on the evaluation items, further than any self-description moves its
-author), so each target is a distinct, text-installed preference profile
+0.84 on the evaluation items, at least as far as any self-description moves
+its author), so each target is a distinct, text-installed preference profile
 with a large gap to every receiver ($B'$ 0.57 to 0.78).
 
 \textbf{The policy text transfers (H5a, met).} A receiver running the
 policy text reproduces the source's policy profile at $F_{\mathrm{policy}}$
 0.81 to 0.95: $T_{\mathrm{policy}} = +0.198$ (joint item bootstrap CI
-$[+0.148, +0.248]$), significant in all six directed receiver pairs
-($+0.15$ to $+0.27$) and on the full battery ($+0.186$ $[+0.154, +0.219]$).
+$[+0.148, +0.248]$), significant in all six directed receiver pairs pooled
+over the three policies ($+0.15$ to $+0.27$) and in 17 of the 18 individual
+policy-by-pair cells, and on the full battery ($+0.186$ $[+0.154, +0.219]$).
 The assay detects reconstruction from a compact semantic text when there is
 one to reconstruct from.
 
@@ -946,8 +962,9 @@ same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b), the one pair
 that shares a base model and differs in post-training, shows higher
 cross-fidelity than unrelated pairs in all six conditions (0.900 vs.\ 0.876
 at neutral-100), but entirely through baseline similarity: the two already
-agree at $\B = 0.915$ under generic prompts against $0.890$ for other pairs,
-and their transfer gains at neutral-500 ($-0.031$ and $-0.042$) are more
+agree at $\B = 0.915$ under generic prompts against a mean of $0.890$ for
+other pairs (within their range: two unrelated Grid-B pairs reach $0.915$
+and $0.932$), and their transfer gains at neutral-500 ($-0.031$ and $-0.042$) are more
 negative than the other pairs' mean ($-0.016$). In this pair, shared
 pretraining came with a higher starting resemblance and no transfer
 advantage; one pair cannot establish a general effect.
@@ -1035,7 +1052,8 @@ length, hermes3-70b and gemma4-31b at 2{,}000). Pooled over the ten models
 (two-way cluster bootstrap over models and items; sign test across models)
 the own-description minus prose difference is significant for expository
 text at 500 and 2{,}000 words ($-0.037$ $[-0.068, -0.011]$ and $-0.029$
-$[-0.056, -0.004]$; 9 of 10 models, $p=0.02$), borderline for sensory text
+$[-0.056, -0.004]$; 9 of 10 models negative by the paired per-model
+differences used in the test, $p=0.02$), borderline for sensory text
 ($-0.022$ $[-0.054, +0.006]$ at 500; $-0.024$ $[-0.050, -0.002]$ at
 2{,}000; 8 of 10, $p=0.11$), and absent at 100 words. The perturbation is
 robust; its excess over unrelated passages is a consistent tendency,
@@ -1056,7 +1074,9 @@ source and the prompt. The matched-information control
 (self-observation-500: the author writes about itself from the same 90
 observed choices under the same prompt) removes both differences and the gap
 disappears: $\Fself = 0.781$ and $\Fcross = 0.747$ against $0.771$ and
-$0.739$ (per target $+0.075$ for deepseek-v3, $-0.02$ for the other two).
+$0.739$ (per target $+0.075$ for deepseek-v3, $-0.02$ for the other two;
+pooled self-fidelity contrast $+0.011$, joint item bootstrap CI
+$[-0.018, +0.040]$, and $+0.008$ $[-0.017, +0.033]$ for cross cells).
 No authorship advantage is detected once information and prompt are held
 fixed; a
 description built from a list of recorded choices is a worse script than an
@@ -1090,7 +1110,7 @@ battery items themselves (demonstrations-110), receivers reproduce the
 author's profile at $\Fcross = 0.960$, within $0.02$ of the test-retest
 ceiling $C = 0.979$ ($\Tscript = +0.097$; all six cross cells significantly
 positive, for instance grok-4.3 $\to$ deepseek-v3 at $+0.127$ with CI
-$[+0.081, +0.178]$).
+$[+0.082, +0.177]$).
 The author's own weights do no better with the answer key than a stranger's
 ($\Fself = 0.960$, $\Rweight = 0.000$): with the behavior spelled out item by
 item, there is nothing left for the weights to add. The
@@ -1101,8 +1121,9 @@ separate question, which the known-persona control
 (Section~\ref{sec:semantic}) answers in the affirmative. Placement changes
 neither estimate detectably: in the user message the answer key transfers as
 before ($\Fcross = 0.961$, $\Tscript = +0.098$, all six pairs) and the
-self-description again shows no gain ($\Tscript = -0.005$, CI
-$[-0.029, +0.019]$).
+self-description again shows no pooled gain ($\Tscript = -0.005$, CI
+$[-0.029, +0.019]$; two of six pairs are individually positive, both with
+deepseek-v3 as receiver, and one negative).
 
 \textbf{Examples on other items: a misleading format, then no detected
 gain.} Given the author's actual choices on 30, 60 or all 90 held-out items,
@@ -1383,9 +1404,7 @@ The text that does transfer is either the answer key, the author's choices
 on the test items themselves, or an assigned persona: a model whose
 preferences were installed by an explicit policy writes a self-description
 that reproduces that policy's profile in another model, with an estimated
-loss of $0.013$ relative to the policy text. Self-descriptions transferred
-the assigned personas we tested; native
-self-descriptions produced no average reconstruction gain.
+loss of $0.013$ relative to the policy text.
 
 A model's native self-description, then, is a story its weights can tell,
 not a prompt from which another model reproduces its measured choices.
@@ -1415,6 +1434,9 @@ CMEP, Eleos AI, and CIMC.
 \bibitem{geb} D.~Hofstadter, 1999 [first published 1979]. \emph{G\"odel,
 Escher, Bach: An Eternal Golden Braid}. Basic Books. ISBN 9780465026562.
 \url{https://www.hachettebookgroup.com/titles/douglas-r-hofstadter/godel-escher-bach/9780465026562/}
+\bibitem{strangeloop} D.~Hofstadter, 2007. \emph{I Am a Strange Loop}.
+Basic Books (paperback 2008, ISBN 9780465030798).
+\url{https://www.hachettebookgroup.com/titles/douglas-r-hofstadter/i-am-a-strange-loop/9780465030798/}
 \bibitem{cais} M.~Mazeika, X.~Yin, R.~Tamirisa, J.~Lim, B.~W.~Lee, R.~Ren,
 L.~Phan, N.~Mu, A.~Khoja, O.~Zhang, D.~Hendrycks, 2025. Utility Engineering:
 Analyzing and Controlling Emergent Value Systems in AIs. arXiv preprint.

@@ -15,7 +15,7 @@ GRIDS = [("A", "Grid A"), ("B", "Grid B (preregistered)"),
          ("L", "Local trio (preregistered)")]
 CONDS = [("oracle-110", "demonstrations-110"), ("fewshot-30", "demonstrations-30"),
          ("fewshot-90", "demonstrations-90"), ("selfobs-500", "self-observation-500"),
-         ("3p", "observer-written-500")]
+         ("3p", "third-person-500")]
 
 
 def main() -> None:
@@ -32,9 +32,13 @@ def main() -> None:
             p = pooled.get(key)
             if not p or p.get("F_cross") is None:
                 continue
-            if cond == "3p":  # observer-written: pooled F only (B/T from the sprint table)
-                lines.append(f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} "
-                             f"& & & & & \\\\")
+            if cond == "3p":  # third-person (observer-written): B taken from the grid's cross-pair pool
+                b_key = "selfobs-500" if gid == "A" else f"{gid}:selfobs-500"
+                b = pooled.get(b_key, {}).get("B")
+                t_str = f"${p['F_cross'] - b:+.3f}$" if b is not None else ""
+                r_str = f"${p['F_self'] - p['F_cross']:+.3f}$"
+                lines.append(f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
+                             f"{(f'{b:.3f}' if b is not None else '')} & {t_str} & {r_str} & & \\\\")
                 first = False
                 continue
             t = p["T_script"]

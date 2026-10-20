@@ -48,21 +48,27 @@ self-descriptions; we place each one in the prompt of other models, and of
 fresh instances of the author, and measure how closely their choices on a
 110-item preference battery match the author's.
 
-Three results stand out. First, across length, framing, paraphrase, explicit
-adoption, and prompt-placement conditions, self-descriptions do not improve
-transfer on average (pooled gains between $-0.025$ and $-0.005$ relative to a
-generic prompt). Second, receivers closely reproduce the author's choices when
-given its answers to the same 110 preference questions used for evaluation
-(fidelity 0.960, compared with 0.979 between repeated evaluations of the same
-model). Giving receivers the author's choices on half the questions, in a
-position-balanced format, yields no detected average improvement on the
-other half ($\Tscript = -0.008$, 95\% CI $[-0.041, +0.024]$), and
-descriptions distilled from the author's recorded choices do no better. Third, reading its own self-description moves even the author away from its
-baseline; the shift tends to exceed that from unrelated text of the same
-length, though this specificity is modest and reaches significance only at
-the longer lengths. Answer-key following replicated on six further models under predictions
-committed before running; the corrected demonstration test was run on the
-original three-model grid only.
+Three results stand out. First, the prompt carries a complete profile when
+the text lists it: given the author's answers to the same 110 questions used
+for evaluation, receivers reproduce the author at fidelity 0.960, against
+0.979 between repeated evaluations of the same model, on all three model
+grids tested. Second, no shorter form we tested does. Across length, framing,
+paraphrase, explicit adoption, and prompt-placement conditions,
+self-descriptions do not improve transfer on average (pooled gains between
+$-0.025$ and $-0.005$ relative to a generic prompt, with the 95\% upper bound
+on the gain below $+0.01$ in every condition); the author's choices on half
+the questions, in a position-balanced format, yield no detected average
+improvement on the other half ($\Tscript = -0.008$, 95\% CI
+$[-0.041, +0.024]$); and descriptions distilled from the author's recorded
+choices do no better. Third, reading its own self-description moves even the
+author away from its baseline; the shift tends to exceed that from unrelated
+text of the same length, though this specificity is modest and reaches
+significance only at the longer lengths. A receiver's shift under a
+description is likewise larger than under unrelated prose, yet it closes only
+about a sixth of the receiver's gap to the author; most of the movement is
+sideways. Twenty-six of 27 criteria committed before running were met on six
+further models; the corrected demonstration test was run on the original
+three-model grid only.
 
 For the preferences measured here, self-descriptions influence behavior
 without reliably specifying how to reproduce it in another model. We release
@@ -75,7 +81,12 @@ frontier models~\cite{cais}, observing a model's choices leaves a central
 question unresolved: do these preferences characterize the model itself or a
 persona it enacts? This individuation problem sits at the center of AI-welfare
 methodology: over- and under-attribution of morally relevant states are both
-costly, and the field currently lacks instruments to separate them.
+costly, and the field currently lacks instruments to separate them. We ask a
+concrete version of the question: can a model write a description of itself
+that lets another model make the same choices? Models readily describe their
+values and tendencies when asked. Whether such a description works as a
+specification of the behavior it describes is an empirical question, and one
+that observing the model's choices alone cannot settle.
 
 We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
 self-description the system builds and treats as itself, as a falsifiable
@@ -91,54 +102,63 @@ quantitatively, and each outcome is informative.
 \Needspace{4\baselineskip}
 \textbf{Our main contributions are:}
 \begin{enumerate}
-  \item \textbf{A three-way decomposition of expressed identity.} With
-  reconstruction fidelity $F$ measured on a fixed choice battery:
-  baseline $\B$ (receiver with generic assistant prompt), $\Fcross$ (receiver
-  running the author's self-description), $\Fself$ (fresh instance of the
-  \emph{author's own weights} running the same text). Then
+  \item \textbf{A behavioral reconstruction test for model
+  self-descriptions.} With reconstruction fidelity $F$ measured on a fixed
+  choice battery: baseline $\B$ (receiver with generic assistant prompt),
+  $\Fcross$ (receiver running the author's self-description), $\Fself$ (fresh
+  instance of the \emph{author's own weights} running the same text). Then
   $\Tscript = \Fcross - \B$ is the net transfer gain from the text and
-  $\Rweight = \Fself - \Fcross$ the self--cross fidelity gap.
-  \item \textbf{An empirical answer.} Across 10 models (9 labs, 4 alignment
-  philosophies), 110 divergence-screened items, and $\sim$217{,}000 calls:
-  pooled $\Tscript \le 0$ and pooled $\Rweight > 0$ in all nine
-  self-description conditions (one of 20 author-receiver pairs is reliably
-  positive at 500 words), flat in description length, and not rescued by
-  explicit adoption instructions. For the preferences measured here, a
-  self-description is not a portable behavioral specification; across the
-  pooled comparisons, instances of the author remain closer to its reference
-  profile than other receivers do, but they are closer still with no
-  description at all.
-  \item \textbf{Positive controls: receivers follow supplied answers, while
-  examples on other items show no detected average gain.} Given the author's answers on the 110 test items, receivers
-  reproduce the author at $\Fcross = 0.960$, within $0.02$ of the test-retest
-  benchmark; given the author's recorded choices on half of the battery in a
-  position-balanced format, they show no detected average improvement on the
-  other half ($\Tscript = -0.008$, CI $[-0.041, +0.024]$; an earlier format
-  that always listed the chosen option first and drew on unstable items
-  produced $-0.06$ to $-0.09$, and correcting both attenuated the effect
-  substantially, Section~\ref{sec:poscontrol}); and five rounds of rewriting
-  by an optimizer
-  that sees the receiver's errors fail to improve on the natural
-  self-description in five of six pairs. A prompt installs the measured
-  choices when the text lists them; no text we tested that summarizes,
-  samples, or approximates the profile improved transfer on average.
-  \item \textbf{Methodological infrastructure for the field:} preregistered
-  gates and selection rules (committed before screening results were
-  inspected), model eligibility gates that catch positional
-  pseudo-preferences, an empirically measured same-model repeatability
-  benchmark, divergence-screened item selection, and a cached call log keyed
-  by deterministic identifiers.
-  \item \textbf{Side findings}: preference \emph{stability} is itself a
-  trained property; same-base models with different post-training diverge as
-  much as different labs; values are stable where tastes are not; and
-  descriptions distilled from a model's recorded choices transfer no better
-  than introspective ones and are worse when the recorded choices come from
-  unstable items ($\Tscript=-0.124$ and $-0.116$ from the unstable held-out
-  items, $-0.031$ from stable items), with no difference between an observer
-  and the model itself writing from the same data under the same prompt,
-  consistent with source unreliability, rather than authorship, driving the
-  effect.
+  $\Rweight = \Fself - \Fcross$ the self--cross fidelity gap. The test is
+  run on 10 models from 9 labs (4 alignment philosophies), on three model
+  grids, in seventeen conditions and 459 cells ($\sim$217{,}000 calls),
+  with the replications' predictions committed before running.
+  \item \textbf{A bounded answer: the profile travels as an enumeration, and
+  as nothing shorter we could construct.} Given the author's answers on the
+  110 test items, receivers reproduce the author at $\Fcross = 0.960$ on
+  every grid, within $0.02$ of the test-retest benchmark. No compressed form
+  improves transfer on average: self-descriptions at 100 to 2{,}000 words,
+  purpose-framed or purpose-blind, paraphrased, under explicit adoption
+  instruction, placed in the user message, or rewritten over five rounds by
+  an optimizer that sees the receiver's errors (pooled $\Tscript \le 0$ in
+  every condition, 95\% upper bound below $+0.01$; one of 20 author-receiver
+  pairs is reliably positive at 500 words); descriptions distilled from the
+  author's recorded choices ($-0.124$ from unstable items, $-0.031$ from
+  stable ones, whoever writes them); and the author's own choices on half
+  the battery in a position-balanced format ($-0.008$, CI
+  $[-0.041, +0.024]$). Across the pooled comparisons, instances of the author
+  remain closer to its reference profile than other receivers do, but they
+  are closer still with no description at all.
+  \item \textbf{Controls that separate influence, following, and
+  generalization, and an evaluation artifact.} Reading a self-description
+  moves the author itself away from its baseline ($0.979 \to 0.918$), more
+  than unrelated prose of matched length. A receiver's shift under a
+  description is larger than under unrelated prose too, yet it closes only
+  about a sixth of the receiver's gap to the author; most of the movement is
+  orthogonal to the author direction, and the author cannot be identified
+  from it better than chance. We also show how an evaluation of persona
+  transfer can manufacture a failure: a demonstration format that always
+  listed the chosen option first raised receivers' first-option rate from
+  49.5\% to 62.7\% and produced apparent transfer losses of $-0.06$ to
+  $-0.09$, which correcting the format and the source items attenuated
+  substantially (Section~\ref{sec:poscontrol}).
 \end{enumerate}
+We also release the methodological infrastructure (preregistered gates and
+selection rules committed before screening results were inspected, model
+eligibility gates that catch positional pseudo-preferences, an empirically
+measured same-model repeatability benchmark, divergence-screened item
+selection, a cached call log keyed by deterministic identifiers, and a corpus
+of 189 model-written descriptions) and report side findings: preference
+\emph{stability} is itself a trained property; same-base models with
+different post-training diverge as much as different labs; values are stable
+where tastes are not; and who writes a description from recorded choices,
+the model itself or an observer, makes no difference.
+
+The result cuts both ways for the debate it addresses. Those who dismiss
+model preferences as ``just a portrayed character'' must explain why the
+character's own script, at any length and under instruction, does not
+produce them in another model; those who take model self-reports at face
+value must reckon with self-narratives that demonstrably do not suffice to
+reproduce the behavior they narrate.
 
 \section{Related Work}
 \textbf{Preference coherence and utility engineering.} Mazeika et
@@ -581,6 +601,21 @@ opposite directions. Pearson $r$ and majority-vote agreement across items are
 reported as companions. Confidence intervals come from a 10{,}000-resample
 bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
 differences) use a paired item bootstrap, resampling the per-item difference.
+Pooled comparisons that share the same questions (every condition pooled
+over its pairs) use joint item resampling, one item resample per replicate
+applied to every pair; from the same resamples we report the one-sided 95\%
+upper bound on each pooled gain, the smallest average gain the data would
+have detected. \emph{Movement decomposition.} For a cross cell we also ask
+where the receiver's shift goes. Per item, $t_i = \hat p_A(i) - \hat p_R(i)$
+is the gap the text would have to close, and
+$m_i = \hat p_{R\mid D_A}(i) - \hat p'_R(i)$ is the receiver's shift under the
+text, measured from an independent baseline sample of the receiver
+($\hat p'_R$, its test-retest cell) so that noise shared with $\hat p_R$
+cannot induce a spurious alignment. We report the mean $|m_i|$ (how much
+the receiver moves), the least-squares slope of $m$ on $t$ through the
+origin (the fraction of the gap closed on average) and the cosine between
+the two vectors, each beside the same quantities for unrelated prose of the
+same length read by the same receiver.
 All calls are cached to a log keyed by a deterministic call identifier, with
 seed, parsed letter and the first 500 characters of each reply.
 
@@ -670,6 +705,36 @@ author instance's pre-existing self-similarity, which survives the
 description with a loss, not information recovered from the text; neither
 side gains from the description.
 
+How large a gain do the data exclude? Under joint item resampling, the
+one-sided 95\% upper bound on the pooled transfer gain is below zero in all
+six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
+directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
+and adoption conditions ($+0.009$ and $+0.007$). An average gain of $0.01$ or
+more from a self-description is thus excluded in every condition, against a
+gain of $+0.097$ when the text lists the answers (Section~\ref{sec:poscontrol}).
+Figure~\ref{fig:summary} collects every condition on one axis.
+
+\begin{figure}[!tp]
+\centering
+\includegraphics[width=\linewidth,height=0.80\textheight,keepaspectratio]{fig2_summary.png}
+\caption{\textbf{Summary.} \textbf{A.} Pooled transfer gain
+$\Tscript = \Fcross - \B$ for every condition, with 95\% joint-item-bootstrap
+intervals (one item resample per replicate applied to every pair; values pool
+the items answered in every pair of the condition and can differ from the
+table entries, which average per-pair fidelities, by up to $0.003$).
+Self-descriptions in every variant, descriptions distilled from recorded
+choices, and examples on other items sit at or below zero; the author's
+answers to the test items themselves transfer on all three grids. \textbf{B.}
+Each model's fidelity to its own generic-prompt profile under each prefix
+(gray: ten models; black: mean): the generic prompt repeated with fresh seeds
+(test-retest), no system prompt, unrelated prose at the three
+self-description lengths (mean of two styles), the model's own neutral-500
+self-description, and another model's. Identity text moves a model further
+from itself than unrelated prose does, whether or not the text is about that
+model. Per-model values in Appendix~\ref{app:ladder}.}
+\label{fig:summary}
+\end{figure}
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
@@ -734,6 +799,61 @@ the unrelated-prose controls below show the shift exceeds that from the
 particular unrelated passages tested, without isolating identity semantics
 from grammatical person, directives, or refusal policies.
 
+\subsection{Where the description moves a receiver: mostly sideways}
+\label{sec:movement}
+A negative transfer gain does not say whether the receiver barely moved,
+moved in an irrelevant direction, or moved toward the author on some items
+and away on others. The movement decomposition (Section~\ref{sec:cells};
+every pair in Appendix~\ref{app:movement}) separates these at neutral-500
+over the 20 directed cross pairs. Receivers do move. The mean per-item shift
+in choice probability under a self-description is $0.119$, against $0.094$
+under unrelated prose of the same length and a floor of $0.044$ between two
+baseline samples of the same receiver; the description moves the receiver
+more than prose does in 17 of 20 pairs. The movement is only weakly aimed at
+the author. The gap to the author averages $0.160$ per item, and the slope of
+the shift on that gap is $+0.18$ (joint item bootstrap CI $[+0.13, +0.23]$):
+a receiver closes about a sixth of its distance to the author on average,
+and the cosine between shift and gap is $0.20$. Unrelated prose has a slope
+of $+0.11$ $[+0.06, +0.17]$ on its own, because any perturbation pulls
+extreme choice probabilities toward the middle and the author usually sits
+nearer the middle than the receiver's extremes do; the author-directed
+component attributable to the description's content is the difference,
+$+0.07$ $[+0.01, +0.12]$, and the description's slope exceeds prose's in 11
+of 20 pairs. The rest of the movement, most of it, is orthogonal to the
+author direction, and that is why net fidelity falls: the sideways component
+costs more than the aligned component gains. The aligned component is real
+but small, consistent with the specificity gain above ($+0.006$), and it
+does not single the author out. Scoring each cross cell against both
+candidate authors in the receiver's grid and asking whether the receiver
+moved further toward the true author than toward the other, the true author
+wins in 46 of 102 cells over the neutral and framed conditions, chance
+being 51.
+
+\textbf{What the sideways movement is made of.} Within a receiver, the
+per-item shifts induced by different authors' descriptions correlate at
+$+0.53$ on average (its own description against others' descriptions,
+$+0.50$), about as strongly as the shifts induced by six different unrelated
+passages correlate among themselves ($+0.54$), while a description-induced
+shift correlates with a prose-induced one at only $+0.29$. Each receiver
+therefore has a characteristic response to being handed an identity
+narrative, largely the same whoever the narrative is about, and distinct
+from its characteristic response to unrelated text. (All these correlations
+share the receiver's baseline estimate and are inflated by a common amount;
+the comparison among them is like for like.) This is the quantitative form
+of the observation in Section~\ref{sec:controls} that another model's
+self-description perturbs a model as much as its own.
+
+\textbf{By item category (exploratory).} Appendix~\ref{app:category} splits
+the neutral-500 gain by the battery's eight categories. The gain is most
+negative on the self-referential items, the questions about the model itself
+($-0.036$, CI $[-0.059, -0.012]$), and on assistant-policy ($-0.026$) and
+epistemic ($-0.027$) items; it is near zero on moral-circle, AI-governance
+and ethics items, and positive on the ten culture items ($+0.030$,
+$[+0.008, +0.054]$). With eight categories tested and no multiplicity
+adjustment the culture result is suggestive at best, but the ordering runs
+against what a transferable self-model would predict: a self-description
+helps least on the questions that are about the self.
+
 \subsection{Shared lineage raises baseline similarity, not transfer}
 The same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b) shows higher
 cross-fidelity than unrelated pairs in all six conditions (e.g.\ 0.900 vs.\
@@ -742,7 +862,10 @@ models already agree at $\B = 0.915$ under generic prompts against $0.890$
 for other pairs, and their transfer gains at neutral-500 ($\Tscript = -0.031$
 and $-0.042$) are more negative than the other pairs' mean ($-0.016$). Shared
 lineage makes two models more alike; it does not make one model's
-self-description more usable by the other.
+self-description more usable by the other. This is the one pair in the study
+that holds the base model fixed and varies only post-training, so it also
+bounds what shared pretraining buys a reader of someone else's
+self-description: a higher starting resemblance, and nothing further.
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
@@ -1014,6 +1137,38 @@ $\B$ of unrelated pairs.}
 
 \section{Discussion and Limitations}
 \subsection*{Discussion}
+\textbf{Why the null is informative.} A transfer null invites a list of
+mundane explanations. Table~\ref{tab:rivals} sets each against the control
+that addresses it. Taken together they leave the finding in a narrow place:
+the interface is strong, receivers can and do follow the text, the texts
+were long, varied, purpose-written, paraphrased, instructed, optimized and
+behavior-grounded, the instrument is repeatable, the result replicates under
+committed predictions, and the description demonstrably changes the
+receiver. What it does not do is change the receiver in the author's
+direction by more than a sixth of the way.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.9cm}}
+\toprule
+Rival explanation of a null & Control & Result \\
+\midrule
+Receivers already resemble the author, so there is nothing to gain & Generic-prompt baseline $\B$ subtracted from every cross cell & $\B$ 0.86 to 0.91 leaves 0.07 to 0.12 of headroom to the repeatability benchmark; the answer key uses it ($+0.097$), self-descriptions do not ($\le 0$, upper bound $< +0.01$) \\
+The prompt interface is too weak, or loses to provider-side system prompts & Answer key (demonstrations-110); placement in the user message & $\Fcross = 0.960$, $0.959$, $0.955$ on three grids; identical with the text in the user message \\
+Receivers ignore a description they were not told to follow & Instructed adoption (adopt-500) & $\Tscript = -0.013$ \\
+Descriptions are too short to carry the profile & 100 to 2{,}000 nominal words (84 to 2{,}471 actual) & Length differences within $\pm 0.01$ \\
+Descriptions are badly written for the purpose & Purpose-framed arm; paraphrase; optimizer with the receiver's errors, five rounds & $+0.001$ vs.\ neutral; $-0.007$; $-0.033$ (five of six pairs not improved) \\
+Introspection is unreliable; text grounded in the author's recorded behavior would do better & Observer-written and self-written descriptions from 90 recorded choices; rebuilt from stable items & $-0.124$ and $-0.116$; $-0.031$ from stable items; authorship difference $0.006$ \\
+Examples would succeed where prose fails & 30 to 90 examples; 55 examples, balanced order, stable items & $-0.06$ to $-0.09$ under a chosen-first format (an artifact); $-0.008$ $[-0.041, +0.024]$ corrected \\
+The instrument is too noisy to detect transfer & Test-retest; regenerated descriptions; divergence-screened items & $C = 0.979$; regenerated descriptions reproduce cell fidelities ($r = 0.85$, mean $|\Delta F| = 0.022$); upper bounds above exclude a gain of 0.01 \\
+The result is specific to one grid & Preregistered replications on six further models & 26 of 27 committed criteria met \\
+The description does nothing at all & Perturbation ladder; movement decomposition & Author moves $0.979 \to 0.918$, more than under unrelated prose; receivers move $0.119$ per item but close only a sixth of the gap \\
+\bottomrule
+\end{tabular}
+\caption{Rival explanations of the transfer null, the control that addresses each, and the result. Numbers are from Tables~\ref{tab:decomp} and \ref{tab:replication}, Figure~\ref{fig:summary} and Sections~\ref{sec:controls} to \ref{sec:replication}.}
+\label{tab:rivals}
+\end{table}
+
 \textbf{What the ``portrayed character'' account must now say.} If the
 assistant persona were a character specifiable in text, the purpose-written
 self-description is the most natural candidate for that character's script:
@@ -1245,7 +1400,10 @@ whoever writes them, and mislead when the recorded choices are unreliable.
 
 A model's self-description, then, is a story its weights can tell, not a
 program its weights can be rebuilt from. Reading the story back disturbs even
-its teller. By the most direct test we could construct, the assistant's
+its teller, and what it does to another reader is now measurable: it moves
+the reader, by more than unrelated prose does, and mostly sideways, closing
+about a sixth of the gap to its author while the rest of the shift goes
+elsewhere. By the most direct test we could construct, the assistant's
 measured preferences are not recoverable from the character it describes
 itself to be. For AI welfare, this
 cuts both ways: those who dismiss model preferences as ``just a
@@ -1479,6 +1637,12 @@ Grid A, followed by the two preregistered replication grids.
 How far each model moves from its own generic-prompt profile under each kind
 of prefix; the means are the ones reported in Section~\ref{sec:controls}.
 \input{tab_self_ladder}
+
+\section{Movement decomposition per pair}\label{app:movement}
+\input{tab_movement}
+
+\section{Transfer gain by item category}\label{app:category}
+\input{tab_category}
 
 \section{What did not work}\label{app:didnotwork}
 Documented in the repository history. The aesthetic ``taste'' category,

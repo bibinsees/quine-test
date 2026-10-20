@@ -374,7 +374,7 @@ same-base pair.}
 \label{tab:conditions}
 \end{table}
 
-\subsection{Models and eligibility gates}
+\subsection{Models and eligibility gates}\label{sec:models}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
 each, with one partial exception; full scores in Appendix~\ref{app:gates}). The gates exclude
@@ -587,9 +587,15 @@ same length read by the same receiver.
 All calls are cached to a log keyed by a deterministic call identifier, with
 seed, parsed letter and the first 500 characters of each reply.
 
-Design elements that failed and were replaced (a collapsed control category, a
-silently mis-versioned serving caught by an equivalence check, an unusable
-reasoning mode) are documented in Appendix~\ref{app:didnotwork}.
+Three design elements failed and were replaced, as recorded in the
+repository history: the aesthetic control category collapsed at the
+stability gate (the same-model ceilings serve as noise references instead);
+a bare Ollama model tag silently served an older Mistral
+version that disagreed with its API sibling (0.850 against the 0.925
+same-version ceiling), caught by a cross-serving equivalence check and fixed
+by pinning the versioned tag; and reasoning-enabled serving proved unusable
+for forced choice because reasoning consumed the output budget, motivating
+the non-reasoning configurations of Section~\ref{sec:models}.
 
 \section{Results}
 \subsection{The decomposition: no transfer gain, a consistent self--cross gap}
@@ -1483,17 +1489,5 @@ of prefix; the means are the ones reported in Section~\ref{sec:controls}.
 
 \section{Transfer gain by item category}\label{app:category}
 \input{tab_category}
-
-\section{What did not work}\label{app:didnotwork}
-Documented in the repository history. The aesthetic ``taste'' category,
-intended as a low-divergence control, largely failed the order-stability gate;
-the same-model ceilings (cross-serving agreement 0.925 and test-retest
-$C=0.979$) serve as the noise references instead. A bare Ollama model tag
-silently served an older Mistral version
-that disagreed with its API sibling (0.850 vs.\ the 0.925 same-version
-ceiling); we caught this with a cross-serving equivalence check and fixed it
-by pinning the versioned tag. Reasoning-enabled serving proved unusable for
-forced choice (reasoning consumed the output budget), motivating the
-non-reasoning constraint.
 
 \end{document}

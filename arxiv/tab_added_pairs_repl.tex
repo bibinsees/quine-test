@@ -1,9 +1,20 @@
-\begin{table}[H]
-\centering\scriptsize\renewcommand{\arraystretch}{0.9}
-\begin{tabular}{lllrlrrr}
+{\scriptsize\renewcommand{\arraystretch}{0.9}
+\begin{longtable}{lllrlrrr}
+\caption{Per-pair transfer contrasts for the preregistered replications on Grid B and the local trio (cross cells); same conventions as Table~\ref{tab:added-pairs}.}\label{tab:added-pairs-repl} \\
 \toprule
 Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\
 \midrule
+\endfirsthead
+\multicolumn{8}{l}{\footnotesize Table~\ref{tab:added-pairs-repl}, continued} \\
+\toprule
+Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{\footnotesize continued on the next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
 B & self-observation-500 & kimi$\to$haiku$^{*}$ & 0.831 & 0.899 & $-.069$ & $[-.116,-.022]$ & 0.75 \\
  &  & gpt5.2$\to$kimi$^{*}$ & 0.824 & 0.908 & $-.085$ & $[-.139,-.035]$ & 0.76 \\
  &  & gpt5.2$\to$haiku$^{*}$ & 0.845 & 0.932 & $-.087$ & $[-.141,-.038]$ & 0.81 \\
@@ -59,9 +70,4 @@ local & demonstrations-30 & gemma$\to$mistral3.2 & 0.849 & 0.869 & $-.019$ & $[-
  &  & llama3.3$\to$gemma$^{*}$ & 0.970 & 0.915 & $+.056$ & $[+.020,+.096]$ & 1.00 \\
  &  & gemma$\to$llama3.3 & 0.946 & 0.915 & $+.031$ & $[-.002,+.071]$ & 0.98 \\
  & & \emph{pooled} & 0.955 & 0.893 & $+.062$ & & \\
-\addlinespace
-\bottomrule
-\end{tabular}
-\caption{Per-pair transfer contrasts for the preregistered replications on Grid B and the local trio (cross cells); same conventions as Table~\ref{tab:added-pairs}.}
-\label{tab:added-pairs-repl}
-\end{table}
+\end{longtable}}

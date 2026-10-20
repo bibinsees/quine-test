@@ -37,13 +37,17 @@ def fmt(x: float) -> str:
 
 
 def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str, placement: str = "H") -> str:
+    """A longtable: breaks across pages, caption on top, header repeated on each page."""
+    header = r"Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\"
     lines = [
-        r"\begin{table}[" + placement + "]",
-        r"\centering\scriptsize\renewcommand{\arraystretch}{0.9}",
-        r"\begin{tabular}{lllrlrrr}",
-        r"\toprule",
-        r"Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\",
-        r"\midrule",
+        r"{\scriptsize\renewcommand{\arraystretch}{0.9}",
+        r"\begin{longtable}{lllrlrrr}",
+        r"\caption{" + caption + r"}\label{" + label + r"} \\",
+        r"\toprule", header, r"\midrule", r"\endfirsthead",
+        r"\multicolumn{8}{l}{\footnotesize Table~\ref{" + label + r"}, continued} \\",
+        r"\toprule", header, r"\midrule", r"\endhead",
+        r"\midrule", r"\multicolumn{8}{r}{\footnotesize continued on the next page} \\", r"\endfoot",
+        r"\bottomrule", r"\endlastfoot",
     ]
     n = 0
     for gid, gname in grids:
@@ -70,8 +74,9 @@ def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str, plac
                 lines.append(f" & & \\emph{{pooled}} & {pooled['F_cross']:.3f} & {pooled['B']:.3f} & "
                              f"${fmt(pooled['T_script'])}$ & & \\\\")
             lines.append(r"\addlinespace")
-    lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{" + caption + r"}", r"\label{" + label + r"}", r"\end{table}"]
+    if lines[-1] == r"\addlinespace":
+        lines.pop()
+    lines += [r"\end{longtable}}"]
     print(f"{label}: {n} cross cells")
     return "\n".join(lines) + "\n"
 

@@ -1,9 +1,20 @@
-\begin{table}[p]
-\centering\scriptsize\renewcommand{\arraystretch}{0.9}
-\begin{tabular}{lllrlrrr}
+{\scriptsize\renewcommand{\arraystretch}{0.9}
+\begin{longtable}{lllrlrrr}
+\caption{Per-pair transfer contrasts for the positive-control, authorship and placement conditions, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.}\label{tab:added-pairs} \\
 \toprule
 Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\
 \midrule
+\endfirsthead
+\multicolumn{8}{l}{\footnotesize Table~\ref{tab:added-pairs}, continued} \\
+\toprule
+Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\
+\midrule
+\endhead
+\midrule
+\multicolumn{8}{r}{\footnotesize continued on the next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
 A & self-observation-500 & glm$\to$deepseek$^{*}$ & 0.814 & 0.886 & $-.073$ & $[-.130,-.017]$ & 0.73 \\
  &  & grok$\to$deepseek & 0.754 & 0.828 & $-.074$ & $[-.154,+.006]$ & 0.66 \\
  &  & deepseek$\to$glm$^{*}$ & 0.789 & 0.886 & $-.098$ & $[-.152,-.046]$ & 0.66 \\
@@ -91,9 +102,4 @@ A & self-observation-500 & glm$\to$deepseek$^{*}$ & 0.814 & 0.886 & $-.073$ & $[
  &  & deepseek$\to$glm$^{*}$ & 0.964 & 0.886 & $+.078$ & $[+.042,+.117]$ & 1.00 \\
  &  & glm$\to$deepseek$^{*}$ & 0.955 & 0.886 & $+.069$ & $[+.037,+.105]$ & 1.00 \\
  & & \emph{pooled} & 0.961 & 0.863 & $+.098$ & & \\
-\addlinespace
-\bottomrule
-\end{tabular}
-\caption{Per-pair transfer contrasts for the positive-control, authorship and placement conditions, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.}
-\label{tab:added-pairs}
-\end{table}
+\end{longtable}}

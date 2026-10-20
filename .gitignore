@@ -12,3 +12,8 @@ __pycache__/
 runs/grid_snapshot.jsonl
 cache/
 .ipynb_checkpoints/
+
+# derived upload artifacts (regenerate from arxiv/)
+arxiv_upload/
+arxiv_upload.zip
+arxiv_upload_quine_test.pdf

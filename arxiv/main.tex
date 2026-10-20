@@ -184,18 +184,17 @@ Zhou et al.~\cite{zhou2026} fit persona-effect relationships for 57
 attributes across seven pairs of 7--9B open models and test whether the
 fitted relationships carry to new questions, other models and reworded
 prompts; they find the effects ``predictable without being portable'':
-gains borrowed from another model pair generally underperform a simple
-scaling fitted on the target model itself, and apparent transfer can arise
-from calibrating to the target alone. Our
+gains borrowed from another model pair generally underperform a scaling
+fitted on the target itself, and apparent transfer can arise from
+calibrating to the target alone. Our
 design differs in both the text and the target: the persona is the model's
 own account of itself rather than an assigned role, and the criterion is
 reproduction of the author's measured profile rather than the size or
 predictability of a shift. The conclusions converge. Identity-related text
 reliably moves a model's behavior (their variability result, our
 perturbation result), yet the relationship between text and behavior does
-not carry across models (their portability result, where gains borrowed
-from another model pair do not beat a scaling fitted on the target; our
-transfer null, where
+not carry across models (their portability result, where borrowed gains do
+not beat a target-fitted scaling; our transfer null, where
 natural and optimizer-rewritten self-descriptions alike fail to transfer), and both studies find
 that a prompt-sensitivity control is needed before any persona effect is
 read as content-specific.

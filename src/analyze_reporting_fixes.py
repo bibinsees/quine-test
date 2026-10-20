@@ -222,21 +222,25 @@ def main() -> None:
     out["ledger"] = [{"grid": g, "criterion": t, "pass": (None if o is None else bool(o)), "evidence": e}
                      for g, t, o, e in ledger]
     out["ledger_summary"] = {"predicted": len(preds), "met": n_pass, "open": n_open}
-    lines = [r"\begin{table}[H]", r"\centering\scriptsize\renewcommand{\arraystretch}{0.88}",
-             r"\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}",
-             r"\toprule", r"Grid & Registered criterion & Met & Observed \\", r"\midrule"]
+    head = r"Grid & Registered criterion & Met & Observed \\"
+    cap = (r"\caption{Every criterion registered in the five committed protocols (the "
+           r"\texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: "
+           + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (marked ``open'') "
+           r"carried no directional prediction; their rows record the observed outcome and are not counted.}"
+           r"\label{tab:ledger} \\")
+    lines = [r"{\scriptsize\renewcommand{\arraystretch}{0.88}",
+             r"\begin{longtable}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}",
+             cap, r"\toprule", head, r"\midrule", r"\endfirsthead",
+             r"\multicolumn{4}{l}{\footnotesize Table~\ref{tab:ledger}, continued} \\", r"\toprule", head, r"\midrule", r"\endhead",
+             r"\midrule", r"\multicolumn{4}{r}{\footnotesize continued on the next page} \\", r"\endfoot",
+             r"\bottomrule", r"\endlastfoot"]
     def tex(s):
         return (s.replace("_", "-").replace(">=", "$\\geq$").replace("<=", "$\\leq$").replace(">", "$>$")
                 .replace("<", "$<$").replace("|", "$|$").replace("[", "(").replace("]", ")"))
     for g, t, o, e in ledger:
         met = "open" if o is None else ("yes" if o else "no")
         lines.append(f"{g} & {tex(t)} & {met} & {tex(e)} \\\\")
-    lines += [r"\bottomrule", r"\end{tabular}",
-              r"\caption{Every criterion registered in the five committed protocols (the "
-              r"\texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: "
-              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (marked ``open'') "
-              r"carried no directional prediction; their rows record the observed outcome and are not counted.}",
-              r"\label{tab:ledger}", r"\end{table}"]
+    lines += [r"\end{longtable}}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     # ---------- 3. framed vs neutral at 500, cross cells only ----------

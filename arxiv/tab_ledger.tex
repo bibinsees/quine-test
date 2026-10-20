@@ -1,9 +1,20 @@
-\begin{table}[H]
-\centering\scriptsize\renewcommand{\arraystretch}{0.88}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}
+{\scriptsize\renewcommand{\arraystretch}{0.88}
+\begin{longtable}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}
+\caption{Every criterion registered in the five committed protocols (the \texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: 29 of 30 met. 4 registered open questions (marked ``open'') carried no directional prediction; their rows record the observed outcome and are not counted.}\label{tab:ledger} \\
 \toprule
 Grid & Registered criterion & Met & Observed \\
 \midrule
+\endfirsthead
+\multicolumn{4}{l}{\footnotesize Table~\ref{tab:ledger}, continued} \\
+\toprule
+Grid & Registered criterion & Met & Observed \\
+\midrule
+\endhead
+\midrule
+\multicolumn{4}{r}{\footnotesize continued on the next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
 Grid B & P1a demonstrations-110: pooled T $>$ 0 & yes & T=+0.046 \\
 Grid B & P1b demonstrations-110: all 6 cross pairs significantly positive & yes & 6/6 \\
 Grid B & P1c demonstrations-110: pooled F-cross $\geq$ 0.93 & yes & F-cross=0.959 \\
@@ -38,8 +49,4 @@ A, known persona & H5b policy-conditioned self-description: pooled T-desc CI $>$
 A, known persona & H5c (open) T-policy - T-desc & open & +0.013 (-0.003, +0.029) \\
 A, known persona & H5d T-desc $>$ T-native, same receivers and items: CI $>$ 0 & yes & +0.194 (+0.143, +0.245) \\
 A, known persona & H5e (open) self re-adoption F(target, source reading own policy description) & open & 0.899 to 0.962 over 9 targets \\
-\bottomrule
-\end{tabular}
-\caption{Every criterion registered in the five committed protocols (the \texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: 29 of 30 met. 4 registered open questions (marked ``open'') carried no directional prediction; their rows record the observed outcome and are not counted.}
-\label{tab:ledger}
-\end{table}
+\end{longtable}}

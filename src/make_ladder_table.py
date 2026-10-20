@@ -30,11 +30,14 @@ def main() -> None:
                 unrel.setdefault((key, row["model"]), {})[row["length"]] = row["placebo"]
     lens = [100, 500, 2000] if unrel else []
     cols = [(key, n) for key, _ in styles for n in lens]
-    head = (r"Model & Test-retest & No prompt & "
-            + "".join(f"{label} {n} & " for key, label in styles for n in lens)
-            + r"Own description & Other's description \\")
-    lines = [r"\begin{table}[H]", r"\centering\footnotesize", r"\resizebox{\linewidth}{!}{%",
-             r"\begin{tabular}{l" + "c" * (4 + len(cols)) + "}", r"\toprule", head, r"\midrule"]
+    group = (r"Model & Retest & No prompt & "
+             + " & ".join(f"\\multicolumn{{{len(lens)}}}{{c}}{{{label}}}" for key, label in styles)
+             + r" & Own & Other's \\")
+    first = 4
+    cmid = " ".join(f"\\cmidrule(lr){{{first + i * len(lens)}-{first + (i + 1) * len(lens) - 1}}}" for i in range(len(styles)))
+    head = (r" & & & " + " & ".join(str(n) for _ in styles for n in lens) + r" & desc. & desc. \\")
+    lines = [r"\begin{table}[H]", r"\centering\scriptsize\setlength{\tabcolsep}{3pt}",
+             r"\begin{tabular}{l" + "c" * (4 + len(cols)) + "}", r"\toprule", group, cmid, head, r"\midrule"]
     for r in d["rows"]:
         u = "".join(f"{f(unrel.get((key, r['model']), {}).get(n))} & " for key, n in cols)
         lines.append(f"{NAME.get(r['model'], r['model'])} & {f(r['retest'])} & {f(r['no_prompt'])} & "
@@ -46,18 +49,15 @@ def main() -> None:
         um += f"{f(sum(vals) / len(vals)) if vals else 'n/a'} & "
     lines += [r"\midrule",
               f"Mean & {f(m['retest'])} & {f(m['no_prompt'])} & {um}{f(m['own_desc'])} & {f(m['other_desc'])} \\\\",
-              r"\bottomrule", r"\end{tabular}}",
-              r"\caption{Per-model perturbation ladder. Each entry is the fidelity $F$ of the model's "
-              r"choice profile under the given prefix to its own generic-prompt reference profile "
-              r"(1 = identical). Test-retest: the generic prompt again with fresh seeds (the ceiling "
-              r"$C$). No prompt: question only. Expository 100/500/2000: encyclopedia-style prose "
-              r"about everyday physical processes, 109, 529 (the ocean-currents placebo) and 1{,}971 "
-              r"words. Sensory 100/500/2000: descriptive prose about everyday scenes, 102, 537 and "
-              r"1{,}680 words. Own description: the model's neutral-500 self-description. "
-              r"Other's description: the neutral-500 self-description of another model of the same "
-              r"grid, averaged over grid partners. These fidelities answer a different question from "
-              r"Table~\ref{tab:decomp}: not how close a model comes to the author whose description "
-              r"it reads, but how far each prefix moves the model from its own usual choices.}",
+              r"\bottomrule", r"\end{tabular}",
+              r"\caption{Per-model perturbation ladder: fidelity $F$ of the model's choice profile "
+              r"under each prefix to its own generic-prompt profile (1 = identical). Retest: the "
+              r"generic prompt with fresh seeds (the ceiling $C$). No prompt: question only. "
+              r"Expository and sensory: the unrelated texts of Section~\ref{sec:poscontrol-methods} at "
+              r"nominal 100, 500 and 2{,}000 words. Own desc.: the model's neutral-500 "
+              r"self-description. Other's desc.: another grid member's, averaged over partners. "
+              r"Unlike Table~\ref{tab:decomp}, these measure how far each prefix moves a model from "
+              r"its own usual choices, not how close it comes to an author.}",
               r"\label{tab:self-ladder}", r"\end{table}"]
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {OUT} ({len(d['rows'])} models)")

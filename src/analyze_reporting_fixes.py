@@ -223,8 +223,8 @@ def main() -> None:
                      for g, t, o, e in ledger]
     out["ledger_summary"] = {"predicted": len(preds), "met": n_pass, "open": n_open}
     head = r"Grid & Registered criterion & Met & Observed \\"
-    cap = (r"\caption{Every criterion registered in the five committed protocols (the "
-           r"\texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/}) and its outcome. Predicted criteria: "
+    cap = (r"\caption{Every criterion registered in the five preregistered protocols (the timestamped "
+           r"\texttt{protocol\_arxiv\_*.md} files in \texttt{pilot/} of the repository) and its outcome. Predicted criteria: "
            + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (marked ``open'') "
            r"carried no directional prediction; their rows record the observed outcome and are not counted.}"
            r"\label{tab:ledger} \\")

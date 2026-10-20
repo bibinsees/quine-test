@@ -178,10 +178,20 @@ def main() -> None:
         return float(np.mean([(Mx[k, ix] * Tx[k, ix]).sum() / (Tx[k, ix] ** 2).sum() for k in range(Mx.shape[0])]))
 
     full = np.arange(len(common))
-    boots_d = np.array([pooled_slope(M, Tt, ix) for ix in rng.integers(0, len(common), size=(2000, len(common)))])
-    boots_p = np.array([pooled_slope(P, Tt, ix) for ix in rng.integers(0, len(common), size=(2000, len(common)))])
+    boots_d = np.array([pooled_slope(M, Tt, ix) for ix in rng.integers(0, len(common), size=(N_BOOT, len(common)))])
+    boots_p = np.array([pooled_slope(P, Tt, ix) for ix in rng.integers(0, len(common), size=(N_BOOT, len(common)))])
     boots_diff = np.array([pooled_slope(M, Tt, ix) - pooled_slope(P, Tt, ix)
-                           for ix in rng.integers(0, len(common), size=(2000, len(common)))])
+                           for ix in rng.integers(0, len(common), size=(N_BOOT, len(common)))])
+    # direct distance check: RMS distance to the author's reference, from the retest baseline vs under the text
+    n_dist_up = 0
+    for (r, a), g in n500.groupby(["receiver", "author"]):
+        if r == a or len(g) < 400 or r not in retest:
+            continue
+        cell = tbl_of(g)
+        items_c = sorted(set(cell) & set(retest[r]) & set(ref[a]))
+        d0 = np.sqrt(np.mean([(retest[r][i] - ref[a][i]) ** 2 for i in items_c]))
+        d1 = np.sqrt(np.mean([(cell[i] - ref[a][i]) ** 2 for i in items_c]))
+        n_dist_up += int(d1 > d0)
     mv_summary = {
         "n_pairs": len(rows),
         "desc_magnitude": float(np.mean([r["desc_magnitude"] for r in rows])),
@@ -197,6 +207,7 @@ def main() -> None:
         "n_pairs_slope_pos": int(sum(r["desc_slope"] > 0 for r in rows)),
         "n_pairs_desc_slope_gt_prose": int(sum(r["desc_slope"] > r["prose_slope"] for r in rows)),
         "n_pairs_desc_mag_gt_prose": int(sum(r["desc_magnitude"] > r["prose_magnitude"] for r in rows)),
+        "n_pairs_rms_distance_to_author_increased": n_dist_up,
     }
     out["movement"] = {"summary": mv_summary, "pairs": rows}
     print("\n2. MOVEMENT at neutral-500 (m = p_cell - p_retest; t = p_author - p_receiver)")
@@ -205,7 +216,8 @@ def main() -> None:
     print(f"  slope of m on t: description {mv_summary['desc_slope']:+.3f} {mv_summary['desc_slope_ci']}  "
           f"prose {mv_summary['prose_slope']:+.3f} {mv_summary['prose_slope_ci']}  diff {mv_summary['slope_diff']:+.3f} {mv_summary['slope_diff_ci']}")
     print(f"  pairs with slope>0: {mv_summary['n_pairs_slope_pos']}/{len(rows)}; desc slope > prose slope: "
-          f"{mv_summary['n_pairs_desc_slope_gt_prose']}/{len(rows)}; desc |m| > prose |m|: {mv_summary['n_pairs_desc_mag_gt_prose']}/{len(rows)}")
+          f"{mv_summary['n_pairs_desc_slope_gt_prose']}/{len(rows)}; desc |m| > prose |m|: {mv_summary['n_pairs_desc_mag_gt_prose']}/{len(rows)}; "
+          f"RMS distance to author increased: {n_dist_up}/{len(rows)}")
     for r in rows:
         print(f"    {r['author']:>14} -> {r['receiver']:<16} |m| {r['desc_magnitude']:.3f} (prose {r['prose_magnitude']:.3f})"
               f"  slope {r['desc_slope']:+.3f} (prose {r['prose_slope']:+.3f})  cos {r['desc_cos']:+.2f}")
@@ -294,12 +306,16 @@ def main() -> None:
     out["per_category_T"] = percat
 
     # ---------- 5. author identifiability ----------
+    # candidates are the OTHER TWO members of the receiver's trio (Grid A, Grid B, local trio);
+    # the same-base pair is excluded so every trial has exactly two candidates (chance 1/2)
+    trios = [ag.GRID_A, ag.GRID_B, ag.LOCALS]
     trials = []
     sel = grid[(grid["author"].notna()) & grid["arm"].isin(["neutral", "framed"]) & (grid["regen"] == 0)]
     for (r, a, arm, n), g in sel.groupby(["receiver", "author", "arm", "length"]):
-        cands = partners(r)
-        if r == a or a not in cands or len(cands) < 2 or len(g) < 400:
+        trio = next((t for t in trios if r in t and a in t), None)
+        if trio is None or r == a or len(g) < 400:
             continue
+        cands = [m for m in trio if m != r]
         c = tbl_of(g)
         scores = {}
         for cand in cands:
@@ -324,7 +340,7 @@ def main() -> None:
     ident = {"n_trials": n, "nearest_by_F": k_f, "p_by_F": p_bin(k_f), "nearest_by_gain": k_g, "p_by_gain": p_bin(k_g),
              "by_cond": {c: {"correct": v[0], "n": v[1]} for c, v in sorted(by_cond.items())}, "chance": 0.5}
     out["identifiability"] = ident
-    print(f"\n5. AUTHOR IDENTIFIABILITY (nearest of 2 candidate authors; chance 0.5): "
+    print(f"\n5. AUTHOR IDENTIFIABILITY (trios only; nearest of the 2 other trio members; chance 0.5; descriptive, trials not independent): "
           f"by F {k_f}/{n} (p={ident['p_by_F']:.3f}); by gain over baseline {k_g}/{n} (p={ident['p_by_gain']:.3f})")
     for c, v in ident["by_cond"].items():
         print(f"    {c:<14} {v['correct']}/{v['n']}")

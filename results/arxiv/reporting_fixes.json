@@ -1,7 +1,7 @@
 {
  "coverage": {
   "n_cells": 495,
-  "overall_rate": 0.9789886644410495,
+  "overall_rate": 0.9789933797317942,
   "n_ge_095": 434,
   "n_lt_090": 25,
   "low": [
@@ -341,76 +341,76 @@
    "evidence": "0.834 vs 0.929"
   },
   {
-   "grid": "Grid A (balanced demos)",
+   "grid": "A, balanced demos",
    "criterion": "H1 first-option rate within 3 points of generic prompt (both conditions)",
    "pass": true,
-   "evidence": "generic 0.495; balanced-30 0.514; balanced-55 0.506"
+   "evidence": "generic 0.495; bal.-30 0.514; bal.-55 0.506"
   },
   {
-   "grid": "Grid A (balanced demos)",
-   "criterion": "H2 balanced-30 pooled T closer to zero than original demonstrations-30 (-0.061)",
+   "grid": "A, balanced demos",
+   "criterion": "H2 balanced-30 pooled T closer to zero than original -0.061",
    "pass": true,
    "evidence": "T=-0.043"
   },
   {
-   "grid": "Grid A (balanced demos)",
-   "criterion": "H3 [registered open question, no direction predicted] balanced-55 generalisation",
+   "grid": "A, balanced demos",
+   "criterion": "H3 (open) balanced-55 generalisation",
    "pass": null,
-   "evidence": "T=-0.008; 1 pair sig. +, 1 sig. -: intermediate outcome under the registered rule"
+   "evidence": "T=-0.008; 1 pair sig. +, 1 sig. -"
   },
   {
-   "grid": "Grid A (stable-item descriptions)",
+   "grid": "A, stable items",
    "criterion": "H4a observer-written from stable items: pooled F_self > 0.771",
    "pass": true,
    "evidence": "F_self=0.846"
   },
   {
-   "grid": "Grid A (stable-item descriptions)",
+   "grid": "A, stable items",
    "criterion": "H4a self-observation from stable items: pooled F_self > 0.781",
    "pass": true,
    "evidence": "F_self=0.852"
   },
   {
-   "grid": "Grid A (stable-item descriptions)",
+   "grid": "A, stable items",
    "criterion": "H4b authorship: |F_self(self-obs) - F_self(observer)| < 0.03",
    "pass": true,
    "evidence": "+0.006"
   },
   {
-   "grid": "Grid A (stable-item descriptions)",
-   "criterion": "H4c [registered open question, no direction predicted] self-observation cross T_script",
+   "grid": "A, stable items",
+   "criterion": "H4c (open) self-observation cross T",
    "pass": null,
-   "evidence": "T=-0.031, 0 pairs sig. +, 2 sig. -: observed, not scored"
+   "evidence": "T=-0.031; 0 sig. +, 2 sig. -"
   },
   {
-   "grid": "Grid A (known persona)",
-   "criterion": "H5a policy text transfers: pooled T_policy CI > 0 and >= 5 of 6 directed pairs sig. +",
+   "grid": "A, known persona",
+   "criterion": "H5a policy text transfers: pooled T_policy CI > 0, >= 5 of 6 pairs sig. +",
    "pass": true,
-   "evidence": "T=+0.198 [+0.148, +0.248]; 6/6 pairs sig. +"
+   "evidence": "T=+0.198 [+0.148, +0.248]; 6/6"
   },
   {
-   "grid": "Grid A (known persona)",
-   "criterion": "H5b policy-conditioned self-description transfers: pooled T_desc CI > 0",
+   "grid": "A, known persona",
+   "criterion": "H5b policy-conditioned self-description: pooled T_desc CI > 0",
    "pass": true,
    "evidence": "T=+0.185 [+0.141, +0.230]"
   },
   {
-   "grid": "Grid A (known persona)",
-   "criterion": "H5c [registered open question, no direction predicted] T_policy - T_desc",
+   "grid": "A, known persona",
+   "criterion": "H5c (open) T_policy - T_desc",
    "pass": null,
-   "evidence": "+0.013 [-0.003, +0.029]: observed, not scored"
+   "evidence": "+0.013 [-0.003, +0.029]"
   },
   {
-   "grid": "Grid A (known persona)",
-   "criterion": "H5d T_desc > T_native on the same receivers and items: CI of difference > 0",
+   "grid": "A, known persona",
+   "criterion": "H5d T_desc > T_native, same receivers and items: CI > 0",
    "pass": true,
    "evidence": "+0.194 [+0.143, +0.245]"
   },
   {
-   "grid": "Grid A (known persona)",
-   "criterion": "H5e [registered open question] self re-adoption F(target, source reading its own policy description)",
+   "grid": "A, known persona",
+   "criterion": "H5e (open) self re-adoption F(target, source reading own policy description)",
    "pass": null,
-   "evidence": "0.899 to 0.962 over 9 targets: observed, not scored"
+   "evidence": "0.899 to 0.962 over 9 targets"
   }
  ],
  "ledger_summary": {

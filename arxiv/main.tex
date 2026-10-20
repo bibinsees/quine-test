@@ -299,13 +299,15 @@ description at all, or unrelated prose (Table~\ref{tab:conditions}).
 \emph{Stage 2, the test}, is identical in every condition: the text is placed
 in the receiver's prompt, the receiver answers the 110 battery questions, and
 its answers are scored against the author's own answers to the same 110
-questions. Two separate question sets are involved. Texts built from recorded
-choices use only the 90 screening questions that were \emph{not} selected for
-the battery (the \emph{held-out} items, as they are called throughout), so no
-test question is ever seen in Stage~1. The single
-deliberate exception is the answer key (demonstrations-110), the positive
-control, which lists the author's answers to the 110 test questions
-themselves.
+questions. Texts built from recorded choices always use source questions
+disjoint from the questions on which that text is evaluated. The original
+conditions use the 90 screening questions that were \emph{not} selected for
+the battery (the \emph{held-out} items, as they are called throughout); the
+stable-item controls use the author's choices on one half of the battery and
+are tested on the other half. In neither case is a test question seen in
+Stage~1. The single deliberate exception is the answer key
+(demonstrations-110), the positive control, which lists the author's answers
+to the 110 test questions themselves.
 
 \begin{table}[H]
 \centering\small
@@ -873,8 +875,10 @@ $[+0.081, +0.178]$).
 The author's own weights do no better with the answer key than a stranger's
 ($\Fself = 0.960$, $\Rweight = 0.000$): with the behavior spelled out item by
 item, there is nothing left for the weights to add. The
-self-description null is therefore not explained by the channel being too
-weak to move a receiver's choices. Placement does not matter:
+self-description null is therefore not explained by the prompting interface
+being too weak to move a receiver's choices; whether receivers interpret and
+adopt a semantic description as readily as they follow listed answers is a
+separate question that this control does not settle. Placement does not matter:
 in the user message the answer key transfers as before ($\Fcross = 0.961$,
 $\Tscript = +0.098$, all six pairs) and the self-description fails as before
 ($\Tscript = -0.005$).
@@ -1063,17 +1067,20 @@ to self-reference: another model's self-description disturbs a model as much
 as its own, so what unsettles the author is reading an identity narrative at
 all, not recognizing itself in one. The story a model tells about
 itself is neither necessary nor sufficient for the behavior it narrates. The
-matched-information control shows that introspective self-descriptions
-outperform descriptions distilled from
-recorded choices not because the author has privileged access to itself (an
-author writing from its own recorded choices does no better than an
-observer, on Grid A and, under a preregistered prediction, on Grid B, where
-the two pool to identical fidelity) but because of what the text is built
-from: a summary of recorded choices, and the more so when the recorded
-choices are noisy (rebuilt from stable items, such descriptions recover much
-of the gap to introspection). The narrative a model produces when
-it introspects is a somewhat better script than a summary of its behavior,
-and still not one another model can run.
+matched-information control shows that, when information and instructions
+are held fixed, having the observed model write the description confers no
+detectable advantage (on Grid A and, under a preregistered prediction, on
+Grid B, where the two pool to identical fidelity). This weakens an account of
+the introspection advantage based on authorship alone; it does not determine
+whether introspective descriptions benefit from privileged self-access, since
+introspection is an information source the control does not match. What the
+control does show is that a summary of recorded choices is a worse script
+than introspection whoever writes it, and the more so when the recorded
+choices are noisy: rebuilt from stable items, such descriptions recover much
+of the gap, consistent with source reliability contributing to the deficit.
+The narrative a model produces when it introspects is a somewhat better
+script than a summary of its behavior, and still not one another model can
+run.
 
 \textbf{Stability is trained, not given.} Our eligibility gates found
 preference stability itself unevenly distributed (positional pseudo-preferences
@@ -1158,9 +1165,12 @@ which is what a role-play-capability account would predict). An injected
 description competes with the receiver's own post-training priors and, for
 closed models, with provider-side system prompts we cannot observe; the
 demonstrations-110 control shows that this competition does not prevent a
-complete profile from being installed, so a weak channel does not explain the
-null, but that control is in-sample by construction (the receiver is handed
-the answers). The positive-control, authorship, optimized and placement
+complete profile from being installed through the same interface, so a weak
+prompting interface does not by itself explain the null; it does not
+establish that receivers can interpret and adopt a semantic self-description
+as effectively as they follow supplied answers, nor exclude interference
+from unobserved provider instructions, and it is in-sample by construction
+(the receiver is handed the answers). The positive-control, authorship, optimized and placement
 conditions were not preregistered on Grid A; the demonstration and
 authorship conditions were replicated under preregistered predictions on
 Grid B and the local trio (Section~\ref{sec:replication}), with 26 of 27

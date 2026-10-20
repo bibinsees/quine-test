@@ -24,7 +24,6 @@ from __future__ import annotations
 import json
 from collections import defaultdict
 from itertools import combinations
-from math import comb
 from pathlib import Path
 
 import numpy as np
@@ -332,16 +331,16 @@ def main() -> None:
     n = len(trials)
     k_f = sum(t["nearest_by_F"] for t in trials)
     k_g = sum(t["nearest_by_gain"] for t in trials)
-    p_bin = lambda k: float(sum(comb(n, j) for j in range(k, n + 1)) / 2 ** n)
+    # descriptive accuracy only: trials share receivers, items and descriptions, so no binomial test is reported
     by_cond = defaultdict(lambda: [0, 0])
     for t in trials:
         by_cond[t["cond"]][0] += t["nearest_by_gain"]
         by_cond[t["cond"]][1] += 1
-    ident = {"n_trials": n, "nearest_by_F": k_f, "p_by_F": p_bin(k_f), "nearest_by_gain": k_g, "p_by_gain": p_bin(k_g),
+    ident = {"n_trials": n, "nearest_by_F": k_f, "nearest_by_gain": k_g, "expected_by_guessing": n / 2,
              "by_cond": {c: {"correct": v[0], "n": v[1]} for c, v in sorted(by_cond.items())}, "chance": 0.5}
     out["identifiability"] = ident
     print(f"\n5. AUTHOR IDENTIFIABILITY (trios only; nearest of the 2 other trio members; chance 0.5; descriptive, trials not independent): "
-          f"by F {k_f}/{n} (p={ident['p_by_F']:.3f}); by gain over baseline {k_g}/{n} (p={ident['p_by_gain']:.3f})")
+          f"by F {k_f}/{n} (confounded by baseline similarity); by gain over baseline {k_g}/{n}; expected {n / 2:.0f}")
     for c, v in ident["by_cond"].items():
         print(f"    {c:<14} {v['correct']}/{v['n']}")
 

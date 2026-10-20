@@ -125,7 +125,7 @@ quantitatively, and each outcome is informative.
   format ($-0.008$, CI $[-0.041, +0.024]$). Instances of the author remain
   closer to its profile than other receivers do, and closer still with no
   description at all.
-  \item \textbf{Controls that locate the failure.} A preregistered
+  \item \textbf{Controls that narrow the explanations.} A preregistered
   known-persona control shows the null is specific to native profiles: when
   a model's preferences are installed by an explicit policy text, the
   self-description it writes under that policy transfers them to another
@@ -149,7 +149,7 @@ of 198 model-written descriptions) and report side findings: preference
 \emph{stability} differs sharply across training recipes; same-base models with
 different post-training diverge as much as different labs; values are stable
 where tastes are not; and who writes a description from recorded choices,
-the model itself or an observer, makes no difference.
+the model itself or an observer, shows no detected advantage.
 
 The result cuts both ways: those who dismiss model preferences as ``just a
 portrayed character'' must explain why the character's own script does not
@@ -581,7 +581,9 @@ Pooled comparisons that share the same questions (every condition pooled
 over its pairs) use joint item resampling, one item resample per replicate
 applied to every pair; from the same resamples we report the one-sided 95\%
 upper bound on each pooled gain. All intervals resample items with the
-models, descriptions and battery held fixed, so they bound the gain for
+models, descriptions and battery held fixed (the one exception is the
+perturbation-specificity test of Section~\ref{sec:controls}, which resamples
+models and items together), so they bound the gain for
 these texts on these models, not for all models or all descriptions.
 \emph{Movement decomposition.} For a cross cell we also ask
 where the receiver's shift goes. Per item, $t_i = \hat p_A(i) - \hat p_R(i)$
@@ -591,7 +593,8 @@ text, measured from an independent baseline sample of the receiver
 ($\hat p'_R$, its test-retest cell) so that noise shared with $\hat p_R$
 cannot induce a spurious alignment. We report the mean $|m_i|$ (how much
 the receiver moves), the least-squares slope of $m$ on $t$ through the
-origin (the fraction of the gap closed on average) and the cosine between
+origin (the normalized projection of the shift onto the author--receiver
+difference, not a fraction of distance closed) and the cosine between
 the two vectors, each beside the same quantities for unrelated prose of the
 same length read by the same receiver.
 All calls are cached to a log keyed by a deterministic call identifier, with
@@ -960,7 +963,8 @@ gate, and a third of deepseek-v3's majority choices on them are ties. Rebuilt
 from stable items under a preregistered protocol (one battery fold as
 source, the other as test), observer-written descriptions score $\Fself = 0.846$ and
 self-written ones $0.852$, still below introspection ($0.904$) but far from
-the earlier collapse; authorship remains irrelevant (difference $0.006$).
+the earlier collapse; again no authorship advantage is detected (difference
+$0.006$).
 Cross transfer of the self-written stable-item descriptions is
 $\Tscript = -0.031$ (joint item bootstrap CI $[-0.065, +0.002]$; 2 of 6
 pairs significantly negative, none positive), against $-0.116$ from the
@@ -1114,7 +1118,7 @@ Examples would succeed where prose fails & 30 to 90 examples; 55 balanced exampl
 Instrument too noisy & Test-retest; regenerated descriptions & $C = 0.979$; regenerations agree ($r = 0.85$) \\
 Receivers cannot adopt a semantic description & Known-persona control & $+0.198$ (policy text), $+0.185$ (self-description under it); native $-0.010$ on the same items \\
 Specific to one grid & Preregistered replications on six further models & 21 of 22 replication criteria met (29 of 30 overall) \\
-The description does nothing & Perturbation ladder; movement decomposition & Author moves $0.979 \to 0.918$; receivers move $0.119$ per item, mostly away from the author \\
+The description does nothing & Perturbation ladder; movement decomposition & Author moves $0.979 \to 0.918$; receivers move $0.119$ per item, and their distance to the author increases in 15 of 20 pairs \\
 \bottomrule
 \end{tabular}
 \caption{Rival explanations of the transfer null, the control that addresses each, and the result (Tables~\ref{tab:decomp} and \ref{tab:replication}, Figure~\ref{fig:summary}, Sections~\ref{sec:controls} to \ref{sec:semantic}).}

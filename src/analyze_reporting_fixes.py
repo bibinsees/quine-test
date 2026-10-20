@@ -31,6 +31,24 @@ RUN_FILES = ["grid.jsonl", "arxiv_positive_controls.jsonl", "arxiv_optimized.jso
 NAME = {"mistral32-local": "mistral-small-3.2", "kimi-k2.5-nr": "kimi-k2.5", "gpt5.2": "gpt-5.2"}
 
 
+def cond_label(arm: str, length: str) -> str:
+    """Manuscript name for an internal (arm, length) pair, for the coverage table."""
+    if arm.startswith("3p_by_"):
+        return f"third-person-500 (by {NAME.get(arm[6:], arm[6:])})"
+    if arm.startswith("3p_stable_by_"):
+        return f"third-person, stable items (by {NAME.get(arm[13:], arm[13:])})"
+    fixed = {"fewshot": f"demonstrations-{length}", "oracle": "demonstrations-110 (answer key)",
+             "oracle_user": "demonstrations-110, user msg.", "neutral_user": "neutral-500, user msg.",
+             "selfobs": "self-observation-500", "selfobs_stable": "self-observation, stable items",
+             "fewshot_bal": "demonstrations-30, balanced", "demos_bal": "demonstrations-55, balanced",
+             "optimized": "optimized-500", "policy": "policy text", "policy_desc": "policy-conditioned description"}
+    if arm in fixed:
+        return fixed[arm]
+    if arm.startswith("policy_desc_"):
+        return f"policy-conditioned description ({arm[12:]})"
+    return f"{arm}-{length}".replace("_", "\\_")
+
+
 def tbl_of(g):
     ok = g[g["choice"].notna()]
     return {i: (gg["choice"] == "option_a").mean() for i, gg in ok.groupby("item_id")}
@@ -75,7 +93,7 @@ def main() -> None:
              r"Cell (receiver $\mid$ author $\mid$ condition) & Parsed / calls & Items covered & Empty replies \\", r"\midrule"]
     for _, r in low.iterrows():
         parts = r["cell"].split("|")
-        label = f"{NAME.get(parts[0], parts[0])} $\\mid$ {NAME.get(parts[1], parts[1])} $\\mid$ " + "-".join(parts[2:4]).replace("_", "\\_")
+        label = f"{NAME.get(parts[0], parts[0])} $\\mid$ {NAME.get(parts[1], parts[1])} $\\mid$ " + cond_label(parts[2], parts[3])
         lines.append(f"{label} & {r['parsed']} / {r['n_calls']} & {r['items']} & {r['empty']} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{Battery cells with fewer than 90\% parsed answers (all other cells are at or above "

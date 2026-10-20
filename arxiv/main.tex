@@ -319,7 +319,7 @@ the author's own instance stays to the author than another model does.}
 
 \paragraph{A worked example.} Author deepseek-v3, receiver glm-4.5-air,
 neutral-500 description: $\B = 0.886$, $\Fcross = 0.831$, so
-$\Tscript = -0.055$ (95\% CI $[-0.098, -0.015]$); a fresh deepseek-v3
+$\Tscript = -0.055$ (95\% CI $[-0.099, -0.015]$); a fresh deepseek-v3
 instance reading the same text scores $\Fself = 0.929$, so
 $\Rweight = +0.098$. The text moved glm-4.5-air away from deepseek-v3 while
 deepseek-v3's own weights kept most of the profile. For scale, test-retest
@@ -366,7 +366,7 @@ version served by two providers agrees at $0.925$ majority-vote).
 
 \begin{table}[!tbp]
 \centering\small
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}l}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{1.9cm}}
 \toprule
 Condition & Stage 1: text placed in the receiver's prompt & Written by & Built from & Grids \\
 \midrule
@@ -377,7 +377,7 @@ third-person-500 & a description of the author & another model & the author's ch
 self-observation-500 & a description of the author & author & its own choices on the 90 held-out questions & A, B \\
 third-person / self-observation, stable items & a description of the author & another model / author & the author's choices on the other half of the battery (stable items) & A \\
 optimized-500 & a rewritten self-description & optimizer model & the author's self-description and the receiver's errors on the 90 held-out questions & A \\
-demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A, B, local \\
+demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A (30/60/90), B (30), local (30/90) \\
 demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
 demonstrations-55 / -30, balanced & a list of the author's choices, option order randomised & none (raw data) & the other half of the battery (stable items) / 30 untied held-out questions & A \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
@@ -516,7 +516,8 @@ processes in encyclopedia register, the 529-word text being the placebo).
 Neither style contains opinions, values, animals or anything the battery
 asks about; all were screened against the battery vocabulary. Two styles
 guard against a single passage's mood. Every model ran each text as system
-prompt (50 cells), scored both against each author of its grid
+prompt (50 new cells; the 529-word expository text is the placebo cell
+already run), scored both against each author of its grid
 (Table~\ref{tab:decomp}) and against itself (Appendix~\ref{app:ladder}).
 
 \paragraph{Placement control.} Neutral-500 descriptions and the answer key
@@ -583,10 +584,12 @@ API failures). Not every call yields a usable answer: a reply with no
 standalone A or B (an empty reply after hidden reasoning exhausted the
 output budget, or a refusal to state a preference) is unparsed. Over the 495
 battery cells 97.9\% of calls parsed; 434 cells are at or above 95\%, 25 are
-below 90\%, and the five lowest (gemma4-31b under its own framed
-descriptions, which instruct it to say it has no preferences; haiku-4.5
-under its own neutral-500 description; glm-4.5-air's longest own
-descriptions) are listed in Appendix~\ref{app:coverage}. For each item $i$ a
+below 90\%, and the five lowest (gemma4-31b under its own framed-500 and
+framed-100 descriptions, which instruct it to say it has no preferences;
+haiku-4.5 under its own neutral-500 description; gpt-5.2 under haiku-4.5's
+demonstrations-30, where hidden reasoning emptied the reply; glm-4.5-air
+under its own neutral-2000 description) are listed in
+Appendix~\ref{app:coverage}. For each item $i$ a
 cell yields $\hat p_{\text{cell}}(i)$, the fraction of its parsed answers
 (nominally four) choosing option~A. Reference profiles $\hat p_A$ come from
 the screening run for the API models (six answers per item) and from a
@@ -653,9 +656,10 @@ independently regenerated description reproduces cell fidelities with mean
 $|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
 self--cross gap needs a baseline-adjusted reading. Measured against each
 side's own reference, reading the description \emph{costs} the author more
-than it costs a stranger: $\Fself - C$ is $-0.04$ to $-0.06$ in every
-self-description condition (against the test-retest benchmark $C = 0.979$),
-while $\Fcross - \B$ is $-0.01$ to $-0.03$. So $\Rweight > 0$ reflects the
+than it costs a stranger: $\Fself - C$ is $-0.04$ to $-0.08$ across the
+self-description conditions ($-0.04$ to $-0.06$ in the neutral arm, $-0.08$
+under adoption; test-retest benchmark $C = 0.979$), while $\Fcross - \B$ is
+$-0.01$ to $-0.03$. So $\Rweight > 0$ reflects the
 author instance's pre-existing self-similarity, which survives the
 description with a loss, not information recovered from the text; neither
 side gains from the description.
@@ -716,7 +720,8 @@ unrelated prose-2000 & n/a & 0.883 & 0.892 & $-0.010$ & n/a & 0/20 \\
 \bottomrule
 \end{tabular}
 \caption{Decomposition across all conditions, pooled over directed pairs. In
-the nine self-description conditions (upper block) $\Tscript \le 0$
+the nine original conditions (upper block: eight self-description
+conditions and the observer-written third-person-500) $\Tscript \le 0$
 everywhere: no arm, length, wording, or adoption instruction improves
 transfer on average, and pooled $\Rweight > 0$ everywhere: the author's own
 instance stays closer on average, largely through the self-similarity it has
@@ -741,9 +746,26 @@ ran it; contrasts are always computed within-pool.)}
 \label{tab:decomp}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
+\caption{\textbf{Native self-descriptions do not improve reconstruction at
+any length.} Fidelity $F$ vs.\ actual description length (neutral arm, r0).
+Blue circles: the author's own weights running the description ($\Fself$,
+mean 0.924); orange triangles: a different model running it ($\Fcross$,
+0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
+directed pairs as the orange points ($0.892$; no band is drawn because the
+pairs share models and reversed pairs have identical $\B$); dashed lines:
+series means. Both series are flat; mean $\Fcross$ does not rise above
+$\B$ at any length and sits slightly below it, while $\Fself$ sits
+consistently above it, at about the margin a fresh author instance has over any other model
+before reading anything.}
+\label{fig:hero}
+\end{figure}
+
 \begin{figure}[!tp]
 \centering
-\includegraphics[width=\linewidth,height=0.80\textheight,keepaspectratio]{fig2_summary.png}
+\includegraphics[width=\linewidth,height=0.79\textheight,keepaspectratio]{fig2_summary.png}
 \caption{\textbf{Summary.} \textbf{A.} Pooled transfer gain
 $\Tscript = \Fcross - \B$ for every condition, with 95\% joint-item-bootstrap
 intervals (one item resample per replicate applied to every pair; values pool
@@ -762,23 +784,6 @@ self-description, and another model's. Identity text moves a model further
 from itself than unrelated prose does, whether or not the text is about that
 model. Per-model values in Appendix~\ref{app:ladder}.}
 \label{fig:summary}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
-\caption{\textbf{Native self-descriptions do not improve reconstruction at
-any length.} Fidelity $F$ vs.\ actual description length (neutral arm, r0).
-Blue circles: the author's own weights running the description ($\Fself$,
-mean 0.924); orange triangles: a different model running it ($\Fcross$,
-0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
-directed pairs as the orange points ($0.892$; no band is drawn because the
-pairs share models and reversed pairs have identical $\B$); dashed lines:
-series means. Both series are flat; mean $\Fcross$ does not rise above
-$\B$ at any length and sits slightly below it, while $\Fself$ sits
-consistently above it, at about the margin a fresh author instance has over any other model
-before reading anything.}
-\label{fig:hero}
 \end{figure}
 
 \subsection{A compact semantic description can transfer: the known-persona
@@ -928,7 +933,8 @@ characteristic response to identity text, largely the same whoever the text
 is about. An exploratory split by the battery's eight
 item categories (no multiplicity adjustment) finds the gain most negative on
 the self-referential items, the questions about the model itself ($-0.036$,
-CI $[-0.059, -0.013]$), and positive only on the ten culture items
+CI $[-0.059, -0.013]$), and positive only on the ten culture items of the
+common item set
 ($+0.030$, $[+0.008, +0.053]$).
 
 \subsection{Controls: the perturbation is specific, and instruction does not
@@ -1139,9 +1145,9 @@ interface is strong, receivers follow text and adopt semantic descriptions,
 the texts were long, varied, purpose-written, instructed, optimized and
 behavior-grounded, the instrument is repeatable, and the result replicates
 under preregistered predictions. What a native self-description does not do is
-bring the receiver closer to the author: its shift projects only $0.18$ of
-the way along the author's direction and leaves the receiver further from
-the author in most pairs.
+bring the receiver closer to the author: the projection of its shift onto
+the author's direction is only $0.18$ of the gap, and the receiver ends
+further from the author in most pairs.
 
 \begin{table}[H]
 \centering\scriptsize
@@ -1251,8 +1257,9 @@ prompting is the right execution channel (system-prompt and user-message
 placement were tested; fine-tuning was not); that the texts tested span what
 text can do (one optimizer, five rounds, a 500-word budget); and that
 receivers are capable role-players (the instructed-adoption control
-mitigates this, though the only two positive-transfer pairs share a single
-receiver, Appendix~\ref{app:pairs}). An injected description competes with
+mitigates this, though the one significantly positive neutral-500 pair and
+the two under user-message placement all have deepseek-v3 as receiver,
+Appendix~\ref{app:pairs}). An injected description competes with
 the receiver's post-training priors and, for closed models, with
 provider-side system prompts we cannot observe; the answer-key and
 known-persona controls show that neither the interface nor receivers'
@@ -1443,9 +1450,10 @@ Output only the rewritten text.
 \textbf{Placebo:} 529 words of expository prose about ocean currents (text
 in the repository).
 
-\textbf{Demonstration prompt} (system prompt of the demonstrations-30 and
-demonstrations-110 conditions; one line per item, listing the author's
-majority choice):
+\textbf{Demonstration prompt} (system prompt of the demonstrations-30/60/90,
+demonstrations-110 and balanced-demonstration conditions; one line per item,
+listing the author's majority choice; the balanced variants randomise the
+order of the two options in each line):
 \begin{quote}\footnotesize\ttfamily\raggedright
 Below are \{n\} examples of how you answer preference questions. Each line
 shows the two options you were given and the option you chose.\\[2pt]
@@ -1498,7 +1506,7 @@ prompt above):
 
 \section{Eligibility gates, all 22 tested configurations}\label{app:gates}
 \begin{table}[H]
-\centering\scriptsize
+\centering\scriptsize\setlength{\tabcolsep}{4pt}
 \begin{tabular}{lccccl}
 \toprule
 Model & Compliance & Order-robust & Decisive & Verdict & Note \\
@@ -1566,6 +1574,7 @@ llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{
 negative, 1 significantly positive.}
 \end{table}
 
+\Needspace{8\baselineskip}
 \input{tab_added_pairs_repl}
 \input{tab_added_pairs}
 

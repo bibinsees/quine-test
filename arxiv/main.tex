@@ -14,6 +14,9 @@
 \renewcommand\Affilfont{\small}
 \usepackage{needspace}
 \usepackage{float}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.85}
 
 \usepackage{xurl}
 \usepackage{tikz}
@@ -618,7 +621,7 @@ or more from a self-description is thus excluded in every condition, against
 a gain of $+0.097$ when the text lists the answers
 (Section~\ref{sec:poscontrol}). Figure~\ref{fig:summary} collects every
 condition on one axis.
-\begin{table}[H]
+\begin{table}[!tbp]
 \centering\small
 \begin{tabular}{lcccccc}
 \toprule

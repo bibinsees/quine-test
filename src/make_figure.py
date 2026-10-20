@@ -17,10 +17,10 @@ import analyze_grid as ag
 
 # palette (validated: see dataviz skill run)
 BLUE, ORANGE = "#2a78d6", "#eb6834"
-INK, SEC, MUTED, GRID_C, BASE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
+INK, SEC, MUTED, GRID_C, BASE = "#0b0b0b", "#2e2e2e", "#4a4a4a", "#dcdcdc", "#9a9a9a"
 SURFACE = "#ffffff"
 
-ag.GRID = ag.ROOT / "runs" / "grid_snapshot.jsonl"
+ag.GRID = ag.ROOT / "results" / "arxiv" / "grid_merged.jsonl"  # merged log (hermes replacement cells included)
 
 
 def collect():
@@ -101,13 +101,13 @@ def main() -> None:
 
     # annotate the two contrasts with a bracket-free note
     ax.annotate(
-        r"$R_{\rm weight} = F_{\rm self} - F_{\rm cross} > 0$: only the author's"
-        "\nown weights recover the profile",
+        r"$R_{\rm weight} = F_{\rm self} - F_{\rm cross} > 0$: a fresh instance of the author"
+        "\nstays closer, largely through its pre-existing self-similarity",
         xy=(0.02, 0.97), xycoords="axes fraction", fontsize=8.5, color=INK,
         va="top")
     ax.annotate(
-        r"$T_{\rm script} = F_{\rm cross} - B \leq 0$: the description transports"
-        "\nnothing another model can execute",
+        r"$T_{\rm script} = F_{\rm cross} - B \leq 0$: the description brings"
+        "\nthe receiver no closer to the author, at any length",
         xy=(0.02, 0.13), xycoords="axes fraction", fontsize=8.5, color=INK,
         va="top")
 
@@ -134,7 +134,8 @@ def main() -> None:
         t.set_color(SEC)
 
     fig.tight_layout()
-    out = ag.ROOT / "report" / "fig1_dose_decomposition.png"
+    # arXiv version of the figure; the sprint figure in report/ is left untouched
+    out = ag.ROOT / "arxiv" / "fig1_dose_decomposition.png"
     fig.savefig(out, facecolor=SURFACE, bbox_inches="tight")
     print(f"self n={len(self_pts)} mean={self_pts[:,1].mean():.3f} | "
           f"cross n={len(cross_pts)} mean={cross_pts[:,1].mean():.3f} | "

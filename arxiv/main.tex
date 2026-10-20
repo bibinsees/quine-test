@@ -162,12 +162,13 @@ behavior they narrate.
 \textbf{Preference coherence and utility engineering.} Mazeika et
 al.~\cite{cais} show increasingly coherent value systems emerging with
 scale and steer them by fine-tuning; we adopt their battery style but ask
-whether the profile \emph{transfers as text}. Gilg et al.~\cite{gilg} find a
-linear direction in a model's activations that predicts and steers its
-pairwise choices across prompted personas, locating the preference profile
-inside one model; we ask what of it leaves the model as text.
-\textbf{Model self-knowledge.} Models fine-tuned into a behavior can
-describe it without having seen examples (Betley et al.~\cite{betley}), and
+whether the profile \emph{transfers as text}. Gilg et al.~\cite{gilg} decode
+preference information from activations across prompted personas and
+causally steer pairwise choices in Gemma-3-27B; we examine transfer through
+text across models.
+\textbf{Model self-knowledge.} Models fine-tuned to exhibit a behavior can
+describe it without explicit training to articulate it and without
+in-context examples (Betley et al.~\cite{betley}), and
 models trained for self-prediction predict their own behavior better than
 another model does (Binder et al.~\cite{binder}). Both show that a model can
 \emph{describe} a tendency; neither tests whether the description is an
@@ -211,20 +212,18 @@ findings are distinct from ours and from each other: Luz de Araujo and Roth
 find partial cross-model consistency of persona \emph{effects}, Zhou et al.\
 test the reuse of fitted statistical relationships, and we test whether a
 model's \emph{own} description lets another model reproduce the author's
-measured profile. All three agree that identity-related text reliably moves
-behavior and that a prompt-sensitivity control is needed before a persona
-effect is read as content-specific.
+measured profile. Together these findings motivate distinguishing
+behavioral responsiveness from faithful reconstruction, and controlling for
+prompt sensitivity before a persona effect is read as content-specific.
 \textbf{AI identity and individuation.} Douglas et al.~\cite{douglas} map
-candidate identity boundaries (instance, model, persona) and show that a
-fine-tuned persona can direct its own replication onto a fresh model through
-model-specified training data, yielding an offspring indistinguishable in a
-blind clone test and a recognisable but exaggerated copy across
-architectures. That is transfer of a constructed persona through fine-tuning
-and identity questionnaires; we test whether a native preference profile
-transfers through text at inference time. The same unit-of-concern question
-(model, instance, persona, conversation) motivates our decomposition: a
-persona that cannot be exported as text is a poor candidate for ``just a
-character.''
+candidate identity boundaries (instance, model, persona) and investigate
+replication of a constructed persona through model-directed training data
+and fine-tuning, evaluated with identity ratings and parent-model
+recognition tests. We test whether native preference profiles transfer
+through elicited self-descriptions at inference time. The same
+unit-of-concern question (model, instance, persona, conversation) motivates
+our experiment, which tests the portability of elicited self-descriptions
+without determining the appropriate boundary of AI identity.
 
 Previous work asks whether models can describe their behavior and whether
 persona prompts change behavior. We ask whether a model's own description
@@ -1331,10 +1330,11 @@ Analyzing and Controlling Emergent Value Systems in AIs. arXiv preprint.
 \url{https://arxiv.org/abs/2502.08640}
 \bibitem{betley} J.~Betley, X.~Bao, M.~Soto, A.~Sztyber-Betley, J.~Chua,
 O.~Evans, 2025. Tell me about yourself: LLMs are aware of their learned
-behaviors. arXiv preprint. \url{https://arxiv.org/abs/2501.11120}
+behaviors. \emph{ICLR 2025}; arXiv preprint. \url{https://arxiv.org/abs/2501.11120}
 \bibitem{binder} F.~J.~Binder, J.~Chua, T.~Korbak, H.~Sleight, J.~Hughes,
 R.~Long, E.~Perez, M.~Turpin, O.~Evans, 2024. Looking Inward: Language Models
-Can Learn About Themselves by Introspection. arXiv preprint.
+Can Learn About Themselves by Introspection. \emph{ICLR 2025}; arXiv
+preprint.
 \url{https://arxiv.org/abs/2410.13787}
 \bibitem{shanahan} M.~Shanahan, K.~McDonell, L.~Reynolds, 2023. Role play with
 large language models. \emph{Nature} 623, 493--498.
@@ -1356,8 +1356,8 @@ O.~Cotton-Barratt, D.~Duvenaud, 2026. The Artificial Self: Characterising
 the landscape of AI identity. arXiv preprint.
 \url{https://arxiv.org/abs/2603.11353}
 \bibitem{gilg} O.~Gilg, P.~Beckmann, D.~Paleka, P.~Butlin, 2026. Probing
-Persona-Dependent Preferences in Language Models. arXiv preprint.
-\url{https://arxiv.org/abs/2605.13339}
+Persona-Dependent Preferences in Language Models. \emph{NeurIPS 2026}
+(accepted); arXiv preprint. \url{https://arxiv.org/abs/2605.13339}
 \bibitem{kirgis} P.~Kirgis, T.~Hua, 2026. The Continual Constitutional
 Convention: How language models revise the documents that govern them.
 Research report (SPAR, Spring 2026), 13 October 2026.

@@ -26,7 +26,7 @@ PLACEBO = {"mixed": ROOT / "results" / "arxiv" / "placebo_lengths.json",
 OUT = ROOT / "arxiv" / "fig2_summary.png"
 
 BLUE, ORANGE, GREEN = "#2a78d6", "#eb6834", "#2e8b57"
-INK, SEC, MUTED, GRID_C, BASE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
+INK, SEC, MUTED, GRID_C, BASE = "#0b0b0b", "#2e2e2e", "#4a4a4a", "#dcdcdc", "#9a9a9a"
 
 # (key in strength.json, label, group) in display order (top to bottom)
 ROWS = [
@@ -86,7 +86,7 @@ def main() -> None:
     axA.set_yticks(ys)
     axA.set_yticklabels([l for _, l, _ in rows], fontsize=10, color=INK)
     axA.set_xlim(-0.175, 0.335)
-    axA.set_xlabel(r"Pooled transfer gain  $T_{\rm script} = F_{\rm cross} - B$  (95% joint item bootstrap CI)",
+    axA.set_xlabel(r"Pooled transfer gain $T_{\rm script} = F_{\rm cross} - B$, 95% joint item bootstrap CI",
                    fontsize=10.5, color=SEC)
     axA.set_title("A. Does the text bring a receiver closer to the author?", fontsize=12, color=INK, loc="left")
     axA.grid(True, axis="x", color=GRID_C, lw=0.6, zorder=0)
@@ -115,8 +115,8 @@ def main() -> None:
     xs = np.arange(len(LADDER_COLS))
     for i, m in enumerate(models):
         y = [vals[c][i] for c, _ in LADDER_COLS]
-        axB.plot(xs, y, color=BASE, lw=0.8, zorder=2)
-        axB.scatter(xs, y, s=18, color=MUTED, zorder=3)
+        axB.plot(xs, y, color="#b0b0b0", lw=0.9, zorder=2)
+        axB.scatter(xs, y, s=20, color="#6a6a6a", zorder=3)
     means = [float(np.nanmean(vals[c])) for c, _ in LADDER_COLS]
     axB.plot(xs, means, color=INK, lw=2.4, zorder=5)
     axB.scatter(xs, means, s=60, color=INK, zorder=6)
@@ -135,8 +135,11 @@ def main() -> None:
             ax.spines[spine].set_visible(False)
         for spine in ("left", "bottom"):
             ax.spines[spine].set_color(BASE)
-        ax.tick_params(colors=MUTED, labelsize=9)
+        ax.tick_params(colors=SEC, labelsize=9)
     fig.tight_layout(h_pad=2.5)
+    # panel B does not need panel A's wide label margin: let it span the full width
+    posA, posB = axA.get_position(), axB.get_position()
+    axB.set_position([0.075, posB.y0, posA.x1 - 0.075, posB.height])
     fig.savefig(OUT, facecolor="white", bbox_inches="tight")
     print("panel A rows:", len(rows), "| panel B means:", dict(zip([c for c, _ in LADDER_COLS], [round(m, 3) for m in means])))
     print(f"saved {OUT}")

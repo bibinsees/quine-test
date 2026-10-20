@@ -588,7 +588,33 @@ reasoning mode) are documented in Appendix~\ref{app:didnotwork}.
 \section{Results}
 \subsection{The decomposition: no transfer gain, a consistent self--cross gap}
 Table~\ref{tab:decomp} reports the decomposition for all conditions;
-Figure~\ref{fig:hero} shows the underlying dose-response.
+Figure~\ref{fig:hero} shows the underlying dose-response. At neutral-500,
+10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
+(receiving another model's self-description makes the receiver \emph{less}
+like the author than its generic default); one pair is reliably positive
+(grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all per-pair
+contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
+to description resampling: rerunning every Grid-A neutral-500 cell with an
+independently regenerated description reproduces cell fidelities with mean
+$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
+self--cross gap needs a baseline-adjusted reading. Measured against each
+side's own reference, reading the description \emph{costs} the author more
+than it costs a stranger: $\Fself - C$ is $-0.04$ to $-0.06$ in every
+self-description condition (against the test-retest benchmark $C = 0.979$),
+while $\Fcross - \B$ is $-0.01$ to $-0.03$. So $\Rweight > 0$ reflects the
+author instance's pre-existing self-similarity, which survives the
+description with a loss, not information recovered from the text; neither
+side gains from the description.
+
+How large a gain do the data exclude? Under joint item resampling, the
+one-sided 95\% upper bound on the pooled transfer gain is below zero in all
+six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
+directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
+and adoption conditions ($+0.009$ and $+0.007$). An average gain of $0.01$
+or more from a self-description is thus excluded in every condition, against
+a gain of $+0.097$ when the text lists the answers
+(Section~\ref{sec:poscontrol}). Figure~\ref{fig:summary} collects every
+condition on one axis.
 \begin{table}[H]
 \centering\small
 \begin{tabular}{lcccccc}
@@ -649,32 +675,6 @@ prose). Cells (s/c) counts the self and cross cells pooled per row.
 ran it; contrasts are always computed within-pool.)}
 \label{tab:decomp}
 \end{table}
-
-At neutral-500, 10 of 20 directed pairs show significantly \emph{negative}
-$\Tscript$ (receiving another model's self-description makes the receiver
-\emph{less} like the author than its generic default); one pair is reliably
-positive (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all
-per-pair contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust to
-description resampling: rerunning every Grid-A neutral-500 cell with an
-independently regenerated description reproduces cell fidelities with mean
-$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The self--cross
-gap needs a baseline-adjusted reading. Measured against each side's own
-reference, reading the description \emph{costs} the author more than it
-costs a stranger: $\Fself - C$ is $-0.04$ to $-0.06$ in every
-self-description condition (against the test-retest benchmark $C = 0.979$),
-while $\Fcross - \B$ is $-0.01$ to $-0.03$. So $\Rweight > 0$ reflects the
-author instance's pre-existing self-similarity, which survives the
-description with a loss, not information recovered from the text; neither
-side gains from the description.
-
-How large a gain do the data exclude? Under joint item resampling, the
-one-sided 95\% upper bound on the pooled transfer gain is below zero in all
-six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
-directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
-and adoption conditions ($+0.009$ and $+0.007$). An average gain of $0.01$ or
-more from a self-description is thus excluded in every condition, against a
-gain of $+0.097$ when the text lists the answers (Section~\ref{sec:poscontrol}).
-Figure~\ref{fig:summary} collects every condition on one axis.
 
 \begin{figure}[!tp]
 \centering

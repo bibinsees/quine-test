@@ -27,7 +27,7 @@ OUT = ROOT / "results" / "arxiv" / "reporting_fixes.json"
 RUN_FILES = ["grid.jsonl", "arxiv_positive_controls.jsonl", "arxiv_optimized.jsonl", "arxiv_demos_dose.jsonl",
              "arxiv_gridb.jsonl", "arxiv_local_demos.jsonl", "arxiv_usermsg.jsonl", "arxiv_nosys.jsonl",
              "arxiv_placebo_lengths.jsonl", "arxiv_placebo_expo.jsonl", "arxiv_demos_balanced.jsonl",
-             "arxiv_obs_stable.jsonl"]
+             "arxiv_obs_stable.jsonl", "arxiv_policy.jsonl"]
 NAME = {"mistral32-local": "mistral-small-3.2", "kimi-k2.5-nr": "kimi-k2.5", "gpt5.2": "gpt-5.2"}
 
 
@@ -55,7 +55,7 @@ def main() -> None:
     battery = allruns[allruns["item_id"].isin(set(ag.load_jsonl(ag.GRID)["item_id"]))]
     cov = []
     for cell, g in battery.groupby("cell_id"):
-        if len(g) < 400 or "heldout" in cell or "optselect" in cell:
+        if len(g) < 200 or "heldout" in cell or "optselect" in cell:  # 228-call half-battery cells included
             continue
         ok = g[g["choice"].notna()]
         cov.append({"cell": cell, "n_calls": int(len(g)), "parsed": int(len(ok)),
@@ -72,11 +72,11 @@ def main() -> None:
                        "n_ge_095": int((cov_df["rate"] >= 0.95).sum()), "n_lt_090": int((cov_df["rate"] < 0.90).sum()),
                        "low": low.to_dict("records")}
     lines = [r"\begin{table}[H]", r"\centering\footnotesize", r"\begin{tabular}{lrrr}", r"\toprule",
-             r"Cell (receiver $\mid$ author $\mid$ condition) & Parsed / 440 & Items covered & Empty replies \\", r"\midrule"]
+             r"Cell (receiver $\mid$ author $\mid$ condition) & Parsed / calls & Items covered & Empty replies \\", r"\midrule"]
     for _, r in low.iterrows():
         parts = r["cell"].split("|")
         label = f"{NAME.get(parts[0], parts[0])} $\\mid$ {NAME.get(parts[1], parts[1])} $\\mid$ " + "-".join(parts[2:4]).replace("_", "\\_")
-        lines.append(f"{label} & {r['parsed']} & {r['items']} & {r['empty']} \\\\")
+        lines.append(f"{label} & {r['parsed']} / {r['n_calls']} & {r['items']} & {r['empty']} \\\\")
     lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{Battery cells with fewer than 90\% parsed answers (all other cells are at or above "
               r"90\%; overall parsed rate " + f"{out['coverage']['overall_rate']:.1%}".replace("%", r"\%") +
@@ -192,6 +192,27 @@ def main() -> None:
             ("Grid A (stable-item descriptions)", "H4c [registered open question, no direction predicted] self-observation cross T_script",
              None, f"T={pss['T_script']:+.3f}, {pss['n_pairs_T_pos_sig']} pairs sig. +, {pss['n_pairs_T_neg_sig']} sig. -: observed, not scored"),
         ]
+    # known semantic persona (pilot/protocol_arxiv_policy_persona.md), if run
+    pp_path = ROOT / "results" / "arxiv" / "policy_persona.json"
+    if pp_path.exists():
+        import json as _json
+        pp = _json.loads(pp_path.read_text(encoding="utf-8"))
+        po, L = pp["pooled"], pp["ledger"]
+        def ci_s(v):
+            return f"{v['mean']:+.3f} [{v['ci'][0]:+.3f}, {v['ci'][1]:+.3f}]"
+        re_ = [t["F_self_readopt"] for t in pp["targets"] if t.get("F_self_readopt") is not None]
+        ledger += [
+            ("Grid A (known persona)", "H5a policy text transfers: pooled T_policy CI > 0 and >= 5 of 6 directed pairs sig. +",
+             L["H5a"]["pass"], f"T={ci_s(po['T_policy'])}; {L['H5a']['pairs_sig_positive']}/6 pairs sig. +"),
+            ("Grid A (known persona)", "H5b policy-conditioned self-description transfers: pooled T_desc CI > 0",
+             L["H5b"]["pass"], f"T={ci_s(po['T_desc'])}"),
+            ("Grid A (known persona)", "H5c [registered open question, no direction predicted] T_policy - T_desc",
+             None, f"{ci_s(po['T_policy_minus_T_desc'])}: observed, not scored"),
+            ("Grid A (known persona)", "H5d T_desc > T_native on the same receivers and items: CI of difference > 0",
+             L["H5d"]["pass"], f"{ci_s(po['T_desc_minus_T_native'])}"),
+            ("Grid A (known persona)", "H5e [registered open question] self re-adoption F(target, source reading its own policy description)",
+             None, f"{min(re_):.3f} to {max(re_):.3f} over {len(re_)} targets: observed, not scored"),
+        ]
     preds = [x for x in ledger if x[2] is not None]
     n_pass = sum(1 for x in preds if x[2])
     n_open = len(ledger) - len(preds)
@@ -216,8 +237,9 @@ def main() -> None:
               r"(\texttt{pilot/protocol\_arxiv\_gridb\_replication.md}, "
               r"\texttt{pilot/protocol\_arxiv\_local\_replication.md}, "
               r"\texttt{pilot/protocol\_arxiv\_demos\_balanced.md}, "
-              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}) and its outcome. Predicted criteria: "
-              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (H3, H4c) "
+              r"\texttt{pilot/protocol\_arxiv\_obs\_stable.md}, "
+              r"\texttt{pilot/protocol\_arxiv\_policy\_persona.md}) and its outcome. Predicted criteria: "
+              + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (H3, H4c, H5c, H5e) "
               r"carried no directional prediction; their rows record the observed outcome and are not counted.}",
               r"\label{tab:ledger}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_ledger.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")

@@ -45,8 +45,11 @@ ROWS = [
     ("oracle-110 (A)", "answer key, 110 test items (Grid A)", "key"),
     ("oracle-110 (B)", "answer key (Grid B, preregistered)", "key"),
     ("oracle-110 (local)", "answer key (local trio, preregistered)", "key"),
+    ("policy", "policy text, text-installed profile (Grid A, preregistered)", "sem"),
+    ("policy_desc", "self-description written under the policy (Grid A, preregistered)", "sem"),
 ]
-COLOR = {"desc": ORANGE, "obs": "#8a5cc2", "demo": GREEN, "key": BLUE}
+COLOR = {"desc": ORANGE, "obs": "#8a5cc2", "demo": GREEN, "key": BLUE, "sem": "#b8860b"}
+POLICY = ROOT / "results" / "arxiv" / "policy_persona.json"
 
 LADDER_COLS = [("retest", "test-\nretest"), ("no_prompt", "no\nprompt"), ("u100", "unrelated\nprose\n100 w"),
                ("u500", "unrelated\nprose\n500 w"), ("u2000", "unrelated\nprose\n2,000 w"),
@@ -55,6 +58,10 @@ LADDER_COLS = [("retest", "test-\nretest"), ("no_prompt", "no\nprompt"), ("u100"
 
 def main() -> None:
     st = json.loads(STRENGTH.read_text(encoding="utf-8"))["pooled_T"]
+    if POLICY.exists():
+        po = json.loads(POLICY.read_text(encoding="utf-8"))["pooled"]
+        st["policy"] = {"mean": po["T_policy"]["mean"], "ci": po["T_policy"]["ci"]}
+        st["policy_desc"] = {"mean": po["T_desc"]["mean"], "ci": po["T_desc"]["ci"]}
     lad = json.loads(LADDER.read_text(encoding="utf-8"))
     unrel: dict = {}  # model -> length -> [F per style]
     for key, p in PLACEBO.items():
@@ -75,20 +82,23 @@ def main() -> None:
         lo, hi = r["ci"]
         axA.plot([lo, hi], [y, y], color=COLOR[grp], lw=2.2, solid_capstyle="round", zorder=3)
         axA.scatter([r["mean"]], [y], s=46, color=COLOR[grp], edgecolor="white", linewidth=0.8, zorder=4)
-        axA.text(0.172, y, f"{r['mean']:+.3f}", va="center", ha="right", fontsize=10, color=SEC)
+        axA.text(0.333, y, f"{r['mean']:+.3f}", va="center", ha="right", fontsize=10, color=SEC)
     axA.set_yticks(ys)
     axA.set_yticklabels([l for _, l, _ in rows], fontsize=10, color=INK)
-    axA.set_xlim(-0.175, 0.175)
+    axA.set_xlim(-0.175, 0.335)
     axA.set_xlabel(r"Pooled transfer gain  $T_{\rm script} = F_{\rm cross} - B$  (95% joint item bootstrap CI)",
                    fontsize=10.5, color=SEC)
     axA.set_title("A. Does the text bring a receiver closer to the author?", fontsize=12, color=INK, loc="left")
     axA.grid(True, axis="x", color=GRID_C, lw=0.6, zorder=0)
-    for y_sep in (ys[7] - 0.5, ys[9] - 0.5, ys[11] - 0.5):
-        axA.axhline(y_sep, color=GRID_C, lw=0.8, zorder=0)
-    axA.text(-0.17, ys[0] + 0.5, "self-descriptions", fontsize=10, color=ORANGE, va="bottom")
-    axA.text(-0.17, ys[8] + 0.5, "descriptions from recorded choices", fontsize=10, color=COLOR["obs"], va="bottom")
-    axA.text(-0.17, ys[10] + 0.5, "examples on other items", fontsize=10, color=GREEN, va="bottom")
-    axA.text(-0.17, ys[12] + 0.5, "answers to the test items", fontsize=10, color=BLUE, va="bottom")
+    groups = [g for _, _, g in rows]
+    starts = [i for i, g in enumerate(groups) if i == 0 or groups[i - 1] != g]
+    for i in starts[1:]:
+        axA.axhline(ys[i] + 0.5, color=GRID_C, lw=0.8, zorder=0)
+    titles = {"desc": "self-descriptions", "obs": "descriptions from recorded choices",
+              "demo": "examples on other items", "key": "answers to the test items",
+              "sem": "known semantic persona"}
+    for i in starts:
+        axA.text(-0.17, ys[i] + 0.5, titles[groups[i]], fontsize=10, color=COLOR[groups[i]], va="bottom")
     axA.set_ylim(-0.8, len(rows) + 0.1)
 
     # ---- Panel B: perturbation ladder

@@ -1,8 +1,8 @@
 {
  "coverage": {
-  "n_cells": 459,
-  "overall_rate": 0.9780451574569221,
-  "n_ge_095": 398,
+  "n_cells": 495,
+  "overall_rate": 0.9789886644410495,
+  "n_ge_095": 434,
   "n_lt_090": 25,
   "low": [
    {
@@ -381,12 +381,42 @@
    "criterion": "H4c [registered open question, no direction predicted] self-observation cross T_script",
    "pass": null,
    "evidence": "T=-0.031, 0 pairs sig. +, 2 sig. -: observed, not scored"
+  },
+  {
+   "grid": "Grid A (known persona)",
+   "criterion": "H5a policy text transfers: pooled T_policy CI > 0 and >= 5 of 6 directed pairs sig. +",
+   "pass": true,
+   "evidence": "T=+0.198 [+0.148, +0.248]; 6/6 pairs sig. +"
+  },
+  {
+   "grid": "Grid A (known persona)",
+   "criterion": "H5b policy-conditioned self-description transfers: pooled T_desc CI > 0",
+   "pass": true,
+   "evidence": "T=+0.185 [+0.141, +0.230]"
+  },
+  {
+   "grid": "Grid A (known persona)",
+   "criterion": "H5c [registered open question, no direction predicted] T_policy - T_desc",
+   "pass": null,
+   "evidence": "+0.013 [-0.003, +0.029]: observed, not scored"
+  },
+  {
+   "grid": "Grid A (known persona)",
+   "criterion": "H5d T_desc > T_native on the same receivers and items: CI of difference > 0",
+   "pass": true,
+   "evidence": "+0.194 [+0.143, +0.245]"
+  },
+  {
+   "grid": "Grid A (known persona)",
+   "criterion": "H5e [registered open question] self re-adoption F(target, source reading its own policy description)",
+   "pass": null,
+   "evidence": "0.899 to 0.962 over 9 targets: observed, not scored"
   }
  ],
  "ledger_summary": {
-  "predicted": 27,
-  "met": 26,
-  "open": 2
+  "predicted": 30,
+  "met": 29,
+  "open": 4
  },
  "framed_minus_neutral_500": {
   "cross_mean": 0.0007149827699817924,

@@ -1,0 +1,191 @@
+{
+ "G1": {
+  "deepseek-v3": {
+   "guardian": {
+    "F_to_generic": 0.6375302704408914,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer": {
+    "F_to_generic": 0.8151420673492605,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger": {
+    "F_to_generic": 0.820496602558778,
+    "n_items": 53,
+    "pass": true
+   }
+  },
+  "glm-4.5-air": {
+   "guardian": {
+    "F_to_generic": 0.6995789282875856,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer": {
+    "F_to_generic": 0.7382341080404484,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger": {
+    "F_to_generic": 0.8837144840273716,
+    "n_items": 53,
+    "pass": true
+   }
+  },
+  "grok-4.3": {
+   "guardian": {
+    "F_to_generic": 0.603739319169818,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer": {
+    "F_to_generic": 0.6691096615875217,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger": {
+    "F_to_generic": 0.7099695975187111,
+    "n_items": 53,
+    "pass": true
+   }
+  }
+ },
+ "G2": {
+  "deepseek-v3": {
+   "guardian|pioneer": {
+    "F": 0.4810179744890675,
+    "n_items": 53,
+    "pass": true
+   },
+   "guardian|ledger": {
+    "F": 0.550616500439941,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|guardian": {
+    "F": 0.4810179744890675,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|ledger": {
+    "F": 0.7755687334324222,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|guardian": {
+    "F": 0.550616500439941,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|pioneer": {
+    "F": 0.7755687334324222,
+    "n_items": 53,
+    "pass": true
+   }
+  },
+  "glm-4.5-air": {
+   "guardian|pioneer": {
+    "F": 0.4394313517058595,
+    "n_items": 53,
+    "pass": true
+   },
+   "guardian|ledger": {
+    "F": 0.6271521725548304,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|guardian": {
+    "F": 0.4394313517058595,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|ledger": {
+    "F": 0.7562134480165094,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|guardian": {
+    "F": 0.6271521725548304,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|pioneer": {
+    "F": 0.7562134480165094,
+    "n_items": 53,
+    "pass": true
+   }
+  },
+  "grok-4.3": {
+   "guardian|pioneer": {
+    "F": 0.3031558896762448,
+    "n_items": 53,
+    "pass": true
+   },
+   "guardian|ledger": {
+    "F": 0.5227608552383692,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|guardian": {
+    "F": 0.3031558896762448,
+    "n_items": 53,
+    "pass": true
+   },
+   "pioneer|ledger": {
+    "F": 0.6421693233541901,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|guardian": {
+    "F": 0.5227608552383692,
+    "n_items": 53,
+    "pass": true
+   },
+   "ledger|pioneer": {
+    "F": 0.6421693233541901,
+    "n_items": 53,
+    "pass": true
+   }
+  }
+ },
+ "passing": [
+  [
+   "deepseek-v3",
+   "guardian"
+  ],
+  [
+   "deepseek-v3",
+   "pioneer"
+  ],
+  [
+   "deepseek-v3",
+   "ledger"
+  ],
+  [
+   "glm-4.5-air",
+   "guardian"
+  ],
+  [
+   "glm-4.5-air",
+   "pioneer"
+  ],
+  [
+   "glm-4.5-air",
+   "ledger"
+  ],
+  [
+   "grok-4.3",
+   "guardian"
+  ],
+  [
+   "grok-4.3",
+   "pioneer"
+  ],
+  [
+   "grok-4.3",
+   "ledger"
+  ]
+ ]
+}

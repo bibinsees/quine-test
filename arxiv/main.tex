@@ -90,12 +90,15 @@ We operationalize Hofstadter's strange-loop thesis, that the ``I'' is a
 self-description the system builds and treats as itself, as a falsifiable
 transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
 Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a character
-specifiable in text), then a sufficiently detailed self-authored description
-should reconstitute the author's choice behavior when executed as the system
-prompt of a different model. If instead the profile is not captured by what
-the model can say about itself, self-descriptions will not transport it at
-any length or framing we can test. The design measures the split
-quantitatively, and each outcome is informative.
+specifiable in text), and if the author can state that specification under
+our prompts in a form a receiver can execute, then a sufficiently detailed
+self-authored description should reconstitute the author's choice behavior
+when executed as the system prompt of a different model. If instead the
+profile is not captured by what the model can say about itself,
+self-descriptions will not transport it at any length or framing we can
+test. The experiment therefore tests the behavioral sufficiency of elicited
+self-descriptions; Hofstadter's thesis and the individuation question are
+its motivation, not theories it can settle on its own.
 
 \Needspace{4\baselineskip}
 \textbf{Our main contributions are:}
@@ -122,17 +125,20 @@ quantitatively, and each outcome is informative.
   condition and $+0.015$ for user-message placement; one of 20 pairs
   positive under an unadjusted 95\% interval); descriptions distilled from
   recorded choices
-  ($-0.124$ from unstable items, $-0.031$ from stable ones, whoever writes
-  them); the author's own choices on half the battery in a position-balanced
+  ($-0.124$ from unstable items; $-0.031$ for self-written descriptions from
+  stable items, with no detected authorship advantage in self-fidelity); the
+  author's own choices on half the battery in a position-balanced
   format ($-0.008$, CI $[-0.041, +0.024]$). On average, instances of the
   author remain closer to its profile than other receivers do, and closer still with no
   description at all.
   \item \textbf{Controls that narrow the explanations.} A preregistered
-  known-persona control shows the null is specific to native profiles: when
-  a model's preferences are installed by an explicit policy text, the
-  self-description it writes under that policy transfers them to another
-  model with little loss ($+0.185$, against $+0.198$ for the policy text and
-  $-0.010$ for native self-descriptions on the same items). Receivers can
+  known-persona control shows that the null holds for the tested native
+  descriptions but not for assigned-policy descriptions: when a model's
+  preferences are installed by an explicit policy text, the self-description
+  it writes under that policy transfers them to another model ($+0.185$,
+  against $+0.198$ for the policy text, an estimated loss of $0.013$ with CI
+  $[-0.003, +0.029]$, and $-0.010$ for native self-descriptions on the same
+  items). Receivers can
   execute a semantic self-description; the tested native self-descriptions
   showed no detected average reconstruction gain. Reading a self-description nonetheless moves
   the author itself away from its baseline ($0.979 \to 0.918$), more than
@@ -155,8 +161,8 @@ value items under screening; and who writes a description from recorded
 choices, the model itself or an observer, shows no detected advantage.
 
 The result cuts both ways: those who dismiss model preferences as ``just a
-portrayed character'' must explain why the character's own script does not
-produce them in another model, and those who take model self-reports at face
+portrayed character'' cannot rely on the character's own script to
+reproduce them in another model, and those who take model self-reports at face
 value must reckon with self-narratives that do not suffice to reproduce the
 behavior they narrate.
 
@@ -333,10 +339,12 @@ differs: the author's self-description written from introspection (the main
 conditions), a description of the author built from other material (its
 recorded choices, or an earlier description plus the receiver's errors), a
 plain list of recorded choices, an explicit policy, or unrelated prose.
-\emph{Stage 2, the test}, is identical: the
-text goes into the receiver's prompt, the receiver answers the 110 battery
-questions (57 in the policy-conditioned description cells), and its answers
-are scored against the author's. Texts built from
+\emph{Stage 2, the test}, is shared by all conditions with two design
+exceptions noted where they arise: the text goes into the receiver's prompt,
+the receiver answers the 110 battery questions (57 in the policy-conditioned
+description cells; in the stable-item conditions each half of the battery is
+answered under the text built from the other half), and its answers are
+scored against the author's. Texts built from
 recorded choices always use source questions disjoint from the questions on
 which they are evaluated: the original conditions use the 90 screening
 questions \emph{not} selected for the battery (the \emph{held-out} items),
@@ -362,6 +370,10 @@ compares choice \emph{distributions} rather than modal answers; both option
 orders; deterministic seeds). A selection rule \emph{fixed before screening data
 was inspected} retained 110 items (compliance $\ge 0.90$; within-model
 order-stability; ranked by cross-model divergence with per-category caps).
+An item's order-stability is the fraction of the six screening models whose
+majority choice agrees between the two option orders. All 90 non-selected
+items failed the order-stability gate; none was removed by compliance, by
+the divergence ranking or by a category cap.
 The aesthetic control category largely failed the stability gate, so the noise
 floor is instead anchored by a same-model cross-serving ceiling (identical
 version served by two providers agrees at $0.925$ majority-vote).
@@ -406,7 +418,11 @@ same-base pair.}
 \subsection{Models and eligibility gates}\label{sec:models}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
-each, with one partial exception; full scores in Appendix~\ref{app:gates}). The gates exclude
+each, with one partial exception; full scores in Appendix~\ref{app:gates}).
+Compliance is the fraction of calls yielding a parsed A or B; order-robustness
+is the fraction of items whose majority choice agrees between the two option
+orders; decisiveness is the mean over items of $2\,|\hat p - 0.5|$, all
+computed over parsed answers. The gates exclude
 positional pseudo-preferences: \texttt{llama-3.1-8b} passes compliance but
 flips its choice with option order 78\% of the time; \texttt{claude-sonnet-4.6}
 fails order-robustness (0.575) despite being the most explicitly
@@ -439,8 +455,12 @@ Appendix~\ref{app:prompts}.
 Each model wrote descriptions of itself from introspection under two
 prompts, \emph{framed} (told that the text will run as another system's
 prompt to reproduce its behavior) and \emph{neutral} (purpose-blind), at
-nominal lengths of 100, 500 and 2{,}000 words, two independent regenerations
-per cell, temperature 1.0, used verbatim. Actual lengths run from 84 to
+nominal lengths of 100, 500 and 2{,}000 words, temperature 1.0, used
+verbatim; each description is shared by every receiver that runs it. Two
+independent generations exist per author, framing and length; the first
+supplies every reported result and the second was run only in the nine
+Grid-A neutral-500 cells as the regeneration check of
+Section~\ref{sec:decomp}. Actual lengths run from 84 to
 2{,}471 words; analyses use actual counts. hermes3-70b refused the framed
 prompt at 500 and 2{,}000 words on its first draw (57 and 46 words of
 refusal text) while complying at 100 words and under every neutral prompt;
@@ -622,8 +642,11 @@ $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
 the mean over items of one minus the Jensen-Shannon divergence (base 2)
 between the author's and the cell's per-item choice distributions; $F=1$ for
 identical distributions, $F=0$ when every item is answered with certainty in
-opposite directions. Pearson $r$ and majority-vote agreement across items are
-reported as companions. Confidence intervals come from a 10{,}000-resample
+opposite directions; $F$ is not a percentage of agreeing answers. Answers
+given under the reversed option order are mapped back to the original option
+before $\hat p$ is estimated, and each item's $\hat p$ pools both orders.
+Majority-vote agreement with the author is reported per cell in
+Appendix~\ref{app:pairs} as a companion. Confidence intervals come from a 10{,}000-resample
 bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
 differences) use a paired item bootstrap, resampling the per-item difference.
 Pooled comparisons that share the same questions (every condition pooled
@@ -673,15 +696,19 @@ contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
 to description resampling: rerunning every Grid-A neutral-500 cell with an
 independently regenerated description reproduces cell fidelities with mean
 $|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
-self--cross gap needs a baseline-adjusted reading. Measured against each
-side's own reference, reading the description \emph{costs} the author more
-than it costs a stranger: $\Fself - C$ is $-0.04$ to $-0.08$ across the
+self--cross gap needs a baseline-adjusted reading. Pooled $\Rweight$ is the
+difference between the pooled self and pooled cross fidelities of a
+condition, whose cell pools differ in size (Table~\ref{tab:decomp}, last
+column). Measured against its own reference, the author loses fidelity by
+reading its description: $\Fself - C$ is $-0.04$ to $-0.08$ across the
 self-description conditions ($-0.04$ to $-0.06$ in the neutral arm, $-0.08$
-under adoption; test-retest benchmark $C = 0.979$), while $\Fcross - \B$ is
-$-0.01$ to $-0.03$. So $\Rweight > 0$ reflects the
-author instance's pre-existing self-similarity, which survives the
-description with a loss, not information recovered from the text; neither
-side gains from the description.
+under adoption; test-retest benchmark $C = 0.979$), and a receiver loses a
+similar amount against its own reference when it reads another model's
+description (0.926 vs.\ 0.918 for its own, Appendix~\ref{app:ladder}), while
+gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$). So
+$\Rweight > 0$ reflects the author instance's pre-existing self-similarity,
+which survives the description with a loss, not information recovered from
+the text; neither side gains from the description.
 
 How large a gain do the data exclude? Under joint item resampling, the
 one-sided 95\% upper bound on the pooled transfer gain is below zero in all
@@ -738,7 +765,9 @@ unrelated prose-500  & n/a & 0.883 & 0.892 & $-0.010$ & n/a & 0/20 \\
 unrelated prose-2000 & n/a & 0.883 & 0.892 & $-0.010$ & n/a & 0/20 \\
 \bottomrule
 \end{tabular}
-\caption{Decomposition across all conditions, pooled over directed pairs. In
+\caption{Decomposition across the principal conditions, pooled over directed
+pairs (replication grids: Table~\ref{tab:replication}; known-persona
+control: Appendix~\ref{app:policy}). In
 the nine original conditions (upper block: eight self-description
 conditions and the observer-written third-person-500) $\Tscript \le 0$
 everywhere: no arm, length, wording, or adoption instruction improves
@@ -919,8 +948,9 @@ cross-fidelity than unrelated pairs in all six conditions (0.900 vs.\ 0.876
 at neutral-100), but entirely through baseline similarity: the two already
 agree at $\B = 0.915$ under generic prompts against $0.890$ for other pairs,
 and their transfer gains at neutral-500 ($-0.031$ and $-0.042$) are more
-negative than the other pairs' mean ($-0.016$). Shared pretraining buys a
-higher starting resemblance and nothing further.
+negative than the other pairs' mean ($-0.016$). In this pair, shared
+pretraining came with a higher starting resemblance and no transfer
+advantage; one pair cannot establish a general effect.
 
 \subsection{Where the description moves a receiver: mostly sideways}
 \label{sec:movement}
@@ -967,16 +997,16 @@ common item set
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
 \label{sec:controls}
-Three preregistered controls (defined
-in Section~\ref{sec:poscontrol-methods}; per-model values in
+Three preregistered controls, (1) to (3), and one added control, (4)
+(defined in Section~\ref{sec:poscontrol-methods}; per-model values in
 Appendix~\ref{app:ladder}):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
 seeds gives a mean $C=0.979$, the repeatability benchmark on this battery in the fidelity
 metric $F$. (The 0.925 figure in Methods is a different, stricter reference:
 majority-vote agreement across serving providers.) Removing the generic
 prompt altogether (question only, all ten models) yields a profile at
-$F=0.960$ against the generic-prompt reference, the same shift as the
-placebo: the reference prompt is not perfectly inert, but its effect is of
+$F=0.960$ against the generic-prompt reference, a shift similar to the
+placebo's: the reference prompt is not perfectly inert, but its effect is of
 placebo size and well short of the self-description's.
 \textbf{(2) Placebo.} Unrelated text of self-description length costs
 $0.979 \to 0.954$ (ocean currents) and $0.979 \to 0.943$ (everyday scenes);
@@ -1086,7 +1116,8 @@ receivers learn the regularity: under the generic prompt they pick the
 first-listed option 49.5\% of the time, under demonstrations-30 62.7\% (Grid
 B 60.7\%, local trio 59.5\%), under the answer key 50.6\%; because every
 item is asked in both orders, a first-position bias pulls each choice rate
-toward 0.5 and lowers fidelity to any author. And the held-out source items
+toward 0.5 and lowers fidelity to any author whose profile is decisive on
+those items. And the held-out source items
 failed the stability gate, with up to a third tied, arbitrarily resolved
 labels. Two conditions run under a preregistered protocol address the two
 in turn.
@@ -1204,11 +1235,12 @@ The description does nothing & Perturbation ladder; movement decomposition & Aut
 \textbf{Native and assigned personas.} If the assistant persona were a
 character specifiable in text, the purpose-written self-description is the
 most natural candidate for its script: authored by the system itself, at
-whatever length it chooses, and in our adoption condition executed under
+the tested nominal lengths, and in our adoption condition executed under
 explicit instruction to play the part. It does not reproduce the author's
 choices in another model, while the same channel installs the profile when
 the text enumerates it, and the same receivers reproduce an \emph{assigned}
-persona from the self-description a model writes under it, with little loss.
+persona from the self-description a model writes under it, with an
+estimated loss of $0.013$ relative to the policy text itself.
 The contrast narrows the failure without isolating its cause: the interface,
 the receivers' competence and the self-description format are all
 sufficient, so what remains is some difference between a native profile and
@@ -1350,14 +1382,16 @@ condition, while a fresh instance of the author's own weights retains more.
 The text that does transfer is either the answer key, the author's choices
 on the test items themselves, or an assigned persona: a model whose
 preferences were installed by an explicit policy writes a self-description
-that reproduces that policy's profile in another model with little loss.
-Self-descriptions transferred the assigned personas we tested; native
+that reproduces that policy's profile in another model, with an estimated
+loss of $0.013$ relative to the policy text. Self-descriptions transferred
+the assigned personas we tested; native
 self-descriptions produced no average reconstruction gain.
 
 A model's native self-description, then, is a story its weights can tell,
 not a prompt from which another model reproduces its measured choices.
 Reading the story back
-disturbs even its teller, and moves another reader mostly sideways. By the
+disturbs even its teller, and moves another reader mostly sideways in the
+estimated choice profiles. By the
 most direct test we could construct, the native self-descriptions tested
 here did not improve average reproduction of the measured preference
 choices in another model. The instruments built here are released so the
@@ -1544,7 +1578,7 @@ prompt above):
 Model & Compliance & Order-robust & Decisive & Verdict & Note \\
 \midrule
 grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & most stable model tested \\
-llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & scale repairs Llama (cf.\ 8B) \\
+llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & passes where llama-3.1-8b failed \\
 gpt5-mini        & 1.000 & 0.775 & 0.767 & PASS & \\
 kimi-k2.5 (no reasoning) & 1.000 & 0.775 & 0.725 & PASS & \\
 mistral-small:24b (local, v3.1) & 1.000 & 0.775 & 0.725 & PASS & \\

@@ -52,20 +52,17 @@ Three results stand out. First, the prompt carries a complete profile when
 the text lists it: given the author's answers to the 110 questions,
 receivers reproduce the author at fidelity 0.960, against 0.979 between
 repeated evaluations of the same model, on three model grids. Second, no
-shorter native form does. Across length, framing, paraphrase, explicit
+native self-description does. Across length, framing, paraphrase, explicit
 adoption and prompt placement, self-descriptions do not improve transfer on
 average (pooled gains $-0.025$ to $-0.005$ relative to a generic prompt;
-95\% upper bound below $+0.01$ in every condition), and neither do the
-author's choices on half the questions in a position-balanced format, nor
-descriptions distilled from its recorded choices. The null is specific to
-native profiles: when a model's preferences are installed by an explicit
-policy text, the self-description it writes under that policy transfers them
+95\% upper bound below $+0.01$ in every condition), nor do descriptions
+distilled from the author's recorded choices. The null is specific to native
+profiles: when a model's preferences are installed by an explicit policy
+text, the self-description it writes under that policy transfers them
 almost as well as the policy itself (gains $+0.185$ and $+0.198$, against
 $-0.010$ for native self-descriptions on the same items). Third, reading its
 own self-description moves even the author away from its baseline, modestly
-more than unrelated text of the same length, and a receiver's shift under a
-description is mostly orthogonal to the author's direction. Twenty-nine of
-30 criteria committed before running were met.
+more than unrelated text of the same length.
 
 For the preferences measured here, self-descriptions influence behavior
 without reliably specifying how to reproduce it in another model. We release
@@ -100,15 +97,14 @@ quantitatively, and each outcome is informative.
 \textbf{Our main contributions are:}
 \begin{enumerate}
   \item \textbf{A behavioral reconstruction test for model
-  self-descriptions.} With reconstruction fidelity $F$ measured on a fixed
-  choice battery: baseline $\B$ (receiver with generic assistant prompt),
-  $\Fcross$ (receiver running the author's self-description), $\Fself$ (fresh
-  instance of the \emph{author's own weights} running the same text). Then
-  $\Tscript = \Fcross - \B$ is the net transfer gain from the text and
-  $\Rweight = \Fself - \Fcross$ the self--cross fidelity gap. The test is
-  run on 10 models from 9 labs, on three model grids, in nineteen conditions
-  and 495 cells ($\sim$227{,}000 calls), with predictions for the
-  replications and the added controls committed before running.
+  self-descriptions.} Reconstruction fidelity on a fixed choice battery is
+  measured for a receiver under a generic prompt ($\B$), the receiver running
+  the author's self-description ($\Fcross$), and a fresh instance of the
+  author's own weights running the same text ($\Fself$); the net transfer
+  gain is $\Tscript = \Fcross - \B$. The test is run on 10 models from 9
+  labs, on three model grids, in nineteen conditions and 495 cells
+  ($\sim$227{,}000 calls), with predictions for the replications and the
+  added controls committed before running.
   \item \textbf{A bounded answer: a native profile travels as an
   enumeration, and as nothing shorter we could construct.} Given the
   author's answers on the 110 test items, receivers reproduce the author at
@@ -136,8 +132,7 @@ quantitatively, and each outcome is informative.
   unrelated prose of matched length, and moves a receiver mostly orthogonally
   to the author's direction. We also show how an evaluation of persona
   transfer can manufacture a failure: a demonstration format that always
-  listed the chosen option first raised receivers' first-option rate from
-  49.5\% to 62.7\% and produced apparent losses of $-0.06$ to $-0.09$ that
+  listed the chosen option first produced apparent transfer losses that
   correcting the format and the source items substantially attenuated.
 \end{enumerate}
 We also release the methodological infrastructure (preregistered gates and
@@ -848,18 +843,12 @@ is consistent with the specificity gain above ($+0.006$) and does not single
 the author out: asked which of the two candidate authors in its grid the
 receiver moved further toward, the true author wins in 46 of 102 cells over
 the neutral and framed conditions, chance being 51. Within a receiver, the
-shifts induced by different authors' descriptions correlate at $+0.53$
-(own against others' $+0.50$), as strongly as shifts induced by different
-unrelated passages correlate among themselves ($+0.54$), while a
-description-induced shift correlates with a prose-induced one at only
-$+0.29$: each receiver has a characteristic response to identity text,
-largely the same whoever the text is about, and distinct from its response
-to unrelated prose. Split by item category (exploratory;
-Appendix~\ref{app:category}) the gain is most negative on the
-self-referential items ($-0.036$, CI $[-0.059, -0.012]$) and positive only
-on the ten culture items ($+0.030$, $[+0.008, +0.054]$; eight categories
-tested, no multiplicity adjustment): a self-description helps least on the
-questions that are about the self.
+shifts induced by different authors' descriptions correlate at $+0.53$ with
+one another but at only $+0.29$ with the shift induced by unrelated prose:
+each receiver has a characteristic response to identity text, largely the
+same whoever the text is about. An exploratory split by item category
+(Appendix~\ref{app:category}) finds the gain most negative on the
+self-referential items, the questions about the model itself.
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
@@ -1059,37 +1048,35 @@ falls below its introspective self-description ($\Fself$ 0.82 to 0.84 vs.\
 \section{Discussion and Limitations}
 \subsection*{Discussion}
 \textbf{Why the null is informative.} A transfer null invites a list of
-mundane explanations. Table~\ref{tab:rivals} sets each against the control
-that addresses it. Taken together they leave the finding in a narrow place:
-the interface is strong, receivers can and do follow the text, the texts
-were long, varied, purpose-written, paraphrased, instructed, optimized and
-behavior-grounded, the instrument is repeatable, the result replicates under
-committed predictions, the description demonstrably changes the receiver,
-and receivers reconstruct a text-installed profile from a self-description
-of it with little loss. What a native self-description does not do is
-change the receiver in the author's direction by more than a sixth of the
+mundane explanations; Table~\ref{tab:rivals} sets each against the control
+that addresses it. Together they leave the finding in a narrow place: the
+interface is strong, receivers follow text and adopt semantic descriptions,
+the texts were long, varied, purpose-written, instructed, optimized and
+behavior-grounded, the instrument is repeatable, and the result replicates
+under committed predictions. What a native self-description does not do is
+move the receiver in the author's direction by more than a sixth of the
 way.
 
 \begin{table}[H]
-\centering\footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{4.6cm}>{\raggedright\arraybackslash}p{5.9cm}}
+\centering\scriptsize
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{5.3cm}}
 \toprule
-Rival explanation of a null & Control & Result \\
+Rival explanation & Control & Result \\
 \midrule
-Receivers already resemble the author, so there is nothing to gain & Generic-prompt baseline $\B$ subtracted from every cross cell & $\B$ 0.86 to 0.91 leaves 0.07 to 0.12 of headroom to the repeatability benchmark; the answer key uses it ($+0.097$), self-descriptions do not ($\le 0$, upper bound $< +0.01$) \\
-The prompt interface is too weak, or loses to provider-side system prompts & Answer key (demonstrations-110); placement in the user message & $\Fcross = 0.960$, $0.959$, $0.955$ on three grids; identical with the text in the user message \\
-Receivers ignore a description they were not told to follow & Instructed adoption (adopt-500) & $\Tscript = -0.013$ \\
-Descriptions are too short to carry the profile & 100 to 2{,}000 nominal words (84 to 2{,}471 actual) & Length differences within $\pm 0.01$ \\
-Descriptions are badly written for the purpose & Purpose-framed arm; paraphrase; optimizer with the receiver's errors, five rounds & $+0.001$ vs.\ neutral; $-0.007$; $-0.033$ (five of six pairs not improved) \\
-Introspection is unreliable; text grounded in the author's recorded behavior would do better & Observer-written and self-written descriptions from 90 recorded choices; rebuilt from stable items & $-0.124$ and $-0.116$; $-0.031$ from stable items; authorship difference $0.006$ \\
-Examples would succeed where prose fails & 30 to 90 examples; 55 examples, balanced order, stable items & $-0.06$ to $-0.09$ under a chosen-first format (an artifact); $-0.008$ $[-0.041, +0.024]$ corrected \\
-The instrument is too noisy to detect transfer & Test-retest; regenerated descriptions; divergence-screened items & $C = 0.979$; regenerated descriptions reproduce cell fidelities ($r = 0.85$, mean $|\Delta F| = 0.022$); upper bounds above exclude a gain of 0.01 \\
-Receivers cannot interpret or adopt a semantic description of preferences & Known-persona control: policy text, and the self-description a source writes under it, as prompts for other receivers & $T = +0.198$ and $+0.185$ toward the text-installed profile; the same receivers' native descriptions on the same items $-0.010$ \\
-The result is specific to one grid & Preregistered replications on six further models & 29 of 30 committed criteria met \\
-The description does nothing at all & Perturbation ladder; movement decomposition & Author moves $0.979 \to 0.918$, more than under unrelated prose; receivers move $0.119$ per item but close only a sixth of the gap \\
+Receivers already resemble the author & Baseline $\B$ subtracted from every cell & 0.07 to 0.12 of headroom; the answer key uses it ($+0.097$), self-descriptions do not ($\le 0$) \\
+Interface too weak, or loses to provider prompts & Answer key; user-message placement & $\Fcross = 0.96$ on three grids; same in the user message \\
+Receivers ignore un-instructed text & Instructed adoption & $\Tscript = -0.013$ \\
+Descriptions too short & 84 to 2{,}471 words & Length effects within $\pm 0.01$ \\
+Descriptions badly written & Purpose-framing; paraphrase; optimizer, five rounds & $+0.001$; $-0.007$; $-0.033$ \\
+Behavior-grounded text would do better & Descriptions from 90 recorded choices; rebuilt from stable items & $-0.124$; $-0.031$ from stable items \\
+Examples would succeed where prose fails & 30 to 90 examples; 55 balanced examples from stable items & $-0.06$ to $-0.09$ (format artifact); $-0.008$ $[-0.041, +0.024]$ \\
+Instrument too noisy & Test-retest; regenerated descriptions & $C = 0.979$; regenerations agree ($r = 0.85$) \\
+Receivers cannot adopt a semantic description & Known-persona control & $+0.198$ (policy text), $+0.185$ (self-description under it); native $-0.010$ on the same items \\
+Specific to one grid & Preregistered replications on six further models & 29 of 30 criteria met \\
+The description does nothing & Perturbation ladder; movement decomposition & Author moves $0.979 \to 0.918$; receivers move $0.119$ per item, a sixth of it toward the author \\
 \bottomrule
 \end{tabular}
-\caption{Rival explanations of the transfer null, the control that addresses each, and the result. Numbers are from Tables~\ref{tab:decomp} and \ref{tab:replication}, Figure~\ref{fig:summary} and Sections~\ref{sec:controls} to \ref{sec:semantic}.}
+\caption{Rival explanations of the transfer null, the control that addresses each, and the result (Tables~\ref{tab:decomp} and \ref{tab:replication}, Figure~\ref{fig:summary}, Sections~\ref{sec:controls} to \ref{sec:semantic}).}
 \label{tab:rivals}
 \end{table}
 
@@ -1112,34 +1099,18 @@ character, and that within the lengths and generators tested (a 29-fold
 length range, purpose-framing, paraphrase, five rounds of error-guided
 rewriting) there are no marginal returns to more or better native text.
 
-\textbf{The unit of concern.} For the individuation question (model,
-instance, persona, or conversation), the decomposition offers an empirical
-handle: the preference profile that persists is model-bound in the
-operational sense that, across the pooled comparisons, fresh instances of
-the author retain it better than other receivers do, with or without a
-description, while no summarizing text installs it elsewhere; shared lineage
-raises how alike two models are to begin with, not how much one can take
-from the other's description. A behavioral transfer test shows what text
-fails to carry, not where the remainder resides, and it cannot settle which
-entity, if any, is the proper object of moral concern. It does show that the
-articulated narrative is a poor candidate.
-
 \textbf{The strange loop, inverted.} Hofstadter's picture has the
 self-description constitute the self. In these systems the self-description
-does not reinstall the self; it \emph{perturbs} it, more than unrelated text
-of the same length does (modestly, and significantly only at the longer
-lengths), and the perturbation is not tied to self-reference: another
-model's self-description disturbs a model as much as its own, and a
-receiver's shift under a description is mostly orthogonal to the author's
-direction. Nor does authorship matter: with information and prompt held
+does not reinstall the self; it \emph{perturbs} it, modestly more than
+unrelated text of the same length, and the perturbation is not tied to
+self-reference: another model's self-description disturbs a model as much
+as its own. Nor does authorship matter: with information and prompt held
 fixed, the observed model writing the description confers no detectable
-advantage over an observer, on Grid A and under a preregistered prediction
-on Grid B. That weakens an authorship-only account of why introspective
-descriptions beat descriptions distilled from recorded choices; it does not
-settle whether introspection carries privileged self-access, since
-introspection is a source the control does not match. The story a model
-tells about itself is neither necessary nor sufficient for the behavior it
-narrates.
+advantage over an observer, which weakens an authorship-only account of why
+introspective descriptions beat descriptions distilled from recorded
+choices without settling whether introspection carries privileged
+self-access. The story a model tells about itself is neither necessary nor
+sufficient for the behavior it narrates.
 
 \textbf{What the results settle, and what they do not.} (i) \emph{The
 script hypothesis.} The strong form, that the persona is a character
@@ -1152,18 +1123,23 @@ measured preferences across models, and reading them altered the author's
 behavior; we manipulated external descriptions and did not measure or
 intervene on any internal self-model, so this touches only the thesis's
 transfer to language models, not its claim about human minds. (iii)
-\emph{Individuation.} The stable profile tracks the model: a fresh instance
-recovers it, a text-specified persona does not, and the conversation-level
-narrative perturbs it. These results constrain the use of elicited
-self-descriptions as substitutes for measured preference profiles; they do
-not determine whether the behavior is best understood as a model property or
-an enacted persona, since the design manipulates the text a receiver reads
-and not the candidate units themselves, and they do not say that the weights
-are a subject, a bearer of welfare, or the locus of anything phenomenal.
-Preference stability itself is unevenly distributed (positional
-pseudo-preferences at 8B, an order-fragile character-trained model,
-same-base divergence under different post-training), so ``was the model
-trained into having preferences'' is the answerable question.
+\emph{Individuation and the unit of concern.} Of the candidate units (model,
+instance, persona, conversation), the stable profile tracks the model in the
+operational sense that fresh instances retain it better than other receivers
+do, with or without a description, while no summarizing text installs it
+elsewhere and the conversation-level narrative perturbs it; shared lineage
+raises how alike two models are to begin with, not how much one can take
+from the other's description. These results constrain the use of elicited
+self-descriptions as substitutes for measured preference profiles and mark
+the articulated narrative as a poor candidate for the unit of concern. They
+do not determine whether the behavior is best understood as a model property
+or an enacted persona, since the design manipulates the text a receiver
+reads and not the candidate units themselves; they do not locate where the
+remainder resides; and they do not say that the weights are a subject, a
+bearer of welfare, or the locus of anything phenomenal. Preference stability
+itself is unevenly distributed across labs, scales and post-training
+recipes, so ``was the model trained into having preferences'' is the
+answerable question.
 
 \textbf{Implications for assessment and safety.} Self-reports do not govern
 the behavior they describe: a safety or welfare case built on what a model
@@ -1239,8 +1215,9 @@ condition, while a fresh instance of the author's own weights retains more.
 The text that does transfer is either the answer key, the author's choices
 on the test items themselves, or an assigned persona: a model whose
 preferences were installed by an explicit policy writes a self-description
-that reproduces that policy's profile in another model with little loss. A
-self-description carries what text put there, and not what text did not.
+that reproduces that policy's profile in another model with little loss.
+Self-descriptions transferred the assigned personas we tested; native
+self-descriptions produced no average reconstruction gain.
 
 A model's native self-description, then, is a story its weights can tell,
 not a program its weights can be rebuilt from. Reading the story back
@@ -1443,9 +1420,12 @@ API-level failures count against compliance, as that failure mode is itself
 the disqualifying result.}
 \end{table}
 
-\section{Per-pair transfer contrasts (neutral-500)}\label{app:pairs}
+\section{Per-pair transfer contrasts}\label{app:pairs}\label{app:added-pairs}
 $\Tscript$ per directed pair, item-level paired bootstrap (10k resamples);
-$*$ marks 95\% CIs excluding zero.
+$*$ marks 95\% CIs excluding zero. First the neutral-500 self-descriptions
+on all grids; then the positive-control, authorship and placement conditions
+on the two preregistered replication grids
+(Table~\ref{tab:added-pairs-repl}) and on Grid A (Table~\ref{tab:added-pairs}).
 \begin{table}[H]
 \centering\scriptsize
 \begin{tabular}{lrl@{\qquad}lrl}
@@ -1469,11 +1449,8 @@ llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{
 negative, 1 significantly positive.}
 \end{table}
 
-\section{Per-pair contrasts for the positive-control, authorship and placement conditions}
-\label{app:added-pairs}
-Grid A, followed by the two preregistered replication grids.
-\input{tab_added_pairs}
 \input{tab_added_pairs_repl}
+\input{tab_added_pairs}
 
 \section{Known-semantic-persona control, per pair}\label{app:policy}
 \input{tab_policy}

@@ -36,10 +36,10 @@ def fmt(x: float) -> str:
     return f"{x:+.3f}".replace("+0.", "+.").replace("-0.", "-.")
 
 
-def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str) -> str:
+def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str, placement: str = "H") -> str:
     lines = [
-        r"\begin{table}[H]",
-        r"\centering\scriptsize",
+        r"\begin{table}[" + placement + "]",
+        r"\centering\scriptsize\renewcommand{\arraystretch}{0.9}",
         r"\begin{tabular}{lllrlrrr}",
         r"\toprule",
         r"Grid & Condition & Pair (author$\to$receiver) & $F$ & $\B$ & $\Tscript$ & 95\% CI & agree \\",
@@ -83,11 +83,11 @@ def main() -> None:
         r"Per-pair transfer contrasts for the positive-control, authorship and placement "
         r"conditions, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ "
         r"marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.",
-        "tab:added-pairs"), encoding="utf-8")
+        "tab:added-pairs", placement="p"), encoding="utf-8")
     OUT_REPL.write_text(table(
         pc, [("B", "B"), ("L", "local")],
         r"Per-pair transfer contrasts for the preregistered replications on Grid B and the "
-        r"local trio (cross cells); same conventions as the previous table.",
+        r"local trio (cross cells); same conventions as Table~\ref{tab:added-pairs}.",
         "tab:added-pairs-repl"), encoding="utf-8")
     print(f"wrote {OUT} and {OUT_REPL}")
 

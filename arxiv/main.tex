@@ -52,24 +52,22 @@ self-descriptions; we place each one in the prompt of other models, and of
 fresh instances of the author, and measure how closely their choices on a
 110-item preference battery match the author's.
 
-Three results stand out. First, the prompt installs the author's choices
-when the text lists them: given the author's majority answers to the 110 questions,
-receivers reproduce the author at fidelity 0.955 to 0.960 across three model
-grids, against 0.979 between repeated evaluations of the same model. Second, no
-native self-description does. Across length, framing, paraphrase, explicit
-adoption and prompt placement, self-descriptions do not improve transfer on
-average (pooled gains $-0.025$ to $-0.005$ relative to a generic prompt;
-95\% upper bound below $+0.01$ in every system-prompt condition), nor do
-descriptions distilled from the author's recorded choices. The null is specific to native
-profiles: when a model's preferences are installed by an explicit policy
-text, the self-description it writes under that policy transfers them
-almost as well as the policy itself (gains $+0.185$ and $+0.198$, against
-$-0.010$ for native self-descriptions on the same items). Third, reading its
-own self-description moves even the author away from its baseline, modestly
-more than unrelated text of the same length.
+Three results stand out. First, explicitly listing the author's answers
+enables receivers to reproduce its preference profile at fidelity 0.955 to
+0.960 across three model grids, against a same-model repeatability
+benchmark of 0.979. Second, the tested native self-descriptions show no
+average reconstruction gain across variations in length, framing, wording
+and prompt placement; the one-sided 95\% upper bound on the pooled gain is
+below $+0.01$ in every tested system-prompt condition. Descriptions distilled
+from recorded choices also show no average gain. By contrast,
+self-descriptions written under an explicit preference policy transfer the
+assigned preferences, with an estimated fidelity loss of 0.013 relative to
+the policy text itself. Third, reading its own self-description shifts even
+the author away from its baseline, modestly more on average than unrelated
+prose at the same nominal length.
 
-For the preferences measured here, self-descriptions influence behavior
-without reliably specifying how to reproduce it in another model. We release
+For the preferences measured here, native self-descriptions influence
+behavior without reliably specifying how to reproduce it in another model. We release
 the pipeline, battery, raw call logs, and 198 model-written descriptions.
 \end{abstract}
 
@@ -1407,7 +1405,8 @@ that reproduces that policy's profile in another model, with an estimated
 loss of $0.013$ relative to the policy text.
 
 A model's native self-description, then, is a story its weights can tell,
-not a prompt from which another model reproduces its measured choices.
+but the forms tested here did not improve reproduction of its measured
+choices in other models on average.
 Reading the story back
 disturbs even its teller, and moves another reader mostly sideways in the
 estimated choice profiles. By the

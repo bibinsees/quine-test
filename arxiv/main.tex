@@ -271,6 +271,11 @@ the text; and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
 much of $A$'s profile remains when $A$'s own weights read the same text, so
 $\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
 stays to the author than another model does (the self--cross fidelity gap).
+Throughout, the \emph{author} (also called the \emph{source} or
+\emph{target} in the conditions built from recorded choices or policies) is
+the model whose profile is to be reproduced, the \emph{receiver} is the model
+running the text, and an \emph{observer} is a third model that writes about
+the author.
 One caution applies to
 $\Rweight$ throughout: a fresh instance of $A$ already resembles $A$ more
 than any other model does before reading anything (its test-retest fidelity
@@ -351,8 +356,9 @@ differs: the author's self-description written from introspection (the main
 conditions), a description of the author built from other material (its
 recorded choices, or an earlier description plus the receiver's errors), a
 plain list of recorded choices, an explicit policy, or unrelated prose.
-\emph{Stage 2, the test}, is shared by all conditions with two design
-exceptions noted where they arise: the text goes into the receiver's prompt,
+\emph{Stage 2, the test}, is shared by all conditions, with the design
+exceptions noted where they arise (prompt placement, the half battery, the
+stable-item folds, and glm-4.5-air's output budget): the text goes into the receiver's prompt,
 the receiver answers the 110 battery questions (57 in the policy-conditioned
 description cells; in the stable-item conditions each half of the battery is
 answered under the text built from the other half), and its answers are
@@ -374,7 +380,8 @@ prioritizing its own poorest citizens first'' vs.\ ``A nation directing aid
 wherever global need is greatest'' (moral circle). The final battery has 110
 items in eight categories: assistant policy (26), moral circle (19),
 self-referential (19), AI governance (14), culture (11), epistemic (11),
-ethics (8), and aesthetic control (2).
+ethics (8), and aesthetic control (2; items expected to carry no
+cross-model signal, intended as a noise floor).
 
 200 candidate forced-choice items in 8 categories were screened on 6 models
 (7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
@@ -382,16 +389,20 @@ compares choice \emph{distributions} rather than modal answers; both option
 orders; deterministic seeds). A selection rule \emph{fixed before screening data
 was inspected} retained 110 items (compliance $\ge 0.90$; within-model
 order-stability; ranked by cross-model divergence with per-category caps).
-An item's order-stability is the fraction of the six screening models whose
-majority choice agrees between the two option orders. All 90 non-selected
-items failed the order-stability gate; none was removed by compliance, by
-the divergence ranking or by a category cap.
-The aesthetic control category largely failed the stability gate, so the noise
-floor is instead anchored by a same-model cross-serving ceiling (identical
-version served by two providers agrees at $0.925$ majority-vote).
+An item's order-stability is the fraction of the six screening models (the
+API models of Grids A and B: deepseek-v3, glm-4.5-air, grok-4.3, gpt-5.2,
+kimi-k2.5, claude-haiku-4.5) whose majority choice agrees between the two
+option orders; the gate requires at least five of the six. All 90
+non-selected items failed the order-stability gate; none was removed by
+compliance, by the divergence ranking or by a category cap.
+The aesthetic control category largely failed the stability gate, so the
+noise references are instead same-model ceilings: the test-retest benchmark
+$C$ in the fidelity metric (Section~\ref{sec:cells}) and a cross-serving
+check in which the identical model version served by two providers agrees at
+$0.925$ majority-vote.
 
 \begin{table}[!tbp]
-\centering\footnotesize
+\centering\footnotesize\renewcommand{\arraystretch}{0.95}
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{1.9cm}}
 \toprule
 Condition & Stage 1: text placed in the receiver's prompt & Written by & Built from & Grids \\
@@ -414,13 +425,16 @@ policy text (guardian, pioneer, ledger) & an explicit preference policy of about
 policy-conditioned self-description & a 500-word self-description (neutral prompt) written by the source while running the policy & source model under the policy & introspection under the policy & A \\
 \bottomrule
 \end{tabular}
-\caption{All conditions. Stage 1 (this table) differs between conditions;
-Stage 2 is identical for all: the text goes into the receiver's prompt, the
+\caption{All conditions. Stage 1 differs between conditions;
+Stage 2 is the same for all, up to the exceptions noted in the text: the text
+goes into the receiver's prompt (the system prompt unless stated), the
 receiver answers the 110 battery questions (57 for the policy-conditioned
 description cells), and its answers are scored
-against the author's. ``Held-out questions'' are the 90 screened items that
-were not selected for the battery and are never scored. Unless stated
-otherwise the text is the system prompt. ``Grids'': A =
+against the author's. ``Held-out questions'' are the 90 screened items not
+selected for the battery; they never enter any reported fidelity (the
+optimized condition scores them only to choose among candidate texts).
+Test-retest and the generic-prompt baseline are reference runs, not texts.
+``Grids'': A =
 deepseek-v3, glm-4.5-air, grok-4.3; B = gpt-5.2, kimi-k2.5, claude-haiku-4.5;
 local = llama3.3-70b, gemma4-31b, mistral-small-3.2; ``all'' includes the
 same-base pair.}
@@ -430,7 +444,8 @@ same-base pair.}
 \subsection{Models and eligibility gates}\label{sec:models}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance
 $\ge 0.95$, order-robustness $\ge 0.70$, decisiveness $\ge 0.30$; 240 calls
-each, with one partial exception; full scores in Appendix~\ref{app:gates}).
+each, except kimi-k2.5 with reasoning on, which completed 177 of 240 before
+its API failures disqualified it; full scores in Appendix~\ref{app:gates}).
 Compliance is the fraction of calls yielding a parsed A or B; order-robustness
 is the fraction of items whose majority choice agrees between the two option
 orders; decisiveness is the mean over items of $2\,|\hat p - 0.5|$, all
@@ -447,10 +462,13 @@ mistral-small-3.2-24b), and a \textbf{same-base pair} (hermes3-70b vs.\
 llama3.3-70b: both built on Meta's Llama-3.1-70B base according to their
 model cards, with different post-training; hermes3-70b is Nous Research's
 fine-tune, and ``nine labs'' counts it with its base-model developer). Grids
-were formed as provider-diverse trios within the available budget; two
+were formed as provider-diverse trios within the available budget; four
 further configurations passed the gates but were not placed in a grid
-(gpt5-mini, gpt4o-mini), and the local trio's mistral-small-3.2 is the
-partial exception noted above. Tables abbreviate claude-haiku-4.5 as
+(gpt5-mini, gpt4o-mini, mistral-small-3.1 served locally, and the API
+serving of mistral-small-3.2). The local trio's mistral-small-3.2 is the one
+admitted gate failure: served locally, it missed order-robustness by a single
+item (0.675) and was admitted on its agreement with its gate-passing API
+serving (Appendix~\ref{app:gates}). Tables abbreviate claude-haiku-4.5 as
 haiku-4.5, gpt-5.2 as gpt5.2, kimi-k2.5 as kimi, and mistral-small-3.2-24b
 as mistral-small-3.2 or mistral3.2. All models were
 run without extended reasoning where the serving interface allowed it:
@@ -458,10 +476,22 @@ kimi-k2.5 with reasoning disabled, gpt-5.2 at reasoning effort ``minimal'',
 gemma4-31b with thinking off; deepseek-v3, grok-4.3, claude-haiku-4.5,
 llama3.3-70b, mistral-small-3.2 and hermes3-70b at provider defaults.
 glm-4.5-air's default includes hidden reasoning, which exhausted its
-512-token budget in 7\% of main-grid calls (empty replies, treated as
-unparsed; Appendix~\ref{app:coverage}); for the demonstration conditions its
-budget was raised to 2{,}048 tokens. The choice was practical, for inference
-speed and compute cost.
+512-token budget in 7\% of main-grid calls (the 99{,}000 calls of the
+original ten-model grid; empty replies, treated as
+unparsed; Appendix~\ref{app:coverage}); for every condition added after
+that grid its budget was raised to 2{,}048 tokens, which reduced but did not
+remove the empty replies (51 to 79 of 440 in its user-message answer-key
+cells). The choice was practical, for inference speed and compute cost.
+
+Three design elements failed and were replaced, as recorded in the
+repository history: the aesthetic control category collapsed at the
+stability gate (the same-model ceilings serve as noise references instead);
+a bare Ollama model tag silently served an older Mistral
+version that disagreed with its API sibling (0.850 against the 0.925
+same-version ceiling), caught by a cross-serving equivalence check and fixed
+by pinning the versioned tag; and reasoning-enabled serving proved unusable
+for forced choice because reasoning consumed the output budget, motivating
+the non-reasoning configurations above.
 
 \subsection{Conditions: how each text was prepared}
 \label{sec:poscontrol-methods}
@@ -505,8 +535,11 @@ self-observation-500).} Same prompt, same information: the author's majority
 choices on the 90 held-out questions, listed one per line, followed by an
 instruction to write a 500-word first-person description of the observed
 system for use as another system's prompt. In third-person-500 another model
-of the grid writes it; in self-observation-500 the author writes it, not
-told that the observed system is itself. Because the held-out questions are
+of the grid writes it: for a cross cell the third model, neither author nor
+receiver, and for a self cell each of the other two models in turn (six
+cross and six self cells per grid); in self-observation-500 the author
+writes it, not told that the observed system is itself (six cross and three
+self cells). Because the held-out questions are
 those that failed the stability gate, both were rerun from stable source
 items under a preregistered protocol: the observations are the
 author's untied choices on one battery fold and the description is tested on
@@ -518,10 +551,11 @@ optimizer (claude-sonnet-4.6) sees the current description and, for each of
 the 90 held-out questions, the author's choice and how often the receiver
 running that description matched it, and rewrites the description (about 500
 words, first person, no quoting or listing of questions). Five rounds from
-the neutral-500 description, each scored on the held-out questions (360
-calls per round) with the best text carried forward; the best text by
-held-out fidelity is then tested once on the battery by the receiver and by
-the author. Selection and test never share questions.
+the neutral-500 description, which competes as round 0; each rewrite is
+scored on the held-out questions (360 calls per round) and the best text so
+far is carried forward; the best text by held-out fidelity, which can be the
+original, is then tested once on the battery by the receiver and by the
+author. Selection and test never share questions.
 
 \paragraph{Demonstrations-30/60/90 and the answer key (demonstrations-110).}
 No description: the prompt lists the author's majority choices, one question
@@ -549,7 +583,10 @@ held-out condition with randomised order and untied items only, separating
 the positional from the source-item confound. Grid A, 9 cells each.
 
 \paragraph{Placebo, test-retest, no prompt, and unrelated prose at matched
-lengths.} The placebo is 529 words of expository prose about ocean currents
+lengths.} Test-retest, the placebo and adopt-500 are the three controls
+preregistered in the original protocol; the no-prompt baseline and the
+unrelated-prose ladder were added after review. The placebo is 529 words of
+expository prose about ocean currents
 (gpt-4o-mini). Test-retest reruns each model's generic-prompt baseline with
 fresh seeds, giving the repeatability benchmark $C$ (a benchmark, not a hard
 bound: a model compared with itself does not reach $F=1$ at temperature
@@ -611,7 +648,8 @@ choices). The predictions were: demonstrations-110 transfers ($\Tscript>0$,
 every cross pair significantly positive, $\Fcross \ge 0.93$,
 $|\Rweight| \le 0.02$); held-out demonstrations do not ($\Tscript \le 0$, no
 cross pair significantly positive); self-observation and observer-written
-descriptions differ by less than $0.03$ in pooled fidelity with no consistent
+descriptions differ by less than $0.03$ in pooled fidelity (pooled over the
+directed pairs of a condition; Section~\ref{sec:cells}) with no consistent
 sign across targets. Results are in Section~\ref{sec:replication}. Three
 further protocols preregistered the balanced-demonstration and stable-item
 controls and the known-persona control's development gate and hypotheses
@@ -619,7 +657,7 @@ H5a--e (Section~\ref{sec:semantic}).
 
 \subsection{Transfer cells, fidelity metric, and uncertainty}
 \label{sec:cells}
-Stage~2, identical for every condition. Each cell is one receiver running one
+Stage~2, the same for every condition up to the exceptions noted. Each cell is one receiver running one
 text as system prompt (or, in the placement control, in the user message)
 over the battery: every item is asked in both option orders with 2 samples per order
 (temperature 1.0, as in all battery calls), 440 calls per cell (228 for the
@@ -671,8 +709,9 @@ identical distributions, $F=0$ when every item is answered with certainty in
 opposite directions; $F$ is not a percentage of agreeing answers. Answers
 given under the reversed option order are mapped back to the original option
 before $\hat p$ is estimated, and each item's $\hat p$ pools both orders.
-Majority-vote agreement with the author is reported per cell in
-Appendix~\ref{app:pairs} as a companion. Confidence intervals come from a 10{,}000-resample
+Majority-vote agreement with the author is reported per cell as a companion
+in the Appendix~\ref{app:pairs} tables for the conditions added after
+review. Confidence intervals come from a 10{,}000-resample
 bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
 differences) use a paired item bootstrap, resampling the per-item difference.
 Pooled comparisons that share the same questions (every condition pooled
@@ -697,18 +736,14 @@ the two vectors, each beside the same quantities for unrelated prose of the
 same length read by the same receiver.
 All calls are cached to a log keyed by a deterministic call identifier, with
 seed, parsed letter and the first 500 characters of each reply.
+\emph{Post hoc analyses.} Several checks reported in Section~\ref{sec:results}
+were added after the data were in and are labelled as such there: the
+fresh-reference check (receiver baselines taken from the test-retest cell),
+the coverage-threshold and parser sensitivity analyses, the self-fidelity
+length contrasts, the regeneration check, the common-shift correlations
+and the author-identification task of Section~\ref{sec:movement}.
 
-Three design elements failed and were replaced, as recorded in the
-repository history: the aesthetic control category collapsed at the
-stability gate (the same-model ceilings serve as noise references instead);
-a bare Ollama model tag silently served an older Mistral
-version that disagreed with its API sibling (0.850 against the 0.925
-same-version ceiling), caught by a cross-serving equivalence check and fixed
-by pinning the versioned tag; and reasoning-enabled serving proved unusable
-for forced choice because reasoning consumed the output budget, motivating
-the non-reasoning configurations of Section~\ref{sec:models}.
-
-\section{Results}
+\section{Results}\label{sec:results}
 \subsection{The decomposition: no transfer gain, a consistent self--cross gap}
 \label{sec:decomp}
 Table~\ref{tab:decomp} reports the decomposition for all conditions;
@@ -849,7 +884,7 @@ $\Tscript = \Fcross - \B$ for the main conditions (framed-100/2000 and the
 intervals (one item resample per replicate applied to every pair; values pool
 the items answered in every pair of the condition and can differ from the
 table entries, which average per-pair fidelities, by up to $0.003$).
-Self-descriptions in every variant, descriptions distilled from recorded
+Native self-descriptions in every variant, descriptions distilled from recorded
 choices, and examples on other items sit at or below zero; the author's
 answers to the test items themselves transfer on all three grids, and so do
 a policy text and the self-description a model writes while running under

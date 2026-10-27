@@ -107,57 +107,70 @@ its motivation, not theories it can settle on its own.
   measured for a receiver under a generic prompt ($\B$), the receiver running
   the author's self-description ($\Fcross$), and a fresh instance of the
   author's own weights running the same text ($\Fself$); the net transfer
-  gain is $\Tscript = \Fcross - \B$. The test is run on 10 models from 9
-  labs, on three model grids, in the sixteen condition families of
-  Table~\ref{tab:conditions} and 495 cells
-  ($\sim$227{,}000 calls), with predictions for the replications and the
-  added controls preregistered before running.
-  \item \textbf{A bounded answer: a native profile travels as an
-  enumeration, and as nothing shorter we could construct.} Given the
-  author's answers on the 110 test items, receivers reproduce the author at
-  $\Fcross = 0.955$ to $0.960$ across the three grids, within $0.03$ of the
-  test-retest benchmark. No compressed native form improves transfer on average:
-  self-descriptions at 100 to 2{,}000 words, purpose-framed or not,
-  paraphrased, under adoption instruction, in the user message, or rewritten
-  by an optimizer that sees the receiver's errors (pooled $\Tscript \le 0$
-  in every condition, 95\% upper bound below $+0.01$ in every system-prompt
-  condition and $+0.015$ for user-message placement; one of 20 pairs
-  positive under an unadjusted 95\% interval); descriptions distilled from
-  recorded choices
-  ($-0.124$ from unstable items; $-0.031$ for self-written descriptions from
-  stable items, with no detected authorship advantage in self-fidelity); the
-  author's own choices on half the battery in a position-balanced
-  format ($-0.008$, CI $[-0.041, +0.024]$). On average, instances of the
-  author remain closer to its profile than other receivers do, and closer still with no
-  description at all.
-  \item \textbf{Controls that narrow the explanations.} A preregistered
-  known-persona control shows that the null holds for the tested native
-  descriptions but not for assigned-policy descriptions: when a model's
-  preferences are installed by an explicit policy text, the self-description
-  it writes under that policy transfers them to another model ($+0.185$,
-  against $+0.198$ for the policy text, an estimated loss of $0.013$ with CI
-  $[-0.003, +0.029]$, and $-0.010$ for native self-descriptions on the same
-  items). Receivers can
-  execute a semantic self-description; the tested native self-descriptions
-  showed no detected average reconstruction gain. Reading a self-description nonetheless moves
-  the author itself away from its baseline ($0.979 \to 0.918$), more than
-  unrelated prose of matched length, and moves a receiver mostly orthogonally
-  to the author's direction. We also show how an evaluation of persona
-  transfer can manufacture a failure: a demonstration format that always
-  listed the chosen option first produced apparent transfer losses that
-  correcting the format and the source items substantially attenuated.
+  gain is $\Tscript = \Fcross - \B$, and a measured test-retest benchmark
+  separates reconstruction from the self-similarity a fresh instance has
+  before reading anything. The test is run on 10 models from 9 labs, on
+  three model grids and a same-base pair, in the sixteen condition families
+  of Table~\ref{tab:conditions} and 495 cells ($\sim$227{,}000 calls). The
+  replications on two further grids and the balanced-demonstration,
+  stable-item and known-persona controls ran under predictions
+  preregistered before their first call; 29 of the 30 registered criteria
+  were met (Appendix~\ref{app:ledger}).
+  \item \textbf{A bounded null: the tested native self-descriptions show no
+  average reconstruction gain, while an in-sample answer key transfers.}
+  Given the author's answers on the 110 test items, receivers reproduce the
+  author at $\Fcross = 0.955$ to $0.960$ across the three grids, within
+  $0.03$ of the test-retest benchmark; this positive control is in-sample
+  by construction. No compressed native form improves transfer on average.
+  Self-descriptions at 100 to 2{,}000 words, purpose-framed or not,
+  paraphrased, under adoption instruction, in the user message, or
+  rewritten by an optimizer that sees the receiver's errors give pooled
+  $\Tscript \le 0$ in every condition; the one-sided 95\% upper bound on
+  the pooled gain is below $+0.01$ in every system-prompt self-description
+  condition and $+0.015$ for user-message placement, for these texts on
+  these models (one of 20 neutral-500 pairs positive under an unadjusted
+  95\% interval). Descriptions based on the author's observed choices
+  rather than its introspection give $-0.124$ from unstable items and
+  $-0.031$ for self-written descriptions from stable items, with no
+  detected authorship advantage on either grid; the author's own choices on
+  half the battery in a position-balanced format give $-0.008$ (CI
+  $[-0.041, +0.024]$). On average, instances of the author remain closer to
+  its profile than other receivers do, and closer still with no description
+  at all: the self--cross gap reflects pre-existing self-similarity that
+  the description erodes, not information recovered from it.
+  \item \textbf{Assigned personas transfer through self-description; the
+  tested native ones do not.} A preregistered known-persona control shows
+  that when a model's preferences are installed by an explicit policy text,
+  the self-description it writes under that policy transfers them to
+  another model ($+0.185$, against $+0.198$ for the policy text, an
+  estimated loss of $0.013$ with CI $[-0.003, +0.029]$), while the same
+  receivers reading native self-descriptions on the same items give
+  $-0.010$. Receivers can execute a compact semantic self-description, so
+  the null is not a limit of the interface or of the receivers' competence;
+  the contrast does not isolate why the tested native descriptions fail,
+  since the policy writer had an explicit specification in its prompt and
+  the targets differ in headroom.
+  \item \textbf{Behavioral influence without faithful reconstruction.}
+  The tested native self-descriptions carry a small author-specific signal
+  ($+0.006$, CI $[+0.001, +0.011]$) that coexists with negative net
+  transfer. Receivers move under a self-description, but mostly sideways:
+  the projection of the shift onto the author's direction is $0.18$ of the
+  gap, and the receiver's distance to the author increases in 15 of 20
+  pairs. Reading its own self-description moves even the author away from
+  its baseline ($0.979 \to 0.918$), modestly more on average than unrelated
+  prose at the same nominal length. We also show how an evaluation of
+  persona transfer can manufacture a failure: a demonstration format that
+  always listed the chosen option first produced apparent transfer losses
+  that correcting the format and the source items substantially attenuated.
 \end{enumerate}
-We also release the methodological infrastructure (preregistered gates and
-selection rules fixed before screening results were inspected, model
-eligibility gates that catch positional pseudo-preferences, an empirically
-measured same-model repeatability benchmark, stability-screened and
-divergence-ranked item selection, a cached call log keyed by deterministic
-identifiers, and a corpus of 198 model-written descriptions) and report side
-findings: preference \emph{stability} differs sharply across training
-recipes; the same-base pair sits above the mean baseline similarity of
-unrelated pairs, within their range, with no transfer advantage; the aesthetic (taste) items were far less order-stable than
-value items under screening; and who writes a description from recorded
-choices, the model itself or an observer, shows no detected advantage.
+We release the pipeline, the battery, the call log keyed by deterministic
+identifiers, the timestamped preregistration files and a corpus of 198
+model-written descriptions; the eligibility gates that catch positional
+pseudo-preferences and the stability-screened item selection are described
+in Methods. Two side findings recur in the Discussion: preference
+\emph{stability} differs sharply across training recipes, and the same-base
+pair sits above the mean baseline similarity of unrelated pairs, within
+their range, with no transfer advantage.
 
 The result cuts both ways: those who dismiss model preferences as ``just a
 portrayed character'' cannot rely on the character's own script to
@@ -727,7 +740,8 @@ How large a gain do the data exclude? Under joint item resampling, the
 one-sided 95\% upper bound on the pooled transfer gain is below zero in all
 six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
 directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
-and adoption conditions ($+0.009$ and $+0.007$); for the user-message
+and adoption conditions ($+0.009$ and $+0.007$) and at $-0.012$ for the
+optimizer-rewritten descriptions; for the user-message
 placement control it is $+0.015$. An average gain of $0.01$ or more from a
 self-description in the system prompt is thus excluded in every condition,
 against a gain of $+0.097$ when the text lists the answers

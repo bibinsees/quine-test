@@ -48,8 +48,8 @@ portrays. Motivated by Hofstadter's view of the self as a self-description, we
 ask whether a model's description of itself works as a portable specification
 of its preference profile, a quine test: can the text a model writes about
 itself regenerate its behavior elsewhere? Ten models from nine labs write
-self-descriptions; we place each one in the prompt of other models, and of
-fresh instances of the author, and measure how closely their choices on a
+self-descriptions; we place each one in the prompt of other models, the
+receivers, and of fresh instances of the author, and measure how closely their choices on a
 110-item preference battery match the author's.
 
 Four results stand out. First, explicitly listing the author's answers
@@ -90,7 +90,7 @@ the ``I'' is a self-description the system builds and treats as itself, as a fal
 transfer experiment, in the spirit of the quine of \emph{G\"odel, Escher,
 Bach}, Ch.~XVI~\cite{geb}. If the assistant persona is a \emph{script} (a character
 specifiable in text), and if the author can state that specification under
-our prompts in a form a receiver can execute, then a sufficiently detailed
+our prompts in a form a receiver, a different model, can execute, then a sufficiently detailed
 self-authored description should reconstitute the author's choice behavior
 when executed as the system prompt of a different model. If instead the
 profile is not captured by what the model can say about itself,
@@ -271,11 +271,9 @@ the text; and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
 much of $A$'s profile remains when $A$'s own weights read the same text, so
 $\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
 stays to the author than another model does (the self--cross fidelity gap).
-Throughout, the \emph{author} (also called the \emph{source} or
-\emph{target} in the conditions built from recorded choices or policies) is
-the model whose profile is to be reproduced, the \emph{receiver} is the model
-running the text, and an \emph{observer} is a third model that writes about
-the author.
+In the conditions built from recorded choices or policies the author is also
+called the \emph{source} or \emph{target}, and an \emph{observer} is a third
+model that writes about the author.
 One caution applies to
 $\Rweight$ throughout: a fresh instance of $A$ already resembles $A$ more
 than any other model does before reading anything (its test-retest fidelity

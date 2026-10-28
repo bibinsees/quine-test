@@ -862,6 +862,25 @@ the Grid-B third-person and self-observation rows are in
 Table~\ref{tab:replication}.)}
 \label{tab:decomp}
 \end{table}
+\begin{figure}[!t]
+\centering
+\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
+\caption{\textbf{No average reconstruction gain from native self-descriptions
+at the tested lengths.} Fidelity $F$ vs.\ actual description length (neutral
+arm, first generation; 30 self cells and 60 cross cells across three lengths).
+Blue circles: the author's own weights running the description ($\Fself$,
+mean 0.924); orange triangles: a different model running it ($\Fcross$,
+0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
+directed pairs as the orange points ($0.892$; no band is drawn because the
+pairs share models and reversed pairs have identical $\B$); dashed lines:
+series means. $\Fcross$ shows no detected improvement with length and
+$\Fself$ is highest at 100 words; mean $\Fcross$ does not rise above
+$\B$ at any length and sits slightly below it, while mean $\Fself$ sits
+above it by $0.032$, about a third of the $0.087$ margin a fresh author
+instance has over other models before reading anything (test-retest
+$0.979$): the description erodes that margin rather than adding to it.}
+\label{fig:hero}
+\end{figure}
  At neutral-500,
 10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
 (receiving another model's self-description makes the receiver \emph{less}
@@ -908,25 +927,6 @@ instead leaves every pooled gain negative ($-0.013$ to $-0.023$) with every
 upper bound below zero. Figure~\ref{fig:summary} collects the main conditions on
 one axis.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
-\caption{\textbf{No average reconstruction gain from native self-descriptions
-at the tested lengths.} Fidelity $F$ vs.\ actual description length (neutral
-arm, first generation; 30 self cells and 60 cross cells across three lengths).
-Blue circles: the author's own weights running the description ($\Fself$,
-mean 0.924); orange triangles: a different model running it ($\Fcross$,
-0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
-directed pairs as the orange points ($0.892$; no band is drawn because the
-pairs share models and reversed pairs have identical $\B$); dashed lines:
-series means. $\Fcross$ shows no detected improvement with length and
-$\Fself$ is highest at 100 words; mean $\Fcross$ does not rise above
-$\B$ at any length and sits slightly below it, while mean $\Fself$ sits
-above it by $0.032$, about a third of the $0.087$ margin a fresh author
-instance has over other models before reading anything (test-retest
-$0.979$): the description erodes that margin rather than adding to it.}
-\label{fig:hero}
-\end{figure}
 
 \begin{figure}[!tp]
 \centering

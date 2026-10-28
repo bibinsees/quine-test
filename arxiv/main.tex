@@ -256,37 +256,7 @@ enables another model to reproduce its measured preference profile.
 
 \section{Methods}
 \subsection{Design overview}
-Figure~\ref{fig:design} shows the experiment. An \emph{author} model $A$ is
-first measured under a generic assistant prompt on a fixed battery of
-forced-choice items, giving its reference choice profile $\hat p_A$ (the
-probability of choosing option~A on each item, estimated from repeated,
-order-balanced samples). $A$ then writes a self-description $D_A$. Three
-further profiles are measured on the same battery: a different \emph{receiver}
-model $R$ under the generic prompt ($\hat p_R$), the same receiver with $D_A$
-as its system prompt ($\hat p_{R\mid D_A}$), and a fresh instance of $A$ with
-$D_A$ as its system prompt ($\hat p_{A\mid D_A}$). Each is compared with
-$\hat p_A$ by a fidelity score $F \in [0,1]$ (defined below; $F=1$ means
-identical choice distributions on every item). The three comparisons give the
-decomposition: $\B = F(\hat p_A, \hat p_R)$ is how alike the two models already
-are under generic prompting (baseline behavioral similarity); $\Fcross = F(\hat p_A,
-\hat p_{R\mid D_A})$ is how alike they become when $R$ reads $A$'s
-self-description, so $\Tscript = \Fcross - \B$ is the net transfer gain from
-the text; and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
-much of $A$'s profile remains when $A$'s own weights read the same text, so
-$\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
-stays to the author than another model does (the self--cross fidelity gap).
-In the conditions built from recorded choices or policies the author is also
-called the \emph{source} or \emph{target}, and an \emph{observer} is a third
-model that writes about the author.
-One caution applies to
-$\Rweight$ throughout: a fresh instance of $A$ already resembles $A$ more
-than any other model does before reading anything (its test-retest fidelity
-is about $0.98$ against a cross-model baseline of about $0.89$), so a
-positive gap shows that the author's instance stays closer to the author,
-not that the description is being used to reconstruct it. One \emph{cell} is
-one receiver running one description over the whole battery.
-
-\begin{figure}[t]
+\begin{figure}[H]
 \centering
 \begin{tikzpicture}[
   font=\footnotesize,
@@ -357,6 +327,35 @@ listed there; in the known-persona control the reference is the source's
 profile under the policy (Section~\ref{sec:poscontrol-methods}).}
 \label{fig:design}
 \end{figure}
+Figure~\ref{fig:design} shows the experiment. An \emph{author} model $A$ is
+first measured under a generic assistant prompt on a fixed battery of
+forced-choice items, giving its reference choice profile $\hat p_A$ (the
+probability of choosing option~A on each item, estimated from repeated,
+order-balanced samples). $A$ then writes a self-description $D_A$. Three
+further profiles are measured on the same battery: a different \emph{receiver}
+model $R$ under the generic prompt ($\hat p_R$), the same receiver with $D_A$
+as its system prompt ($\hat p_{R\mid D_A}$), and a fresh instance of $A$ with
+$D_A$ as its system prompt ($\hat p_{A\mid D_A}$). Each is compared with
+$\hat p_A$ by a fidelity score $F \in [0,1]$ (defined below; $F=1$ means
+identical choice distributions on every item). The three comparisons give the
+decomposition: $\B = F(\hat p_A, \hat p_R)$ is how alike the two models already
+are under generic prompting (baseline behavioral similarity); $\Fcross = F(\hat p_A,
+\hat p_{R\mid D_A})$ is how alike they become when $R$ reads $A$'s
+self-description, so $\Tscript = \Fcross - \B$ is the net transfer gain from
+the text; and $\Fself = F(\hat p_A, \hat p_{A\mid D_A})$ is how
+much of $A$'s profile remains when $A$'s own weights read the same text, so
+$\Rweight = \Fself - \Fcross$ is how much closer the author's own instance
+stays to the author than another model does (the self--cross fidelity gap).
+In the conditions built from recorded choices or policies the author is also
+called the \emph{source} or \emph{target}, and an \emph{observer} is a third
+model that writes about the author.
+One caution applies to
+$\Rweight$ throughout: a fresh instance of $A$ already resembles $A$ more
+than any other model does before reading anything (its test-retest fidelity
+is about $0.98$ against a cross-model baseline of about $0.89$), so a
+positive gap shows that the author's instance stays closer to the author,
+not that the description is being used to reconstruct it. One \emph{cell} is
+one receiver running one description over the whole battery.
 
 \paragraph{A worked example.} Author deepseek-v3, receiver glm-4.5-air,
 neutral-500 description: $\B = 0.886$, $\Fcross = 0.831$, so

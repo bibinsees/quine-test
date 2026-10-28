@@ -58,7 +58,7 @@ enables receivers to reproduce its preference profile at fidelity 0.955 to
 benchmark of 0.979. Second, the tested native self-descriptions show no
 average reconstruction gain across variations in length, framing, wording
 and prompt placement; the one-sided 95\% upper bound on the pooled gain is
-below $+0.01$ in every tested system-prompt condition. Descriptions based on
+below $+0.01$ in every tested system-prompt self-description condition. Descriptions based on
 the author's observed choices rather than its introspection also show no
 average gain. Third, by contrast,
 self-descriptions written under an explicit preference policy transfer the
@@ -499,9 +499,9 @@ kimi-k2.5 with reasoning disabled, gpt-5.2 at reasoning effort ``minimal'',
 gemma4-31b with thinking off; deepseek-v3, grok-4.3, claude-haiku-4.5,
 llama3.3-70b, mistral-small-3.2 and hermes3-70b at provider defaults.
 glm-4.5-air's default includes hidden reasoning, which exhausted its
-512-token budget in 7\% of main-grid calls (the 99{,}000 calls of the
-original ten-model grid; empty replies, treated as
-unparsed; Appendix~\ref{app:coverage}); for every condition added after
+512-token budget in about 7\% of its own main-grid calls (959 unparsed of its
+14{,}520 calls within the 99{,}000 calls of the original ten-model grid, 887 of
+them empty replies; Appendix~\ref{app:coverage}); for every condition added after
 that grid its budget was raised to 2{,}048 tokens, which reduced but did not
 remove the empty replies (51 to 79 of 440 in its user-message answer-key
 cells). The choice was practical, for inference speed and compute cost.
@@ -520,8 +520,9 @@ the non-reasoning configurations above.
 \label{sec:poscontrol-methods}
 Table~\ref{tab:conditions} lists every condition; this subsection gives the
 details the table cannot hold. Stage~2 is the same for all conditions
-(Section~\ref{sec:cells}); all prompts are verbatim in
-Appendix~\ref{app:prompts}.
+(Section~\ref{sec:cells}); every condition's prompt is verbatim in
+Appendix~\ref{app:prompts}, and the placebo and unrelated-prose texts, with the
+prompts that generated them, are in the repository.
 
 \paragraph{Self-descriptions (neutral, framed; 100, 500, 2{,}000 words).}
 Each model wrote descriptions of itself from introspection under two
@@ -532,7 +533,8 @@ verbatim; the writing call carries the prompt as the user message with no
 system prompt, and each description is shared by every receiver that runs
 it. Two
 independent generations exist per author, framing and length; the first
-supplies every reported result and the second was run only in the nine
+supplies every reported result except the four hermes3-70b cells noted
+below, and the second was otherwise run only in the nine
 Grid-A neutral-500 cells as the regeneration check of
 Section~\ref{sec:decomp}. Actual lengths run from 84 to
 2{,}471 words; the dose-response scatter uses actual counts, while condition
@@ -604,8 +606,9 @@ folds (53 and 57 items; the nominal 55/55 rounded down within categories).
 For each fold the prompt lists the author's untied majority choices on the
 other fold's items with the option order in each line randomised (50 to 57
 lines); the receiver is tested on the fold's own items, the two folds forming
-one 440-call cell. Demonstrations-30 balanced repeats the original 30-item
-held-out condition with randomised order and untied items only, probing the
+one 440-call cell. Demonstrations-30 balanced repeats the 30-item held-out
+condition with a fresh seeded draw of 30 untied held-out items per author
+and randomised option order, probing the
 contribution of the demonstration format while retaining the held-out
 source items. Grid A, 9 cells each.
 
@@ -677,7 +680,9 @@ $|\Rweight| \le 0.02$); held-out demonstrations do not ($\Tscript \le 0$, no
 cross pair significantly positive); self-observation and observer-written
 descriptions differ by less than $0.03$ in pooled fidelity (pooled over the
 directed pairs of a condition; Section~\ref{sec:cells}) with no consistent
-sign across targets. Results are in Section~\ref{sec:replication}. Three
+sign across targets; together with secondary criteria on self cells and on
+the 30-to-90 trend, Appendix~\ref{app:ledger} lists all 30. Results are in
+Section~\ref{sec:replication}. Three
 further protocols preregistered the balanced-demonstration and stable-item
 controls and the known-persona control's development gate and hypotheses
 H5a--e (Section~\ref{sec:semantic}).
@@ -889,7 +894,10 @@ author than unrelated prose of the same length ($\Fcross$ 0.878, 0.875,
 0.880 for the self-descriptions vs.\ 0.882, 0.883, 0.883 for unrelated
 prose). Cells (s/c) counts the self and cross cells pooled per row.
 ($\B$ varies by row because each condition pools only the directed pairs that
-ran it; contrasts are always computed within-pool.)}
+ran it; contrasts are always computed within-pool. Paraphrase-500, adopt-500
+and third-person-500 in the upper block are Grid A only, six directed pairs;
+the Grid-B third-person and self-observation rows are in
+Table~\ref{tab:replication}.)}
 \label{tab:decomp}
 \end{table}
 
@@ -907,8 +915,9 @@ pairs share models and reversed pairs have identical $\B$); dashed lines:
 series means. $\Fcross$ shows no detected improvement with length and
 $\Fself$ is highest at 100 words; mean $\Fcross$ does not rise above
 $\B$ at any length and sits slightly below it, while mean $\Fself$ sits
-consistently above it, at about the margin a fresh author instance has over any other model
-before reading anything.}
+above it by $0.032$, about a third of the $0.087$ margin a fresh author
+instance has over other models before reading anything (test-retest
+$0.979$): the description erodes that margin rather than adding to it.}
 \label{fig:hero}
 \end{figure}
 
@@ -1251,7 +1260,11 @@ optimizer that sees exactly where the receiver's choices diverge from the
 author's is the strongest textual case we could construct. In five of six
 directed pairs none of five rewrites beat the natural self-description on
 the held-out items (typically $0.05$ to $0.10$ worse); the one exception
-improved by $0.006$. On the battery the selected descriptions give
+improved by $0.006$. That selected rewrite (grok-4.3's description for
+deepseek-v3) scores $-0.104$ on the battery where the original gave $+0.065$
+at neutral-500, the one significantly positive native pair: a $0.006$
+held-out gain on unstable items cost $0.169$ on the battery. On the battery
+the selected descriptions give
 $\Fcross = 0.830$ against $\B = 0.863$ ($\Tscript = -0.033$; two pairs
 significantly negative, none positive) and $\Fself = 0.881$; since the
 selected text is the natural description in five pairs, those five cells
@@ -1565,8 +1578,8 @@ conversations, which were not tested. The replications
 ran under preregistered predictions (29 of 30 registered criteria met), the
 native null holds on every grid, and the pipeline, battery, call logs and
 198 model-written descriptions are released so the test can be rerun as
-models change. As a prompt for reproducing the measured choices, the story
-a model tells about itself is neither necessary nor sufficient for the
+models change. As a prompt for reproducing the measured native choices, the
+story a model tells about itself is neither necessary nor sufficient for the
 behavior it narrates.
 
 \section*{Code and Data}
@@ -1752,7 +1765,7 @@ prompt above):
 \toprule
 Model & Compliance & Order-robust & Decisive & Verdict & Note \\
 \midrule
-grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & most stable model tested \\
+grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & ties llama3.3-70b for most order-robust \\
 llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & passes where llama-3.1-8b failed \\
 gpt5-mini        & 1.000 & 0.775 & 0.767 & PASS & \\
 kimi-k2.5 (no reasoning) & 1.000 & 0.775 & 0.725 & PASS & \\

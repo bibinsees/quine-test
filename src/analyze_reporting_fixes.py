@@ -100,8 +100,9 @@ def main() -> None:
               r"90\%; overall parsed rate " + f"{out['coverage']['overall_rate']:.1%}".replace("%", r"\%") +
               r"). A call is unparsed when the reply contains no standalone A or B: either an empty reply "
               r"(reasoning consumed the output budget) or a refusal to state a preference. Fidelity is "
-              r"computed over the items with at least one parsed answer; cells covering fewer than 60 items "
-              r"are excluded.}",
+              r"computed over the items with at least one parsed answer; full-battery cells covering fewer "
+              r"than 60 items are excluded (the 27 half-battery known-persona cells are evaluated on their "
+              r"57 items, with a 50-item floor).}",
               r"\label{tab:coverage}", r"\end{table}"]
     (ROOT / "arxiv" / "tab_coverage.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 

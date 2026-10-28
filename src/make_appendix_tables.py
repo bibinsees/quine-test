@@ -87,7 +87,9 @@ def main() -> None:
         pc, [("A", "A")],
         r"Per-pair transfer contrasts for the positive-control, authorship and placement "
         r"conditions, Grid A (cross cells). $\Tscript = F - \B$ with item-level paired bootstrap (10k resamples); $^{*}$ "
-        r"marks 95\% CIs excluding zero; agree is majority-vote agreement with the author.",
+        r"marks 95\% CIs excluding zero; agree is majority-vote agreement with the author. $\Tscript$ and its "
+        r"interval are computed on the items the cell covers; $\B$ is the pair's full-battery baseline, so "
+        r"$F - \B$ can differ from $\Tscript$ by up to $0.003$ in cells with reduced coverage.",
         "tab:added-pairs", placement="p"), encoding="utf-8")
     OUT_REPL.write_text(table(
         pc, [("B", "B"), ("L", "local")],

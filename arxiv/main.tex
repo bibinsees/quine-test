@@ -167,20 +167,10 @@ its motivation, not theories it can settle on its own.
   always listed the chosen option first produced apparent transfer losses
   that correcting the format and the source items substantially attenuated.
 \end{enumerate}
-We release the pipeline, the battery, the call log keyed by deterministic
-identifiers, the timestamped preregistration files and a corpus of 198
-model-written descriptions; the eligibility gates that catch positional
-pseudo-preferences and the stability-screened item selection are described
-in Methods. Two side findings recur in the Discussion: preference
+Two side findings recur in the Discussion: preference
 \emph{stability} differs sharply across training recipes, and the same-base
 pair sits above the mean baseline similarity of unrelated pairs, within
 their range, with no transfer advantage.
-
-The result cuts both ways: those who dismiss model preferences as ``just a
-portrayed character'' cannot rely on the character's own script to
-reproduce them in another model, and those who take model self-reports at face
-value must reckon with self-narratives that do not suffice to reproduce the
-behavior they narrate.
 
 \Needspace{12\baselineskip}
 \section{Related Work}
@@ -321,10 +311,7 @@ $\hat p_A$. $\Tscript = \Fcross - \B$ is the net transfer gain from the
 text; $\Rweight = \Fself - \Fcross$ is how much closer the author's own
 instance stays to the author than another model does, and $\Fself$ is read
 against $C$ rather than against 1. In the other conditions of
-Table~\ref{tab:conditions} the orange box holds that condition's text, with
-the prompt-placement, evaluation-item and reference-profile exceptions
-listed there; in the known-persona control the reference is the source's
-profile under the policy (Section~\ref{sec:poscontrol-methods}).}
+Table~\ref{tab:conditions} the orange box holds that condition's text.}
 \label{fig:design}
 \end{figure}
 Figure~\ref{fig:design} shows the experiment. An \emph{author} model $A$ is
@@ -972,9 +959,8 @@ to its native profile; H5e).
 self-description; a blanket inability to use semantic persona descriptions
 is ruled out. When a model's preferences were installed by an explicit
 policy, its account of itself carries them to another model with little
-loss (the loss, $+0.013$, has a CI that includes zero); the same receivers
-reading native self-descriptions on the same items show no detected average
-gain ($-0.010$, CI $[-0.040, +0.019]$). Why native descriptions fail is not
+loss, while the same receivers reading native self-descriptions on the same
+items show no detected average gain. Why native descriptions fail is not
 isolated by this contrast: the policy writer also had an explicit
 specification in its prompt, and the targets differ in structure and
 headroom ($B'$ about 0.68 against $\B$ about 0.86), so the gains are not
@@ -1031,14 +1017,6 @@ author than a generic prompt does. Rewording does not change the picture: a para
 the description by a non-grid model (same content, different sentences)
 leaves transfer where it was ($\Tscript = -0.007$ vs.\ $-0.004$ for the
 unparaphrased descriptions on the same Grid-A pool).
-
-\textbf{Self-description as perturbation.} Finally, $\Fself$ ($\approx 0.92$)
-sits well below the same-model test-retest benchmark ($C = 0.979$, Controls
-below): reading its own self-description moves even the author away from its
-baseline. Identity articulation \emph{perturbs} rather than reconstitutes;
-the unrelated-prose controls below show the shift exceeds that from the
-particular unrelated passages tested, without isolating identity semantics
-from grammatical person, directives, or refusal policies.
 
 \textbf{Shared lineage raises baseline similarity, not transfer.} The
 same-base pair (hermes3-70b $\leftrightarrow$ llama3.3-70b), the one pair
@@ -1319,7 +1297,7 @@ authorship results replicate under preregistered predictions, and the
 native null holds on every grid and the same-base pair. What a native
 self-description does not do is bring the receiver closer to the author on
 average: the projection of its shift onto the author's direction is only
-$0.18$ of the gap (a projection, not a fraction of distance closed), and
+$0.18$ of the gap, and
 the receiver ends further from the author in most pairs.
 
 \begin{table}[!t]
@@ -1379,9 +1357,7 @@ prompt held fixed, the observed model writing the description confers no detecta
 advantage over an observer, which weakens an authorship-only account of why
 introspective descriptions beat descriptions distilled from recorded
 choices without settling whether introspection carries privileged
-self-access. As a prompt for reproducing the measured choices, the story a
-model tells about itself is neither necessary nor
-sufficient for the behavior it narrates.
+self-access.
 
 \textbf{What the results settle, and what they do not.} (i) \emph{The
 script hypothesis.} The strong form, that the persona is a character
@@ -1445,10 +1421,7 @@ demonstration conditions), has deepseek-v3 as receiver, and none occurs on
 Grid B or the local trio, Appendix~\ref{app:pairs}). An injected description competes with
 the receiver's post-training priors and, for closed models, with
 provider-side system prompts we cannot observe; the answer-key and
-known-persona controls rule out an interface too weak to move choices and a
-blanket inability to execute semantic descriptions (the policy-to-description
-loss is $0.013$, CI $[-0.003, +0.029]$), not a difficulty specific to native
-profiles, and neither excludes interference from unobserved provider
+known-persona controls do not exclude interference from such
 instructions (the local trio and the same-base pair, served locally with no
 provider-side instruction, show the same neutral-500 null, with mean gains
 of $-0.024$ and $-0.037$); the answer key is in-sample by construction.
@@ -1469,12 +1442,11 @@ on these models, and the battery (screened for stability and divergence on
 six models) and the eligibility gates (which favor compliant, order-robust
 configurations) define the population the findings most directly cover.
 
-\textbf{Preregistration and replication coverage.} The demonstration
-conditions were replicated under preregistered predictions on Grid B and
-the local trio, and the authorship conditions on Grid B; the
-balanced-demonstration, stable-item and known-persona controls ran under
-preregistered protocols (29 of 30 predicted criteria met,
-Appendix~\ref{app:ledger}). The held-out-item positive-control and authorship
+\textbf{Preregistration and replication coverage.} The demonstration and
+authorship conditions were replicated under preregistered predictions
+(Section~\ref{sec:replication}), and the balanced-demonstration, stable-item
+and known-persona controls ran under preregistered protocols. The
+held-out-item positive-control and authorship
 conditions (demonstrations-30/60/90/110, third-person-500,
 self-observation-500) and the optimized and placement conditions were not
 preregistered on Grid A, and paraphrase-500, adopt-500, optimized-500,
@@ -1554,16 +1526,11 @@ The result cuts both ways. Those who dismiss model preferences as a
 portrayed character cannot rely on the character's own script to reproduce
 them elsewhere; those who take model self-reports at face value must reckon
 with narratives that do not reproduce the behavior they narrate. For
-assessment, the tested self-reports were insufficient substitutes for
-measured preference profiles and need independent behavioral validation
-before they are read as a specification of how a model chooses, and the
-tested identity texts are themselves perturbants that self-quizzing
-evaluations should account for, and plausibly long self-referential
-conversations, which were not tested. The replications
-ran under preregistered predictions (29 of 30 registered criteria met), the
-native null holds on every grid, and the pipeline, battery, call logs and
-198 model-written descriptions are released so the test can be rerun as
-models change. As a prompt for reproducing the measured native choices, the
+assessment, such self-reports need independent behavioral validation before
+they are read as a specification of how a model chooses. The native null
+holds on every grid, and the released pipeline, battery, call logs and
+descriptions let the test be rerun as models change. As a prompt for
+reproducing the measured native choices, the
 story a model tells about itself is neither necessary nor sufficient for the
 behavior it narrates.
 

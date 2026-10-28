@@ -1286,7 +1286,7 @@ and authorship conditions on Grid B (gpt-5.2, kimi-k2.5, claude-haiku-4.5)
 and the demonstration conditions on the local trio (llama3.3-70b,
 gemma4-31b, mistral-small-3.2). Table~\ref{tab:replication} gives the pooled
 decomposition for all three grids; per-pair contrasts are in
-Appendix~\ref{app:added-pairs}.
+Appendix~\ref{app:pairs}.
 
 \input{tab_replication}
 
@@ -1802,16 +1802,15 @@ API-level failures count against compliance, as that failure mode is itself
 the disqualifying result.}
 \end{table}
 
-\section{Per-pair transfer contrasts}\label{app:pairs}\label{app:added-pairs}
+\section{Per-pair transfer contrasts}\label{app:pairs}
 $\Tscript$ per directed pair, item-level paired bootstrap (10k resamples);
 $*$ marks 95\% CIs excluding zero. First the neutral-500 self-descriptions
-on all grids; then the positive-control, authorship and placement conditions
-on the two preregistered replication grids
-(Table~\ref{tab:added-pairs-repl}) and on Grid A (Table~\ref{tab:added-pairs}).
+on all grids (Table~\ref{tab:native-pairs}); then the positive-control,
+authorship and placement conditions on all three grids, grouped by grid
+(Table~\ref{tab:control-pairs}).
 \input{tab_native_pairs}
 
-\input{tab_added_pairs_repl}
-\input{tab_added_pairs}
+\input{tab_control_pairs}
 
 \section{Known-semantic-persona control, per pair}\label{app:policy}
 \input{tab_policy}

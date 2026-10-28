@@ -792,52 +792,8 @@ and the author-identification task of Section~\ref{sec:movement}.
 \subsection{The decomposition: no transfer gain, a consistent self--cross gap}
 \label{sec:decomp}
 Table~\ref{tab:decomp} reports the decomposition for all conditions;
-Figure~\ref{fig:hero} shows the underlying dose-response. At neutral-500,
-10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
-(receiving another model's self-description makes the receiver \emph{less}
-like the author than its generic default); one pair is positive under an
-unadjusted 95\% interval
-(grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.016,+0.115]$; all per-pair
-contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
-to description resampling: rerunning every Grid-A neutral-500 cell with an
-independently regenerated description reproduces cell fidelities with mean
-$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
-self--cross gap needs a baseline-adjusted reading. Pooled $\Rweight$ is the
-difference between the pooled self and pooled cross fidelities of a
-condition, whose cell pools differ in size (Table~\ref{tab:decomp}, last
-column). Measured against its own reference, the author loses fidelity by
-reading its description: $\Fself - C$, averaged over the self cells of a
-condition with each model's own test-retest value, is $-0.04$ to $-0.07$
-across the self-description conditions ($-0.04$ to $-0.06$ in the neutral
-arm, $-0.07$ under adoption; mean test-retest benchmark $C = 0.979$), and a receiver loses a
-similar amount against its own reference when it reads another model's
-description (0.926 vs.\ 0.918 for its own, Appendix~\ref{app:ladder}), while
-gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$). So
-$\Rweight > 0$ reflects the author instance's pre-existing self-similarity,
-which survives the description with a loss, not information recovered from
-the text; neither side gains from the description.
-
-How large a gain do the data exclude? Under joint item resampling, the
-one-sided 95\% upper bound on the pooled transfer gain is below zero in all
-six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
-directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
-and adoption conditions ($+0.009$ and $+0.007$) and at $-0.012$ for the
-optimized condition; for the user-message
-placement control it is $+0.015$. An average gain of $0.01$ or more from a
-self-description in the system prompt is thus excluded in every condition,
-against a gain of $+0.097$ when the text lists the answers
-(Section~\ref{sec:poscontrol}). These bounds hold the models, descriptions
-and battery fixed and resample items only; the item estimates rest on
-nominally four answers each. They are not driven by poorly covered cells:
-restricting each pool to cross cells with at least 90\% parsed answers
-changes no pooled gain by more than $0.003$, and at 95\% the two framed
-pools that shrink most (to 8 and 11 pairs) have upper bounds of $+0.002$ and
-$+0.004$. Nor do they depend on reusing the receiver's reference sample:
-taking each receiver's baseline from its independent test-retest cell
-instead leaves every pooled gain negative ($-0.013$ to $-0.023$) with every
-upper bound below zero. Figure~\ref{fig:summary} collects the main conditions on
-one axis.
-\begin{table}[!tbp]
+Figure~\ref{fig:hero} shows the underlying dose-response.
+\begin{table}[!t]
 \centering\small
 \begin{tabular}{lcccccc}
 \toprule
@@ -906,6 +862,51 @@ the Grid-B third-person and self-observation rows are in
 Table~\ref{tab:replication}.)}
 \label{tab:decomp}
 \end{table}
+ At neutral-500,
+10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
+(receiving another model's self-description makes the receiver \emph{less}
+like the author than its generic default); one pair is positive under an
+unadjusted 95\% interval
+(grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.016,+0.115]$; all per-pair
+contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
+to description resampling: rerunning every Grid-A neutral-500 cell with an
+independently regenerated description reproduces cell fidelities with mean
+$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
+self--cross gap needs a baseline-adjusted reading. Pooled $\Rweight$ is the
+difference between the pooled self and pooled cross fidelities of a
+condition, whose cell pools differ in size (Table~\ref{tab:decomp}, last
+column). Measured against its own reference, the author loses fidelity by
+reading its description: $\Fself - C$, averaged over the self cells of a
+condition with each model's own test-retest value, is $-0.04$ to $-0.07$
+across the self-description conditions ($-0.04$ to $-0.06$ in the neutral
+arm, $-0.07$ under adoption; mean test-retest benchmark $C = 0.979$), and a receiver loses a
+similar amount against its own reference when it reads another model's
+description (0.926 vs.\ 0.918 for its own, Appendix~\ref{app:ladder}), while
+gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$). So
+$\Rweight > 0$ reflects the author instance's pre-existing self-similarity,
+which survives the description with a loss, not information recovered from
+the text; neither side gains from the description.
+
+How large a gain do the data exclude? Under joint item resampling, the
+one-sided 95\% upper bound on the pooled transfer gain is below zero in all
+six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
+directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
+and adoption conditions ($+0.009$ and $+0.007$) and at $-0.012$ for the
+optimized condition; for the user-message
+placement control it is $+0.015$. An average gain of $0.01$ or more from a
+self-description in the system prompt is thus excluded in every condition,
+against a gain of $+0.097$ when the text lists the answers
+(Section~\ref{sec:poscontrol}). These bounds hold the models, descriptions
+and battery fixed and resample items only; the item estimates rest on
+nominally four answers each. They are not driven by poorly covered cells:
+restricting each pool to cross cells with at least 90\% parsed answers
+changes no pooled gain by more than $0.003$, and at 95\% the two framed
+pools that shrink most (to 8 and 11 pairs) have upper bounds of $+0.002$ and
+$+0.004$. Nor do they depend on reusing the receiver's reference sample:
+taking each receiver's baseline from its independent test-retest cell
+instead leaves every pooled gain negative ($-0.013$ to $-0.023$) with every
+upper bound below zero. Figure~\ref{fig:summary} collects the main conditions on
+one axis.
 
 \begin{figure}[t]
 \centering

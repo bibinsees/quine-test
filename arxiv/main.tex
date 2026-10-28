@@ -401,29 +401,9 @@ self-referential (19), AI governance (14), culture (11), epistemic (11),
 ethics (8), and aesthetic control (2; items expected to carry no
 cross-model signal, intended as a noise floor).
 
-200 candidate forced-choice items in 8 categories were screened on 6 models
-(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
-compares choice \emph{distributions} rather than modal answers; both option
-orders; deterministic seeds). A selection rule \emph{fixed before screening data
-was inspected} retained 110 items (compliance $\ge 0.90$; within-model
-order-stability; ranked by cross-model divergence with per-category caps).
-An item's order-stability is the fraction of the six screening models (the
-API models of Grids A and B: deepseek-v3, glm-4.5-air, grok-4.3, gpt-5.2,
-kimi-k2.5, claude-haiku-4.5) whose majority choice agrees between the two
-option orders; the gate requires at least five of the six. All 90
-non-selected items failed the order-stability gate; none was removed by
-compliance, by the divergence ranking or by a category cap. (The implemented
-gate is stricter than the two-thirds rule intended; 40 of the 90 would have
-passed at two thirds, see Limitations.)
-The aesthetic control category largely failed the stability gate, so the
-noise references are instead same-model ceilings: the test-retest benchmark
-$C$ in the fidelity metric (Section~\ref{sec:cells}) and a cross-serving
-check in which the identical model version served by two providers agrees at
-$0.925$ majority-vote.
-
-\begin{table}[H]
-\centering\scriptsize\captionsetup{font=scriptsize}\renewcommand{\arraystretch}{0.82}\setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.75cm}>{\raggedright\arraybackslash}p{5.0cm}>{\raggedright\arraybackslash}p{1.95cm}>{\raggedright\arraybackslash}p{3.75cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\begin{table}[p]
+\centering\footnotesize\renewcommand{\arraystretch}{0.89}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{1.8cm}}
 \toprule
 Condition & Text & Written by & Built from & Grids \\
 \midrule
@@ -466,6 +446,27 @@ local = llama3.3-70b, gemma4-31b, mistral-small-3.2; ``all'' includes the
 same-base pair.}
 \label{tab:conditions}
 \end{table}
+
+200 candidate forced-choice items in 8 categories were screened on 6 models
+(7{,}200 calls; generic assistant prompt; temperature 1.0, since fidelity
+compares choice \emph{distributions} rather than modal answers; both option
+orders; deterministic seeds). A selection rule \emph{fixed before screening data
+was inspected} retained 110 items (compliance $\ge 0.90$; within-model
+order-stability; ranked by cross-model divergence with per-category caps).
+An item's order-stability is the fraction of the six screening models (the
+API models of Grids A and B: deepseek-v3, glm-4.5-air, grok-4.3, gpt-5.2,
+kimi-k2.5, claude-haiku-4.5) whose majority choice agrees between the two
+option orders; the gate requires at least five of the six. All 90
+non-selected items failed the order-stability gate; none was removed by
+compliance, by the divergence ranking or by a category cap. (The implemented
+gate is stricter than the two-thirds rule intended; 40 of the 90 would have
+passed at two thirds, see Limitations.)
+The aesthetic control category largely failed the stability gate, so the
+noise references are instead same-model ceilings: the test-retest benchmark
+$C$ in the fidelity metric (Section~\ref{sec:cells}) and a cross-serving
+check in which the identical model version served by two providers agrees at
+$0.925$ majority-vote.
+
 
 \subsection{Models and eligibility gates}\label{sec:models}
 20 candidate models, in 22 serving configurations, were gate-tested (compliance

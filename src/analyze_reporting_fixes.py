@@ -191,7 +191,7 @@ def main() -> None:
             ("A, balanced demos", "H1 first-option rate within 3 points of generic prompt (both conditions)",
              abs(a30 - a_ref) <= 0.03 and abs(a55 - a_ref) <= 0.03,
              f"generic {a_ref:.3f}; bal.-30 {a30:.3f}; bal.-55 {a55:.3f}"),
-            ("A, balanced demos", "H2 balanced-30 pooled T closer to zero than original -0.061",
+            ("A, balanced demos", "H2 balanced-30 pooled T closer to zero than held-out demonstrations-30 (-0.061)",
              abs(p30b["T_script"]) < 0.061, f"T={p30b['T_script']:+.3f}"),
             ("A, balanced demos", "H3 (open) balanced-55 generalisation",
              None, f"T={p55['T_script']:+.3f}; {n_sig_pos('A', 'demos_bal-55')} pair sig. +, "

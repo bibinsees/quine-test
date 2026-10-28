@@ -127,7 +127,7 @@ its motivation, not theories it can settle on its own.
   Self-descriptions at 100 to 2{,}000 words, purpose-framed or not,
   paraphrased, under adoption instruction, in the user message, or
   passed through an optimizer that sees the receiver's errors (which kept
-  the original text in five of six pairs) give pooled
+  the starting text in five of six pairs) give pooled
   $\Tscript \le 0$ in every condition; the one-sided 95\% upper bound on
   the pooled gain is below $+0.01$ in every system-prompt self-description
   condition and $+0.015$ for user-message placement, for these texts on
@@ -382,7 +382,7 @@ description cells; in the stable-item conditions each half of the battery is
 answered under the text built from the other half), and its answers are
 scored against the author's. Texts built from
 recorded choices always use source questions disjoint from the questions on
-which they are evaluated: the original conditions use the 90 screening
+which they are evaluated: the held-out-item conditions use the 90 screening
 questions \emph{not} selected for the battery (the \emph{held-out} items),
 the stable-item controls use one half of the battery as source and the other
 as test. The single deliberate exception is the answer key
@@ -504,9 +504,9 @@ gemma4-31b with thinking off; deepseek-v3, grok-4.3, claude-haiku-4.5,
 llama3.3-70b, mistral-small-3.2 and hermes3-70b at provider defaults.
 glm-4.5-air's default includes hidden reasoning, which exhausted its
 512-token budget in about 7\% of its own main-grid calls (959 unparsed of its
-14{,}520 calls within the 99{,}000 calls of the original ten-model grid, 887 of
-them empty replies; Appendix~\ref{app:coverage}); for every condition added after
-that grid its budget was raised to 2{,}048 tokens, which reduced but did not
+14{,}520 calls within the 99{,}000 calls of the ten-model main grid, 887 of
+them empty replies; Appendix~\ref{app:coverage}); in every subsequent condition
+its budget was raised to 2{,}048 tokens, which reduced but did not
 remove the empty replies (51 to 79 of 440 in its user-message answer-key
 cells). The choice was practical, for inference speed and compute cost.
 
@@ -572,7 +572,7 @@ receiver, and for a self cell each of the other two models in turn (six
 cross and six self cells per grid); in self-observation-500 the author
 writes it, not told that the observed system is itself (six cross and three
 self cells). Because the held-out questions are
-those that failed the stability gate, both were rerun from stable source
+those that failed the stability gate, both were also run from stable source
 items under a preregistered protocol: the observations are the
 author's untied choices on one battery fold and the description is tested on
 the other (observer-written, run by the target, 6 cells; self-written, run by
@@ -586,7 +586,7 @@ words, first person, no quoting or listing of questions). Five rounds from
 the neutral-500 description, which competes as round 0; each rewrite is
 scored on the held-out questions (360 calls per round) and the best text so
 far is carried forward; the best text by held-out fidelity, which can be the
-original, is then tested once on the battery by the receiver and by the
+starting text, is then tested once on the battery by the receiver and by the
 author. Selection and test never share questions.
 
 \paragraph{Demonstrations-30/60/90 and the answer key (demonstrations-110).}
@@ -604,8 +604,9 @@ fixed subsets, the same for every author); demonstrations-110, the
 positive control for the interface.
 
 \paragraph{Balanced demonstrations from stable items (demonstrations-55 and
--30, balanced).} The corrected version, run under a preregistered protocol
-after the two confounds were identified. The battery is split into two seeded, category-stratified
+-30, balanced).} The balanced variant, run under a preregistered protocol,
+removes both confounds of the held-out format (fixed option order and
+unstable source items). The battery is split into two seeded, category-stratified
 folds (53 and 57 items; the nominal 55/55 rounded down within categories).
 For each fold the prompt lists the author's untied majority choices on the
 other fold's items with the option order in each line randomised (50 to 57
@@ -617,9 +618,9 @@ contribution of the demonstration format while retaining the held-out
 source items. Grid A, 9 cells each.
 
 \paragraph{Placebo, test-retest, no prompt, and unrelated prose at matched
-lengths.} Test-retest, the placebo and adopt-500 are the three controls
-preregistered in the original protocol; the no-prompt baseline and the
-unrelated-prose ladder were added after review. The placebo is 529 words of
+lengths.} Test-retest, the placebo and adopt-500 are the three
+preregistered controls; the no-prompt baseline and the
+unrelated-prose ladder were not preregistered. The placebo is 529 words of
 expository prose about ocean currents
 (gpt-4o-mini). Test-retest reruns each model's generic-prompt baseline with
 fresh seeds, giving the repeatability benchmark $C$ (a benchmark, not a hard
@@ -665,12 +666,12 @@ gate and hypotheses H5a--e were preregistered before the first call
 
 \subsection{Preregistered replications}
 \label{sec:prereg}
-For the five added protocols, preregistered means that the file stating the
+Preregistered means that the file stating the
 design, gates and predictions was placed in the repository with a timestamp
-before the first call of that experiment (the files are listed in
+before the first call of that experiment (five such files, listed in
 Appendix~\ref{app:ledger}; the timestamps are version-control timestamps,
-not an external registry). The original battery's selection rules have a
-different chronology, stated in the Limitations. We wrote down predictions for the
+not an external registry). The battery's own selection rules were fixed
+before screening, with the chronology stated in the Limitations. We wrote down predictions for the
 demonstration and authorship conditions and replicated them on two further
 grids with the identical measurement: Grid B
 (gpt-5.2, kimi-k2.5, claude-haiku-4.5: demonstrations-110, demonstrations-30,
@@ -753,8 +754,8 @@ opposite directions; $F$ is not a percentage of agreeing answers. Answers
 given under the reversed option order are mapped back to the original option
 before $\hat p$ is estimated, and each item's $\hat p$ pools both orders.
 Majority-vote agreement with the author is reported per cell as a companion
-in the Appendix~\ref{app:pairs} tables for the conditions added after
-review. Confidence intervals come from a 10{,}000-resample
+in the Appendix~\ref{app:pairs} tables for the positive-control, authorship
+and placement conditions. Confidence intervals come from a 10{,}000-resample
 bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
 differences) use a paired item bootstrap, resampling the per-item difference.
 Pooled comparisons that share the same questions (every condition pooled
@@ -876,7 +877,7 @@ unrelated prose-2000 & n/a & 0.883 & 0.892 & $-0.010$ & n/a & 0/20 \\
 \caption{Decomposition across the principal conditions, pooled over directed
 pairs (replication grids: Table~\ref{tab:replication}; known-persona
 control: Appendix~\ref{app:policy}). In
-the nine original conditions (upper block: eight self-description
+the nine upper-block conditions (eight self-description
 conditions and the observer-written third-person-500) $\Tscript \le 0$
 everywhere: no arm, length, wording, or adoption instruction improves
 transfer on average, and pooled $\Rweight > 0$ everywhere: the author's own
@@ -886,7 +887,7 @@ that receivers follow supplied answers in either placement: the
 author's answers on the test items themselves (demonstrations-110) transfer
 almost perfectly in either placement, while 30 to 90 genuine behavioral
 examples on other items (demonstrations-30/60/90), observation-derived
-descriptions, whoever writes them, the optimizer's best of the original
+descriptions, whoever writes them, the optimizer's best of the starting
 description and five rewrites (optimized-500), and self-descriptions placed in the user
 message show no detected pooled reconstruction gain. ``user msg.'' rows
 place the text in the user message before the question instead of in the
@@ -1043,7 +1044,7 @@ information about its author while still leaving the receiver less like the
 author than a generic prompt does. Rewording does not change the picture: a paraphrase of
 the description by a non-grid model (same content, different sentences)
 leaves transfer where it was ($\Tscript = -0.007$ vs.\ $-0.004$ for the
-originals on the same Grid-A pool).
+unparaphrased descriptions on the same Grid-A pool).
 
 \textbf{Self-description as perturbation.} Finally, $\Fself$ ($\approx 0.92$)
 sits well below the same-model test-retest benchmark ($C = 0.979$, Controls
@@ -1112,7 +1113,7 @@ common item set
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}
 \label{sec:controls}
-Three preregistered controls, (1) to (3), and one added control, (4)
+Three preregistered controls, (1) to (3), and one not preregistered, (4)
 (defined in Section~\ref{sec:poscontrol-methods}; per-model values in
 Appendix~\ref{app:ladder}):
 \textbf{(1) Test-retest ceiling.} Re-sampling each model's baseline with fresh
@@ -1263,7 +1264,7 @@ author's is the strongest textual case we could construct. In five of six
 directed pairs none of five rewrites beat the natural self-description on
 the held-out items (typically $0.05$ to $0.10$ worse); the one exception
 improved by $0.006$. That selected rewrite (grok-4.3's description for
-deepseek-v3) scores $-0.104$ on the battery where the original gave $+0.065$
+deepseek-v3) scores $-0.104$ on the battery where the natural self-description gave $+0.065$
 at neutral-500, the one significantly positive native pair: a $0.006$
 held-out gain on unstable items cost $0.169$ on the battery. On the battery
 the selected descriptions give
@@ -1280,7 +1281,7 @@ text that \emph{enumerates} it, or specifies it as a policy, does.
 \label{sec:replication}
 To test whether the Grid-A results hold on other models where predicted in
 advance, we preregistered the predictions
-listed in Section~\ref{sec:prereg} and reran the demonstration
+listed in Section~\ref{sec:prereg} and ran the demonstration
 and authorship conditions on Grid B (gpt-5.2, kimi-k2.5, claude-haiku-4.5)
 and the demonstration conditions on the local trio (llama3.3-70b,
 gemma4-31b, mistral-small-3.2). Table~\ref{tab:replication} gives the pooled
@@ -1345,7 +1346,7 @@ Receivers already resemble the author & Baseline $\B$ subtracted from every cell
 Interface too weak & Answer key; user-message placement & $\Fcross = 0.96$ on three grids; same in the user message \\
 Receivers ignore un-instructed text & Instructed adoption & $\Tscript = -0.013$ \\
 Descriptions too short & 84 to 2{,}471 words & Length contrasts within $[-0.011, +0.013]$ \\
-Descriptions badly written & Purpose-framing; paraphrase; optimizer, five rounds & framed minus neutral $+0.001$; paraphrase $\Tscript = -0.007$; optimizer kept the original in 5 of 6 pairs, $\Tscript = -0.033$ \\
+Descriptions badly written & Purpose-framing; paraphrase; optimizer, five rounds & framed minus neutral $+0.001$; paraphrase $\Tscript = -0.007$; optimizer kept the starting text in 5 of 6 pairs, $\Tscript = -0.033$ \\
 Behavior-grounded text would do better & Descriptions from 90 recorded choices; rebuilt from stable items & $-0.124$ (observer-written, unstable items); $-0.031$ (self-written, stable items) \\
 Examples would succeed where prose fails & 30 to 90 examples; demonstrations-55 (50 to 57 balanced examples from stable items) & $-0.06$ to $-0.09$ (confounded format and source items); $-0.008$ $[-0.041, +0.024]$ \\
 Instrument too noisy & Test-retest; regenerated descriptions & $C = 0.979$; regenerations agree ($r = 0.85$) \\
@@ -1487,7 +1488,7 @@ conditions were replicated under preregistered predictions on Grid B and
 the local trio, and the authorship conditions on Grid B; the
 balanced-demonstration, stable-item and known-persona controls ran under
 preregistered protocols (29 of 30 predicted criteria met,
-Appendix~\ref{app:ledger}). The original positive-control and authorship
+Appendix~\ref{app:ledger}). The held-out-item positive-control and authorship
 conditions (demonstrations-30/60/90/110, third-person-500,
 self-observation-500) and the optimized and placement conditions were not
 preregistered on Grid A, and paraphrase-500, adopt-500, optimized-500,
@@ -1495,8 +1496,8 @@ demonstrations-60, the placement control, the corrected demonstration test,
 the stable-item descriptions and the known-persona control exist for Grid A
 only (framed-100 and framed-2000 did not run on Grid B). The corrected demonstration interval
 ($[-0.041, +0.024]$) does not exclude modest effects in either direction,
-and the Grid B and local replications used the original, confounded
-demonstration format. The registration record for the original battery
+and the Grid B and local replications used the held-out demonstration
+format, not the balanced one. The registration record for the battery
 shows that the selection rules were fixed before screening results were
 inspected, not that the protocol preceded data collection (pilot calls began
 about three hours before the protocol was timestamped, screening calls about

@@ -52,18 +52,20 @@ self-descriptions; we place each one in the prompt of other models, the
 receivers, and of fresh instances of the author, and measure how closely their choices on a
 110-item preference battery match the author's.
 
-Four results stand out. First, explicitly listing the author's answers
+Four results stand out. First, the tested native self-descriptions (native:
+the profile measured under a generic assistant prompt) show no average
+reconstruction gain across variations in length, framing, wording and
+prompt placement: on a 0 to 1 fidelity scale where a model agrees with
+itself at 0.979 and unrelated models at about 0.89, the one-sided 95\% upper
+bound on the pooled gain is below $+0.01$ in every tested system-prompt
+self-description condition, and descriptions based on the author's observed
+choices rather than its introspection also show no average gain. Second,
+the channel itself is strong: explicitly listing the author's answers
 enables receivers to reproduce its preference profile at fidelity 0.955 to
-0.960 across three model grids, against a same-model repeatability
-benchmark of 0.979. Second, the tested native self-descriptions show no
-average reconstruction gain across variations in length, framing, wording
-and prompt placement; the one-sided 95\% upper bound on the pooled gain is
-below $+0.01$ in every tested system-prompt self-description condition. Descriptions based on
-the author's observed choices rather than its introspection also show no
-average gain. Third, by contrast,
-self-descriptions written under an explicit preference policy transfer the
-assigned preferences, with an estimated fidelity loss of 0.013 relative to
-the policy text itself. Fourth, reading its own self-description shifts even
+0.960 across three model grids, within 0.03 of the same-model repeatability
+benchmark. Third, self-descriptions written under an explicit preference
+policy transfer the assigned preferences almost as well as the policy text
+itself. Fourth, reading its own self-description shifts even
 the author away from its baseline, modestly more on average than unrelated
 prose at the same nominal length.
 
@@ -656,7 +658,23 @@ H5a--e (Section~\ref{sec:semantic}).
 
 \subsection{Transfer cells, fidelity metric, and uncertainty}
 \label{sec:cells}
-Stage~2, the same for every condition up to the exceptions noted. Each cell is one receiver running one
+Stage~2, the same for every condition up to the exceptions noted.
+
+\emph{Fidelity metric.} For each item $i$ a cell yields
+$\hat p_{\text{cell}}(i)$, the fraction of its parsed answers (nominally
+four) choosing option~A; answers given under the reversed option order are
+mapped back to the original option before $\hat p$ is estimated, and each
+item's $\hat p$ pools both orders. Primary fidelity is
+$F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
+the mean over items of one minus the Jensen-Shannon divergence (base 2)
+between the author's and the cell's per-item choice distributions; $F=1$ for
+identical distributions, $F=0$ when every item is answered with certainty in
+opposite directions; $F$ is not a percentage of agreeing answers.
+Majority-vote agreement with the author is reported per cell as a companion
+in the Appendix~\ref{app:pairs} tables for the positive-control, authorship
+and placement conditions.
+
+\emph{Cells and calls.} Each cell is one receiver running one
 text as system prompt (the text replaces the generic system message rather
 than being appended to it; in the placement control the generic message is
 kept and the text precedes the question in the user message; provider-side
@@ -666,7 +684,11 @@ over the battery: every item is asked in both option orders with 2 samples per o
 27 half-battery cells of the known-persona control); 495 cells
 in total ($\sim$227k calls including the held-out selection runs
 of the optimized condition and the trio's held-out screening; no unresolved
-API failures). Not every call yields a usable answer: a reply with no
+API failures). All calls are cached to a log keyed by a deterministic call
+identifier, with seed, parsed letter and the first 500 characters of each
+reply.
+
+\emph{Parsing and coverage.} Not every call yields a usable answer: a reply with no
 standalone A or B (an empty reply after hidden reasoning exhausted the
 output budget, or a refusal to state a preference) is unparsed. The
 preregistered parser takes the first standalone A or B in the reply, so a
@@ -683,10 +705,13 @@ more than $0.003$ and every one-sided 95\% upper bound stayed below zero
 battery cells 97.9\% of calls parsed; 434 cells are at or above 95\% and 25
 are below 90\% (the lowest are listed in Appendix~\ref{app:coverage}:
 gemma4-31b under its own framed descriptions, which instruct it to say it
-has no preferences, and cells where hidden reasoning emptied the reply). For
-each item $i$ a
-cell yields $\hat p_{\text{cell}}(i)$, the fraction of its parsed answers
-(nominally four) choosing option~A. Reference profiles $\hat p_A$ come from
+has no preferences, and cells where hidden reasoning emptied the reply).
+Items with no parsed answer are dropped
+from that cell, and full-battery cells covering fewer than 60 items are
+excluded (the 27 half-battery cells of the known-persona control are
+evaluated on their 57 items, with a 50-item floor).
+
+\emph{Reference profiles.} Reference profiles $\hat p_A$ come from
 the screening run for the API models (six answers per item) and from a
 440-call generic-prompt cell for the local models and hermes3-70b (four).
 Because plug-in fidelity falls with estimation noise, comparing a
@@ -694,27 +719,16 @@ six-answer reference with a four-answer evaluated cell ($\Fcross$) but with
 another six-answer reference ($\B$) biases $\Tscript$ slightly negative by
 the sampling asymmetry alone; the fresh-reference check of
 Section~\ref{sec:decomp}, which takes the receiver's baseline from a
-four-answer cell, removes this asymmetry. Items with no parsed answer are dropped
-from that cell, and full-battery cells covering fewer than 60 items are
-excluded (the 27 half-battery cells of the known-persona control are
-evaluated on their 57 items, with a 50-item floor). Pooled inferential comparisons
+four-answer cell, removes this asymmetry.
+
+\emph{Uncertainty.} Pooled inferential comparisons
 across models use the items answered by every cell in the pool: 80 at
 neutral-500 for the ten-model perturbation comparisons, 107 for the pooled
 neutral-500 cross transfer, 106 for the movement decomposition. The decomposition
 tables instead average cell fidelities over each cell's available items and
 subtract the mean baseline fidelity over the same directed pairs; these
 descriptive summaries can differ slightly from the paired, common-item
-estimates used for inference. Primary fidelity is
-$F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
-the mean over items of one minus the Jensen-Shannon divergence (base 2)
-between the author's and the cell's per-item choice distributions; $F=1$ for
-identical distributions, $F=0$ when every item is answered with certainty in
-opposite directions; $F$ is not a percentage of agreeing answers. Answers
-given under the reversed option order are mapped back to the original option
-before $\hat p$ is estimated, and each item's $\hat p$ pools both orders.
-Majority-vote agreement with the author is reported per cell as a companion
-in the Appendix~\ref{app:pairs} tables for the positive-control, authorship
-and placement conditions. Confidence intervals come from a 10{,}000-resample
+estimates used for inference. Confidence intervals come from a 10{,}000-resample
 bootstrap over items; contrasts between two fidelities ($\Tscript$ and other
 differences) use a paired item bootstrap, resampling the per-item difference.
 Pooled comparisons that share the same questions (every condition pooled
@@ -727,6 +741,7 @@ models, descriptions and battery held fixed (the one exception is the
 perturbation-specificity test of Section~\ref{sec:controls}, which resamples
 models and items together), so they bound the gain for
 these texts on these models, not for all models or all descriptions.
+
 \emph{Movement decomposition.} For a cross cell we also ask
 where the receiver's shift goes. Per item, $t_i = \hat p_A(i) - \hat p_R(i)$
 is the gap the text would have to close, and
@@ -739,8 +754,7 @@ origin (the normalized projection of the shift onto the author--receiver
 difference, not a fraction of distance closed) and the cosine between
 the two vectors, each beside the same quantities for unrelated prose of the
 same length read by the same receiver.
-All calls are cached to a log keyed by a deterministic call identifier, with
-seed, parsed letter and the first 500 characters of each reply.
+
 \emph{Post hoc analyses.} Several checks reported in Section~\ref{sec:results}
 were added after the data were in and are labelled as such there: the
 fresh-reference check (receiver baselines taken from the test-retest cell),
@@ -777,11 +791,11 @@ optimized-500 & 0.881 & 0.830 & 0.863 & $-0.033$ & $+0.051$ & 6/6 \\
 demonstrations-30 & 0.813 & 0.802 & 0.863 & $-0.061$ & $+0.011$ & 3/6 \\
 demonstrations-60 & 0.805 & 0.776 & 0.863 & $-0.087$ & $+0.029$ & 3/6 \\
 demonstrations-90 & 0.822 & 0.802 & 0.863 & $-0.060$ & $+0.019$ & 3/6 \\
-demonstrations-110 & 0.960 & 0.960 & 0.863 & $+0.097$ & $0.000$ & 3/6 \\
+demonstrations-110 & 0.960 & 0.960 & 0.863 & $\mathbf{+0.097}$ & $0.000$ & 3/6 \\
 demonstrations-30, balanced & 0.813 & 0.820 & 0.863 & $-0.043$ & $-0.007$ & 3/6 \\
 demonstrations-55, balanced & 0.869 & 0.855 & 0.863 & $-0.008$ & $+0.014$ & 3/6 \\
 neutral-500, user msg. & 0.893 & 0.858 & 0.863 & $-0.005$ & $+0.035$ & 3/6 \\
-demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $+0.098$ & $-0.002$ & 3/6 \\
+demonstrations-110, user msg. & 0.959 & 0.961 & 0.863 & $\mathbf{+0.098}$ & $-0.002$ & 3/6 \\
 \midrule
 \multicolumn{7}{l}{\emph{Unrelated prose at matched lengths (no author; all grids)}} \\
 unrelated prose-100  & n/a & 0.882 & 0.892 & $-0.010$ & n/a & 0/20 \\
@@ -807,17 +821,16 @@ and third-person-500 are Grid A only (six pairs). Entries and contrasts are
 rounded independently.}
 \label{tab:decomp}
 \end{table}
- At neutral-500,
+ Neither side gains from the description. At neutral-500,
 10 of 20 directed pairs show significantly \emph{negative} $\Tscript$
 (receiving another model's self-description makes the receiver \emph{less}
 like the author than its generic default); one pair is positive under an
 unadjusted 95\% interval
 (grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.016,+0.115]$; all per-pair
-contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
-to description resampling: rerunning every Grid-A neutral-500 cell with an
-independently regenerated description reproduces cell fidelities with mean
-$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells). The
-self--cross gap needs a baseline-adjusted reading. Pooled $\Rweight$ is the
+contrasts with CIs in Appendix~\ref{app:pairs}). The self--cross gap needs
+a baseline-adjusted reading: $\Rweight > 0$ reflects the author instance's
+pre-existing self-similarity, which survives the description with a loss,
+not information recovered from the text. Pooled $\Rweight$ is the
 difference between the pooled self and pooled cross fidelities of a
 condition, whose cell pools differ in size (Table~\ref{tab:decomp}, last
 column). Measured against its own reference, the author loses fidelity by
@@ -827,10 +840,7 @@ across the self-description conditions ($-0.04$ to $-0.06$ in the neutral
 arm, $-0.07$ under adoption; mean test-retest benchmark $C = 0.979$), and a receiver loses a
 similar amount against its own reference when it reads another model's
 description (0.926 vs.\ 0.918 for its own, Appendix~\ref{app:ladder}), while
-gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$). So
-$\Rweight > 0$ reflects the author instance's pre-existing self-similarity,
-which survives the description with a loss, not information recovered from
-the text; neither side gains from the description.
+gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$).
 \begin{figure}[!t]
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
@@ -842,34 +852,38 @@ mean 0.924); orange triangles: a different model running it ($\Fcross$,
 0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
 directed pairs as the orange points ($0.892$; no band is drawn because the
 pairs share models and reversed pairs have identical $\B$); dashed lines:
-series means. $\Fcross$ shows no detected improvement with length and
+series means; dotted line: the same-model test-retest benchmark $C = 0.979$.
+$\Fcross$ shows no detected improvement with length and
 $\Fself$ is highest at 100 words; mean $\Fcross$ does not rise above
 $\B$ at any length and sits slightly below it, while mean $\Fself$ sits
-above it and is read against the test-retest benchmark $C = 0.979$
-(Section~\ref{sec:decomp}).}
+above $\B$ but below $C$ (Section~\ref{sec:decomp}).}
 \label{fig:hero}
 \end{figure}
 
-How large a gain do the data exclude? Under joint item resampling, the
-one-sided 95\% upper bound on the pooled transfer gain is below zero in all
-six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
-directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
-and adoption conditions ($+0.009$ and $+0.007$) and at $-0.012$ for the
-optimized condition; for the user-message
-placement control it is $+0.015$. An average gain of $0.01$ or more from a
-self-description in the system prompt is thus excluded in every condition,
+How large a gain do the data exclude? An average gain of $0.01$ or more
+from a self-description in the system prompt is excluded in every condition,
 against a gain of $+0.097$ when the text lists the answers
-(Section~\ref{sec:poscontrol}). These bounds hold the models, descriptions
-and battery fixed and resample items only; the item estimates rest on
-nominally four answers each. They are not driven by poorly covered cells:
-restricting each pool to cross cells with at least 90\% parsed answers
-changes no pooled gain by more than $0.003$, and at 95\% the two framed
-pools that shrink most (to 8 and 11 pairs) have upper bounds of $+0.002$ and
-$+0.004$. Nor do they depend on reusing the receiver's reference sample:
-taking each receiver's baseline from its independent test-retest cell
-instead leaves every pooled gain negative ($-0.013$ to $-0.023$) with every
-upper bound below zero. Figure~\ref{fig:summary} collects the main conditions on
-one axis.
+(Section~\ref{sec:poscontrol}). Under joint item resampling, the one-sided
+95\% upper bound on the pooled transfer gain is below zero in all six
+neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20 directed
+pairs across all grids), below $+0.01$ in the Grid-A paraphrase and adoption
+conditions ($+0.009$ and $+0.007$), at $-0.012$ for the optimized condition,
+and at $+0.015$ for the user-message placement control. These bounds hold
+the models, descriptions and battery fixed and resample items only; the item
+estimates rest on nominally four answers each.
+
+Three robustness checks leave this unchanged. The bounds are not driven by
+poorly covered cells: restricting each pool to cross cells with at least
+90\% parsed answers changes no pooled gain by more than $0.003$, and at 95\%
+the two framed pools that shrink most (to 8 and 11 pairs) have upper bounds
+of $+0.002$ and $+0.004$. They do not depend on reusing the receiver's
+reference sample: taking each receiver's baseline from its independent
+test-retest cell instead leaves every pooled gain negative ($-0.013$ to
+$-0.023$) with every upper bound below zero. And the result is robust to
+description resampling: rerunning every Grid-A neutral-500 cell with an
+independently regenerated description reproduces cell fidelities with mean
+$|\Delta F| = 0.022$ (correlation $0.85$ across the 9 cells).
+Figure~\ref{fig:summary} collects the main conditions on one axis.
 
 
 \begin{figure}[!tp]
@@ -1003,7 +1017,8 @@ advantage; one pair cannot establish a general effect.
 
 \subsection{Where the description moves a receiver: mostly sideways}
 \label{sec:movement}
-A negative transfer gain does not say whether the receiver barely moved,
+\textbf{Receivers move, but mostly sideways.} A negative transfer gain does
+not say whether the receiver barely moved,
 moved in an irrelevant direction, or moved toward the author on some items
 and away on others. The movement decomposition (Section~\ref{sec:cells})
 separates these at neutral-500 over the 20 directed cross pairs. Receivers
@@ -1024,7 +1039,11 @@ experiment does not establish the mechanism); the component attributable to
 the description over prose is the difference, $+0.07$ $[+0.01, +0.12]$
 (description above prose in 11 of 20 pairs), with the caveat from
 Section~\ref{sec:controls} that first-person voice and directives differ
-along with identity content. The aligned component is consistent with the
+along with identity content.
+
+\textbf{The response is receiver-specific, not author-specific.} Each
+receiver has a characteristic response to identity text, largely the same
+whoever the text is about. The aligned component is consistent with the
 specificity gain above ($+0.006$) and does not single the author out: asked
 which of the two other members of its trio the receiver moved further
 toward, the true author wins in 46 of 96 cells over the neutral and framed
@@ -1034,9 +1053,9 @@ different authors' descriptions correlate at $+0.53$ with one another but at
 only $+0.29$ with the shift induced by unrelated prose; the coefficients
 share the receiver's baseline estimate and are inflated by its noise, but
 the contrast between them is like for like and survives a cross-fit check
-using the retest baseline for one of the two vectors. Each receiver has a
-characteristic response to identity text, largely the same whoever the text
-is about. An exploratory split by the battery's eight
+using the retest baseline for one of the two vectors.
+
+\textbf{Exploratory category split.} A split by the battery's eight
 item categories (no multiplicity adjustment) finds the gain most negative
 among the substantive categories on the self-referential items, the
 questions about the model itself ($-0.036$, CI $[-0.059, -0.013]$; the
@@ -1240,15 +1259,16 @@ On the local trio the demonstration dose curve replicates: $\Tscript = -0.070$
 at $k=30$ and $-0.079$ at $k=90$ (four and five of six pairs significantly
 negative, none positive), against $+0.062$ for the answer key
 ($\Fcross = 0.955$, $\Rweight = +0.003$). The answer-key prediction is met on
-three of its four registered criteria and missed on the fourth (the complete
-ledger is Appendix~\ref{app:ledger}: 29 of the 30 predicted criteria across
-the five preregistered protocols are met, a transparent ledger rather than
-a count of independent confirmations since the criteria share data, and the four registered open
-questions, H3, H4c, H5c and H5e, are reported as observed, not scored): five of six cross pairs
-are significantly positive, while gemma4-31b$\to$llama3.3-70b
+three of its four registered criteria and missed on the fourth: five of six
+cross pairs are significantly positive, while gemma4-31b$\to$llama3.3-70b
 ($\Tscript = +0.031$) has a CI of $[-0.002, +0.071]$, the pair with the
 highest baseline agreement ($\B = 0.915$) and hence the least room to move.
-We count this as a partial confirmation and report it as such. Across both
+We count this as a partial confirmation and report it as such. The complete
+ledger is Appendix~\ref{app:ledger}: 29 of the 30 predicted criteria across
+the five preregistered protocols are met, a transparent ledger rather than a
+count of independent confirmations since the criteria share data; the four
+registered open questions, H3, H4c, H5c and H5e, are reported as observed,
+not scored. Across both
 grids, the pooled self--cross gap under the answer key is small
 ($|\Rweight| \le 0.013$), and the author reading its own held-out examples
 falls below its introspective self-description ($\Fself$ 0.82 to 0.84 vs.\
@@ -1333,10 +1353,11 @@ transfer to language models, not on its claim about human minds.
 \textbf{Individuation and the unit of concern.} Of the candidate units (model,
 instance, persona, conversation), the stable profile tracks the model in the
 operational sense that fresh instances retain it better on average than
-other receivers do, with or without a description, while none of the tested summarizing
-texts installs it elsewhere on average and the conversation-level narrative
-perturbs it; in the one same-base pair, shared lineage came with
-above-average baseline similarity and no transfer advantage. These results constrain the use of elicited
+other receivers do, with or without a description. None of the tested
+summarizing texts installs it elsewhere on average, and the
+conversation-level narrative perturbs it. In the one same-base pair, shared
+lineage came with above-average baseline similarity and no transfer
+advantage. These results constrain the use of elicited
 self-descriptions as substitutes for measured preference profiles; whether
 portability bears on which unit is the proper object of concern is a
 normative question these data motivate but do not settle. They
@@ -1374,11 +1395,11 @@ prompting is the right execution channel (system-prompt and user-message
 placement were tested; fine-tuning was not); that the texts tested span what
 text can do (one optimizer, five rounds, a 500-word budget); and that
 receivers are capable role-players (the instructed-adoption control
-mitigates this, though every significantly positive cross pair in the
-native-profile conditions other than the answer key, five over four
+mitigates this). On the last point, every significantly positive cross pair
+in the native-profile conditions other than the answer key, five over four
 conditions (neutral-500, user-message placement twice, and the two balanced
 demonstration conditions), has deepseek-v3 as receiver, and none occurs on
-Grid B or the local trio, Appendix~\ref{app:pairs}). An injected description competes with
+Grid B or the local trio (Appendix~\ref{app:pairs}). An injected description competes with
 the receiver's post-training priors and, for closed models, with
 provider-side system prompts we cannot observe; the answer-key and
 known-persona controls do not exclude interference from such

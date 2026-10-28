@@ -81,6 +81,13 @@ def main() -> None:
     # identical B, so a naive standard-error band would overstate precision
     ax.axhline(b_mean, color=BASE, lw=1.2, zorder=2)
 
+    # same-model test-retest benchmark C (mean over the ten models; results/arxiv/self_ladder.json),
+    # so F_self is read against it rather than against 1
+    import json
+    c_mean = json.loads((ag.ROOT / "results" / "arxiv" / "self_ladder.json")
+                        .read_text(encoding="utf-8"))["means"]["retest"]
+    ax.axhline(c_mean, color=BLUE, lw=1.0, ls=(0, (1, 2.5)), alpha=0.9, zorder=2)
+
     ax.scatter(cross_pts[:, 0], cross_pts[:, 1], s=34, marker="^",
                facecolor=ORANGE, edgecolor=SURFACE, linewidth=0.8,
                zorder=4, label=r"$F_{\rm cross}$ (other model + description)")
@@ -100,6 +107,8 @@ def main() -> None:
     ax.text(x_lab, cross_pts[:, 1].mean() - 0.006, r"$F_{\rm cross}$",
             color=ORANGE, fontsize=10, va="top", fontweight="bold")
     ax.text(x_lab, b_mean + 0.002, r"$B$ (generic prompt)", color=SEC,
+            fontsize=8.5, va="bottom", fontweight="bold")
+    ax.text(x_lab, c_mean + 0.002, rf"$C$ (test-retest, {c_mean:.3f})", color=BLUE,
             fontsize=8.5, va="bottom", fontweight="bold")
 
     # annotate the two contrasts with a bracket-free note

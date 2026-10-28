@@ -37,7 +37,7 @@ ROWS = [
     ("para-500 (A)", "paraphrased (Grid A)", "desc"),
     ("adopt-500 (A)", "with adoption instruction (Grid A)", "desc"),
     ("neutral_user-500 (A)", "in the user message (Grid A)", "desc"),
-    ("optimized-500 (A)", "best of original + 5 rewrites (Grid A)", "desc"),
+    ("optimized-500 (A)", "error-guided optimizer, best of 6 texts (Grid A)", "desc"),
     ("3p-500 (A)", "third-person-500: observer-written from 90 unstable items (Grid A)", "obs"),
     ("selfobs_stable-500 (A)", "self-observation, stable items (Grid A)", "obs"),
     ("fewshot-30 (A)", "demonstrations-30, chosen-first format (Grid A)", "demo"),
@@ -108,7 +108,10 @@ def main() -> None:
               "sem": "known semantic persona (gain over policy baseline $B'$, 57 items)"}
     for i in starts:
         axA.text(-0.17, ys[i] + 0.5, titles[groups[i]], fontsize=10, color=COLOR[groups[i]], va="bottom")
-    axA.set_ylim(-0.8, ys[0] + 1.1)
+    # the known-persona rows use a different baseline and item set: say so under the panel
+    axA.text(-0.17, -0.72, "gold rows: different baseline ($B'$) and item set; not comparable with the rows above",
+             fontsize=9, color=COLOR["sem"], va="bottom")
+    axA.set_ylim(-0.95, ys[0] + 1.1)
 
     # ---- Panel B: perturbation ladder
     models = [r["model"] for r in lad["rows"]]

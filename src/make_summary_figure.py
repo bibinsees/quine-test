@@ -106,12 +106,15 @@ def main() -> None:
     titles = {"desc": "self-descriptions", "obs": "descriptions from recorded choices",
               "demo": "examples on other items", "key": "answers to the test items",
               "sem": "known semantic persona (gain over policy baseline $B'$, 57 items)"}
+    # white boxes behind the headings so the zero line does not run through the letters
+    BOX = dict(facecolor="white", edgecolor="none", pad=1.5)
     for i in starts:
-        axA.text(-0.17, ys[i] + 0.5, titles[groups[i]], fontsize=10, color=COLOR[groups[i]], va="bottom")
+        axA.text(-0.17, ys[i] + 0.5, titles[groups[i]], fontsize=10, color=COLOR[groups[i]], va="bottom",
+                 bbox=BOX, zorder=6)
     # the known-persona rows use a different baseline and item set: say so under the panel
-    axA.text(-0.17, -0.72, "gold rows: different baseline ($B'$) and item set; not comparable with the rows above",
-             fontsize=9, color=COLOR["sem"], va="bottom")
-    axA.set_ylim(-0.95, ys[0] + 1.1)
+    axA.text(-0.17, -0.98, "gold rows: different baseline ($B'$) and item set; not comparable with the rows above",
+             fontsize=9, color=COLOR["sem"], va="bottom", bbox=BOX, zorder=6)
+    axA.set_ylim(-1.2, ys[0] + 1.1)
 
     # ---- Panel B: perturbation ladder
     models = [r["model"] for r in lad["rows"]]

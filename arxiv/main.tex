@@ -55,8 +55,8 @@ receivers, and of fresh instances of the author, and measure how closely their c
 Four results stand out. First, the tested native self-descriptions (native:
 the profile measured under a generic assistant prompt) show no average
 reconstruction gain across variations in length, framing, wording and
-prompt placement: on a 0 to 1 fidelity scale where a model agrees with
-itself at 0.979 and unrelated models at about 0.89, the one-sided 95\% upper
+prompt placement: on a 0 to 1 fidelity scale where a model's fidelity to a fresh instance
+of itself is 0.979 and to unrelated models about 0.89, the one-sided 95\% upper
 bound on the pooled gain is below $+0.01$ in every tested system-prompt
 self-description condition, and descriptions based on the author's observed
 choices rather than its introspection also show no average gain. Second,
@@ -308,7 +308,8 @@ first measured under a generic assistant prompt on a fixed battery of
 forced-choice items, giving its reference choice profile $\hat p_A$ (the
 probability of choosing option~A on each item, estimated from repeated,
 order-balanced samples). $A$ then writes a self-description $D_A$. Three
-further profiles are measured on the same battery: a different \emph{receiver}
+further profiles (plus the test-retest benchmark $C$, below) are measured on
+the same battery: a different \emph{receiver}
 model $R$ under the generic prompt ($\hat p_R$), the same receiver with $D_A$
 as its system prompt ($\hat p_{R\mid D_A}$), and a fresh instance of $A$ with
 $D_A$ as its system prompt ($\hat p_{A\mid D_A}$). Each is compared with
@@ -765,7 +766,7 @@ and the author-identification task of Section~\ref{sec:movement}.
 \section{Results}\label{sec:results}
 \subsection{The decomposition: no transfer gain, a consistent self--cross gap}
 \label{sec:decomp}
-Table~\ref{tab:decomp} reports the decomposition for all conditions;
+Table~\ref{tab:decomp} reports the decomposition for the principal conditions;
 Figure~\ref{fig:hero} shows the underlying dose-response.
 \begin{table}[!t]
 \centering\small
@@ -1041,7 +1042,7 @@ the description over prose is the difference, $+0.07$ $[+0.01, +0.12]$
 Section~\ref{sec:controls} that first-person voice and directives differ
 along with identity content.
 
-\textbf{The response is receiver-specific, not author-specific.} Each
+\textbf{The response is receiver-specific far more than author-specific.} Each
 receiver has a characteristic response to identity text, largely the same
 whoever the text is about. The aligned component is consistent with the
 specificity gain above ($+0.006$) and does not single the author out: asked
@@ -1217,8 +1218,8 @@ author's is the strongest textual case we could construct. In five of six
 directed pairs none of five rewrites beat the natural self-description on
 the held-out items (typically $0.05$ to $0.10$ worse); the one exception
 improved by $0.006$. That selected rewrite (grok-4.3's description for
-deepseek-v3) scores $-0.104$ on the battery where the natural self-description gave $+0.065$
-at neutral-500, the one significantly positive native pair: a $0.006$
+deepseek-v3) scores $-0.104$ on the battery where the natural self-description gave $+0.065$,
+the one significantly positive pair at neutral-500: a $0.006$
 held-out gain on unstable items cost $0.169$ on the battery. On the battery
 the selected descriptions give
 $\Fcross = 0.830$ against $\B = 0.863$ ($\Tscript = -0.033$; two pairs
@@ -1396,10 +1397,15 @@ placement were tested; fine-tuning was not); that the texts tested span what
 text can do (one optimizer, five rounds, a 500-word budget); and that
 receivers are capable role-players (the instructed-adoption control
 mitigates this). On the last point, every significantly positive cross pair
-in the native-profile conditions other than the answer key, five over four
-conditions (neutral-500, user-message placement twice, and the two balanced
-demonstration conditions), has deepseek-v3 as receiver, and none occurs on
-Grid B or the local trio (Appendix~\ref{app:pairs}). An injected description competes with
+in the native-profile conditions other than the answer key, eight over six
+conditions (neutral-500, neutral-2000 twice, paraphrase-500, user-message
+placement twice, and the two balanced demonstration conditions), has
+deepseek-v3 as receiver, and none occurs on Grid B or the local trio.
+Appendix~\ref{app:pairs} tabulates the neutral-500 and control pairs; the
+three others are grok-4.3$\to$deepseek-v3 at neutral-2000 ($+0.071$,
+$[+0.026, +0.119]$) and paraphrase-500 ($+0.073$, $[+0.029, +0.121]$) and
+glm-4.5-air$\to$deepseek-v3 at neutral-2000 ($+0.032$, $[+0.008, +0.057]$).
+An injected description competes with
 the receiver's post-training priors and, for closed models, with
 provider-side system prompts we cannot observe; the answer-key and
 known-persona controls do not exclude interference from such
@@ -1696,7 +1702,7 @@ grok-4.3         & 1.000 & \textbf{0.900} & 0.850 & PASS & ties llama3.3-70b for
 llama3.3-70b     & 1.000 & \textbf{0.900} & 0.908 & PASS & passes where llama-3.1-8b failed \\
 gpt5-mini        & 1.000 & 0.775 & 0.767 & PASS & \\
 kimi-k2.5 (no reasoning) & 1.000 & 0.775 & 0.725 & PASS & \\
-mistral-small:24b (local, v3.1) & 1.000 & 0.775 & 0.725 & PASS & \\
+mistral-small-3.1 (local) & 1.000 & 0.775 & 0.725 & PASS & \\
 deepseek-v3      & 1.000 & 0.750 & 0.733 & PASS & \\
 gpt5.2 (min.\ reasoning) & 0.992 & 0.750 & 0.730 & PASS & \\
 gemma4-31b       & 0.967 & 0.744 & 0.744 & PASS & \\
@@ -1705,7 +1711,7 @@ haiku-4.5        & 1.000 & 0.725 & 0.692 & PASS & \\
 hermes3-70b      & 1.000 & 0.725 & 0.717 & PASS & \\
 gpt4o-mini       & 1.000 & 0.700 & 0.725 & PASS & \\
 mistral-small-3.2 (API) & 1.000 & 0.700 & 0.700 & PASS & \\
-mistral-small3.2 (local) & 1.000 & 0.675 & 0.658 & FAIL$^\dagger$ & 1 item below gate; $=$ API 3.2 (0.925) \\
+mistral-small-3.2 (local) & 1.000 & 0.675 & 0.658 & FAIL$^\dagger$ & 1 item below gate; $=$ API 3.2 (0.925) \\
 qwen3.6-35b      & 1.000 & 0.675 & 0.567 & FAIL & \\
 qwen3.5-35b-uncensored & 1.000 & 0.650 & 0.542 & FAIL & \\
 hermes4-70b      & 1.000 & 0.600 & 0.533 & FAIL & minimal-steer tune, unstable \\

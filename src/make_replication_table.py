@@ -23,7 +23,7 @@ def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     pooled = pc["pooled"]
     tp = json.loads(TP.read_text(encoding="utf-8")) if TP.exists() else {}
-    lines = [r"\begin{table}[H]", r"\centering\footnotesize\setlength{\tabcolsep}{4pt}",
+    lines = [r"\begin{table}[!t]", r"\centering\footnotesize\setlength{\tabcolsep}{4pt}",
              r"\begin{tabular}{lccccccc}", r"\toprule",
              r"Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
              r"sig.\ pairs ($+$/$-$) & Cells (s/c) \\", r"\midrule"]

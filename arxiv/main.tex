@@ -1513,27 +1513,48 @@ activation-level analysis of the self--cross gap; multi-turn and free-form
 batteries; repeating the design as models scale.
 
 \section{Conclusion}
-We asked how much of a model's self survives its own description, and
-measured an answer: for native preference profiles, no average
-reconstruction gain was detected in any tested form of the text. Across ten models, sixteen condition families and $\sim$227{,}000 calls,
-self-descriptions do not improve transfer to another model on average in any
-condition, while a fresh instance of the author's own weights retains more.
-The text that does transfer is either the answer key, the author's choices
-on the test items themselves, or an assigned persona: a model whose
+We asked how much of a model's self survives its own description: whether
+the text a model writes about itself lets another model make the same
+choices on a 110-item forced-choice preference battery. For the native
+preference profiles measured here, it did not, on average, in any form we
+tested. Across ten models, three grids and a same-base pair, native
+self-descriptions at 100 to 2{,}000 words, purpose-framed, paraphrased,
+under adoption instruction, in the user message, or passed through an
+error-guided optimizer leave the receiver no closer to the author than a
+generic prompt does; the one-sided 95\% upper bound on the pooled gain is
+below $+0.01$ in fidelity in every system-prompt self-description condition
+($+0.015$ in the user message), against $+0.097$ when the text lists the
+author's answers to the test items themselves, an in-sample control.
+Descriptions distilled from the author's recorded choices, whoever writes
+them, do no better. Reliable pooled gains appeared only when the text
+enumerates the profile or specifies it as a policy: a model whose
 preferences were installed by an explicit policy writes a self-description
-that reproduces that policy's profile in another model, with an estimated
-loss of $0.013$ relative to the policy text.
+that reproduces that policy's profile in another model ($+0.185$, against
+$+0.198$ for the policy text, an estimated loss of $0.013$ whose interval
+includes zero), so neither the interface nor the receivers' competence
+explains the native null, although the contrast does not isolate why native
+descriptions fail. Nor is the text inert: reading its own description
+shifts even the author's choices ($0.979 \to 0.918$ against its test-retest
+benchmark) and moves another reader mostly sideways. A fresh instance of
+the author stays closer to the author than any receiver does, with or
+without the description, through the self-similarity it had before reading
+anything.
 
-A model's native self-description, then, is a story its weights can tell,
-but the forms tested here did not improve reproduction of its measured
-choices in other models on average.
-Reading the story back
-disturbs even its teller, and moves another reader mostly sideways in the
-estimated choice profiles. By the
-most direct test we could construct, the native self-descriptions tested
-here did not improve average reproduction of the measured preference
-choices in another model. The instruments built here are released so the
-field can sharpen both sides of that argument.
+The result cuts both ways. Those who dismiss model preferences as a
+portrayed character cannot rely on the character's own script to reproduce
+them elsewhere; those who take model self-reports at face value must reckon
+with narratives that do not reproduce the behavior they narrate. For
+assessment, the tested self-reports were insufficient substitutes for
+measured preference profiles and need independent behavioral validation
+before they are read as a specification of how a model chooses, and
+identity text is itself a perturbant that self-quizzing evaluations and
+long self-referential conversations should account for. The replications
+ran under preregistered predictions (29 of 30 registered criteria met), the
+native null holds on every grid, and the pipeline, battery, call logs and
+198 model-written descriptions are released so the test can be rerun as
+models change. As a prompt for reproducing the measured choices, the story
+a model tells about itself is neither necessary nor sufficient for the
+behavior it narrates.
 
 \section*{Code and Data}
 Code, raw call logs (with seeds and the first 500 characters of each reply), the 198-text description

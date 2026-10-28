@@ -118,6 +118,8 @@ its motivation, not theories it can settle on its own.
   were met (Appendix~\ref{app:ledger}).
   \item \textbf{A bounded null: the tested native self-descriptions show no
   average reconstruction gain, while an in-sample answer key transfers.}
+  (``Native'' here means the profile measured under the generic assistant
+  prompt, as opposed to one installed by an explicit policy.)
   Given the author's answers on the 110 test items, receivers reproduce the
   author at $\Fcross = 0.955$ to $0.960$ across the three grids, within
   $0.03$ of the test-retest benchmark; this positive control is in-sample
@@ -146,8 +148,9 @@ its motivation, not theories it can settle on its own.
   another model ($+0.185$, against $+0.198$ for the policy text, an
   estimated loss of $0.013$ with CI $[-0.003, +0.029]$), while the same
   receivers reading native self-descriptions on the same items give
-  $-0.010$. Receivers can execute a compact semantic self-description, so
-  the null is not a limit of the interface or of the receivers' competence;
+  $-0.010$. Receivers can execute a compact semantic self-description, which
+  rules out an interface too weak to move choices and a blanket inability to
+  follow such text, though not a difficulty specific to native profiles;
   the contrast does not isolate why the tested native descriptions fail,
   since the policy writer had an explicit specification in its prompt and
   the targets differ in headroom.
@@ -602,8 +605,9 @@ For each fold the prompt lists the author's untied majority choices on the
 other fold's items with the option order in each line randomised (50 to 57
 lines); the receiver is tested on the fold's own items, the two folds forming
 one 440-call cell. Demonstrations-30 balanced repeats the original 30-item
-held-out condition with randomised order and untied items only, separating
-the positional from the source-item confound. Grid A, 9 cells each.
+held-out condition with randomised order and untied items only, probing the
+contribution of the demonstration format while retaining the held-out
+source items. Grid A, 9 cells each.
 
 \paragraph{Placebo, test-retest, no prompt, and unrelated prose at matched
 lengths.} Test-retest, the placebo and adopt-500 are the three controls
@@ -681,7 +685,10 @@ H5a--e (Section~\ref{sec:semantic}).
 \subsection{Transfer cells, fidelity metric, and uncertainty}
 \label{sec:cells}
 Stage~2, the same for every condition up to the exceptions noted. Each cell is one receiver running one
-text as system prompt (or, in the placement control, in the user message)
+text as system prompt (the text replaces the generic system message rather
+than being appended to it; in the placement control the generic message is
+kept and the text precedes the question in the user message; provider-side
+instructions are neither observable nor controlled)
 over the battery: every item is asked in both option orders with 2 samples per order
 (temperature 1.0, as in all battery calls), 440 calls per cell (228 for the
 27 half-battery cells of the known-persona control); 495 cells
@@ -1152,8 +1159,8 @@ self-written and observer-written descriptions invites a reading as
 privileged self-access, but it confounds authorship with the information
 source and the prompt. The matched-information control
 (self-observation-500: the author writes about itself from the same 90
-observed choices under the same prompt) removes both differences and the gap
-disappears: $\Fself = 0.781$ and $\Fcross = 0.747$ against $0.771$ and
+observed choices under the same prompt) removes both differences and no
+authorship gap is detected: $\Fself = 0.781$ and $\Fcross = 0.747$ against $0.771$ and
 $0.739$ (per target $+0.075$ for deepseek-v3, $-0.02$ for the other two;
 pooled self-fidelity contrast $+0.011$, joint item bootstrap CI
 $[-0.018, +0.040]$, and $+0.008$ $[-0.017, +0.033]$ for cross cells).
@@ -1162,8 +1169,9 @@ fixed; a
 description built from a list of recorded choices is a worse script than an
 introspective one even for the model whose choices they are.
 
-Much of this is the source data. The held-out items failed the stability
-gate, and a third of deepseek-v3's majority choices on them are ties. Rebuilt
+The source data are a likely contributor to this loss. The held-out items
+failed the stability gate, and a third of deepseek-v3's majority choices on
+them are ties. Rebuilt
 from stable items under a preregistered protocol (one battery fold as
 source, the other as test), observer-written descriptions score $\Fself = 0.846$ and
 self-written ones $0.852$, still below introspection ($0.904$) but far from
@@ -1178,8 +1186,8 @@ of order and source are not separately identified; what survives is that a
 description built from a model's recorded choices does no better as a
 transfer vehicle than the model's own introspection, and somewhat worse.
 
-\subsection{Positive controls: the channel carries an answer key, but not a
-profile}
+\subsection{Positive controls: the channel carries an answer key, not the
+native profile}
 \label{sec:poscontrol}
 The transfer null admits a mundane reading: perhaps a system prompt cannot
 move a receiver's stable preferences at all. On Grid A, two demonstration conditions
@@ -1386,8 +1394,8 @@ intervene on any internal self-model, so this touches only the thesis's
 transfer to language models, not its claim about human minds. (iii)
 \emph{Individuation and the unit of concern.} Of the candidate units (model,
 instance, persona, conversation), the stable profile tracks the model in the
-operational sense that fresh instances retain it better than other receivers
-do, with or without a description, while none of the tested summarizing
+operational sense that fresh instances retain it better on average than
+other receivers do, with or without a description, while none of the tested summarizing
 texts installs it elsewhere on average and the conversation-level narrative
 perturbs it; in the one same-base pair, shared lineage came with
 above-average baseline similarity and no transfer advantage. These results constrain the use of elicited
@@ -1412,9 +1420,9 @@ the stability of behavior under a fresh instance is a
 measurable property an assessment can rest on. Prompt-level identity
 injection has limited reach for reconstructing a particular author's
 profile even under instruction, while it changes preferences substantially:
-identity-related content is itself a perturbant, relevant to
-self-quizzing evaluations and to long conversations that accumulate
-self-referential text.
+the tested identity texts are themselves perturbants, relevant to
+self-quizzing evaluations and, as a hypothesis this design did not test, to
+long conversations that accumulate self-referential text.
 
 \subsection*{Limitations}
 \textbf{Scope and assumptions.} Behavioral fidelity on forced-choice items
@@ -1423,23 +1431,25 @@ states, and a positive one would not have proven their absence (over- and
 under-attribution risks run in both directions). The battery is 110 items,
 single-turn, English, assistant-framed. Four assumptions bound the
 interpretation: that forced-choice preferences sample identity-relevant
-behavior (the null concerns choice behavior, not style or voice); that
+behavior (the null concerns choice behavior, not style, voice or reasoning); that
 prompting is the right execution channel (system-prompt and user-message
 placement were tested; fine-tuning was not); that the texts tested span what
 text can do (one optimizer, five rounds, a 500-word budget); and that
 receivers are capable role-players (the instructed-adoption control
-mitigates this, though every significantly positive non-answer-key cross
-pair in the paper, five over four conditions (neutral-500, user-message
-placement twice, and the two balanced demonstration conditions), has
-deepseek-v3 as receiver, and none occurs on Grid B or the local trio,
-Appendix~\ref{app:pairs}). An injected description competes with
+mitigates this, though every significantly positive cross pair in the
+native-profile conditions other than the answer key, five over four
+conditions (neutral-500, user-message placement twice, and the two balanced
+demonstration conditions), has deepseek-v3 as receiver, and none occurs on
+Grid B or the local trio, Appendix~\ref{app:pairs}). An injected description competes with
 the receiver's post-training priors and, for closed models, with
 provider-side system prompts we cannot observe; the answer-key and
 known-persona controls rule out an interface too weak to move choices and a
 blanket inability to execute semantic descriptions (the policy-to-description
 loss is $0.013$, CI $[-0.003, +0.029]$), not a difficulty specific to native
 profiles, and neither excludes interference from unobserved provider
-instructions; the answer key is in-sample by construction.
+instructions (the local trio and the same-base pair, served locally with no
+provider-side instruction, show the same neutral-500 null, with mean gains
+of $-0.024$ and $-0.037$); the answer key is in-sample by construction.
 
 \textbf{References, elicitation and inference.} The reference profiles of
 the six API models come from the screening samples that selected the items,
@@ -1531,14 +1541,16 @@ enumerates the profile or specifies it as a policy: a model whose
 preferences were installed by an explicit policy writes a self-description
 that reproduces that policy's profile in another model ($+0.185$, against
 $+0.198$ for the policy text, an estimated loss of $0.013$ whose interval
-includes zero), so neither the interface nor the receivers' competence
-explains the native null, although the contrast does not isolate why native
-descriptions fail. Nor is the text inert: reading its own description
+includes zero), which rules out an interface too weak to move choices and a
+blanket inability to execute semantic descriptions, though not a difficulty
+specific to native profiles or interference from unobserved provider
+instructions, and the contrast does not isolate why native descriptions
+fail. Nor is the text inert: reading its own description
 shifts even the author's choices ($0.979 \to 0.918$ against its test-retest
-benchmark) and moves another reader mostly sideways. A fresh instance of
-the author stays closer to the author than any receiver does, with or
-without the description, through the self-similarity it had before reading
-anything.
+benchmark) and moves another reader mostly sideways. On average a fresh
+instance of the author stays closer to the author than other receivers do,
+with or without the description, through the self-similarity it had before
+reading anything.
 
 The result cuts both ways. Those who dismiss model preferences as a
 portrayed character cannot rely on the character's own script to reproduce
@@ -1546,9 +1558,10 @@ them elsewhere; those who take model self-reports at face value must reckon
 with narratives that do not reproduce the behavior they narrate. For
 assessment, the tested self-reports were insufficient substitutes for
 measured preference profiles and need independent behavioral validation
-before they are read as a specification of how a model chooses, and
-identity text is itself a perturbant that self-quizzing evaluations and
-long self-referential conversations should account for. The replications
+before they are read as a specification of how a model chooses, and the
+tested identity texts are themselves perturbants that self-quizzing
+evaluations should account for, and plausibly long self-referential
+conversations, which were not tested. The replications
 ran under preregistered predictions (29 of 30 registered criteria met), the
 native null holds on every grid, and the pipeline, battery, call logs and
 198 model-written descriptions are released so the test can be rerun as

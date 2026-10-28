@@ -48,6 +48,7 @@ python analyze_coverage_sensitivity.py   # coverage and fresh-reference robustne
 python analyze_parser_sensitivity.py     # parser sensitivity and self-fidelity length contrasts
 python analyze_self_ladder.py
 python make_ladder_table.py
+python analyze_3p_pairs.py               # third-person-500 per-pair contrasts -> third_person_pairs.json
 python make_appendix_tables.py
 python make_replication_table.py
 python make_policy_table.py

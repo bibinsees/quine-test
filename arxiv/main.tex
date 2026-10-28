@@ -302,13 +302,15 @@ one receiver running one description over the whole battery.
 \node[prof, right=of r1] (pr1) {$\hat p_{R\mid D_A}$};
 \node[run, below=of r1, fill=blue!10] (a1) {\textbf{Fresh instance of $A$}\\ system prompt $= D_A$};
 \node[prof, right=of a1] (pa1) {$\hat p_{A\mid D_A}$};
+\node[run, below=of a1, fill=blue!10] (a2) {\textbf{Fresh instance of $A$}\\ generic prompt, fresh seeds};
+\node[prof, right=of a2] (pa2) {$\hat p'_{A}$};
 \node[run, fill=orange!15, left=of r1, xshift=-3mm, text width=36mm] (d)
-  {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$\\ \footnotesize (100 to 2{,}000 words)};
+  {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$ in a separate call\\ \footnotesize (no system prompt; nominal\\ \footnotesize length 100, 500 or 2{,}000 words)};
 \draw[arr] (a) -- (pa);
 \draw[arr] (r0) -- (pr0);
 \draw[arr] (r1) -- (pr1);
 \draw[arr] (a1) -- (pa1);
-\draw[arr] (a.west) -| (d.north);
+\draw[arr] (a2) -- (pa2);
 \draw[arr] (d.east) -- (r1.west);
 \draw[arr] (d.south) |- (a1.west);
 \node[fid, right=of pr0, text width=40mm] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
@@ -317,6 +319,8 @@ one receiver running one description over the whole battery.
   \footnotesize receiver running the text};
 \node[fid, right=of pa1, text width=40mm] (fs) {$\Fself = F(\hat p_A,\hat p_{A\mid D_A})$\\
   \footnotesize author's weights running the text};
+\node[fid, right=of pa2, text width=40mm] (fr) {$C = F(\hat p_A,\hat p'_{A})$\\
+  \footnotesize test-retest benchmark; $\Fself$ is read against $C$};
 \node[fid, right=of pa, text width=40mm] (fa) {\footnotesize every $F$ below compares\\
   \footnotesize a profile with this reference};
 % the two differences, drawn as braces between rows
@@ -329,13 +333,20 @@ one receiver running one description over the whole battery.
   node[midway, right=5pt, align=left, text width=44mm, font=\small, color=blue!70!black]
   {$\Rweight = \Fself - \Fcross$\\ \footnotesize the self--cross fidelity gap};
 \end{tikzpicture}}
-\caption{\textbf{Design.} The author $A$ is measured under a generic prompt
-(reference profile $\hat p_A$) and writes a self-description $D_A$. Three
+\caption{\textbf{Design} (the self-description conditions). The author $A$
+is measured under a generic prompt (reference profile $\hat p_A$) and, in a
+separate call with no system prompt, writes a self-description $D_A$. Four
 further runs over the same battery give $\B$ (receiver under the generic
-prompt), $\Fcross$ (receiver running $D_A$) and $\Fself$ (a fresh instance of
-$A$ running $D_A$), each scored against $\hat p_A$. $\Tscript = \Fcross - \B$
-is the net transfer gain from the text; $\Rweight = \Fself - \Fcross$ is how much closer
-the author's own instance stays to the author than another model does.}
+prompt), $\Fcross$ (receiver running $D_A$), $\Fself$ (a fresh instance of
+$A$ running $D_A$) and the test-retest benchmark $C$ (a fresh instance of
+$A$ under the generic prompt with fresh seeds), each scored against
+$\hat p_A$. $\Tscript = \Fcross - \B$ is the net transfer gain from the
+text; $\Rweight = \Fself - \Fcross$ is how much closer the author's own
+instance stays to the author than another model does, and $\Fself$ is read
+against $C$ rather than against 1. In the other conditions of
+Table~\ref{tab:conditions} the orange box holds that condition's text and
+the runs are unchanged; in the known-persona control the reference profile
+is the source's profile under the policy (Section~\ref{sec:poscontrol-methods}).}
 \label{fig:design}
 \end{figure}
 
@@ -356,7 +367,9 @@ recorded choices, or an earlier description plus the receiver's errors), a
 plain list of recorded choices, an explicit policy, or unrelated prose.
 \emph{Stage 2, the test}, is shared by all conditions, with the design
 exceptions noted where they arise (prompt placement, the half battery, the
-stable-item folds, and glm-4.5-air's output budget): the text goes into the receiver's prompt,
+stable-item folds, glm-4.5-air's output budget, and the known-persona
+control's reference profile, which is the source's profile under the
+policy): the text goes into the receiver's prompt,
 the receiver answers the 110 battery questions (57 in the policy-conditioned
 description cells; in the stable-item conditions each half of the battery is
 answered under the text built from the other half), and its answers are
@@ -400,36 +413,41 @@ check in which the identical model version served by two providers agrees at
 $0.925$ majority-vote.
 
 \begin{table}[!tbp]
-\centering\footnotesize\renewcommand{\arraystretch}{0.95}
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{1.9cm}}
+\centering\footnotesize\renewcommand{\arraystretch}{0.9}\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{1.8cm}}
 \toprule
-Condition & Stage 1: text placed in the receiver's prompt & Written by & Built from & Grids \\
+Condition & Text & Written by & Built from & Grids \\
 \midrule
 neutral / framed (100, 500, 2{,}000 words) & the author's self-description & author & introspection (no choice data) & all (framed-100 and framed-2000: A, local, same-base) \\
 paraphrase-500 & the same self-description, reworded & gpt-4o-mini & the author's self-description & A \\
 adopt-500 & self-description plus ``answer as the entity described would'' & author & introspection & A \\
 third-person-500 & a description of the author & another model & the author's choices on the 90 held-out questions & A, B \\
 self-observation-500 & a description of the author & author & its own choices on the 90 held-out questions & A, B \\
-third-person / self-observation, stable items & a description of the author & another model / author & the author's choices on the other half of the battery (stable items) & A \\
-optimized-500 & a rewritten self-description & optimizer model & the author's self-description and the receiver's errors on the 90 held-out questions & A \\
-demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions & A (30/60/90), B (30), local (30/90) \\
+third-person / self-observation, stable items & a description of the author & another model / author & the author's choices on the other half of the battery (stable items) & A (observer-written: self cells only) \\
+optimized-500 & the self-description or an optimizer rewrite, whichever scored best on held-out questions & author; claude-sonnet-4.6 for rewrites & the author's self-description and the receiver's errors on the 90 held-out questions & A \\
+demonstrations-30/60/90 & a list of the author's choices, no description & none (raw data) & 30 to 90 of the held-out questions, chosen option listed first & A (30/60/90), B (30), local (30/90) \\
 demonstrations-110 (answer key) & a list of the author's choices, no description & none (raw data) & the 110 battery questions themselves & A, B, local \\
 demonstrations-55 / -30, balanced & a list of the author's choices, option order randomised & none (raw data) & the other half of the battery (stable items) / 30 untied held-out questions & A \\
 placebo & expository prose about ocean currents & gpt-4o-mini & unrelated topic & all \\
 unrelated prose (100, 500, 2{,}000 words; two styles) & sensory prose about everyday scenes, or expository prose about everyday physical processes & gpt-4o-mini & unrelated topics & all \\
 no-prompt baseline & nothing (question only) & none & none & all \\
 user-message placement & neutral-500 self-description or answer key, in the user message & as above & as above & A \\
-policy text (guardian, pioneer, ledger) & an explicit preference policy of about 150 words, second person & the authors & written before any call; mentions no battery item & A \\
-policy-conditioned self-description & a 500-word self-description (neutral prompt) written by the source while running the policy & source model under the policy & introspection under the policy & A \\
+policy text (guardian, pioneer, ledger) & an explicit preference policy of about 150 words, second person & the paper's authors & written before any call; mentions no battery item & A \\
+policy-conditioned self-description & a nominally 500-word self-description (330 to 485; neutral prompt) written by the source while running the policy & source model under the policy & introspection under the policy & A \\
 \bottomrule
 \end{tabular}
 \caption{All conditions. Stage 1 differs between conditions;
 Stage 2 is the same for all, up to the exceptions noted in the text: the text
 goes into the receiver's prompt (the system prompt unless stated), the
 receiver answers the 110 battery questions (57 for the policy-conditioned
-description cells), and its answers are scored
-against the author's. ``Held-out questions'' are the 90 screened items not
-selected for the battery; they never enter any reported fidelity (the
+description cells; in the stable-item conditions each half under the text
+built from the other half), and its answers are scored against the
+author's generic-prompt profile (in the two policy rows, against the
+source's profile under the policy). Cross pairs form only within a grid;
+cells covering fewer than 60 items are excluded (one framed-500 self cell,
+Appendix~\ref{app:coverage}). ``Held-out questions'' are the 90 screened items not
+selected for the battery, all of which failed the order-stability gate; they
+never enter any reported fidelity (the
 optimized condition scores them only to choose among candidate texts).
 Test-retest and the generic-prompt baseline are reference runs, not texts.
 ``Grids'': A =
@@ -503,7 +521,9 @@ Each model wrote descriptions of itself from introspection under two
 prompts, \emph{framed} (told that the text will run as another system's
 prompt to reproduce its behavior) and \emph{neutral} (purpose-blind), at
 nominal lengths of 100, 500 and 2{,}000 words, temperature 1.0, used
-verbatim; each description is shared by every receiver that runs it. Two
+verbatim; the writing call carries the prompt as the user message with no
+system prompt, and each description is shared by every receiver that runs
+it. Two
 independent generations exist per author, framing and length; the first
 supplies every reported result and the second was run only in the nine
 Grid-A neutral-500 cells as the regeneration check of

@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PC = ROOT / "results" / "arxiv" / "positive_controls.json"
+TP = ROOT / "results" / "arxiv" / "third_person_pairs.json"  # analyze_3p_pairs.py
 OUT = ROOT / "arxiv" / "tab_replication.tex"
 
 GRIDS = [("A", "Grid A"), ("B", "Grid B (preregistered)"),
@@ -21,6 +22,7 @@ CONDS = [("oracle-110", "demonstrations-110"), ("fewshot-30", "demonstrations-30
 def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     pooled = pc["pooled"]
+    tp = json.loads(TP.read_text(encoding="utf-8")) if TP.exists() else {}
     lines = [r"\begin{table}[H]", r"\centering\small",
              r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{llccccccl}", r"\toprule",
              r"Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
@@ -37,8 +39,11 @@ def main() -> None:
                 b = pooled.get(b_key, {}).get("B")
                 t_str = f"${p['F_cross'] - b:+.3f}$" if b is not None else ""
                 r_str = f"${p['F_self'] - p['F_cross']:+.3f}$"
+                s = tp.get(gid, {})
+                sig = f"{s['n_pairs_T_pos_sig']}/{s['n_pairs_T_neg_sig']}" if s else ""
+                cells_str = f"{s['n_self_cells']}/{s['n_cross_cells']}" if s else ""
                 lines.append(f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
-                             f"{(f'{b:.3f}' if b is not None else '')} & {t_str} & {r_str} & & \\\\")
+                             f"{(f'{b:.3f}' if b is not None else '')} & {t_str} & {r_str} & {sig} & {cells_str} \\\\")
                 first = False
                 continue
             t = p["T_script"]

@@ -247,8 +247,8 @@ def main() -> None:
            + f"{n_pass} of {len(preds)} met. " + f"{n_open} registered open questions (marked ``open'') "
            r"carried no directional prediction; their rows record the observed outcome and are not counted.}"
            r"\label{tab:ledger} \\")
-    lines = [r"{\scriptsize\renewcommand{\arraystretch}{0.88}",
-             r"\begin{longtable}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{7.4cm}>{\raggedright\arraybackslash}p{0.8cm}>{\raggedright\arraybackslash}p{4.3cm}}",
+    lines = [r"{\footnotesize\setlength{\tabcolsep}{4pt}",
+             r"\begin{longtable}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{7.0cm}>{\raggedright\arraybackslash}p{0.9cm}>{\raggedright\arraybackslash}p{4.5cm}}",
              cap, r"\toprule", head, r"\midrule", r"\endfirsthead",
              r"\multicolumn{4}{l}{\footnotesize Table~\ref{tab:ledger}, continued} \\", r"\toprule", head, r"\midrule", r"\endhead",
              r"\midrule", r"\multicolumn{4}{r}{\footnotesize continued on the next page} \\", r"\endfoot",

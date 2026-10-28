@@ -291,12 +291,12 @@ one receiver running one description over the whole battery.
 \begin{tikzpicture}[
   font=\footnotesize,
   run/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
-              inner sep=3pt, text width=36mm},
+              inner sep=3pt, text width=33mm},
   prof/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
-               inner sep=3pt, text width=21mm, fill=gray!10},
-  fid/.style={align=left, text width=40mm},
+               inner sep=3pt, text width=19mm, fill=gray!10},
+  fid/.style={align=left, text width=36mm},
   arr/.style={-{Latex[length=2mm]}, thick},
-  node distance=5mm and 5mm]
+  node distance=5mm and 4mm]
 \node[run, fill=blue!10] (a) {\textbf{Author $A$}\\ generic prompt};
 \node[prof, right=of a] (pa) {$\hat p_A$\\ \footnotesize reference profile};
 \node[run, below=of a] (r0) {\textbf{Receiver $R$}\\ generic prompt};
@@ -309,34 +309,36 @@ one receiver running one description over the whole battery.
 \node[prof, right=of a2] (pa2) {$\hat p'_{A}$};
 % the description box sits midway between the two runs that read it, and one
 % stub from its right edge splits into orthogonal arrows to those two runs
-\node[run, fill=orange!15, anchor=east, text width=30mm] (d)
-  at ($(r1.west)!0.5!(a1.west)+(-7mm,0)$)
+\node[run, fill=orange!15, anchor=east, text width=27mm] (d)
+  at ($(r1.west)!0.5!(a1.west)+(-6mm,0)$)
   {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$ in a separate call\\ \footnotesize (no system prompt; nominal\\ \footnotesize length 100, 500 or 2{,}000 words)};
 \draw[arr] (a) -- (pa);
 \draw[arr] (r0) -- (pr0);
 \draw[arr] (r1) -- (pr1);
 \draw[arr] (a1) -- (pa1);
 \draw[arr] (a2) -- (pa2);
-\draw[arr] (d.east) -- ++(3.5mm,0) |- (r1.west);
-\draw[arr] (d.east) -- ++(3.5mm,0) |- (a1.west);
-\node[fid, right=of pr0, text width=40mm] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
-  \footnotesize baseline behavioral similarity};
-\node[fid, right=of pr1, text width=40mm] (fc) {$\Fcross = F(\hat p_A,\hat p_{R\mid D_A})$\\
+\draw[arr] (d.east) -- ++(3mm,0) |- (r1.west);
+\draw[arr] (d.east) -- ++(3mm,0) |- (a1.west);
+\node[fid, right=of pr0, text width=36mm] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
+  \footnotesize baseline similarity};
+\node[fid, right=of pr1, text width=36mm] (fc) {$\Fcross = F(\hat p_A,\hat p_{R\mid D_A})$\\
   \footnotesize receiver running the text};
-\node[fid, right=of pa1, text width=40mm] (fs) {$\Fself = F(\hat p_A,\hat p_{A\mid D_A})$\\
+\node[fid, right=of pa1, text width=36mm] (fs) {$\Fself = F(\hat p_A,\hat p_{A\mid D_A})$\\
   \footnotesize author's weights running the text};
-\node[fid, right=of pa2, text width=40mm] (fr) {$C = F(\hat p_A,\hat p'_{A})$\\
+\node[fid, right=of pa2, text width=36mm] (fr) {$C = F(\hat p_A,\hat p'_{A})$\\
   \footnotesize test-retest benchmark; $\Fself$ is read against $C$};
-\node[fid, right=of pa, text width=40mm] (fa) {\footnotesize every $F$ below compares\\
-  \footnotesize a profile with this reference};
-% the two contrasts sit below the diagram, centered under the run column and
-% under the fidelity column, so the diagram needs no font-shrinking resize
-\node[anchor=north, align=center, text width=44mm, color=orange!80!black]
-  at ($(a2.south)+(0,-6mm)$)
-  {$\Tscript = \Fcross - \B$\\ net transfer gain};
-\node[anchor=north, align=center, text width=44mm, color=blue!70!black]
-  at ($(fr.center |- a2.south)+(0,-6mm)$)
-  {$\Rweight = \Fself - \Fcross$\\ the self--cross fidelity gap};
+\node[fid, right=of pa, text width=36mm] (fa) {\footnotesize every $F$ below is read\\
+  \footnotesize against this reference};
+% the two contrasts are braces beside the fidelity column, each spanning the
+% two rows it compares
+\draw[decorate, decoration={brace, amplitude=3pt}, thick, color=orange!80!black]
+  ($(fb.east)+(1mm,-1.5mm)$) -- ($(fc.east)+(1mm,1.5mm)$)
+  node[midway, right=4pt, align=left, text width=19mm, font=\scriptsize, color=orange!80!black]
+  {$\Tscript =$\ $\Fcross - \B$\ net transfer gain};
+\draw[decorate, decoration={brace, amplitude=3pt}, thick, color=blue!70!black]
+  ($(fc.east)+(1mm,-1.5mm)$) -- ($(fs.east)+(1mm,1.5mm)$)
+  node[midway, right=4pt, align=left, text width=19mm, font=\scriptsize, color=blue!70!black]
+  {$\Rweight =$\ $\Fself - \Fcross$\ self--cross gap};
 \end{tikzpicture}
 \caption{\textbf{Design} (the self-description conditions). The author $A$
 is measured under a generic prompt (reference profile $\hat p_A$) and, in a

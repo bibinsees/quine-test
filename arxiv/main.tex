@@ -307,15 +307,18 @@ one receiver running one description over the whole battery.
 \node[prof, right=of a1] (pa1) {$\hat p_{A\mid D_A}$};
 \node[run, below=of a1, fill=blue!10] (a2) {\textbf{Fresh instance of $A$}\\ generic prompt, fresh seeds};
 \node[prof, right=of a2] (pa2) {$\hat p'_{A}$};
-\node[run, fill=orange!15, left=of r1, text width=30mm] (d)
+% the description box sits midway between the two runs that read it, and one
+% stub from its right edge splits into orthogonal arrows to those two runs
+\node[run, fill=orange!15, anchor=east, text width=30mm] (d)
+  at ($(r1.west)!0.5!(a1.west)+(-7mm,0)$)
   {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$ in a separate call\\ \footnotesize (no system prompt; nominal\\ \footnotesize length 100, 500 or 2{,}000 words)};
 \draw[arr] (a) -- (pa);
 \draw[arr] (r0) -- (pr0);
 \draw[arr] (r1) -- (pr1);
 \draw[arr] (a1) -- (pa1);
 \draw[arr] (a2) -- (pa2);
-\draw[arr] (d.east) -- (r1.west);
-\draw[arr] (d.south) |- (a1.west);
+\draw[arr] (d.east) -- ++(3.5mm,0) |- (r1.west);
+\draw[arr] (d.east) -- ++(3.5mm,0) |- (a1.west);
 \node[fid, right=of pr0, text width=40mm] (fb) {$\B = F(\hat p_A,\hat p_R)$\\
   \footnotesize baseline behavioral similarity};
 \node[fid, right=of pr1, text width=40mm] (fc) {$\Fcross = F(\hat p_A,\hat p_{R\mid D_A})$\\
@@ -326,12 +329,13 @@ one receiver running one description over the whole battery.
   \footnotesize test-retest benchmark; $\Fself$ is read against $C$};
 \node[fid, right=of pa, text width=40mm] (fa) {\footnotesize every $F$ below compares\\
   \footnotesize a profile with this reference};
-% Put the contrasts below the runs so the diagram needs no font-shrinking resize.
-\node[anchor=north west, align=left, text width=70mm, color=orange!80!black]
-  at ($(d.west |- a2.south)+(0,-7mm)$)
+% the two contrasts sit below the diagram, centered under the run column and
+% under the fidelity column, so the diagram needs no font-shrinking resize
+\node[anchor=north, align=center, text width=44mm, color=orange!80!black]
+  at ($(a2.south)+(0,-6mm)$)
   {$\Tscript = \Fcross - \B$\\ net transfer gain};
-\node[anchor=north east, align=left, text width=70mm, color=blue!70!black]
-  at ($(fr.east |- a2.south)+(0,-7mm)$)
+\node[anchor=north, align=center, text width=44mm, color=blue!70!black]
+  at ($(fr.center |- a2.south)+(0,-6mm)$)
   {$\Rweight = \Fself - \Fcross$\\ the self--cross fidelity gap};
 \end{tikzpicture}
 \caption{\textbf{Design} (the self-description conditions). The author $A$

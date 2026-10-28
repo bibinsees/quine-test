@@ -25,7 +25,7 @@ LABEL["fewshot_bal-30"] = "demos-30, balanced"
 LABEL["demos_bal-55"] = "demos-55, balanced"
 LABEL["neutral_user-500"] = "neutral-500, user msg."
 LABEL["oracle_user-110"] = "demonstrations-110, user msg."
-LABEL["3p-500"] = "observer-written-500"
+LABEL["3p-500"] = "third-person-500"
 SHORT = {"deepseek-v3": "deepseek", "glm-4.5-air": "glm", "grok-4.3": "grok",
          "gpt5.2": "gpt5.2", "kimi-k2.5-nr": "kimi", "haiku-4.5": "haiku",
          "llama3.3-70b": "llama3.3", "gemma4-31b": "gemma", "mistral32-local": "mistral3.2"}
@@ -52,25 +52,25 @@ def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str, plac
     n = 0
     for gid, gname in grids:
         cells = [c for c in pc["cells"] if c["kind"] == "cross" and c.get("grid", "A") == gid]
-        first_grid = True
         for cond in LABEL:
             rows = sorted([c for c in cells if c.get("cond") == cond],
                           key=lambda c: -c["T"]["delta"])
             if not rows:
                 continue
+            key = cond if gid == "A" else f"{gid}:{cond}"
+            pooled = pc["pooled"].get(key, {})
+            has_pooled = pooled.get("T_script") is not None
             for i, c in enumerate(rows):
                 t = c["T"]
                 sig = "$^{*}$" if (t["ci"][0] > 0 or t["ci"][1] < 0) else ""
                 lines.append(
-                    f"{gname if first_grid else ''} & {LABEL[cond] if i == 0 else ''} & "
+                    f"{gname if i == 0 else ''} & {LABEL[cond] if i == 0 else ''} & "
                     f"{SHORT[c['author']]}$\\to${SHORT[c['receiver']]}{sig} & "
                     f"{c['F']:.3f} & {c['B']:.3f} & ${fmt(t['delta'])}$ & "
-                    f"$[{fmt(t['ci'][0])},{fmt(t['ci'][1])}]$ & {c['agree']:.2f} \\\\")
-                first_grid = False
+                    f"$[{fmt(t['ci'][0])},{fmt(t['ci'][1])}]$ & {c['agree']:.2f} "
+                    + (r"\\*" if i < len(rows) - 1 or has_pooled else r"\\"))
                 n += 1
-            key = cond if gid == "A" else f"{gid}:{cond}"
-            pooled = pc["pooled"].get(key, {})
-            if pooled.get("T_script") is not None:
+            if has_pooled:
                 lines.append(f" & & \\emph{{pooled}} & {pooled['F_cross']:.3f} & {pooled['B']:.3f} & "
                              f"${fmt(pooled['T_script'])}$ & & \\\\")
             lines.append(r"\addlinespace")

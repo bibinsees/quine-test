@@ -109,8 +109,8 @@ def main() -> None:
         xy=(0.02, 0.97), xycoords="axes fraction", fontsize=8.5, color=INK,
         va="top")
     ax.annotate(
-        r"$T_{\rm script} = F_{\rm cross} - B \leq 0$: the description brings"
-        "\nthe receiver no closer to the author on average, at any length",
+        r"$T_{\rm script} = F_{\rm cross} - B \leq 0$: the description brings the receiver"
+        "\nno closer to the author on average, at the tested lengths",
         xy=(0.02, 0.13), xycoords="axes fraction", fontsize=8.5, color=INK,
         va="top")
 

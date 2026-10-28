@@ -2,7 +2,7 @@
 \centering\scriptsize
 \begin{tabular}{lrl@{\qquad}lrl}
 \toprule
-Pair (author$\to$receiver) & $d$ & CI & Pair & $d$ & CI \\
+Pair (author$\to$receiver) & $\Tscript$ & 95\% CI & Pair & $\Tscript$ & 95\% CI \\
 \midrule
 grok$\to$deepseek$^{*}$ & $+0.065$ & $[+0.016,+0.115]$ & hermes3$\to$llama3.3$^{*}$ & $-0.031$ & $[-0.064,-0.001]$ \\
 gemma$\to$mistral3.2 & $+0.027$ & $[-0.007,+0.064]$ & gemma$\to$llama3.3$^{*}$ & $-0.033$ & $[-0.064,-0.003]$ \\
@@ -16,6 +16,6 @@ llama3.3$\to$mistral3.2 & $-0.015$ & $[-0.056,+0.025]$ & deepseek$\to$glm$^{*}$ 
 kimi$\to$gpt5.2$^{*}$ & $-0.030$ & $[-0.053,-0.007]$ & deepseek$\to$grok$^{*}$ & $-0.057$ & $[-0.113,-0.004]$ \\
 \bottomrule
 \end{tabular}
-\caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly negative, 1 significantly positive under unadjusted 95\% paired-bootstrap intervals.}
+\caption{Neutral-500 self-descriptions: mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly negative, 1 significantly positive under unadjusted 95\% paired-bootstrap intervals. $^{*}$ marks intervals excluding zero.}
 \label{tab:native-pairs}
 \end{table}

@@ -24,7 +24,7 @@ def main():
 
     lines = [r"\begin{table}[H]", r"\centering\scriptsize",
              r"\begin{tabular}{lrl@{\qquad}lrl}", r"\toprule",
-             r"Pair (author$\to$receiver) & $d$ & CI & Pair & $d$ & CI \\", r"\midrule"]
+             r"Pair (author$\to$receiver) & $\Tscript$ & 95\% CI & Pair & $\Tscript$ & 95\% CI \\", r"\midrule"]
     half = (len(pairs) + 1) // 2
     for i in range(half):
         right = cells(pairs[i + half]) if i + half < len(pairs) else " & & "
@@ -33,9 +33,9 @@ def main():
     positive = sum(v["ci"][0] > 0 for _, v in pairs)
     average = sum(v["delta"] for _, v in pairs) / len(pairs)
     lines += [r"\bottomrule", r"\end{tabular}",
-              f"\\caption{{Mean $\\Tscript = {average:+.3f}$ over {len(pairs)} directed pairs; "
+              f"\\caption{{Neutral-500 self-descriptions: mean $\\Tscript = {average:+.3f}$ over {len(pairs)} directed pairs; "
               f"{negative} significantly negative, {positive} significantly positive "
-              r"under unadjusted 95\% paired-bootstrap intervals.}",
+              r"under unadjusted 95\% paired-bootstrap intervals. $^{*}$ marks intervals excluding zero.}",
               r"\label{tab:native-pairs}", r"\end{table}"]
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(f"wrote {OUT}")

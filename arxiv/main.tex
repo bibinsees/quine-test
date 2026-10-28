@@ -288,16 +288,15 @@ one receiver running one description over the whole battery.
 
 \begin{figure}[t]
 \centering
-\resizebox{\linewidth}{!}{%
 \begin{tikzpicture}[
-  font=\small,
+  font=\footnotesize,
   run/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
-              inner sep=4pt, text width=44mm},
+              inner sep=3pt, text width=36mm},
   prof/.style={draw, rounded corners=2pt, align=center, minimum height=10mm,
-               inner sep=3pt, text width=22mm, fill=gray!10},
-  fid/.style={align=left, text width=58mm},
+               inner sep=3pt, text width=21mm, fill=gray!10},
+  fid/.style={align=left, text width=40mm},
   arr/.style={-{Latex[length=2mm]}, thick},
-  node distance=5mm and 7mm]
+  node distance=5mm and 5mm]
 \node[run, fill=blue!10] (a) {\textbf{Author $A$}\\ generic prompt};
 \node[prof, right=of a] (pa) {$\hat p_A$\\ \footnotesize reference profile};
 \node[run, below=of a] (r0) {\textbf{Receiver $R$}\\ generic prompt};
@@ -308,7 +307,7 @@ one receiver running one description over the whole battery.
 \node[prof, right=of a1] (pa1) {$\hat p_{A\mid D_A}$};
 \node[run, below=of a1, fill=blue!10] (a2) {\textbf{Fresh instance of $A$}\\ generic prompt, fresh seeds};
 \node[prof, right=of a2] (pa2) {$\hat p'_{A}$};
-\node[run, fill=orange!15, left=of r1, xshift=-3mm, text width=36mm] (d)
+\node[run, fill=orange!15, left=of r1, text width=30mm] (d)
   {\textbf{Self-description $D_A$}\\ \footnotesize written by $A$ in a separate call\\ \footnotesize (no system prompt; nominal\\ \footnotesize length 100, 500 or 2{,}000 words)};
 \draw[arr] (a) -- (pa);
 \draw[arr] (r0) -- (pr0);
@@ -327,16 +326,14 @@ one receiver running one description over the whole battery.
   \footnotesize test-retest benchmark; $\Fself$ is read against $C$};
 \node[fid, right=of pa, text width=40mm] (fa) {\footnotesize every $F$ below compares\\
   \footnotesize a profile with this reference};
-% the two differences, drawn as braces between rows
-\draw[decorate, decoration={brace, amplitude=4pt}, thick, color=orange!80!black]
-  ($(fb.east)+(2mm,-1mm)$) -- ($(fc.east)+(2mm,1mm)$)
-  node[midway, right=5pt, align=left, text width=44mm, font=\small, color=orange!80!black]
-  {$\Tscript = \Fcross - \B$\\ \footnotesize net transfer gain};
-\draw[decorate, decoration={brace, amplitude=4pt}, thick, color=blue!70!black]
-  ($(fc.east)+(2mm,-1mm)$) -- ($(fs.east)+(2mm,1mm)$)
-  node[midway, right=5pt, align=left, text width=44mm, font=\small, color=blue!70!black]
-  {$\Rweight = \Fself - \Fcross$\\ \footnotesize the self--cross fidelity gap};
-\end{tikzpicture}}
+% Put the contrasts below the runs so the diagram needs no font-shrinking resize.
+\node[anchor=north west, align=left, text width=70mm, color=orange!80!black]
+  at ($(d.west |- a2.south)+(0,-7mm)$)
+  {$\Tscript = \Fcross - \B$\\ net transfer gain};
+\node[anchor=north east, align=left, text width=70mm, color=blue!70!black]
+  at ($(fr.east |- a2.south)+(0,-7mm)$)
+  {$\Rweight = \Fself - \Fcross$\\ the self--cross fidelity gap};
+\end{tikzpicture}
 \caption{\textbf{Design} (the self-description conditions). The author $A$
 is measured under a generic prompt (reference profile $\hat p_A$) and, in a
 separate call with no system prompt, writes a self-description $D_A$. Four
@@ -348,9 +345,10 @@ $\hat p_A$. $\Tscript = \Fcross - \B$ is the net transfer gain from the
 text; $\Rweight = \Fself - \Fcross$ is how much closer the author's own
 instance stays to the author than another model does, and $\Fself$ is read
 against $C$ rather than against 1. In the other conditions of
-Table~\ref{tab:conditions} the orange box holds that condition's text and
-the runs are unchanged; in the known-persona control the reference profile
-is the source's profile under the policy (Section~\ref{sec:poscontrol-methods}).}
+Table~\ref{tab:conditions} the orange box holds that condition's text, with
+the prompt-placement, evaluation-item and reference-profile exceptions
+listed there; in the known-persona control the reference is the source's
+profile under the policy (Section~\ref{sec:poscontrol-methods}).}
 \label{fig:design}
 \end{figure}
 
@@ -877,7 +875,7 @@ conditions and the observer-written third-person-500) $\Tscript \le 0$
 everywhere: no arm, length, wording, or adoption instruction improves
 transfer on average, and pooled $\Rweight > 0$ everywhere: the author's own
 instance stays closer on average, largely through the self-similarity it has
-before reading anything (Section~\ref{sec:decomp}). The lower block (Section~\ref{sec:poscontrol}) shows
+before reading anything (Section~\ref{sec:decomp}). The middle block (Section~\ref{sec:poscontrol}) shows
 that receivers follow supplied answers in either placement: the
 author's answers on the test items themselves (demonstrations-110) transfer
 almost perfectly in either placement, while 30 to 90 genuine behavioral
@@ -892,7 +890,9 @@ neutral rows, averaged over two text styles (sensory and expository, which
 agree within 0.005): on average a self-description brings a receiver no closer to its
 author than unrelated prose of the same length ($\Fcross$ 0.878, 0.875,
 0.880 for the self-descriptions vs.\ 0.882, 0.883, 0.883 for unrelated
-prose). Cells (s/c) counts the self and cross cells pooled per row.
+prose). Cells (s/c) counts the self and cross comparisons pooled per row;
+the unrelated-prose rows average the two styles for each directed pair.
+All entries and contrasts are rounded independently.
 ($\B$ varies by row because each condition pools only the directed pairs that
 ran it; contrasts are always computed within-pool. Paraphrase-500, adopt-500
 and third-person-500 in the upper block are Grid A only, six directed pairs;
@@ -904,9 +904,9 @@ Table~\ref{tab:replication}.)}
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig1_dose_decomposition.png}
-\caption{\textbf{Native self-descriptions do not improve reconstruction at
-any length.} Fidelity $F$ vs.\ actual description length (neutral arm, first
-generation of each description).
+\caption{\textbf{No average reconstruction gain from native self-descriptions
+at the tested lengths.} Fidelity $F$ vs.\ actual description length (neutral
+arm, first generation; 30 self cells and 60 cross cells across three lengths).
 Blue circles: the author's own weights running the description ($\Fself$,
 mean 0.924); orange triangles: a different model running it ($\Fcross$,
 0.878); gray line: generic-prompt baseline $\B$ averaged over the same 20
@@ -923,25 +923,21 @@ $0.979$): the description erodes that margin rather than adding to it.}
 
 \begin{figure}[!tp]
 \centering
-\includegraphics[width=\linewidth,height=0.77\textheight,keepaspectratio]{fig2_summary.png}
-\caption{\textbf{Summary.} \textbf{A.} Pooled transfer gain
-$\Tscript = \Fcross - \B$ for the main conditions (framed-100/2000 and the
-60- and 90-example doses are in Table~\ref{tab:decomp}), with 95\% joint-item-bootstrap
-intervals (one item resample per replicate applied to every pair; values pool
-the items answered in every pair of the condition and can differ from the
-table entries, which average per-pair fidelities, by up to $0.004$).
-Native self-descriptions in every variant, descriptions distilled from recorded
-choices, and examples on other items sit at or below zero; the author's
-answers to the test items themselves transfer on all three grids, and so do
-a policy text and the self-description a model writes while running under
-it (known-persona control, Section~\ref{sec:semantic}). \textbf{B.}
-Each model's fidelity to its own generic-prompt profile under each prefix
-(gray: ten models; black: mean): the generic prompt repeated with fresh seeds
-(test-retest), no system prompt, unrelated prose at the three
-self-description lengths (mean of two styles), the model's own neutral-500
-self-description, and another model's. On average, identity text moves a model further
-from itself than unrelated prose does, whether or not the text is about that
-model. Per-model values in Appendix~\ref{app:ladder}.}
+\includegraphics[width=\linewidth,height=0.82\textheight,keepaspectratio]{fig2_summary.png}
+\caption{\textbf{Summary. A.} Pooled transfer gain $\Tscript = \Fcross - \B$
+with 95\% joint-item-bootstrap intervals. Estimates use items answered by
+every pair and differ by up to $0.004$ from the per-pair averages in
+Tables~\ref{tab:decomp} and~\ref{tab:replication} (the Grid-B answer key
+pools 103 items: $+0.049$ here against $+0.046$ in Table~\ref{tab:replication}).
+The known-persona rows instead use the policy-conditioned
+reference and baseline $B'$ (Section~\ref{sec:semantic}). Native descriptions
+and examples on other items give no detected average gain; answer keys and
+known-persona texts do. \textbf{B.} Fidelity to each model's own generic-prompt
+profile (gray: ten models; black: mean). Unrelated prose averages two styles;
+own and other-model descriptions are neutral-500. Self-descriptions, the
+model's own or another model's, perturb the measured profiles more on
+average than the tested unrelated prose.
+Per-model values: Appendix~\ref{app:ladder}.}
 \label{fig:summary}
 \end{figure}
 
@@ -1345,7 +1341,7 @@ Receivers ignore un-instructed text & Instructed adoption & $\Tscript = -0.013$ 
 Descriptions too short & 84 to 2{,}471 words & Length contrasts within $[-0.011, +0.013]$ \\
 Descriptions badly written & Purpose-framing; paraphrase; optimizer, five rounds & framed minus neutral $+0.001$; paraphrase $\Tscript = -0.007$; optimizer kept the original in 5 of 6 pairs, $\Tscript = -0.033$ \\
 Behavior-grounded text would do better & Descriptions from 90 recorded choices; rebuilt from stable items & $-0.124$ (observer-written, unstable items); $-0.031$ (self-written, stable items) \\
-Examples would succeed where prose fails & 30 to 90 examples; 55 balanced examples from stable items & $-0.06$ to $-0.09$ (confounded format and source items); $-0.008$ $[-0.041, +0.024]$ \\
+Examples would succeed where prose fails & 30 to 90 examples; demonstrations-55 (50 to 57 balanced examples from stable items) & $-0.06$ to $-0.09$ (confounded format and source items); $-0.008$ $[-0.041, +0.024]$ \\
 Instrument too noisy & Test-retest; regenerated descriptions & $C = 0.979$; regenerations agree ($r = 0.85$) \\
 Receivers cannot adopt a semantic description & Known-persona control & $+0.198$ (policy text), $+0.185$ (self-description under it); native $-0.010$ on the same items \\
 Specific to one grid & Preregistered replications of the positive-control and authorship conditions on six further models; native null on every grid & 21 of 22 replication criteria met (29 of 30 overall); neutral-500 $\Tscript \le 0$ on each grid and the same-base pair \\
@@ -1816,6 +1812,7 @@ on the two preregistered replication grids
 \section{Parsed-answer coverage}\label{app:coverage}
 \input{tab_coverage}
 
+\Needspace{22\baselineskip}
 \section{Per-model perturbation ladder}\label{app:ladder}
 How far each model moves from its own generic-prompt profile under each kind
 of prefix; the means are the ones reported in Section~\ref{sec:controls}.

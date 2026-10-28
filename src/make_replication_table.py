@@ -23,12 +23,12 @@ def main() -> None:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     pooled = pc["pooled"]
     tp = json.loads(TP.read_text(encoding="utf-8")) if TP.exists() else {}
-    lines = [r"\begin{table}[H]", r"\centering\small",
-             r"\resizebox{\linewidth}{!}{%", r"\begin{tabular}{llccccccl}", r"\toprule",
-             r"Grid & Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
+    lines = [r"\begin{table}[H]", r"\centering\footnotesize\setlength{\tabcolsep}{4pt}",
+             r"\begin{tabular}{lccccccc}", r"\toprule",
+             r"Condition & $\Fself$ & $\Fcross$ & $\B$ & $\Tscript$ & $\Rweight$ & "
              r"sig.\ pairs ($+$/$-$) & Cells (s/c) \\", r"\midrule"]
     for gid, gname in GRIDS:
-        first = True
+        lines.append(r"\multicolumn{8}{l}{\emph{" + gname + r"}} \\*")
         for cond, cname in CONDS:
             key = cond if gid == "A" else f"{gid}:{cond}"
             p = pooled.get(key)
@@ -42,24 +42,23 @@ def main() -> None:
                 s = tp.get(gid, {})
                 sig = f"{s['n_pairs_T_pos_sig']}/{s['n_pairs_T_neg_sig']}" if s else ""
                 cells_str = f"{s['n_self_cells']}/{s['n_cross_cells']}" if s else ""
-                lines.append(f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
+                lines.append(f"{cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
                              f"{(f'{b:.3f}' if b is not None else '')} & {t_str} & {r_str} & {sig} & {cells_str} \\\\")
-                first = False
                 continue
             t = p["T_script"]
             lines.append(
-                f"{gname if first else ''} & {cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
+                f"{cname} & {p['F_self']:.3f} & {p['F_cross']:.3f} & "
                 f"{p['B']:.3f} & ${t:+.3f}$ & ${(p['R_weight'] if abs(p['R_weight']) >= 0.0005 else 0.0):+.3f}$ & "
                 f"{p['n_pairs_T_pos_sig']}/{p['n_pairs_T_neg_sig']} & "
                 f"{p['n_self_cells']}/{p['n_cross_cells']} \\\\")
-            first = False
         lines.append(r"\addlinespace")
-    lines += [r"\bottomrule", r"\end{tabular}}",
+    lines += [r"\bottomrule", r"\end{tabular}",
               r"\caption{Positive-control and authorship conditions on Grid A and on "
               r"the two preregistered replication grids (predictions committed before running; "
               r"\texttt{pilot/protocol\_arxiv\_*\_replication.md} in the repository). sig.\ pairs "
               r"counts cross cells whose 95\% paired-bootstrap CI for $\Tscript$ lies entirely "
-              r"above ($+$) or below ($-$) zero.}",
+              r"above ($+$) or below ($-$) zero (unadjusted for multiple comparisons). "
+              r"Cells (s/c) counts self/cross cells. Entries and contrasts are rounded independently.}",
               r"\label{tab:replication}", r"\end{table}"]
     OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
     preds = pc.get("predictions", [])

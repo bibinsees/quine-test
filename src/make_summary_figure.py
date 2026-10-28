@@ -38,10 +38,10 @@ ROWS = [
     ("adopt-500 (A)", "with adoption instruction (Grid A)", "desc"),
     ("neutral_user-500 (A)", "in the user message (Grid A)", "desc"),
     ("optimized-500 (A)", "best of original + 5 rewrites (Grid A)", "desc"),
-    ("3p-500 (A)", "observer-written from 90 unstable items (Grid A)", "obs"),
-    ("selfobs_stable-500 (A)", "self-written from stable items (Grid A)", "obs"),
-    ("fewshot-30 (A)", "30 examples, chosen-first format (Grid A)", "demo"),
-    ("demos_bal-55 (A)", "55 examples, balanced, stable items (Grid A)", "demo"),
+    ("3p-500 (A)", "third-person-500: observer-written from 90 unstable items (Grid A)", "obs"),
+    ("selfobs_stable-500 (A)", "self-observation, stable items (Grid A)", "obs"),
+    ("fewshot-30 (A)", "demonstrations-30, chosen-first format (Grid A)", "demo"),
+    ("demos_bal-55 (A)", "demonstrations-55, balanced, stable items (Grid A)", "demo"),
     ("oracle-110 (A)", "answer key, 110 test items (Grid A)", "key"),
     ("oracle-110 (B)", "answer key (Grid B, preregistered)", "key"),
     ("oracle-110 (local)", "answer key (local trio, preregistered)", "key"),
@@ -75,7 +75,16 @@ def main() -> None:
 
     # ---- Panel A: forest plot of pooled T
     rows = [(k, l, g) for k, l, g in ROWS if k in st]
-    ys = np.arange(len(rows))[::-1]
+    # y positions: one row per condition, plus a 0.8-row gap at every group start
+    # so the group titles sit clear of the interval bar above them
+    GAP = 0.8
+    ys_list, y = [], 0.0
+    for i, (_, _, g) in enumerate(rows):
+        if i > 0 and rows[i - 1][2] != g:
+            y += GAP
+        ys_list.append(y)
+        y += 1.0
+    ys = (y - 1.0) - np.array(ys_list)  # top row first
     axA.axvline(0, color=SEC, lw=1.0, zorder=1)
     for y, (k, label, grp) in zip(ys, rows):
         r = st[k]
@@ -93,13 +102,13 @@ def main() -> None:
     groups = [g for _, _, g in rows]
     starts = [i for i, g in enumerate(groups) if i == 0 or groups[i - 1] != g]
     for i in starts[1:]:
-        axA.axhline(ys[i] + 0.5, color=GRID_C, lw=0.8, zorder=0)
+        axA.axhline(ys[i] + 0.5 + GAP / 2, color=GRID_C, lw=0.8, zorder=0)
     titles = {"desc": "self-descriptions", "obs": "descriptions from recorded choices",
               "demo": "examples on other items", "key": "answers to the test items",
-              "sem": "known semantic persona"}
+              "sem": "known semantic persona (gain over policy baseline $B'$, 57 items)"}
     for i in starts:
         axA.text(-0.17, ys[i] + 0.5, titles[groups[i]], fontsize=10, color=COLOR[groups[i]], va="bottom")
-    axA.set_ylim(-0.8, len(rows) + 0.1)
+    axA.set_ylim(-0.8, ys[0] + 1.1)
 
     # ---- Panel B: perturbation ladder
     models = [r["model"] for r in lad["rows"]]

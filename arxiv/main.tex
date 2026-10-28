@@ -124,7 +124,8 @@ its motivation, not theories it can settle on its own.
   by construction. No compressed native form improves transfer on average.
   Self-descriptions at 100 to 2{,}000 words, purpose-framed or not,
   paraphrased, under adoption instruction, in the user message, or
-  rewritten by an optimizer that sees the receiver's errors give pooled
+  passed through an optimizer that sees the receiver's errors (which kept
+  the original text in five of six pairs) give pooled
   $\Tscript \le 0$ in every condition; the one-sided 95\% upper bound on
   the pooled gain is below $+0.01$ in every system-prompt self-description
   condition and $+0.015$ for user-message placement, for these texts on
@@ -867,8 +868,8 @@ that receivers follow supplied answers in either placement: the
 author's answers on the test items themselves (demonstrations-110) transfer
 almost perfectly in either placement, while 30 to 90 genuine behavioral
 examples on other items (demonstrations-30/60/90), observation-derived
-descriptions, whoever writes them, descriptions rewritten by an optimizer to
-improve transfer (optimized-500), and self-descriptions placed in the user
+descriptions, whoever writes them, the optimizer's best of the original
+description and five rewrites (optimized-500), and self-descriptions placed in the user
 message show no detected pooled reconstruction gain. ``user msg.'' rows
 place the text in the user message before the question instead of in the
 system prompt. The bottom block scores unrelated prose of the three
@@ -1086,7 +1087,7 @@ questions about the model itself ($-0.036$, CI $[-0.059, -0.013]$; the
 two-item aesthetic control is at $-0.056$), and positive only on the ten
 culture items of the
 common item set
-($+0.030$, $[+0.008, +0.053]$).
+($+0.030$, $[+0.008, +0.054]$).
 
 \subsection{Controls: the perturbation is specific, and instruction does not
 rescue transfer}

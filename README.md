@@ -45,11 +45,14 @@ python analyze_policy.py                 # known-persona control -> policy_perso
 python analyze_strength.py               # pooled gains with upper bounds, movement decomposition, identification -> strength.json
 python analyze_reporting_fixes.py        # coverage table, prediction ledger, length and framing contrasts
 python analyze_coverage_sensitivity.py   # coverage and fresh-reference robustness checks
+python analyze_authorship_ci.py          # matched-information authorship contrasts
+python analyze_specificity.py            # specificity gain with joint and within-comparison intervals -> specificity.json
 python analyze_parser_sensitivity.py     # parser sensitivity and self-fidelity length contrasts
 python analyze_self_ladder.py
 python make_ladder_table.py
 python analyze_3p_pairs.py               # third-person-500 per-pair contrasts -> third_person_pairs.json
 python make_appendix_tables.py
+python make_native_pairs_table.py        # neutral-500 paired intervals, generated from grid_summary.json
 python make_replication_table.py
 python make_policy_table.py
 python make_figure.py

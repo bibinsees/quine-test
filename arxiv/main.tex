@@ -413,7 +413,7 @@ check in which the identical model version served by two providers agrees at
 $0.925$ majority-vote.
 
 \begin{table}[!tbp]
-\centering\footnotesize\renewcommand{\arraystretch}{0.9}\setlength{\tabcolsep}{4pt}
+\centering\footnotesize\renewcommand{\arraystretch}{0.89}\setlength{\tabcolsep}{4pt}
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{1.8cm}}
 \toprule
 Condition & Text & Written by & Built from & Grids \\
@@ -444,7 +444,8 @@ description cells; in the stable-item conditions each half under the text
 built from the other half), and its answers are scored against the
 author's generic-prompt profile (in the two policy rows, against the
 source's profile under the policy). Cross pairs form only within a grid;
-cells covering fewer than 60 items are excluded (one framed-500 self cell,
+full-battery cells covering fewer than 60 items are excluded (the gemma4-31b
+framed-100 and framed-500 self cells,
 Appendix~\ref{app:coverage}). ``Held-out questions'' are the 90 screened items not
 selected for the battery, all of which failed the order-stability gate; they
 never enter any reported fidelity (the
@@ -528,7 +529,8 @@ independent generations exist per author, framing and length; the first
 supplies every reported result and the second was run only in the nine
 Grid-A neutral-500 cells as the regeneration check of
 Section~\ref{sec:decomp}. Actual lengths run from 84 to
-2{,}471 words; analyses use actual counts. Framed-100 and framed-2000 were
+2{,}471 words; the dose-response scatter uses actual counts, while condition
+summaries and length contrasts use the nominal length groups. Framed-100 and framed-2000 were
 run on Grid A, the local trio and the same-base pair but not on Grid B (14
 cross pairs rather than 20). hermes3-70b refused the framed
 prompt at 500 and 2{,}000 words on its first draw (57 and 46 words of
@@ -716,10 +718,14 @@ Section~\ref{sec:decomp}, which takes the receiver's baseline from a
 four-answer cell, removes this asymmetry. Items with no parsed answer are dropped
 from that cell, and full-battery cells covering fewer than 60 items are
 excluded (the 27 half-battery cells of the known-persona control are
-evaluated on their 57 items, with a 50-item floor). Pooled comparisons
+evaluated on their 57 items, with a 50-item floor). Pooled inferential comparisons
 across models use the items answered by every cell in the pool: 80 at
 neutral-500 for the ten-model perturbation comparisons, 107 for the pooled
-neutral-500 cross transfer, 106 for the movement decomposition. Primary fidelity is
+neutral-500 cross transfer, 106 for the movement decomposition. The decomposition
+tables instead average cell fidelities over each cell's available items and
+subtract the mean baseline fidelity over the same directed pairs; these
+descriptive summaries can differ slightly from the paired, common-item
+estimates used for inference. Primary fidelity is
 $F = 1 - \overline{\mathrm{JSD}}(\hat p_{\text{author}}, \hat p_{\text{cell}})$,
 the mean over items of one minus the Jensen-Shannon divergence (base 2)
 between the author's and the cell's per-item choice distributions; $F=1$ for
@@ -735,7 +741,9 @@ differences) use a paired item bootstrap, resampling the per-item difference.
 Pooled comparisons that share the same questions (every condition pooled
 over its pairs) use joint item resampling, one item resample per replicate
 applied to every pair; from the same resamples we report the one-sided 95\%
-upper bound on each pooled gain. All intervals resample items with the
+upper bound on each pooled gain. Intervals and pair-level significance counts
+are unadjusted for multiple comparisons; the upper bounds apply separately
+to each condition. All intervals resample items with the
 models, descriptions and battery held fixed (the one exception is the
 perturbation-specificity test of Section~\ref{sec:controls}, which resamples
 models and items together), so they bound the gain for
@@ -770,7 +778,7 @@ Figure~\ref{fig:hero} shows the underlying dose-response. At neutral-500,
 (receiving another model's self-description makes the receiver \emph{less}
 like the author than its generic default); one pair is positive under an
 unadjusted 95\% interval
-(grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.015,+0.116]$; all per-pair
+(grok-4.3$\to$deepseek-v3, $d=+0.065$, CI $[+0.016,+0.115]$; all per-pair
 contrasts with CIs in Appendix~\ref{app:pairs}). The result is also robust
 to description resampling: rerunning every Grid-A neutral-500 cell with an
 independently regenerated description reproduces cell fidelities with mean
@@ -779,9 +787,10 @@ self--cross gap needs a baseline-adjusted reading. Pooled $\Rweight$ is the
 difference between the pooled self and pooled cross fidelities of a
 condition, whose cell pools differ in size (Table~\ref{tab:decomp}, last
 column). Measured against its own reference, the author loses fidelity by
-reading its description: $\Fself - C$ is $-0.04$ to $-0.08$ across the
-self-description conditions ($-0.04$ to $-0.06$ in the neutral arm, $-0.08$
-under adoption; test-retest benchmark $C = 0.979$), and a receiver loses a
+reading its description: $\Fself - C$, averaged over the self cells of a
+condition with each model's own test-retest value, is $-0.04$ to $-0.07$
+across the self-description conditions ($-0.04$ to $-0.06$ in the neutral
+arm, $-0.07$ under adoption; mean test-retest benchmark $C = 0.979$), and a receiver loses a
 similar amount against its own reference when it reads another model's
 description (0.926 vs.\ 0.918 for its own, Appendix~\ref{app:ladder}), while
 gaining nothing toward the author ($\Fcross - \B$ is $-0.01$ to $-0.03$). So
@@ -794,7 +803,7 @@ one-sided 95\% upper bound on the pooled transfer gain is below zero in all
 six neutral and framed conditions ($-0.004$ to $-0.015$, over 14 to 20
 directed pairs across all grids) and below $+0.01$ in the Grid-A paraphrase
 and adoption conditions ($+0.009$ and $+0.007$) and at $-0.012$ for the
-optimizer-rewritten descriptions; for the user-message
+optimized condition; for the user-message
 placement control it is $+0.015$. An average gain of $0.01$ or more from a
 self-description in the system prompt is thus excluded in every condition,
 against a gain of $+0.097$ when the text lists the answers
@@ -860,12 +869,12 @@ almost perfectly in either placement, while 30 to 90 genuine behavioral
 examples on other items (demonstrations-30/60/90), observation-derived
 descriptions, whoever writes them, descriptions rewritten by an optimizer to
 improve transfer (optimized-500), and self-descriptions placed in the user
-message all fail to move receivers toward the author. ``user msg.'' rows
+message show no detected pooled reconstruction gain. ``user msg.'' rows
 place the text in the user message before the question instead of in the
 system prompt. The bottom block scores unrelated prose of the three
 self-description lengths against each author over the same 20 pairs as the
 neutral rows, averaged over two text styles (sensory and expository, which
-agree within 0.004): a self-description brings a receiver no closer to its
+agree within 0.005): on average a self-description brings a receiver no closer to its
 author than unrelated prose of the same length ($\Fcross$ 0.878, 0.875,
 0.880 for the self-descriptions vs.\ 0.882, 0.883, 0.883 for unrelated
 prose). Cells (s/c) counts the self and cross cells pooled per row.
@@ -887,7 +896,7 @@ directed pairs as the orange points ($0.892$; no band is drawn because the
 pairs share models and reversed pairs have identical $\B$); dashed lines:
 series means. $\Fcross$ shows no detected improvement with length and
 $\Fself$ is highest at 100 words; mean $\Fcross$ does not rise above
-$\B$ at any length and sits slightly below it, while $\Fself$ sits
+$\B$ at any length and sits slightly below it, while mean $\Fself$ sits
 consistently above it, at about the margin a fresh author instance has over any other model
 before reading anything.}
 \label{fig:hero}
@@ -901,7 +910,7 @@ $\Tscript = \Fcross - \B$ for the main conditions (framed-100/2000 and the
 60- and 90-example doses are in Table~\ref{tab:decomp}), with 95\% joint-item-bootstrap
 intervals (one item resample per replicate applied to every pair; values pool
 the items answered in every pair of the condition and can differ from the
-table entries, which average per-pair fidelities, by up to $0.003$).
+table entries, which average per-pair fidelities, by up to $0.004$).
 Native self-descriptions in every variant, descriptions distilled from recorded
 choices, and examples on other items sit at or below zero; the author's
 answers to the test items themselves transfer on all three grids, and so do
@@ -911,7 +920,7 @@ Each model's fidelity to its own generic-prompt profile under each prefix
 (gray: ten models; black: mean): the generic prompt repeated with fresh seeds
 (test-retest), no system prompt, unrelated prose at the three
 self-description lengths (mean of two styles), the model's own neutral-500
-self-description, and another model's. Identity text moves a model further
+self-description, and another model's. On average, identity text moves a model further
 from itself than unrelated prose does, whether or not the text is about that
 model. Per-model values in Appendix~\ref{app:ladder}.}
 \label{fig:summary}
@@ -991,13 +1000,13 @@ $[-0.011, +0.011]$ on 79). Reading a longer account of
 itself moves the author further from its own baseline, not closer. Writing
 more about oneself does not transport more of oneself.
 
-\textbf{Purpose-framing does not help.} Descriptions written with the
+\textbf{No detected transfer benefit from purpose-framing.} Descriptions written with the
 explicit knowledge that they will drive another system (framed arm) do no
 better than purpose-blind ones: at 500 words the framed-minus-neutral
 difference is $+0.001$ over the 20 cross cells (the transfer question) and
 $+0.007$ over the 9 self cells, with individual cells scattered between
 $-0.030$ and $+0.036$. Knowing the task does not make a model write a more
-transferable script.
+transferable script in these comparisons.
 
 \textbf{Descriptions carry little author-specific signal.} If a
 self-description carried author-specific content, a receiver running author
@@ -1029,8 +1038,8 @@ that shares a base model and differs in post-training, shows higher
 cross-fidelity than unrelated pairs in all six conditions (0.900 vs.\ 0.876
 at neutral-100), but entirely through baseline similarity: the two already
 agree at $\B = 0.915$ under generic prompts against a mean of $0.890$ for
-other pairs (within their range: two unrelated Grid-B pairs reach $0.915$
-and $0.932$), and their transfer gains at neutral-500 ($-0.031$ and $-0.042$) are more
+other pairs (within their range: one Grid-B pair reaches $0.932$ and one
+local-trio pair $0.915$), and their transfer gains at neutral-500 ($-0.031$ and $-0.042$) are more
 negative than the other pairs' mean ($-0.016$). In this pair, shared
 pretraining came with a higher starting resemblance and no transfer
 advantage; one pair cannot establish a general effect.
@@ -1071,9 +1080,11 @@ the contrast between them is like for like and survives a cross-fit check
 using the retest baseline for one of the two vectors. Each receiver has a
 characteristic response to identity text, largely the same whoever the text
 is about. An exploratory split by the battery's eight
-item categories (no multiplicity adjustment) finds the gain most negative on
-the self-referential items, the questions about the model itself ($-0.036$,
-CI $[-0.059, -0.013]$), and positive only on the ten culture items of the
+item categories (no multiplicity adjustment) finds the gain most negative
+among the substantive categories on the self-referential items, the
+questions about the model itself ($-0.036$, CI $[-0.059, -0.013]$; the
+two-item aesthetic control is at $-0.056$), and positive only on the ten
+culture items of the
 common item set
 ($+0.030$, $[+0.008, +0.053]$).
 
@@ -1101,20 +1112,20 @@ Appendix~\ref{app:ladder}). Extreme case: grok-4.3 falls to $0.843$ under
 its own description while the placebo leaves it at $0.968$.
 \textbf{(3) Instructed adoption (adopt-500).} Telling the receiver to answer
 exactly as the entity described would does not rescue transfer
-($\Tscript=-0.013$): the null is not an artifact of receivers ignoring
+($\Tscript=-0.013$): the null is not explained by receivers ignoring
 un-instructed descriptions.
 \textbf{(4) Unrelated prose at matched lengths.} Sensory and expository
 texts at the three self-description lengths, run by every model and scored
 both ways (Table~\ref{tab:decomp}, bottom block; Appendix~\ref{app:ladder}).
-As a transfer vehicle, a self-description does nothing that unrelated prose
-of the same length does not: against the author over the 20 pairs,
+Self-descriptions show no average fidelity advantage over the tested unrelated
+prose of the same nominal length: against the author over the 20 pairs,
 unrelated prose gives $\Fcross = 0.881$ to $0.885$ at every length in both
 styles and the self-description $0.875$ to $0.880$ (paired differences
-within $\pm 0.009$). As a perturbant, a model's own description moves it
+within $\pm 0.01$). As a perturbant, a model's own description moves it
 further from itself than unrelated prose in all six length-by-style
 comparisons (own $0.935$, $0.918$, $0.917$ at 100, 500, 2{,}000 words;
-prose $0.942$ to $0.954$), concentrated in a few models (grok-4.3 at every
-length, hermes3-70b and gemma4-31b at 2{,}000). Pooled over the ten models
+prose $0.942$ to $0.954$), largest in grok-4.3 at every length and in
+hermes3-70b and gemma4-31b at 2{,}000 words. Pooled over the ten models
 (two-way cluster bootstrap over models and items; sign test across models)
 the own-description minus prose difference is significant for expository
 text at 500 and 2{,}000 words ($-0.037$ $[-0.068, -0.011]$ and $-0.029$
@@ -1130,7 +1141,7 @@ refusal policies that self-descriptions also carry.
 
 \subsection{Descriptions derived from observed choices do no better than introspection, whoever writes them}
 \label{sec:thirdperson}
-Descriptions of a target written by another model from the target's own
+On Grid A, descriptions of a target written by another model from the target's own
 observed choices on the 90 held-out items crater fidelity: $F=0.771$ applied
 to the target itself (vs.\ 0.904 for its own neutral-500 self-description)
 and $0.739$ applied to a third model ($\Tscript=-0.124$). The gap between
@@ -1168,7 +1179,7 @@ transfer vehicle than the model's own introspection, and somewhat worse.
 profile}
 \label{sec:poscontrol}
 The transfer null admits a mundane reading: perhaps a system prompt cannot
-move a receiver's stable preferences at all. Two demonstration conditions
+move a receiver's stable preferences at all. On Grid A, two demonstration conditions
 (Section~\ref{sec:poscontrol-methods}) bound this reading from both sides.
 
 \textbf{The channel is strong.} Given the author's majority choices on the 110
@@ -1179,7 +1190,7 @@ positive, for instance grok-4.3 $\to$ deepseek-v3 at $+0.127$ with CI
 $[+0.082, +0.177]$).
 The author's own weights do no better with the answer key than a stranger's
 ($\Fself = 0.960$, $\Rweight = 0.000$): with the behavior spelled out item by
-item, there is nothing left for the weights to add. The
+item, the weights add nothing detectable. The
 self-description null is therefore not explained by the prompting interface
 being too weak to move a receiver's choices; whether receivers interpret and
 adopt a semantic description as readily as they follow listed answers is a
@@ -1217,7 +1228,7 @@ author's choices on one half of the battery, tested on the other), it is
 $\Tscript = -0.008$ ($\Fcross = 0.855$ vs.\ $\B = 0.863$; joint item
 bootstrap CI $[-0.041, +0.024]$; 1 pair significantly positive,
 glm-4.5-air$\to$deepseek-v3 at $+0.037$ $[+0.004, +0.072]$, 1 negative, 4
-at zero; $\Fself = 0.869$). This is the intermediate outcome foreseen in the
+with intervals including zero; $\Fself = 0.869$). This is the intermediate outcome foreseen in the
 protocol: no detected average improvement from 50 to 57 of the author's
 genuine choices, with pair-level variation in both directions, and not a
 demonstration that fidelity is unchanged. Because each correction changed
@@ -1278,7 +1289,7 @@ are significantly positive, while gemma4-31b$\to$llama3.3-70b
 ($\Tscript = +0.031$) has a CI of $[-0.002, +0.071]$, the pair with the
 highest baseline agreement ($\B = 0.915$) and hence the least room to move.
 We count this as a partial confirmation and report it as such. Across both
-grids, the author's own weights reading the answer key add nothing
+grids, the pooled self--cross gap under the answer key is small
 ($|\Rweight| \le 0.013$), and the author reading its own held-out examples
 falls below its introspective self-description ($\Fself$ 0.82 to 0.84 vs.\
 0.93 at neutral-500 on both grids), as predicted.
@@ -1706,28 +1717,7 @@ $*$ marks 95\% CIs excluding zero. First the neutral-500 self-descriptions
 on all grids; then the positive-control, authorship and placement conditions
 on the two preregistered replication grids
 (Table~\ref{tab:added-pairs-repl}) and on Grid A (Table~\ref{tab:added-pairs}).
-\begin{table}[H]
-\centering\scriptsize
-\begin{tabular}{lrl@{\qquad}lrl}
-\toprule
-Pair (author$\to$receiver) & $d$ & CI & Pair & $d$ & CI \\
-\midrule
-grok$\to$deepseek$^{*}$ & $+.065$ & $[+.015,+.116]$ & kimi$\to$gpt5.2$^{*}$ & $-.030$ & $[-.054,-.007]$ \\
-gemma$\to$mistral3.2 & $+.027$ & $[-.007,+.065]$ & hermes3$\to$llama3.3$^{*}$ & $-.031$ & $[-.065,-.001]$ \\
-glm$\to$deepseek & $+.018$ & $[-.007,+.044]$ & gemma$\to$llama3.3$^{*}$ & $-.033$ & $[-.064,-.003]$ \\
-haiku$\to$kimi & $+.009$ & $[-.031,+.049]$ & kimi$\to$haiku & $-.034$ & $[-.074,+.005]$ \\
-grok$\to$glm & $+.007$ & $[-.024,+.039]$ & mistral3.2$\to$gemma$^{*}$ & $-.038$ & $[-.068,-.011]$ \\
-glm$\to$grok & $-.002$ & $[-.035,+.028]$ & gpt5.2$\to$haiku$^{*}$ & $-.040$ & $[-.068,-.012]$ \\
-haiku$\to$gpt5.2 & $-.009$ & $[-.047,+.030]$ & llama3.3$\to$gemma$^{*}$ & $-.041$ & $[-.078,-.009]$ \\
-gpt5.2$\to$kimi & $-.009$ & $[-.036,+.014]$ & llama3.3$\to$hermes3$^{*}$ & $-.042$ & $[-.073,-.012]$ \\
-llama3.3$\to$mistral3.2 & $-.015$ & $[-.056,+.025]$ & mistral3.2$\to$llama3.3$^{*}$ & $-.046$ & $[-.085,-.013]$ \\
- & & & deepseek$\to$glm$^{*}$ & $-.055$ & $[-.099,-.015]$ \\
- & & & deepseek$\to$grok$^{*}$ & $-.057$ & $[-.115,-.003]$ \\
-\bottomrule
-\end{tabular}
-\caption{Mean $\Tscript = -0.018$ over 20 directed pairs; 10 significantly
-negative, 1 significantly positive.}
-\end{table}
+\input{tab_native_pairs}
 
 \input{tab_added_pairs_repl}
 \input{tab_added_pairs}

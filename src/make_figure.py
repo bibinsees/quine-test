@@ -118,7 +118,11 @@ def main() -> None:
     ax.set_xticks([100, 200, 500, 1000, 2000])
     ax.set_xticklabels(["100", "200", "500", "1000", "2000"])
     ax.set_xlim(70, 5600)
-    ax.set_ylim(0.78, 1.012)
+    # Retain every observation and leave room for the lower annotation.
+    # The previous fixed limit (0.78) hid a cross cell with F = 0.77056.
+    min_f = min(self_pts[:, 1].min(), cross_pts[:, 1].min())
+    lower = min(0.78, np.floor((min_f - 0.05) / 0.05) * 0.05)
+    ax.set_ylim(lower, 1.04)  # keep the upper annotation above the highest point
     ax.set_xlabel("Self-description length (actual words, log scale)",
                   fontsize=9.5, color=SEC)
     ax.set_ylabel(r"Reconstruction fidelity  $F = 1 - \overline{\rm JSD}$",

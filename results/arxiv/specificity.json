@@ -1,0 +1,146 @@
+{
+ "n_comparisons": 18,
+ "mean_gain": 0.0059149500281777895,
+ "joint": {
+  "n_items": 107,
+  "mean": 0.005824964251282041,
+  "ci": [
+   0.0006487876514804338,
+   0.01134611831197155
+  ]
+ },
+ "within": {
+  "ci": [
+   -0.0025482673663090936,
+   0.014237657543021122
+  ]
+ },
+ "comparisons": [
+  {
+   "author": "deepseek-v3",
+   "receiver": "glm-4.5-air",
+   "other": "grok-4.3",
+   "gain": 0.02584551237373136,
+   "n_items": 110
+  },
+  {
+   "author": "deepseek-v3",
+   "receiver": "grok-4.3",
+   "other": "glm-4.5-air",
+   "gain": -0.04274810424251042,
+   "n_items": 110
+  },
+  {
+   "author": "glm-4.5-air",
+   "receiver": "deepseek-v3",
+   "other": "grok-4.3",
+   "gain": 0.021096674697087123,
+   "n_items": 110
+  },
+  {
+   "author": "glm-4.5-air",
+   "receiver": "grok-4.3",
+   "other": "deepseek-v3",
+   "gain": 0.03810648749862538,
+   "n_items": 110
+  },
+  {
+   "author": "grok-4.3",
+   "receiver": "deepseek-v3",
+   "other": "glm-4.5-air",
+   "gain": 0.022335237103920443,
+   "n_items": 110
+  },
+  {
+   "author": "grok-4.3",
+   "receiver": "glm-4.5-air",
+   "other": "deepseek-v3",
+   "gain": 0.023612435378612483,
+   "n_items": 110
+  },
+  {
+   "author": "gpt5.2",
+   "receiver": "kimi-k2.5-nr",
+   "other": "haiku-4.5",
+   "gain": 0.003844625108714653,
+   "n_items": 110
+  },
+  {
+   "author": "gpt5.2",
+   "receiver": "haiku-4.5",
+   "other": "kimi-k2.5-nr",
+   "gain": 0.0168609382363158,
+   "n_items": 108
+  },
+  {
+   "author": "kimi-k2.5-nr",
+   "receiver": "gpt5.2",
+   "other": "haiku-4.5",
+   "gain": 0.004941292272448105,
+   "n_items": 110
+  },
+  {
+   "author": "kimi-k2.5-nr",
+   "receiver": "haiku-4.5",
+   "other": "gpt5.2",
+   "gain": -0.012462475803661669,
+   "n_items": 108
+  },
+  {
+   "author": "haiku-4.5",
+   "receiver": "gpt5.2",
+   "other": "kimi-k2.5-nr",
+   "gain": -0.0011248746209533574,
+   "n_items": 110
+  },
+  {
+   "author": "haiku-4.5",
+   "receiver": "kimi-k2.5-nr",
+   "other": "gpt5.2",
+   "gain": 0.010105802402694385,
+   "n_items": 110
+  },
+  {
+   "author": "llama3.3-70b",
+   "receiver": "gemma4-31b",
+   "other": "mistral32-local",
+   "gain": -0.016450903072695106,
+   "n_items": 109
+  },
+  {
+   "author": "llama3.3-70b",
+   "receiver": "mistral32-local",
+   "other": "gemma4-31b",
+   "gain": -0.02420810680320846,
+   "n_items": 110
+  },
+  {
+   "author": "gemma4-31b",
+   "receiver": "llama3.3-70b",
+   "other": "mistral32-local",
+   "gain": -0.022360586366710507,
+   "n_items": 110
+  },
+  {
+   "author": "gemma4-31b",
+   "receiver": "mistral32-local",
+   "other": "llama3.3-70b",
+   "gain": 0.03299514490607263,
+   "n_items": 110
+  },
+  {
+   "author": "mistral32-local",
+   "receiver": "llama3.3-70b",
+   "other": "gemma4-31b",
+   "gain": 0.007818846046483863,
+   "n_items": 110
+  },
+  {
+   "author": "mistral32-local",
+   "receiver": "gemma4-31b",
+   "other": "llama3.3-70b",
+   "gain": 0.018261155392233528,
+   "n_items": 109
+  }
+ ]
+}

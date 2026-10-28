@@ -206,8 +206,9 @@ def main() -> None:
     print("=" * 78)
     n500 = rdf[(rdf["arm"] == "neutral") & (rdf["length"] == 500) & (rdf["regen"] == 0)]
     contrasts = {}
-    for (a, r) in {(row["author"], row["receiver"])
-                   for _, row in n500[n500["kind"] == "cross"].iterrows()}:
+    # A fixed RNG seed also requires stable iteration order across Python hash seeds.
+    for (a, r) in sorted({(row["author"], row["receiver"])
+                         for _, row in n500[n500["kind"] == "cross"].iterrows()}):
         cell = n500[(n500["author"] == a) & (n500["receiver"] == r)]
         if not len(cell) or (a, r) not in B:
             continue

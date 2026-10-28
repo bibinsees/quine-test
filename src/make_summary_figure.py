@@ -37,7 +37,7 @@ ROWS = [
     ("para-500 (A)", "paraphrased (Grid A)", "desc"),
     ("adopt-500 (A)", "with adoption instruction (Grid A)", "desc"),
     ("neutral_user-500 (A)", "in the user message (Grid A)", "desc"),
-    ("optimized-500 (A)", "optimizer-rewritten, 5 rounds (Grid A)", "desc"),
+    ("optimized-500 (A)", "best of original + 5 rewrites (Grid A)", "desc"),
     ("3p-500 (A)", "observer-written from 90 unstable items (Grid A)", "obs"),
     ("selfobs_stable-500 (A)", "self-written from stable items (Grid A)", "obs"),
     ("fewshot-30 (A)", "30 examples, chosen-first format (Grid A)", "demo"),

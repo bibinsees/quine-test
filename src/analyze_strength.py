@@ -291,13 +291,14 @@ def main() -> None:
         if not d:
             continue
         all_pairs.append(d)
-        for cat in set(category.values()):
+        for cat in sorted(set(category.values())):
             sub = {i: v for i, v in d.items() if category.get(i) == cat}
             if sub:
                 cat_pairs[cat].append(sub)
     percat = {}
     print("\n4. PER-CATEGORY T at neutral-500 (20 pairs, joint item bootstrap within category)")
-    for cat in sorted(cat_pairs, key=lambda c: -len(set().union(*cat_pairs[c]))):
+    # Equal-size category ties must not depend on randomized set insertion order.
+    for cat in sorted(cat_pairs, key=lambda c: (-len(set().union(*cat_pairs[c])), c)):
         res = joint_pooled(cat_pairs[cat])
         if res:
             percat[cat] = res

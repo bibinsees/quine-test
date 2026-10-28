@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PC = ROOT / "results" / "arxiv" / "positive_controls.json"
+TP = ROOT / "results" / "arxiv" / "third_person_pairs.json"  # analyze_3p_pairs.py (Grid A 3p cells are main-grid cells)
 OUT = ROOT / "arxiv" / "tab_control_pairs.tex"
 
 LABEL = {
@@ -38,6 +39,18 @@ def fmt(x: float) -> str:
     return f"{x:+.3f}".replace("+0.", "+.").replace("-0.", "-.")
 
 
+def grid_a_third_person(pc: dict) -> tuple[list[dict], dict]:
+    """Grid A third-person-500 cross cells, which live in the main grid rather than the
+    positive-controls log: per-pair contrasts from third_person_pairs.json, in the same
+    row format as pc['cells'], with the pooled F_cross from pc['pooled']['3p']."""
+    tp = json.loads(TP.read_text(encoding="utf-8"))["A"]["pairs"]
+    rows = [{"author": p["author"], "receiver": p["receiver"], "F": p["F"], "B": p["B"],
+             "T": {"delta": p["T"], "ci": p["ci"]}, "agree": p["agree"]} for p in tp]
+    b = sum(p["B"] for p in tp) / len(tp)
+    f_cross = pc["pooled"]["3p"]["F_cross"]
+    return rows, {"F_cross": f_cross, "B": b, "T_script": f_cross - b}
+
+
 def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str) -> str:
     """A longtable: breaks across pages, caption on top, header repeated on each page,
     one group heading per grid (as in the replication table of the main text)."""
@@ -61,10 +74,13 @@ def table(pc: dict, grids: list[tuple[str, str]], caption: str, label: str) -> s
         for cond in LABEL:
             rows = sorted([c for c in cells if c.get("cond") == cond],
                           key=lambda c: -c["T"]["delta"])
-            if not rows:
-                continue
             key = cond if gid == "A" else f"{gid}:{cond}"
             pooled = pc["pooled"].get(key, {})
+            if cond == "3p-500" and gid == "A" and not rows:
+                rows, pooled = grid_a_third_person(pc)
+                rows.sort(key=lambda c: -c["T"]["delta"])
+            if not rows:
+                continue
             has_pooled = pooled.get("T_script") is not None
             for i, c in enumerate(rows):
                 t = c["T"]

@@ -44,7 +44,8 @@ def grid_a() -> dict:
         boots = rng.choice(d, size=(N_BOOT, len(d)), replace=True).mean(axis=1)
         lo, hi = np.percentile(boots, [2.5, 97.5])
         pairs.append({"author": author, "receiver": receiver, "F": f["F"], "B": b["F"],
-                      "T": float(d.mean()), "ci": [float(lo), float(hi)], "n_items": len(d)})
+                      "T": float(d.mean()), "ci": [float(lo), float(hi)], "n_items": len(d),
+                      "agree": f["agree"]})
         print(f"A {author}->{receiver}: F={f['F']:.3f} B={b['F']:.3f} T={d.mean():+.3f} "
               f"[{lo:+.3f},{hi:+.3f}] n={len(d)}")
     return summarize(pairs, n_self)
@@ -54,7 +55,8 @@ def grid_b() -> dict:
     pc = json.loads(PC.read_text(encoding="utf-8"))
     cells = [c for c in pc["cells"] if c.get("cond") == "3p-500" and c.get("grid") == "B"]
     pairs = [{"author": c["author"], "receiver": c["receiver"], "F": c["F"], "B": c["B"],
-              "T": c["T"]["delta"], "ci": c["T"]["ci"]} for c in cells if c["kind"] == "cross"]
+              "T": c["T"]["delta"], "ci": c["T"]["ci"], "agree": c["agree"]}
+             for c in cells if c["kind"] == "cross"]
     return summarize(pairs, sum(1 for c in cells if c["kind"] == "self"))
 
 
